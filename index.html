@@ -702,7 +702,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.3</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.4</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -1238,8 +1238,27 @@ Views.inventory = function(){
         </tr>`;
       });
 
-      if(relevantUnits.length === 0 && filterShop){
-        rows += `<tr style="background:#FAFBFC;"><td colspan="11" style="color:var(--muted);font-size:12px;padding-left:20px;">${esc(it.name)} — ${it.locations[filterShop]||0} unit(s) here with no IMEI on file (add IMEIs via Stock In or import CSVs)</td></tr>`;
+      const untracked = filterShop ? untrackedQtyAt(it, filterShop) : 0;
+      if(untracked > 0){
+        rows += `<tr style="background:#FFFDF7;border-left:3px solid var(--amber);">
+          <td>
+            <b>${esc(it.name)}</b>
+            <br><span style="font-size:11px;color:var(--muted);">${esc(it.memory||'')} · ${it.condition}</span>
+          </td>
+          <td><span class="pill amber">${untracked} unit(s) with no IMEI</span></td>
+          <td><span class="pill teal">${esc(catName(it.category))}</span></td>
+          <td class="mono">${esc(it.memory||'-')}</td>
+          <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
+          <td>${euro(it.costPrice)}</td>
+          <td style="color:#8A5A16;">${euro(it.wholesalePrice||it.costPrice+12)}</td>
+          <td style="color:var(--teal-dark);font-weight:600;">${euro(it.shopPrices[filterShop]||it.costPrice)}</td>
+          <td><b>${untracked}</b></td>
+          <td><b style="color:var(--teal-dark);">${esc(shopName(filterShop))}</b></td>
+          <td style="white-space:nowrap;">
+            <button class="btn sm primary" onclick="Views.openAddImeiToUntracked('${it.id}','${filterShop}')" title="Assign an IMEI to this unit">+ Add IMEI</button>
+            <button class="btn sm danger" onclick="Views.removeUntrackedStock('${it.id}','${filterShop}')" title="Remove untracked stock balance">✕ Clear</button>
+          </td>
+        </tr>`;
       }
     });
   }
@@ -1273,6 +1292,7 @@ Views.inventory = function(){
         <option value="all">All categories</option>
         ${Store.data.categories.map(c=>`<option value="${c.id}" ${f.cat===c.id?'selected':''}>${esc(c.name)}</option>`).join('')}
       </select>
+      <button class="btn ghost sm" onclick="Views.cleanAllUntracked()" title="Remove all non-IMEI placeholder balances">🧹 Clean untracked</button>
       <button class="btn" onclick="Views.exportInventoryCsv()">⬇ Export CSV</button>
       <button class="btn primary" onclick="Views.openItemModal()">+ Add device</button>
     </div>
@@ -1363,6 +1383,115 @@ Views.exportInventoryCsv = function(){
   });
   csvDownload('inventory_export.csv', rows);
   Toast.show('Inventory exported as CSV.','ok');
+};
+
+/* ---- UNTRACKED / NO-IMEI STOCK HANDLERS ---- */
+Views.cleanAllUntracked = function(){
+  Modal.confirm({
+    title: 'Clean all untracked (no-IMEI) balances?',
+    body: '<p>This will adjust all stock counts so they match <b>only your exact tracked IMEI devices</b>.</p><p>Any ghost opening balances that do not have an IMEI number will be removed immediately.</p>',
+    danger: true,
+    confirmText: '🧹 Clean untracked counts',
+    onConfirm: ()=>{
+      let cleaned = 0;
+      Store.data.items.forEach(it=>{
+        Store.data.shops.forEach(s=>{
+          const trackedCount = unitsAt(it, s.id).length;
+          if((it.locations[s.id]||0) > trackedCount){
+            cleaned += ((it.locations[s.id]||0) - trackedCount);
+            it.locations[s.id] = trackedCount;
+          }
+        });
+      });
+      Store.save();
+      Toast.show(`Cleaned ${cleaned} untracked balance(s). All stock now matches exact IMEIs.`,'ok');
+      render();
+    }
+  });
+};
+
+Views.removeUntrackedStock = function(itemId, shopId){
+  const it = itemById(itemId); if(!it) return;
+  const untracked = untrackedQtyAt(it, shopId);
+  const qtyToClear = untracked > 0 ? untracked : (it.locations[shopId]||0);
+  Modal.confirm({
+    title: `Clear untracked ${esc(it.name)}?`,
+    body: `<p>Remove the ${qtyToClear} non-IMEI unit(s) for <b>${esc(it.name)}</b> at <b>${esc(shopName(shopId))}</b>?</p>`,
+    danger: true,
+    confirmText: 'Clear from store',
+    onConfirm: ()=>{
+      it.locations[shopId] = unitsAt(it, shopId).length;
+      Stock.addMovement({
+        type: 'adjustment',
+        itemId: it.id,
+        itemName: it.name,
+        categoryId: it.category,
+        location: shopId,
+        qty: -qtyToClear,
+        date: todayISO(),
+        note: 'Cleared untracked count'
+      });
+      Store.save();
+      Toast.show(`Cleared untracked balance for ${it.name} at ${shopName(shopId)}.`,'ok');
+      render();
+    }
+  });
+};
+
+Views.openAddImeiToUntracked = function(itemId, shopId){
+  const it = itemById(itemId); if(!it) return;
+  Modal.open(`
+    <div class="modal" style="max-width:480px;">
+      <div class="modal-head">
+        <h3>+ Assign IMEI to ${esc(it.name)}</h3>
+        <button class="btn ghost sm" onclick="Modal.close()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:12.5px;color:var(--muted);">Assign an IMEI to convert this opening unit at <b>${esc(shopName(shopId))}</b> into an individually tracked device.</p>
+        <div class="field">
+          <label>IMEI Number</label>
+          <input id="au_imei" class="mono" placeholder="Enter 15-digit IMEI" autofocus style="font-weight:700;color:var(--teal-dark);">
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label>Colour</label>
+            <input id="au_color" value="${esc((it.colors||[])[0]||'')}" placeholder="e.g. Black">
+          </div>
+          <div class="field">
+            <label>Condition</label>
+            <select id="au_cond">
+              <option ${it.condition==='New'?'selected':''}>New</option>
+              <option ${it.condition==='Used'?'selected':''}>Used</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" onclick="Modal.close()">Cancel</button>
+        <button class="btn primary" onclick="Views.saveAssignedImei('${it.id}','${shopId}')">Save Device</button>
+      </div>
+    </div>`);
+};
+
+Views.saveAssignedImei = function(itemId, shopId){
+  const it = itemById(itemId); if(!it) return;
+  const imei = val('au_imei').replace(/[\s\-']/g,'');
+  if(!imei || imei.length < 8){ Toast.show('Please enter a valid IMEI number.','err'); return; }
+  const existing = findUnitByImei(imei);
+  if(existing){ Toast.show(`IMEI ${imei} is already in use by ${existing.item.name}.`,'err'); return; }
+  const color = val('au_color').trim();
+  const cond = val('au_cond');
+  
+  Stock.addUnit(itemId, shopId, {
+    imei, color, condition: cond,
+    costPrice: it.costPrice,
+    sellPrice: it.shopPrices[shopId] || it.costPrice
+  }, todayISO(), 'Assigned IMEI to untracked stock');
+
+  Store.save();
+  Modal.close();
+  Toast.show(`Added ${it.name} (IMEI ${imei}) at ${shopName(shopId)}.`,'ok');
+  render();
 };
 
 /* ---- EDIT INDIVIDUAL PHONE / IMEI DEVICE ---- */
