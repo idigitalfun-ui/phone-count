@@ -702,7 +702,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.2</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.3</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -1209,7 +1209,10 @@ Views.inventory = function(){
         const wholesale = u.wholesalePrice!=null?u.wholesalePrice:(it.wholesalePrice||cost+12);
         const sale = u.sellPrice!=null?u.sellPrice:(it.shopPrices[u.location]||it.costPrice);
         rows += `<tr style="${hasImei?'':'background:#FFFBF2;'}">
-          <td><b>${esc(it.name)}</b><br><span style="font-size:11px;color:var(--muted);">${esc(it.memory||'')} · ${esc(u.color||'')} · ${u.condition==='New'?'<span style="color:var(--green)">New</span>':'<span style="color:var(--muted)">Used</span>'}</span></td>
+          <td>
+            <a href="javascript:void(0)" onclick="Views.openEditUnitModal('${it.id}','${u.id}')" style="color:var(--ink);text-decoration:none;font-weight:700;cursor:pointer;" title="Click to edit">${esc(it.name)}</a>
+            <br><span style="font-size:11px;color:var(--muted);">${esc(it.memory||'')} · ${esc(u.color||'')} · ${u.condition==='New'?'<span style="color:var(--green)">New</span>':'<span style="color:var(--muted)">Used</span>'}</span>
+          </td>
           <td>
             ${hasImei
               ? `<span class="mono imei-copy" style="font-size:13px;font-weight:700;color:var(--teal-dark);letter-spacing:.03em;cursor:pointer;" title="Click to copy" onclick="navigator.clipboard.writeText('${esc(u.imei)}');Toast.show('IMEI copied.','ok')">${esc(u.imei)}</span>`
@@ -1225,11 +1228,12 @@ Views.inventory = function(){
           <td>1</td>
           <td><b style="color:var(--teal-dark);">${esc(shopName(u.location))}</b></td>
           <td style="white-space:nowrap;">
+            <button class="btn sm" style="margin-right:4px;" onclick="Views.openEditUnitModal('${it.id}','${u.id}')" title="Edit IMEI, name, price, colour, etc.">✏️ Edit</button>
             <select id="inv_to_${u.id}" style="padding:4px 8px;border:1px solid var(--line);border-radius:6px;font-size:12px;margin-right:4px;">
               ${otherShops.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}
             </select>
             <button class="btn sm primary" onclick="Views.doInlineTransfer('${it.id}','${u.id}','${u.location}')">⇄ Transfer</button>
-            <button class="btn sm danger" onclick="Views.drawerRemoveUnit('${it.id}','${u.id}')">✕</button>
+            <button class="btn sm danger" onclick="Views.drawerRemoveUnit('${it.id}','${u.id}')" title="Remove">✕</button>
           </td>
         </tr>`;
       });
@@ -1361,6 +1365,152 @@ Views.exportInventoryCsv = function(){
   Toast.show('Inventory exported as CSV.','ok');
 };
 
+/* ---- EDIT INDIVIDUAL PHONE / IMEI DEVICE ---- */
+Views.openEditUnitModal = function(itemId, unitId){
+  const it = itemById(itemId); if(!it) return;
+  const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
+  const shops = activeShops();
+  const cost = unit.costPrice != null ? unit.costPrice : it.costPrice;
+  const wholesale = unit.wholesalePrice != null ? unit.wholesalePrice : (it.wholesalePrice || cost + 12);
+  const sale = unit.sellPrice != null ? unit.sellPrice : (it.shopPrices[unit.location] || it.costPrice);
+
+  const html = `
+    <div class="modal" style="max-width:540px;">
+      <div class="modal-head">
+        <h3>✏️ Edit Phone / Device</h3>
+        <button class="btn ghost sm" onclick="Modal.close()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="helpbox" style="margin-bottom:14px;">Edit the details of this specific device. Changes will update inventory, IMEI tracking, and valuation immediately.</div>
+        
+        <div class="field">
+          <label>Device Model / Name</label>
+          <input id="eu_name" value="${esc(it.name)}" placeholder="e.g. iPhone 14 128GB" style="font-weight:600;">
+        </div>
+        
+        <div class="field-grid">
+          <div class="field">
+            <label>Category</label>
+            <select id="eu_cat">
+              ${Store.data.categories.map(c=>`<option value="${c.id}" ${it.category===c.id?'selected':''}>${esc(c.name)}</option>`).join('')}
+            </select>
+          </div>
+          <div class="field">
+            <label>Storage / Memory</label>
+            <input id="eu_mem" value="${esc(it.memory||'')}" placeholder="e.g. 128GB">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>IMEI Number</label>
+          <input id="eu_imei" class="mono" value="${esc(unit.imei||'')}" placeholder="15-digit IMEI number" style="font-weight:700;font-size:14px;color:var(--teal-dark);">
+        </div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label>Colour</label>
+            <input id="eu_color" value="${esc(unit.color||'')}" placeholder="e.g. Black, Starlight">
+          </div>
+          <div class="field">
+            <label>Condition</label>
+            <select id="eu_cond">
+              <option ${unit.condition==='New'?'selected':''}>New</option>
+              <option ${unit.condition==='Used'?'selected':''}>Used</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Current Location</label>
+            <select id="eu_loc">
+              ${shops.map(s=>`<option value="${s.id}" ${unit.location===s.id?'selected':''}>${esc(s.name)}${s.isWarehouse?' (Warehouse)':''}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+
+        <div class="field-grid" style="grid-template-columns:1fr 1fr 1fr;">
+          <div class="field">
+            <label>Cost Price (€)</label>
+            <input id="eu_cost" type="number" step="0.01" value="${cost}">
+          </div>
+          <div class="field">
+            <label>Wholesale (€)</label>
+            <input id="eu_wholesale" type="number" step="0.01" value="${wholesale}">
+          </div>
+          <div class="field">
+            <label>Sale Price (€)</label>
+            <input id="eu_sale" type="number" step="0.01" value="${sale}">
+          </div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn danger" onclick="Views.drawerRemoveUnit('${it.id}','${unit.id}');Modal.close();">Delete Device</button>
+        <button class="btn" onclick="Modal.close()">Cancel</button>
+        <button class="btn primary" onclick="Views.saveEditedUnit('${it.id}','${unit.id}')">💾 Save Changes</button>
+      </div>
+    </div>`;
+  Modal.open(html);
+};
+
+Views.saveEditedUnit = function(itemId, unitId){
+  const it = itemById(itemId); if(!it) return;
+  const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
+
+  const newName = val('eu_name').trim();
+  if(!newName){ Toast.show('Please enter a device model/name.','err'); return; }
+  const newCat = val('eu_cat');
+  const newMem = val('eu_mem').trim();
+  const newImei = val('eu_imei').replace(/[\s\-']/g,'');
+  const newColor = val('eu_color').trim();
+  const newCond = val('eu_cond');
+  const newLoc = val('eu_loc');
+  const newCost = Math.max(0, parseFloat(val('eu_cost'))||0);
+  const newWholesale = Math.max(0, parseFloat(val('eu_wholesale'))||0);
+  const newSale = Math.max(0, parseFloat(val('eu_sale'))||0);
+
+  // Check duplicate IMEI if changed
+  if(newImei && newImei.toLowerCase() !== (unit.imei||'').toLowerCase()){
+    const existing = findUnitByImei(newImei);
+    if(existing && existing.unit.id !== unit.id){
+      Toast.show(`IMEI ${newImei} is already assigned to ${existing.item.name}.`,'err');
+      return;
+    }
+  }
+
+  // Handle location change if changed
+  const oldLoc = unit.location;
+  if(newLoc && newLoc !== oldLoc){
+    it.locations[oldLoc] = Math.max(0, (it.locations[oldLoc]||0) - 1);
+    it.locations[newLoc] = (it.locations[newLoc]||0) + 1;
+    unit.location = newLoc;
+    Stock.addMovement({
+      type: newLoc==='warehouse' ? 'transfer-in' : 'transfer-out',
+      itemId: it.id, itemName: newName, categoryId: newCat,
+      location: oldLoc, toLocation: newLoc, fromLocation: oldLoc,
+      qty: 1, date: todayISO(), note: `Location updated for IMEI ${newImei||unit.id}`
+    });
+  }
+
+  // Update item details
+  it.name = newName;
+  it.category = newCat;
+  it.memory = newMem;
+
+  // Update unit details
+  unit.imei = newImei;
+  unit.color = newColor;
+  unit.condition = newCond;
+  unit.costPrice = newCost;
+  unit.wholesalePrice = newWholesale;
+  unit.sellPrice = newSale;
+
+  // Sync color with item colors array if new
+  if(newColor && !it.colors.includes(newColor)) it.colors.push(newColor);
+
+  Store.save();
+  Modal.close();
+  Toast.show(`Saved ${newName} (IMEI ${newImei||'updated'}).`,'ok');
+  render();
+};
+
 /* ---- DEVICE DRAWER: per-shop IMEI breakdown for one product line ---- */
 Views.openDeviceDrawer = function(itemId){
   const it = itemById(itemId); if(!it) return;
@@ -1391,6 +1541,7 @@ Views.openDeviceDrawer = function(itemId){
                   ${esc(u.color||'-')} · ${esc(u.condition||'-')} · ${euro(u.sellPrice)}
                 </div>
                 <div style="display:flex;gap:6px;">
+                  <button class="btn sm" onclick="Views.openEditUnitModal('${it.id}','${u.id}')" title="Edit IMEI, price, colour, etc.">✏️ Edit</button>
                   <button class="btn sm" onclick="Views.drawerTransferUnit('${it.id}','${u.id}')">Transfer</button>
                   <button class="btn sm danger" onclick="Views.drawerRemoveUnit('${it.id}','${u.id}')">Remove</button>
                 </div>
@@ -2175,7 +2326,7 @@ Views.stockview = function(){
   function renderImeiRows(it){
     const relevantUnits = locId==='all' ? (it.units||[]) : unitsAt(it, locId);
     const rows = relevantUnits.map(u=>`<tr>
-      <td><b>${esc(it.name)}</b></td>
+      <td><a href="javascript:void(0)" onclick="Views.openEditUnitModal('${it.id}','${u.id}')" style="color:var(--ink);text-decoration:none;font-weight:700;cursor:pointer;" title="Click to edit">${esc(it.name)}</a></td>
       <td class="mono" style="color:var(--teal-dark);font-weight:700;">${esc(u.imei||'—')}</td>
       <td>${esc(u.color||'-')}</td>
       <td>${u.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
@@ -2183,9 +2334,10 @@ Views.stockview = function(){
       <td><input type="number" step="0.01" value="${u.wholesalePrice||0}" style="width:74px;padding:3px 5px;border:1px solid #F0B429;border-radius:5px;font-size:12px;" title="Wholesale" onchange="Views.svSetUnitWholesale('${it.id}','${u.id}',this.value)"></td>
       <td><input type="number" step="0.01" value="${u.sellPrice||0}" style="width:74px;padding:3px 5px;border:1px solid var(--teal);border-radius:5px;font-size:12px;font-weight:700;color:var(--teal-dark);" title="Sale Price" onchange="Views.svSetUnitPrice('${it.id}','${u.id}',this.value)"></td>
       <td>${esc(shopName(u.location))}</td>
+      <td class="no-print"><button class="btn sm" onclick="Views.openEditUnitModal('${it.id}','${u.id}')" title="Edit phone details">✏️ Edit</button></td>
     </tr>`).join('');
     const bulk = locId==='all' ? Store.data.shops.reduce((a,s)=>a+untrackedQtyAt(it,s.id),0) : untrackedQtyAt(it, locId);
-    const bulkRow = bulk>0 ? `<tr style="background:#FAFBFC;"><td colspan="8" style="color:var(--muted);">${esc(it.name)} — ${bulk} more unit(s) with no IMEI on file</td></tr>` : '';
+    const bulkRow = bulk>0 ? `<tr style="background:#FAFBFC;"><td colspan="9" style="color:var(--muted);">${esc(it.name)} — ${bulk} more unit(s) with no IMEI on file</td></tr>` : '';
     return rows + bulkRow;
   }
 
@@ -2225,8 +2377,9 @@ Views.stockview = function(){
               <th style="border-bottom:3px solid #F0B429;">Wholesale</th>
               <th style="border-bottom:3px solid var(--teal);">Sale Price</th>
               <th>Location</th>
+              <th class="no-print"></th>
             </tr></thead>
-            <tbody>${g.items.map(renderImeiRows).join('') || `<tr><td colspan="8"><div class="empty">No individually tracked devices in this category yet.</div></td></tr>`}</tbody>
+            <tbody>${g.items.map(renderImeiRows).join('') || `<tr><td colspan="9"><div class="empty">No individually tracked devices in this category yet.</div></td></tr>`}</tbody>
           `}
         </table></div>
       </div>`).join('') : `<div class="card card-pad"><div class="empty">No stock at this location yet.</div></div>`}
