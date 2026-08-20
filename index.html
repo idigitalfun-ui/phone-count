@@ -618,9 +618,9 @@ const Toast = {
     const wrap = document.getElementById('toastWrap');
     const el = document.createElement('div');
     el.className = 'toast' + (type?(' '+type):'');
-    el.textContent = msg;
+    el.innerHTML = msg;
     wrap.appendChild(el);
-    setTimeout(()=>{ el.style.transition='opacity .3s'; el.style.opacity='0'; setTimeout(()=>el.remove(),300); }, 2600);
+    setTimeout(()=>{ el.style.transition='opacity .3s'; el.style.opacity='0'; setTimeout(()=>el.remove(),300); }, 3800);
   }
 };
 
@@ -664,7 +664,6 @@ const NAV = [
   ]},
   {group:'Stock', items:[
     {id:'inventory', label:'Inventory', icon:'▤'},
-    {id:'transfer', label:'Transfer Stock', icon:'⇄'},
     {id:'stockin', label:'Stock In', icon:'⬇'},
     {id:'sales', label:'Shop Sales (Weekly)', icon:'✓'},
   ]},
@@ -702,7 +701,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.4</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.5</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -1066,9 +1065,22 @@ const Stock = {
     const unit = it.units[idx];
     it.units.splice(idx,1);
     it.locations[unit.location] = Math.max(0,(it.locations[unit.location]||0)-1);
-    this.addMovement({type:status, itemId, itemName:it.name, categoryId:it.category, location:unit.location, qty:1, date:date||todayISO(), note:note||('IMEI '+(unit.imei||'—')), sellPrice:unit.sellPrice});
+    const mv = {
+      id: uid('mv'),
+      type: status,
+      itemId,
+      itemName: it.name,
+      categoryId: it.category,
+      location: unit.location,
+      qty: 1,
+      date: date||todayISO(),
+      note: note||('IMEI '+(unit.imei||'—')),
+      sellPrice: unit.sellPrice,
+      unitData: JSON.parse(JSON.stringify(unit))
+    };
+    this.addMovement(mv);
     Store.save();
-    return true;
+    return mv;
   },
   // qty=1 convenience actions used by Shop Sales quick buttons — auto-consumes a tracked unit if one exists
   // at that location (so IMEI records stay accurate without the person having to pick one manually).
@@ -1078,9 +1090,20 @@ const Stock = {
     if(unitId) return this.removeUnit(itemId, unitId, 'sold', date, note);
     if(qty===1){ const u = unitsAt(it, shopId)[0]; if(u) return this.removeUnit(itemId, u.id, 'sold', date, note); }
     it.locations[shopId] -= qty;
-    this.addMovement({type:'sold', itemId, itemName:it.name, categoryId:it.category, location:shopId, qty, date, note});
+    const mv = {
+      id: uid('mv'),
+      type: 'sold',
+      itemId,
+      itemName: it.name,
+      categoryId: it.category,
+      location: shopId,
+      qty,
+      date: date||todayISO(),
+      note: note||'Bulk sale'
+    };
+    this.addMovement(mv);
     Store.save();
-    return true;
+    return mv;
   },
   faulty(itemId, shopId, qty, date, note, unitId){
     const it = itemById(itemId); if(!it||qty<=0) return false;
@@ -1088,9 +1111,20 @@ const Stock = {
     if(unitId) return this.removeUnit(itemId, unitId, 'faulty', date, note);
     if(qty===1){ const u = unitsAt(it, shopId)[0]; if(u) return this.removeUnit(itemId, u.id, 'faulty', date, note); }
     it.locations[shopId] -= qty;
-    this.addMovement({type:'faulty', itemId, itemName:it.name, categoryId:it.category, location:shopId, qty, date, note});
+    const mv = {
+      id: uid('mv'),
+      type: 'faulty',
+      itemId,
+      itemName: it.name,
+      categoryId: it.category,
+      location: shopId,
+      qty,
+      date: date||todayISO(),
+      note: note||'Bulk faulty'
+    };
+    this.addMovement(mv);
     Store.save();
-    return true;
+    return mv;
   },
   deposit(itemId, shopId, qty, date, note, unitId){
     const it = itemById(itemId); if(!it||qty<=0) return false;
@@ -1098,8 +1132,39 @@ const Stock = {
     if(unitId) return this.removeUnit(itemId, unitId, 'deposit', date, note);
     if(qty===1){ const u = unitsAt(it, shopId)[0]; if(u) return this.removeUnit(itemId, u.id, 'deposit', date, note); }
     it.locations[shopId] -= qty;
-    this.addMovement({type:'deposit', itemId, itemName:it.name, categoryId:it.category, location:shopId, qty, date, note});
+    const mv = {
+      id: uid('mv'),
+      type: 'deposit',
+      itemId,
+      itemName: it.name,
+      categoryId: it.category,
+      location: shopId,
+      qty,
+      date: date||todayISO(),
+      note: note||'Bulk deposit'
+    };
+    this.addMovement(mv);
     Store.save();
+    return mv;
+  },
+  revertMovement(movementId){
+    const mIdx = Store.data.movements.findIndex(m=>m.id===movementId);
+    if(mIdx < 0){ Toast.show('Activity record not found.','err'); return false; }
+    const m = Store.data.movements[mIdx];
+    const it = itemById(m.itemId);
+    if(!it){ Toast.show('Product not found.','err'); return false; }
+
+    const qty = Math.abs(m.qty || 1);
+    it.locations[m.location] = (it.locations[m.location]||0) + qty;
+    if(m.unitData){
+      if(!Array.isArray(it.units)) it.units = [];
+      if(!it.units.some(u=>u.id===m.unitData.id || (m.unitData.imei && u.imei===m.unitData.imei))){
+        it.units.push(m.unitData);
+      }
+    }
+    Store.data.movements.splice(mIdx, 1);
+    Store.save();
+    Toast.show(`✓ Reverted: ${it.name} restored to ${shopName(m.location)} stock.`,'ok');
     return true;
   },
   adjust(itemId, shopId, newQty, note){
@@ -2253,10 +2318,26 @@ Views.sales = function(){
       </table></div>
     </div>
     <div class="card card-pad" style="margin-top:16px;">
-      <h3 style="margin-top:0;">This week's activity — ${esc(shopName(shopId))}</h3>
-      <div class="table-wrap"><table><thead><tr><th>Date</th><th>Item</th><th>Type</th><th>Qty</th></tr></thead><tbody>
-        ${Store.data.movements.filter(m=>m.location===shopId && ['sold','faulty','deposit'].includes(m.type) && m.date>=weekStart && m.date<=weekEnd).slice().reverse().map(m=>`<tr><td>${m.date}</td><td>${esc(m.itemName)}</td><td>${pillForType(m.type)}</td><td>${m.qty}</td></tr>`).join('') || '<tr><td colspan="4"><div class="empty">Nothing logged yet this week.</div></td></tr>'}
-      </tbody></table></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+        <h3 style="margin:0;">This week's activity — ${esc(shopName(shopId))}</h3>
+        <small style="color:var(--muted)">Accidentally clicked Sold? Click <b>↩ Revert</b> on any row below to return the phone back into stock.</small>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Date</th><th>Item</th><th>Details / IMEI</th><th>Type</th><th>Qty</th><th style="text-align:right;">Action</th></tr></thead>
+        <tbody>
+          ${Store.data.movements.filter(m=>m.location===shopId && ['sold','faulty','deposit'].includes(m.type) && m.date>=weekStart && m.date<=weekEnd).slice().reverse().map(m=>`
+            <tr>
+              <td>${m.date}</td>
+              <td><b>${esc(m.itemName)}</b></td>
+              <td><span class="mono" style="color:var(--teal-dark);font-weight:600;">${esc(m.note||'-')}</span></td>
+              <td>${pillForType(m.type)}</td>
+              <td>${m.qty}</td>
+              <td style="text-align:right;">
+                <button class="btn sm ghost" style="border:1px solid var(--line);" onclick="Views.undoSale('${m.id}')" title="Undo this sale and return device to stock">↩ Revert to stock</button>
+              </td>
+            </tr>`).join('') || '<tr><td colspan="6"><div class="empty">Nothing logged yet this week.</div></td></tr>'}
+        </tbody>
+      </table></div>
     </div>
   `;
 };
@@ -2266,13 +2347,24 @@ function pillForType(t){
 }
 Views.quickAction = function(itemId, shopId, kind){
   const fn = {sold:Stock.sell, faulty:Stock.faulty, deposit:Stock.deposit}[kind];
-  const ok = fn.call(Stock, itemId, shopId, 1, todayISO(), kind==='sold'?'Weekly shop sale':kind);
-  if(ok!==false){ Toast.show(kind==='sold'?'Marked as sold.':kind==='faulty'?'Marked faulty.':'Marked as deposit.', 'ok'); render(); }
+  const mv = fn.call(Stock, itemId, shopId, 1, todayISO(), kind==='sold'?'Weekly shop sale':kind);
+  if(mv && mv.id){
+    const label = kind==='sold'?'Marked as sold.':kind==='faulty'?'Marked faulty.':'Marked as deposit.';
+    Toast.show(`${label} <button class="btn sm" style="margin-left:8px;padding:2px 8px;font-size:11px;background:#fff;color:var(--ink);border:none;" onclick="Views.undoSale('${mv.id}')">↩ Undo</button>`, 'ok');
+    render();
+  }
 };
 Views.unitAction = function(itemId, unitId, kind){
-  Stock.removeUnit(itemId, unitId, kind, todayISO(), kind==='sold'?'Weekly shop sale':kind);
-  Toast.show(kind==='sold'?'Marked as sold.':kind==='faulty'?'Marked faulty.':'Marked as deposit.', 'ok');
-  render();
+  const mv = Stock.removeUnit(itemId, unitId, kind, todayISO(), kind==='sold'?'Weekly shop sale':kind);
+  if(mv && mv.id){
+    const label = kind==='sold'?'Marked as sold.':kind==='faulty'?'Marked faulty.':'Marked as deposit.';
+    Toast.show(`${label} <button class="btn sm" style="margin-left:8px;padding:2px 8px;font-size:11px;background:#fff;color:var(--ink);border:none;" onclick="Views.undoSale('${mv.id}')">↩ Undo</button>`, 'ok');
+    render();
+  }
+};
+Views.undoSale = function(movementId){
+  const ok = Stock.revertMovement(movementId);
+  if(ok) render();
 };
 
 /* ---- WEEKLY REPORT (matches your uploaded sheet layout) ---- */
