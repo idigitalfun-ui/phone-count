@@ -535,7 +535,11 @@ const Store = {
       const raw = localStorage.getItem(STORAGE_KEY);
       this.data = raw ? JSON.parse(raw) : seedData();
     }catch(e){ this.data = seedData(); }
-    this.migrate();
+    try{
+      this.migrate();
+    }catch(err){
+      console.error('Migration error:', err);
+    }
   },
   migrate(){
     const d = this.data;
@@ -755,11 +759,17 @@ const Store = {
       const canonKey = (it.name + '|' + it.category + '|' + (it.memory||'') + '|' + it.condition).toLowerCase();
       if(itemMap.has(canonKey)){
         const primary = itemMap.get(canonKey);
+        if(!primary.locations) primary.locations = {};
+        if(!primary.shopPrices) primary.shopPrices = {};
+        if(!Array.isArray(primary.units)) primary.units = [];
+        if(!Array.isArray(primary.colors)) primary.colors = [];
+        if(!it.locations) it.locations = {};
+        if(!it.shopPrices) it.shopPrices = {};
+
         d.shops.forEach(s => {
           primary.locations[s.id] = (primary.locations[s.id]||0) + (it.locations[s.id]||0);
         });
         if(Array.isArray(it.units) && it.units.length > 0){
-          if(!Array.isArray(primary.units)) primary.units = [];
           it.units.forEach(u => primary.units.push(u));
         }
         (it.colors||[]).forEach(c => {
@@ -773,6 +783,10 @@ const Store = {
           }
         });
       } else {
+        if(!it.locations) it.locations = {};
+        if(!it.shopPrices) it.shopPrices = {};
+        if(!Array.isArray(it.units)) it.units = [];
+        if(!Array.isArray(it.colors)) it.colors = [];
         itemMap.set(canonKey, it);
         validItems.push(it);
       }
@@ -1137,7 +1151,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.6.8</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.6.9</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -1149,19 +1163,30 @@ function renderSidebar(){
 }
 
 function render(){
-  renderSidebar();
-  const [title,sub] = TITLES[Router.current] || ['',''];
-  document.getElementById('pageTitle').textContent = title;
-  document.getElementById('pageSub').textContent = sub;
-  const c = document.getElementById('content');
-  const fns = {
-    dashboard: Views.dashboard, inventory: Views.inventory, stockin: Views.stockin,
-    transfer: Views.transfer, sales: Views.sales, weekly: Views.weekly,
-    stockview: Views.stockview, bestsellers: Views.bestsellers, reorder: Views.reorder,
-    shops: Views.shops, categories: Views.categories, backup: Views.backup,
-  };
-  c.innerHTML = (fns[Router.current]||(()=>'<p>Not found</p>'))();
-  if(Views.after && Views.after[Router.current]) Views.after[Router.current]();
+  try{
+    renderSidebar();
+    const [title,sub] = TITLES[Router.current] || ['',''];
+    const titleEl = document.getElementById('pageTitle');
+    const subEl = document.getElementById('pageSub');
+    if(titleEl) titleEl.textContent = title;
+    if(subEl) subEl.textContent = sub;
+    const c = document.getElementById('content');
+    if(!c) return;
+    const fns = {
+      dashboard: Views.dashboard, inventory: Views.inventory, stockin: Views.stockin,
+      transfer: Views.transfer, sales: Views.sales, weekly: Views.weekly,
+      stockview: Views.stockview, bestsellers: Views.bestsellers, reorder: Views.reorder,
+      shops: Views.shops, categories: Views.categories, backup: Views.backup,
+    };
+    c.innerHTML = (fns[Router.current]||(()=>'<p>Not found</p>'))();
+    if(Views.after && Views.after[Router.current]) Views.after[Router.current]();
+  }catch(e){
+    console.error('Render error:', e);
+    const c = document.getElementById('content');
+    if(c){
+      c.innerHTML = `<div class="card card-pad" style="margin:20px;border-left:4px solid var(--red);"><h3>Could not render view</h3><p style="color:var(--muted);">${esc(e.message)}</p><button class="btn primary" onclick="Router.go('dashboard')">Reload Dashboard</button></div>`;
+    }
+  }
 }
 
 /* =========================================================================
