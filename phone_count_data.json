@@ -89,9 +89,9 @@
                       "imei":  "",
                       "condition":  "Used",
                       "batteryPct":  null,
-                      "costPrice":  1,
+                      "costPrice":  285,
                       "shopPrices":  {
-                                         "warehouse":  285,
+                                         "warehouse":  350,
                                          "shop_thurles":  270,
                                          "shop_kilkenny":  475,
                                          "shop_maynooth":  460,
@@ -109,7 +109,7 @@
                                         "shop_tullamore":  3
                                     },
                       "createdAt":  "2026-08-20",
-                      "wholesalePrice":  13,
+                      "wholesalePrice":  295,
                       "units":  [
                                     {
                                         "id":  "unit_pissuuxonc9",
@@ -117,10 +117,11 @@
                                         "color":  "Starlight",
                                         "condition":  "Used",
                                         "location":  "warehouse",
-                                        "costPrice":  1,
-                                        "sellPrice":  285,
+                                        "costPrice":  285,
+                                        "sellPrice":  350,
                                         "batteryPct":  null,
-                                        "dateAdded":  "2026-08-24"
+                                        "dateAdded":  "2026-08-24",
+                                        "wholesalePrice":  295
                                     },
                                     {
                                         "id":  "unit_rmitnpsouy1",
@@ -128,10 +129,11 @@
                                         "color":  "Starlight",
                                         "condition":  "Used",
                                         "location":  "warehouse",
-                                        "costPrice":  1,
-                                        "sellPrice":  285,
+                                        "costPrice":  285,
+                                        "sellPrice":  350,
                                         "batteryPct":  null,
-                                        "dateAdded":  "2026-08-24"
+                                        "dateAdded":  "2026-08-24",
+                                        "wholesalePrice":  295
                                     }
                                 ],
                       "colors":  [
@@ -1788,7 +1790,7 @@
                                         "location":  "shop_kilkenny",
                                         "costPrice":  1,
                                         "wholesalePrice":  78,
-                                        "sellPrice":  250
+                                        "sellPrice":  400
                                     },
                                     {
                                         "id":  "unit_swqkci5u5nu",
@@ -7844,9 +7846,9 @@
                   },
                   {
                       "id":  "item_dr3xyreu5o2",
-                      "name":  "Samsung A56 128GB 5GB",
+                      "name":  "Samsung A56 5GB 128GB",
                       "category":  "cat_w56n2ktw69i",
-                      "memory":  "5GB",
+                      "memory":  "128GB",
                       "imei":  "",
                       "condition":  "Used",
                       "colors":  [
@@ -12793,7 +12795,7 @@
                  "createdAt":  "2026-08-20",
                  "imeiImportedV3":  true,
                  "imeiImportedV2":  true,
-                 "lastSaved":  "2026-08-24T19:12:29.7721641+01:00"
+                 "lastSaved":  "2026-08-24T19:29:19.4189632+01:00"
              },
     "reorderMeta":  {
                         "lastOrderDate":  null

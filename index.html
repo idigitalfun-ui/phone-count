@@ -261,9 +261,7 @@ function seedData(){
   // Rows with identical name+memory+condition were combined into one line, colours merged, quantity summed.
   // Prices were taken straight from your sheets where given; where a sheet left cost or sell blank, a reasonable
   // placeholder was estimated — everything here is editable in Inventory once it's loaded.
-  const RAW = [
-['warehouse','iPhone','iPhone 14 128GB','128GB','Starlight,Purple','Used',3,285,285],
-['warehouse','iPhone','iPhone 16 128GB','128GB','White','New',1,620,679],
+['warehouse','iPhone','iPhone 14 128GB','128GB','Starlight,Purple','Used',2,285,285],
 ['warehouse','Samsung','Samsung A07 4GB/64GB','4GB/64GB','Black','New',11,80,95],
 ['warehouse','Samsung','Samsung A07 4GB/128GB','4GB/128GB','Black','New',5,95,115],
 ['warehouse','Samsung','Samsung A16 4GB/128GB','4GB/128GB','Black','New',3,99,120],
@@ -546,7 +544,14 @@ const Store = {
     if(!Array.isArray(d.categories)) d.categories = seedData().categories;
     if(!Array.isArray(d.items)) d.items = [];
     if(!Array.isArray(d.movements)) d.movements = [];
-    else d.movements = d.movements.filter(m => m && ['stock-in','transfer-in','transfer-out','sold','faulty','deposit'].includes(m.type) && m.fromLocation !== 'opening balance' && m.note !== 'Opening balance');
+    else d.movements = d.movements.filter(m => {
+      if(!m || !m.type) return false;
+      if(!['stock-in','transfer-in','transfer-out','sold','faulty','deposit'].includes(m.type)) return false;
+      const note = (m.note || '').toLowerCase();
+      const from = (m.fromLocation || '').toLowerCase();
+      if(note.includes('assigned imei') || note.includes('added from inventory') || note.includes('opening balance') || from.includes('opening balance')) return false;
+      return true;
+    });
     if(!d.archivedCategories) d.archivedCategories=[];
     if(!d.reorderList) d.reorderList=[];
     if(!d.reorderMeta) d.reorderMeta = { lastOrderDate: null };
@@ -778,14 +783,19 @@ const Store = {
     // backfill every item: units[] array, and a locations/shopPrices slot for every shop (incl. any newly added one)
     d.items.forEach(it=>{
       if(!Array.isArray(it.units)) it.units = [];
+      if(it.costPrice==null) it.costPrice = 0;
       if(it.wholesalePrice==null) it.wholesalePrice = it.costPrice||0;
+      if(!it.shopPrices) it.shopPrices = {};
       d.shops.forEach(s=>{
         if(it.locations[s.id]==null) it.locations[s.id]=0;
         if(it.shopPrices[s.id]==null) it.shopPrices[s.id]=it.shopPrices.warehouse||it.costPrice||0;
       });
-      // backfill wholesalePrice on tracked units too
+      // sync cost, wholesale and sell price on tracked units
       (it.units||[]).forEach(u=>{
-        if(u.wholesalePrice==null) u.wholesalePrice = u.costPrice||it.wholesalePrice||0;
+        if(u.costPrice==null || (u.costPrice<=1 && it.costPrice>1)) u.costPrice = it.costPrice;
+        if(u.wholesalePrice==null || (u.wholesalePrice<=1 && it.wholesalePrice>1)) u.wholesalePrice = it.wholesalePrice;
+        const targetSell = it.shopPrices[u.location] || it.costPrice || 0;
+        if(u.sellPrice==null || (u.sellPrice<=1 && targetSell>1) || (u.sellPrice!==targetSell && targetSell>0 && u.sellPrice<=1)) u.sellPrice = targetSell;
       });
     });
     this.save();
@@ -1127,7 +1137,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.6.7</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.6.8</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -1730,9 +1740,15 @@ Views.inventory = function(){
           <td><span class="pill teal">${esc(catName(it.category))}</span></td>
           <td class="mono">${esc(it.memory||'-')}</td>
           <td>${u.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
-          <td>${euro(cost)}</td>
-          <td style="color:#8A5A16;">${euro(wholesale)}</td>
-          <td style="color:var(--teal-dark);font-weight:600;">${euro(sale)}</td>
+          <td>
+            <input type="number" step="0.01" value="${cost||0}" style="width:72px;padding:3px 6px;border:1px solid var(--line);border-radius:5px;font-size:12px;" title="Cost Price" onchange="Views.invSetCostPrice('${it.id}','${u.id}',this.value)">
+          </td>
+          <td>
+            <input type="number" step="0.01" value="${wholesale||0}" style="width:72px;padding:3px 6px;border:1px solid #F0B429;border-radius:5px;font-size:12px;color:#8A5A16;font-weight:600;" title="Wholesale Price" onchange="Views.invSetWholesalePrice('${it.id}','${u.id}',this.value)">
+          </td>
+          <td>
+            <input type="number" step="0.01" value="${sale||0}" style="width:72px;padding:3px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12px;color:var(--teal-dark);font-weight:700;" title="Sale Price" onchange="Views.invSetSalePrice('${it.id}','${u.id}','${u.location}',this.value)">
+          </td>
           <td>1</td>
           <td><b style="color:var(--teal-dark);">${esc(shopName(u.location))}</b></td>
           <td style="white-space:nowrap;">
@@ -1762,9 +1778,15 @@ Views.inventory = function(){
             <td><span class="pill teal">${esc(catName(it.category))}</span></td>
             <td class="mono">${esc(it.memory||'-')}</td>
             <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
-            <td>${euro(it.costPrice)}</td>
-            <td style="color:#8A5A16;">${euro(it.wholesalePrice||it.costPrice+12)}</td>
-            <td style="color:var(--teal-dark);font-weight:600;">${euro((it.shopPrices&&it.shopPrices[filterShop])||it.costPrice)}</td>
+            <td>
+              <input type="number" step="0.01" value="${it.costPrice||0}" style="width:72px;padding:3px 6px;border:1px solid var(--line);border-radius:5px;font-size:12px;" title="Cost Price" onchange="Views.invSetUntrackedCost('${it.id}',this.value)">
+            </td>
+            <td>
+              <input type="number" step="0.01" value="${it.wholesalePrice||(it.costPrice||0)+12}" style="width:72px;padding:3px 6px;border:1px solid #F0B429;border-radius:5px;font-size:12px;color:#8A5A16;font-weight:600;" title="Wholesale Price" onchange="Views.invSetUntrackedWholesale('${it.id}',this.value)">
+            </td>
+            <td>
+              <input type="number" step="0.01" value="${(it.shopPrices&&it.shopPrices[filterShop])||it.costPrice||0}" style="width:72px;padding:3px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12px;color:var(--teal-dark);font-weight:700;" title="Sale Price" onchange="Views.invSetUntrackedSale('${it.id}','${filterShop}',this.value)">
+            </td>
             <td><b>${untracked}</b></td>
             <td><b style="color:var(--teal-dark);">${esc(shopName(filterShop))}</b></td>
             <td style="white-space:nowrap;">
@@ -1786,9 +1808,15 @@ Views.inventory = function(){
               <td><span class="pill teal">${esc(catName(it.category))}</span></td>
               <td class="mono">${esc(it.memory||'-')}</td>
               <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
-              <td>${euro(it.costPrice)}</td>
-              <td style="color:#8A5A16;">${euro(it.wholesalePrice||it.costPrice+12)}</td>
-              <td style="color:var(--teal-dark);font-weight:600;">${euro((it.shopPrices&&it.shopPrices[s.id])||it.costPrice)}</td>
+              <td>
+                <input type="number" step="0.01" value="${it.costPrice||0}" style="width:72px;padding:3px 6px;border:1px solid var(--line);border-radius:5px;font-size:12px;" title="Cost Price" onchange="Views.invSetUntrackedCost('${it.id}',this.value)">
+              </td>
+              <td>
+                <input type="number" step="0.01" value="${it.wholesalePrice||(it.costPrice||0)+12}" style="width:72px;padding:3px 6px;border:1px solid #F0B429;border-radius:5px;font-size:12px;color:#8A5A16;font-weight:600;" title="Wholesale Price" onchange="Views.invSetUntrackedWholesale('${it.id}',this.value)">
+              </td>
+              <td>
+                <input type="number" step="0.01" value="${(it.shopPrices&&it.shopPrices[s.id])||it.costPrice||0}" style="width:72px;padding:3px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12px;color:var(--teal-dark);font-weight:700;" title="Sale Price" onchange="Views.invSetUntrackedSale('${it.id}','${s.id}',this.value)">
+              </td>
               <td><b>${untracked}</b></td>
               <td><b style="color:var(--teal-dark);">${esc(s.name)}</b></td>
               <td style="white-space:nowrap;">
@@ -1890,6 +1918,67 @@ Views.saveInlineImei = function(itemId, unitId, rawVal){
   Store.save();
   Toast.show(imei ? `IMEI ${imei} saved.` : 'IMEI cleared.','ok');
   render();
+};
+
+// Inline price setters from Inventory
+Views.invSetCostPrice = function(itemId, unitId, v){
+  const p = Number(v);
+  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+  const it = itemById(itemId); if(!it) return;
+  it.costPrice = p;
+  const u = (it.units||[]).find(x=>x.id===unitId);
+  if(u) u.costPrice = p;
+  Store.save();
+  Toast.show('Cost price saved.','ok');
+};
+Views.invSetWholesalePrice = function(itemId, unitId, v){
+  const p = Number(v);
+  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+  const it = itemById(itemId); if(!it) return;
+  it.wholesalePrice = p;
+  const u = (it.units||[]).find(x=>x.id===unitId);
+  if(u) u.wholesalePrice = p;
+  Store.save();
+  Toast.show('Wholesale price saved.','ok');
+};
+Views.invSetSalePrice = function(itemId, unitId, locId, v){
+  const p = Number(v);
+  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+  const it = itemById(itemId); if(!it) return;
+  if(!it.shopPrices) it.shopPrices = {};
+  it.shopPrices[locId] = p;
+  const u = (it.units||[]).find(x=>x.id===unitId);
+  if(u) u.sellPrice = p;
+  Store.save();
+  Toast.show('Sale price saved.','ok');
+};
+Views.invSetUntrackedCost = function(itemId, v){
+  const p = Number(v);
+  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+  const it = itemById(itemId); if(!it) return;
+  it.costPrice = p;
+  (it.units||[]).forEach(u => { u.costPrice = p; });
+  Store.save();
+  Toast.show('Cost price saved.','ok');
+};
+Views.invSetUntrackedWholesale = function(itemId, v){
+  const p = Number(v);
+  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+  const it = itemById(itemId); if(!it) return;
+  it.wholesalePrice = p;
+  (it.units||[]).forEach(u => { u.wholesalePrice = p; });
+  Store.save();
+  Toast.show('Wholesale price saved.','ok');
+};
+Views.invSetUntrackedSale = function(itemId, locId, v){
+  const p = Number(v);
+  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+  const it = itemById(itemId); if(!it) return;
+  if(!it.shopPrices) it.shopPrices = {};
+  it.shopPrices[locId] = p;
+  (it.units||[]).filter(u=>u.location===locId).forEach(u => { u.sellPrice = p; });
+  Store.save();
+  Toast.show('Sale price saved.','ok');
 };
 
 // Inline transfer of a tracked IMEI unit — reads the inline <select> for destination
@@ -3238,7 +3327,9 @@ Views.svSetPrice = function(itemId, locId, v){
   const p = Number(v);
   if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
   const it = itemById(itemId); if(!it) return;
+  if(!it.shopPrices) it.shopPrices = {};
   it.shopPrices[locId] = p;
+  (it.units||[]).filter(u=>u.location===locId).forEach(u => { u.sellPrice = p; });
   Store.save();
   Toast.show('Sale price updated.','ok');
 };
@@ -3247,6 +3338,7 @@ Views.svSetCostPrice = function(itemId, v){
   if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
   const it = itemById(itemId); if(!it) return;
   it.costPrice = p;
+  (it.units||[]).forEach(u => { u.costPrice = p; });
   Store.save();
   Toast.show('Cost price updated.','ok');
 };
@@ -3255,6 +3347,7 @@ Views.svSetWholesalePrice = function(itemId, v){
   if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
   const it = itemById(itemId); if(!it) return;
   it.wholesalePrice = p;
+  (it.units||[]).forEach(u => { u.wholesalePrice = p; });
   Store.save();
   Toast.show('Wholesale price updated.','ok');
 };
