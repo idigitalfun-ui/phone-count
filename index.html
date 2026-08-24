@@ -260,7 +260,7 @@ function seedData(){
   // Raw rows transcribed from your uploaded sheets: [shopKey, category, name, memory, colours(csv), condition, qty, costPrice, sellPrice]
   // Rows with identical name+memory+condition were combined into one line, colours merged, quantity summed.
   // Prices were taken straight from your sheets where given; where a sheet left cost or sell blank, a reasonable
-  // placeholder was estimated — everything here is editable in Inventory once it's loaded.
+  const RAW = [
 ['warehouse','iPhone','iPhone 14 128GB','128GB','Starlight,Purple','Used',2,285,285],
 ['warehouse','Samsung','Samsung A07 4GB/64GB','4GB/64GB','Black','New',11,80,95],
 ['warehouse','Samsung','Samsung A07 4GB/128GB','4GB/128GB','Black','New',5,95,115],
@@ -1151,7 +1151,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.6.9</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.7.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
