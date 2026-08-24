@@ -210,7 +210,10 @@ tbody tr:hover{background:#FAFBFC;}
         <h1 id="pageTitle">Dashboard</h1>
         <div class="sub" id="pageSub"></div>
       </div>
-      <div class="row" style="gap:10px;align-items:center;">
+      <div class="row" style="gap:8px;align-items:center;flex-wrap:wrap;">
+        <div id="save_indicator" style="display:flex;align-items:center;gap:4px;font-size:12px;"></div>
+        <button class="btn sm no-print" onclick="FileStore.exportJson()" title="Download a backup JSON file right now">⬇ Export data</button>
+        <button class="btn sm no-print" onclick="FileStore.importJson()" title="Load data from a JSON backup file">⬆ Import data</button>
         <button class="btn sm no-print" onclick="Modal.backupQuick()">💾 Quick backup</button>
         <button class="btn sm no-print" onclick="Router.go('backup')">⚙ Settings</button>
       </div>
@@ -596,7 +599,12 @@ const Store = {
     }
     this.save();
   },
-  save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data)); },
+  save(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
+    this.data.meta.lastSaved = new Date().toISOString();
+    FileStore.writeAsync(); // silently write to linked file if one is set
+    updateSaveIndicator();
+  },
   snapshotToBackups(label){
     try{
       const list = JSON.parse(localStorage.getItem(BACKUP_KEY)||'[]');
@@ -615,6 +623,229 @@ const Store = {
     return true;
   }
 };
+
+/* ---------- File System Access API persistence ---------- */
+const FileStore = {
+  handle: null,      // FileSystemFileHandle — in-memory for this session
+  _writing: false,
+  _IDB_DB: 'stockline_fs',
+  _IDB_STORE: 'handles',
+  _IDB_KEY: 'dataFile',
+
+  // Open (or create) the IndexedDB that stores the file handle across sessions
+  _openIdb(){
+    return new Promise((res, rej)=>{
+      const req = indexedDB.open(this._IDB_DB, 1);
+      req.onupgradeneeded = e => e.target.result.createObjectStore(this._IDB_STORE);
+      req.onsuccess = e => res(e.target.result);
+      req.onerror = e => rej(e);
+    });
+  },
+  async _saveHandleToIdb(handle){
+    try{
+      const db = await this._openIdb();
+      const tx = db.transaction(this._IDB_STORE, 'readwrite');
+      tx.objectStore(this._IDB_STORE).put(handle, this._IDB_KEY);
+    }catch(e){}
+  },
+  async _loadHandleFromIdb(){
+    try{
+      const db = await this._openIdb();
+      return await new Promise((res,rej)=>{
+        const tx = db.transaction(this._IDB_STORE, 'readonly');
+        const req = tx.objectStore(this._IDB_STORE).get(this._IDB_KEY);
+        req.onsuccess = e => res(e.target.result||null);
+        req.onerror = e => rej(e);
+      });
+    }catch(e){ return null; }
+  },
+  async _clearHandleFromIdb(){
+    try{
+      const db = await this._openIdb();
+      const tx = db.transaction(this._IDB_STORE, 'readwrite');
+      tx.objectStore(this._IDB_STORE).delete(this._IDB_KEY);
+    }catch(e){}
+  },
+
+  // On app startup — try to restore saved file handle and read latest data from it
+  async init(){
+    if(!window.showOpenFilePicker){ updateSaveIndicator(); return; } // API not available
+    const handle = await this._loadHandleFromIdb();
+    if(!handle) { updateSaveIndicator(); return; }
+    // Verify we still have permission
+    try{
+      const perm = await handle.queryPermission({mode:'readwrite'});
+      if(perm === 'granted'){
+        this.handle = handle;
+        await this._readFromHandle(); // load latest data from file
+        updateSaveIndicator();
+        return;
+      }
+      // Permission not auto-granted — show a prompt to re-link
+      updateSaveIndicator('needs-relink');
+    }catch(e){ updateSaveIndicator(); }
+  },
+
+  // Read data from the linked file and merge into Store
+  async _readFromHandle(){
+    try{
+      const file = await this.handle.getFile();
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      if(parsed && parsed.items && parsed.shops){
+        // Only load if the file is newer than localStorage
+        const fileTs = parsed.meta?.lastSaved || '0';
+        const lsTs = Store.data?.meta?.lastSaved || '0';
+        if(fileTs > lsTs){
+          Store.data = parsed;
+          Store.migrate();
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(Store.data));
+          Toast.show('✓ Data loaded from linked file (newer than local copy).','ok');
+          render();
+        }
+      }
+    }catch(e){}
+  },
+
+  // Write Store.data to the linked file (non-blocking)
+  writeAsync(){
+    if(!this.handle) return;
+    if(this._writing) return; // skip if already writing
+    this._writing = true;
+    this.handle.createWritable()
+      .then(w => w.write(JSON.stringify(Store.data, null, 2)).then(()=>w.close()))
+      .catch(()=>{})
+      .finally(()=>{ this._writing = false; });
+  },
+
+  // Let user pick/create a file to link to
+  async linkFile(){
+    if(!window.showSaveFilePicker){
+      Toast.show('Your browser does not support automatic file saving. Use Export JSON instead.','err');
+      return;
+    }
+    try{
+      const handle = await window.showSaveFilePicker({
+        suggestedName: 'phone_count_data.json',
+        types:[{description:'StockLine Data',accept:{'application/json':['.json']}}]
+      });
+      // Check if existing file has data we should load
+      try{
+        const file = await handle.getFile();
+        if(file.size > 10){
+          const text = await file.text();
+          const parsed = JSON.parse(text);
+          if(parsed && parsed.items && confirm('This file has existing data. Load it into the app?')){
+            Store.data = parsed;
+            Store.migrate();
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(Store.data));
+            render();
+          }
+        }
+      }catch(e){}
+      this.handle = handle;
+      await this._saveHandleToIdb(handle);
+      await this.writeAsync(); // write current data immediately
+      Toast.show('✓ Data file linked! Auto-saving to this file on every change.','ok');
+      updateSaveIndicator();
+    }catch(e){
+      if(e.name!=='AbortError') Toast.show('Could not link file.','err');
+    }
+  },
+
+  // Re-request permission for a previously linked file (after browser restart)
+  async requestPermission(){
+    if(!this.handle){ await this.linkFile(); return; }
+    try{
+      const perm = await this.handle.requestPermission({mode:'readwrite'});
+      if(perm === 'granted'){
+        await this._readFromHandle();
+        updateSaveIndicator();
+        Toast.show('✓ File re-linked. Auto-saving resumed.','ok');
+      }
+    }catch(e){}
+  },
+
+  // Unlink the file
+  async unlink(){
+    this.handle = null;
+    await this._clearHandleFromIdb();
+    updateSaveIndicator();
+    Toast.show('File unlinked. Data still saved in browser localStorage.','ok');
+  },
+
+  // Manual export — always available as fallback
+  exportJson(){
+    const blob = new Blob([JSON.stringify(Store.data, null, 2)], {type:'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'phone_count_data_' + todayISO() + '.json';
+    a.click();
+    Toast.show('Data exported as JSON file.','ok');
+  },
+
+  // Manual import
+  async importJson(){
+    if(!window.showOpenFilePicker){
+      // Fallback: hidden file input
+      const inp = document.createElement('input');
+      inp.type='file'; inp.accept='.json';
+      inp.onchange = async()=>{
+        const file = inp.files[0]; if(!file) return;
+        const text = await file.text();
+        try{
+          const parsed = JSON.parse(text);
+          if(!parsed.items || !parsed.shops){ Toast.show('Invalid data file.','err'); return; }
+          if(!confirm('This will replace ALL current data with the imported file. Continue?')) return;
+          Store.data = parsed; Store.migrate(); Store.save(); render();
+          Toast.show('Data imported successfully!','ok');
+        }catch(e){ Toast.show('Could not read file.','err'); }
+      };
+      inp.click();
+      return;
+    }
+    try{
+      const [handle] = await window.showOpenFilePicker({
+        types:[{description:'StockLine Data',accept:{'application/json':['.json']}}]
+      });
+      const file = await handle.getFile();
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      if(!parsed.items || !parsed.shops){ Toast.show('Invalid data file.','err'); return; }
+      if(!confirm('This will replace ALL current data with the imported file. Continue?')) return;
+      Store.data = parsed; Store.migrate(); Store.save();
+      // Optionally link this file for future auto-saving
+      if(confirm('Link this file for auto-saving going forward?')){
+        const writeHandle = await window.showSaveFilePicker({
+          suggestedName: file.name,
+          types:[{description:'StockLine Data',accept:{'application/json':['.json']}}]
+        });
+        this.handle = writeHandle;
+        await this._saveHandleToIdb(writeHandle);
+        updateSaveIndicator();
+      }
+      render();
+      Toast.show('Data imported successfully!','ok');
+    }catch(e){
+      if(e.name!=='AbortError') Toast.show('Could not load file.','err');
+    }
+  }
+};
+
+function updateSaveIndicator(state){
+  const el = document.getElementById('save_indicator');
+  if(!el) return;
+  const linked = !!FileStore.handle;
+  const ts = Store.data?.meta?.lastSaved ? new Date(Store.data.meta.lastSaved).toLocaleTimeString('en-IE') : '—';
+  if(state==='needs-relink'){
+    el.innerHTML = `<span style="color:#F9AB00;font-weight:600;">⚠ File needs permission</span> <button class="btn sm" onclick="FileStore.requestPermission()" style="padding:3px 8px;font-size:11px;margin-left:6px;">🔓 Re-link</button>`;
+  } else if(linked){
+    el.innerHTML = `<span style="color:var(--green);font-size:12px;">✓ Auto-saving to file</span> <span style="color:var(--muted);font-size:11px;margin-left:6px;">Last: ${ts}</span>`;
+  } else {
+    el.innerHTML = `<span style="color:var(--amber);font-size:12px;">⚠ Saved in browser only</span> <button class="btn sm primary" onclick="FileStore.linkFile()" style="padding:3px 10px;font-size:11px;margin-left:8px;">📁 Link data file</button>`;
+  }
+}
+
 
 /* ---------- toast ---------- */
 const Toast = {
@@ -3226,6 +3457,7 @@ Views.addShop = function(){
    ========================================================================= */
 Store.load();
 render();
+FileStore.init(); // restore file handle from IndexedDB and sync data if file is newer
 </script>
 </body>
 </html>
