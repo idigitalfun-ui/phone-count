@@ -1126,7 +1126,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.6.5</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.6.6</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -1156,29 +1156,29 @@ function render(){
 /* =========================================================================
    HELPERS: computed data
    ========================================================================= */
-function shopName(id){ const s=Store.data.shops.find(x=>x.id===id); return s?s.name:id; }
-function catName(id){ const c=Store.data.categories.find(x=>x.id===id); return c?c.name:'—'; }
-function itemById(id){ return Store.data.items.find(x=>x.id===id); }
-function totalQty(item){ return Object.values(item.locations).reduce((a,b)=>a+(Number(b)||0),0); }
-function unitsAt(item, loc){ return (item.units||[]).filter(u=>u.location===loc); }
-function untrackedQtyAt(item, loc){ return Math.max(0, (item.locations[loc]||0) - unitsAt(item, loc).length); }
+function shopName(id){ const s=Store.data?.shops?.find(x=>x.id===id); return s?s.name:(id||'—'); }
+function catName(id){ const c=Store.data?.categories?.find(x=>x.id===id); return c?c.name:'—'; }
+function itemById(id){ return Store.data?.items?.find(x=>x.id===id); }
+function totalQty(item){ return item && item.locations ? Object.values(item.locations).reduce((a,b)=>a+(Number(b)||0),0) : 0; }
+function unitsAt(item, loc){ return (item?.units||[]).filter(u=>u && u.location===loc); }
+function untrackedQtyAt(item, loc){ return item ? Math.max(0, ((item.locations&&item.locations[loc])||0) - unitsAt(item, loc).length) : 0; }
 function findUnitByImei(imei){
   imei = (imei||'').trim().toLowerCase();
   if(!imei) return null;
-  for(const it of Store.data.items){
-    const u = (it.units||[]).find(x=>(x.imei||'').trim().toLowerCase()===imei);
+  for(const it of (Store.data?.items||[])){
+    const u = (it?.units||[]).find(x=>(x?.imei||'').trim().toLowerCase()===imei);
     if(u) return {item:it, unit:u};
   }
   return null;
 }
-function nonWarehouseShops(){ return Store.data.shops.filter(s=>!s.isWarehouse && s.active!==false); }
-function activeShops(){ return Store.data.shops.filter(s=>s.active!==false); }
-function categoryOrderIndex(catId){ const i = Store.data.categories.findIndex(c=>c.id===catId); return i<0?999:i; }
+function nonWarehouseShops(){ return (Store.data?.shops||[]).filter(s=>!s.isWarehouse && s.active!==false); }
+function activeShops(){ return (Store.data?.shops||[]).filter(s=>s.active!==false); }
+function categoryOrderIndex(catId){ const i = (Store.data?.categories||[]).findIndex(c=>c.id===catId); return i<0?999:i; }
 function sortedItems(list){
-  return (list||Store.data.items).slice().sort((a,b)=>{
-    const ci = categoryOrderIndex(a.category) - categoryOrderIndex(b.category);
+  return (list||Store.data?.items||[]).filter(Boolean).slice().sort((a,b)=>{
+    const ci = categoryOrderIndex(a?.category) - categoryOrderIndex(b?.category);
     if(ci!==0) return ci;
-    return a.name.localeCompare(b.name);
+    return (a?.name||'').localeCompare(b?.name||'');
   });
 }
 function groupByCategory(list){
@@ -1413,10 +1413,11 @@ const CsvImport = {
 
 function allUnitsWithImei(atLoc){
   const rows=[];
-  Store.data.items.forEach(it=>{
-    (it.units||[]).filter(u=>u.imei&&(!atLoc||u.location===atLoc)).forEach(u=>rows.push({it,u}));
+  (Store.data?.items||[]).forEach(it=>{
+    if(!it) return;
+    (it.units||[]).filter(u=>u&&u.imei&&(!atLoc||u.location===atLoc)).forEach(u=>rows.push({it,u}));
   });
-  return rows.sort((a,b)=>a.it.name.localeCompare(b.it.name));
+  return rows.sort((a,b)=>(a.it?.name||'').localeCompare(b.it?.name||''));
 }
 
 /* =========================================================================
@@ -1670,13 +1671,13 @@ function daysAgo(iso){ return Math.round((Date.now()-new Date(iso+'T00:00:00').g
 Views._invFilter = {q:'', cat:'all', shop:'all'};
 
 Views.inventory = function(){
-  const f = Views._invFilter;
+  const f = Views._invFilter || (Views._invFilter = {q:'', cat:'all', shop:'all'});
   const shops = activeShops();
   let items = sortedItems();
 
-  if(f.q) items = items.filter(it=>(it.name+(it.imei||'')+(it.memory||'')+(it.units||[]).map(u=>u.imei).join(' ')).toLowerCase().includes(f.q.toLowerCase()));
-  if(f.cat!=='all') items = items.filter(it=>it.category===f.cat);
-  if(f.shop!=='all') items = items.filter(it=>(it.locations[f.shop]||0) > 0);
+  if(f.q) items = items.filter(it=>((it?.name||'')+(it?.imei||'')+(it?.memory||'')+(it?.units||[]).map(u=>u?.imei||'').join(' ')).toLowerCase().includes(f.q.toLowerCase()));
+  if(f.cat!=='all') items = items.filter(it=>it?.category===f.cat);
+  if(f.shop!=='all') items = items.filter(it=>((it?.locations&&it.locations[f.shop])||0) > 0);
 
   const shopChips = [
     `<button class="${f.shop==='all'?'active':''}" onclick="Views._invFilter.shop='all';render()">All Stores</button>`,
@@ -1689,16 +1690,17 @@ Views.inventory = function(){
     rows = `<tr><td colspan="11"><div class="empty"><div class="big">No items match</div>Try clearing filters or add a new device.</div></td></tr>`;
   } else {
     items.forEach(it=>{
-      const units = (it.units||[]);
+      if(!it) return;
+      const units = (it.units||[]).filter(Boolean);
       const filterShop = f.shop !== 'all' ? f.shop : null;
-      const relevantUnits = filterShop ? units.filter(u=>u.location===filterShop) : units;
+      const relevantUnits = filterShop ? units.filter(u=>u && u.location===filterShop) : units;
 
       relevantUnits.forEach(u=>{
         const otherShops = shops.filter(s=>s.id!==u.location);
-        const hasImei = !!(u.imei && u.imei.trim());
-        const cost = u.costPrice!=null?u.costPrice:it.costPrice;
+        const hasImei = !!(u.imei && String(u.imei).trim());
+        const cost = u.costPrice!=null?u.costPrice:(it.costPrice||0);
         const wholesale = u.wholesalePrice!=null?u.wholesalePrice:(it.wholesalePrice||cost+12);
-        const sale = u.sellPrice!=null?u.sellPrice:(it.shopPrices[u.location]||it.costPrice);
+        const sale = u.sellPrice!=null?u.sellPrice:((it.shopPrices&&it.shopPrices[u.location])||it.costPrice||0);
         rows += `<tr style="${hasImei?'':'background:#FFFBF2;'}">
           <td>
             <a href="javascript:void(0)" onclick="Views.openEditUnitModal('${it.id}','${u.id}')" style="color:var(--ink);text-decoration:none;font-weight:700;cursor:pointer;" title="Click to edit">${esc(it.name)}</a>
@@ -2790,17 +2792,18 @@ Views.sales = function(){
   if(!shops.length) return `<div class="empty">No active shops found.</div>`;
   if(!Views._salesShop || !shops.find(s=>s.id===Views._salesShop)) Views._salesShop = shops[0].id;
   const shopId = Views._salesShop;
-  const items = sortedItems(Store.data.items.filter(it=>(it.locations[shopId]||0) > 0));
+  const items = sortedItems((Store.data?.items||[]).filter(it=>((it?.locations&&it.locations[shopId])||0) > 0));
   const weekStart = Views._weekStart || mostRecentMonday();
   const weekEnd = isoAddDays(weekStart,6);
 
   function itemRows(it){
+    if(!it) return '';
     const units = unitsAt(it, shopId);
-    const expanded = !!Views._salesExpanded[it.id];
+    const expanded = !!(Views._salesExpanded && Views._salesExpanded[it.id]);
 
     let imeiStr = '';
     if(units.length > 0){
-      const list = units.map(u=>u.imei).filter(Boolean);
+      const list = units.map(u=>u?.imei).filter(Boolean);
       if(list.length > 0){
         imeiStr = `<span class="mono"><b>${esc(list.slice(0,2).join(', '))}${list.length>2?'...':''}</b></span>`;
       } else {
@@ -2812,12 +2815,14 @@ Views.sales = function(){
       imeiStr = `<span style="color:var(--muted)">—</span>`;
     }
 
+    const price = (it.shopPrices && it.shopPrices[shopId]) != null ? it.shopPrices[shopId] : (it.costPrice || 0);
+
     let rows = `<tr>
-      <td><b>${esc(it.name)}</b>${units.length? ` <button class="btn ghost sm" style="padding:2px 6px;margin-left:4px;" onclick="Views.toggleSalesExpand('${it.id}')">${expanded?'▾':'▸'} ${units.length} IMEI</button>`:''}</td>
+      <td><b>${esc(it.name||'')}</b>${units.length? ` <button class="btn ghost sm" style="padding:2px 6px;margin-left:4px;" onclick="Views.toggleSalesExpand('${it.id}')">${expanded?'▾':'▸'} ${units.length} IMEI</button>`:''}</td>
       <td>${imeiStr}</td>
       <td><span class="pill teal">${esc(catName(it.category))}</span></td>
-      <td>${signalHtml(it.locations[shopId])} ${it.locations[shopId]}</td>
-      <td>${euro(it.shopPrices[shopId])}</td>
+      <td>${signalHtml((it.locations&&it.locations[shopId])||0)} ${(it.locations&&it.locations[shopId])||0}</td>
+      <td>${euro(price)}</td>
       <td>
         <button class="btn sm primary" onclick="Views.quickAction('${it.id}','${shopId}','sold')">✓ Sold</button>
         <button class="btn sm" onclick="Views.quickAction('${it.id}','${shopId}','faulty')">⚠ Faulty</button>
@@ -2828,9 +2833,9 @@ Views.sales = function(){
       rows += units.map(u=>`
         <tr style="background:#FAFBFC;">
           <td colspan="2" style="padding-left:28px;font-size:12.5px;">
-            ↳ <span class="mono"><b>${esc(u.imei||'No IMEI')}</b></span> — ${esc(u.color||'-')} · ${esc(u.condition||'-')}
+            ↳ <span class="mono"><b>${esc(u?.imei||'No IMEI')}</b></span> — ${esc(u?.color||'-')} · ${esc(u?.condition||'-')}
           </td>
-          <td colspan="2" style="font-size:12px;">Price: <b>${euro(u.sellPrice)}</b></td>
+          <td colspan="2" style="font-size:12px;">Price: <b>${euro(u?.sellPrice!=null?u.sellPrice:price)}</b></td>
           <td colspan="2">
             <button class="btn sm primary" onclick="Views.unitAction('${it.id}','${u.id}','sold')">✓ Sold</button>
             <button class="btn sm" onclick="Views.unitAction('${it.id}','${u.id}','faulty')">⚠ Faulty</button>
@@ -2864,17 +2869,18 @@ Views.sales = function(){
       <div class="table-wrap"><table>
         <thead><tr><th>Date</th><th>Item</th><th>Details / IMEI</th><th>Type</th><th>Qty</th><th style="text-align:right;">Action</th></tr></thead>
         <tbody>
-          ${Store.data.movements.filter(m=>m.location===shopId && ['sold','faulty','deposit'].includes(m.type) && m.date>=weekStart && m.date<=weekEnd).slice().reverse().map(m=>`
+          ${(Store.data?.movements||[]).filter(m=>m&&m.location===shopId && ['sold','faulty','deposit'].includes(m.type) && m.date>=weekStart && m.date<=weekEnd).slice().reverse().map(m=>`
             <tr>
-              <td>${m.date}</td>
-              <td><b>${esc(m.itemName)}</b></td>
-              <td><span class="mono" style="color:var(--teal-dark);font-weight:600;">${esc(m.note||'-')}</span></td>
+              <td>${m.date||'—'}</td>
+              <td><b>${esc(m.itemName||'—')}</b></td>
+              <td>${m.unitData?.imei ? `<span class="mono" style="color:var(--teal-dark);font-weight:700;">${esc(m.unitData.imei)}</span>` : (m.note ? esc(m.note) : '—')}</td>
               <td>${pillForType(m.type)}</td>
-              <td>${m.qty}</td>
+              <td><b>${m.qty||1}</b></td>
               <td style="text-align:right;">
-                <button class="btn sm ghost" style="border:1px solid var(--line);" onclick="Views.undoSale('${m.id}')" title="Undo this sale and return device to stock">↩ Revert to stock</button>
+                <button class="btn sm ghost" style="border:1px solid var(--line);" onclick="Views.undoSale('${m.id}')" title="Undo this and return device to stock">↩ Revert</button>
               </td>
-            </tr>`).join('') || '<tr><td colspan="6"><div class="empty">Nothing logged yet this week.</div></td></tr>'}
+            </tr>
+          `).join('') || `<tr><td colspan="6"><div class="empty">No sales, faulty, or deposits recorded for this shop this week.</div></td></tr>`}
         </tbody>
       </table></div>
     </div>
