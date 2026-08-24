@@ -576,6 +576,199 @@ const Store = {
       });
       d.shops = keep;
     }
+    // 1. Normalize all device names, categories, conditions, colors, and memories
+    const validItems = [];
+    const itemMap = new Map(); // key -> surviving item
+
+    d.items.forEach(it => {
+      if(!it || !it.name) return;
+      let name = it.name.trim();
+
+      // Filter out garbage headers like Availability"
+      if(/availability/i.test(name) || /batterypercentage/i.test(it.imei||'')) return;
+
+      // Normalize Condition: Mint & Refurb mean Used
+      let cond = it.condition || 'New';
+      if(/mint|refurb|used|grade/i.test(name) || /mint|refurb|used/i.test(cond)) cond = 'Used';
+      if(!['New', 'Used'].includes(cond)) cond = 'Used';
+      it.condition = cond;
+
+      // Strip grade / condition annotations from name
+      name = name.replace(/grade\s*['"]?[a-z]['"]?/gi, '').replace(/\b(mint|refurbished|refurb\s*[a-z]?|brand\s*new|new|used)\b/gi, '').trim();
+
+      // Extract colors from name
+      if(!Array.isArray(it.colors)) it.colors = [];
+      const COLOR_PATTERNS = [
+        { reg: /\b(awesome\s+lavender)\b/gi, col: 'Awesome Lavender' },
+        { reg: /\b(awesome\s+lilac)\b/gi, col: 'Awesome Lilac' },
+        { reg: /\b(awesome\s+light\s*gray|awsome\s+lightgray|awesome\s+lightgrey)\b/gi, col: 'Awesome Light Gray' },
+        { reg: /\b(awesome\s+pink|awsome\s+pink)\b/gi, col: 'Awesome Pink' },
+        { reg: /\b(awesome\s+lemon)\b/gi, col: 'Awesome Lemon' },
+        { reg: /\b(awesome\s+navy)\b/gi, col: 'Awesome Navy' },
+        { reg: /\b(awesome\s+olive)\b/gi, col: 'Awesome Olive' },
+        { reg: /\b(awesome\s+white)\b/gi, col: 'Awesome White' },
+        { reg: /\b(awesome\s+lime)\b/gi, col: 'Awesome Lime' },
+        { reg: /\b(awesome\s+graygreen|graygreen)\b/gi, col: 'Graygreen' },
+        { reg: /\b(forest\s+green)\b/gi, col: 'Forest Green' },
+        { reg: /\b(coral\s+green)\b/gi, col: 'Coral Green' },
+        { reg: /\b(phantom\s+black)\b/gi, col: 'Phantom Black' },
+        { reg: /\b(space\s+gray|space\s+grey)\b/gi, col: 'Space Gray' },
+        { reg: /\b(rose\s+gold|rgold)\b/gi, col: 'Rose Gold' },
+        { reg: /\b(ocean\s+blue)\b/gi, col: 'Ocean Blue' },
+        { reg: /\b(dreamy\s+purple)\b/gi, col: 'Dreamy Purple' },
+        { reg: /\b(pacific\s+blue)\b/gi, col: 'Pacific Blue' },
+        { reg: /\b(midnight)\b/gi, col: 'Midnight' },
+        { reg: /\b(starlight)\b/gi, col: 'Starlight' },
+        { reg: /\b(ultramarine)\b/gi, col: 'Ultramarine' },
+        { reg: /\b(icyblue|icy\s+blue)\b/gi, col: 'Icy Blue' },
+        { reg: /\b(olive)\b/gi, col: 'Olive' },
+        { reg: /\b(peach)\b/gi, col: 'Peach' },
+        { reg: /\b(sage)\b/gi, col: 'Sage' },
+        { reg: /\b(teal)\b/gi, col: 'Teal' },
+        { reg: /\b(graphite)\b/gi, col: 'Graphite' },
+        { reg: /\b(charcoal)\b/gi, col: 'Charcoal' },
+        { reg: /\b(sapphire)\b/gi, col: 'Sapphire' },
+        { reg: /\b(lavender)\b/gi, col: 'Lavender' },
+        { reg: /\b(black|blk)\b/gi, col: 'Black' },
+        { reg: /\b(white)\b/gi, col: 'White' },
+        { reg: /\b(pink)\b/gi, col: 'Pink' },
+        { reg: /\b(purple)\b/gi, col: 'Purple' },
+        { reg: /\b(yellow)\b/gi, col: 'Yellow' },
+        { reg: /\b(blue)\b/gi, col: 'Blue' },
+        { reg: /\b(red)\b/gi, col: 'Red' },
+        { reg: /\b(green)\b/gi, col: 'Green' },
+        { reg: /\b(gold)\b/gi, col: 'Gold' },
+        { reg: /\b(silver)\b/gi, col: 'Silver' },
+        { reg: /\b(gray|grey)\b/gi, col: 'Gray' },
+        { reg: /\b(navy)\b/gi, col: 'Navy' },
+        { reg: /\b(lime)\b/gi, col: 'Lime' }
+      ];
+      COLOR_PATTERNS.forEach(({ reg, col }) => {
+        if(reg.test(name)){
+          name = name.replace(reg, '').trim();
+          if(!it.colors.includes(col)) it.colors.push(col);
+          (it.units||[]).forEach(u=>{ if(!u.color || u.color==='-') u.color = col; });
+        }
+      });
+
+      // Standardize memory (uppercase GB)
+      let memory = it.memory || '';
+      const memMatch = name.match(/(\d+\s*gb\s*\/\s*\d+\s*gb|\d+\s*gb|\d+\s*\/\s*\d+\s*gb)/i);
+      if(memMatch){
+        memory = memMatch[0].replace(/\s+/g, '').replace(/gb/gi, 'GB');
+        name = name.replace(memMatch[0], '').trim();
+      }
+      if(memory){
+        memory = memory.replace(/\s+/g, '').replace(/gb/gi, 'GB');
+        if(/^\d+$/.test(memory)) memory = memory + 'GB';
+      }
+      it.memory = memory;
+
+      // Brand & Model casing corrections
+      name = name.replace(/\bapple\s+ipad\b/gi, 'iPad');
+      name = name.replace(/\bipad\b/gi, 'iPad');
+      name = name.replace(/\bapple\s+airpods\b/gi, 'AirPods');
+      name = name.replace(/\bairpods\b/gi, 'AirPods');
+      name = name.replace(/\bapple\s+iphone\b/gi, 'iPhone');
+      name = name.replace(/\biphone\b/gi, 'iPhone');
+      name = name.replace(/\b(samsung|samusng)\b/gi, 'Samsung');
+      name = name.replace(/\bgalaxy\b/gi, 'Galaxy');
+      name = name.replace(/\bblackview\b/gi, 'Blackview');
+      name = name.replace(/\bblack\s*view\b/gi, 'Blackview');
+      name = name.replace(/\bblackviwe\b/gi, 'Blackview');
+      name = name.replace(/\bnokia\b/gi, 'Nokia');
+      name = name.replace(/\bmobitel\b/gi, 'Mobitel');
+      name = name.replace(/\bgoogle\s+pixel\b/gi, 'Google Pixel');
+      name = name.replace(/\bpoco\b/gi, 'Poco');
+      name = name.replace(/\bredmi\b/gi, 'Redmi');
+      name = name.replace(/\bamazon\s+fire\b/gi, 'Amazon Fire');
+      name = name.replace(/\bamazon\s+kindle\b/gi, 'Amazon Kindle');
+      name = name.replace(/\blenovo\s+tab\b/gi, 'Lenovo Tab');
+      name = name.replace(/\bhuawei\s+mediapad\b/gi, 'Huawei MediaPad');
+      name = name.replace(/\barchos\b/gi, 'Archos');
+      name = name.replace(/\bmodio\b/gi, 'Modio');
+      name = name.replace(/\bhoco\b/gi, 'Hoco');
+      name = name.replace(/\bjoyroom\b/gi, 'Joyroom');
+
+      // Model suffix corrections
+      name = name.replace(/\b(\d+)\s*\+\b/g, '$1 Plus');
+      name = name.replace(/\bxr\b/gi, 'XR');
+      name = name.replace(/\bxs\b/gi, 'XS');
+      name = name.replace(/\bse\b/gi, 'SE');
+      name = name.replace(/\b5g\b/gi, '5G');
+      name = name.replace(/\b4g\b/gi, '4G');
+      name = name.replace(/\bhd\b/gi, 'HD');
+      name = name.replace(/\bpro\s+max\b/gi, 'Pro Max');
+      name = name.replace(/\bpro\b/gi, 'Pro');
+      name = name.replace(/\bmax\b/gi, 'Max');
+      name = name.replace(/\bplus\b/gi, 'Plus');
+      name = name.replace(/\bultra\b/gi, 'Ultra');
+      name = name.replace(/\bfe\b/gi, 'FE');
+      name = name.replace(/\blite\b/gi, 'Lite');
+      name = name.replace(/\bmini\b/gi, 'Mini');
+      name = name.replace(/\bgen\b/gi, 'Gen');
+      name = name.replace(/\bgeneration\b/gi, 'Generation');
+      name = name.replace(/\b(1st|2nd|3rd|4th|5th|6th|7th|8th|9th|10th|11th)\b/gi, s=>s.toLowerCase());
+
+      // Uppercase model codes (A07, A16, S24, M33, etc.)
+      name = name.replace(/\b([asmtcASMTCNBv])(\d{2,4}[a-zA-Z]?)\b/g, (m, letter, num) => {
+        return letter.toUpperCase() + num.toUpperCase();
+      });
+
+      // Clean extra spaces & append standard memory
+      name = name.replace(/\s+/g, ' ').replace(/\s+-\s*$/, '').trim();
+      if(memory && !name.includes(memory)){
+        name = name + ' ' + memory;
+      }
+      it.name = name;
+
+      // Category assignment: Samsung A11, A11+, A9, iPads, Kindles -> iPad & Tablets
+      const isTablet = /ipad|tab\b|tablet|kindle|fire\s*\d|mediapad|archos|t20\b|sky\s*pad|modio\s*m/i.test(it.name);
+      if(isTablet){
+        it.category = 'cat_cgd9w36w69i'; // iPad & Tablets
+      } else if(/iphone/i.test(it.name)){
+        it.category = 'cat_7qgen7vw69i'; // iPhone
+      } else if(/samsung/i.test(it.name)){
+        it.category = 'cat_w56n2ktw69i'; // Samsung
+      } else if(/airpods|buds/i.test(it.name)){
+        it.category = 'cat_qaxr5vow69i'; // Gadgets
+      } else if(/watch|band|pencil/i.test(it.name)){
+        it.category = 'cat_u83iatxw69i'; // Smart Watches
+      } else if(/nokia\s*(105|106|110|1010|1110|c1)|mobitel|doro/i.test(it.name)){
+        it.category = 'cat_lkhn0qyw69i'; // Button Phones
+      }
+
+      it.colors = [...new Set(it.colors.filter(Boolean))];
+
+      // Merge duplicates
+      const canonKey = (it.name + '|' + it.category + '|' + (it.memory||'') + '|' + it.condition).toLowerCase();
+      if(itemMap.has(canonKey)){
+        const primary = itemMap.get(canonKey);
+        d.shops.forEach(s => {
+          primary.locations[s.id] = (primary.locations[s.id]||0) + (it.locations[s.id]||0);
+        });
+        if(Array.isArray(it.units) && it.units.length > 0){
+          if(!Array.isArray(primary.units)) primary.units = [];
+          it.units.forEach(u => primary.units.push(u));
+        }
+        (it.colors||[]).forEach(c => {
+          if(!primary.colors.includes(c)) primary.colors.push(c);
+        });
+        d.movements.forEach(m => {
+          if(m.itemId === it.id){
+            m.itemId = primary.id;
+            m.itemName = primary.name;
+            m.categoryId = primary.category;
+          }
+        });
+      } else {
+        itemMap.set(canonKey, it);
+        validItems.push(it);
+      }
+    });
+
+    d.items = validItems;
+
     // backfill every item: units[] array, and a locations/shopPrices slot for every shop (incl. any newly added one)
     d.items.forEach(it=>{
       if(!Array.isArray(it.units)) it.units = [];
@@ -589,15 +782,6 @@ const Store = {
         if(u.wholesalePrice==null) u.wholesalePrice = u.costPrice||it.wholesalePrice||0;
       });
     });
-    // Ensure all 385+ IMEIs from all shop spreadsheets are loaded and synced
-    if(!d.meta.imeiImportedV3 || allUnitsWithImei().length < 300){
-      if(typeof CsvImport !== 'undefined' && Array.isArray(CsvImport.SEED_ROWS)){
-        const loaded = CsvImport.importUnits(CsvImport.SEED_ROWS);
-        d.meta.imeiImportedV3 = true;
-        d.meta.imeiImportedV2 = true;
-        this.save();
-      }
-    }
     this.save();
   },
   save(){
@@ -937,7 +1121,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.6.3</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.6.4</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -1044,7 +1228,8 @@ const CsvImport = {
   },
   normCondition(c){
     c = String(c||'').toLowerCase();
-    if(/new|boxed|brand|mint/.test(c)) return 'New';
+    if(/mint|refurb|used|grade/i.test(c)) return 'Used';
+    if(/new|brand/i.test(c)) return 'New';
     return 'Used';
   },
   classifyPrices(prices, defaults){
@@ -2759,34 +2944,37 @@ Views.weekly = function(){
   const shops = activeShops();
 
   function calcFor(shopId, catId){
-    // start = current qty minus everything that happened at/after weekStart, plus everything undone... simplified:
-    // We reconstruct using movement log: Start = qty before weekStart; then apply week's movements.
     const itemsInCat = Store.data.items.filter(it=>it.category===catId);
-    let start=0, inQ=0, outQ=0, faultyQ=0, depositQ=0;
+    const currQty = itemsInCat.reduce((sum, it) => sum + (it.locations[shopId]||0), 0);
+    
+    let inQ = 0, outQ = 0, faultyQ = 0, depositQ = 0;
     itemsInCat.forEach(it=>{
-      const moves = Store.data.movements.filter(m=>m.itemId===it.id && m.location===shopId);
-      const before = moves.filter(m=>m.date<weekStart);
-      const during = moves.filter(m=>m.date>=weekStart && m.date<=weekEnd);
-      let bal = 0;
-      before.forEach(m=>{ bal += deltaFor(m); });
-      start += bal;
+      const moves = Store.data.movements.filter(m => m.itemId === it.id && m.location === shopId);
+      const during = moves.filter(m => m.date >= weekStart && m.date <= weekEnd);
       during.forEach(m=>{
-        if(m.type==='stock-in'||m.type==='transfer-in'||(m.type==='adjustment'&&m.qty>0)) inQ += Math.abs(m.qty);
-        else if(m.type==='sold'||m.type==='transfer-out') outQ += Math.abs(m.qty);
-        else if(m.type==='faulty') faultyQ += Math.abs(m.qty);
-        else if(m.type==='deposit') depositQ += Math.abs(m.qty);
-        else if(m.type==='adjustment'&&m.qty<0) outQ += Math.abs(m.qty);
+        if(m.type === 'stock-in' || m.type === 'transfer-in') inQ += Math.abs(m.qty);
+        else if(m.type === 'sold' || m.type === 'transfer-out') outQ += Math.abs(m.qty);
+        else if(m.type === 'faulty') faultyQ += Math.abs(m.qty);
+        else if(m.type === 'deposit') depositQ += Math.abs(m.qty);
       });
     });
-    const afterIn = start+inQ;
-    const remaining = afterIn - outQ - faultyQ - depositQ;
-    return {start,inQ,afterIn,outQ,faultyQ,depositQ,remaining};
-  }
-  function deltaFor(m){
-    if(m.type==='stock-in'||m.type==='transfer-in') return m.qty;
-    if(m.type==='transfer-out'||m.type==='sold'||m.type==='faulty'||m.type==='deposit') return -m.qty;
-    if(m.type==='adjustment') return m.qty;
-    return 0;
+
+    // If viewing a past week, adjust for movements that occurred after weekEnd
+    let afterInQ = 0, afterOutQ = 0;
+    itemsInCat.forEach(it=>{
+      const moves = Store.data.movements.filter(m => m.itemId === it.id && m.location === shopId);
+      const after = moves.filter(m => m.date > weekEnd);
+      after.forEach(m=>{
+        if(m.type === 'stock-in' || m.type === 'transfer-in') afterInQ += Math.abs(m.qty);
+        else if(m.type === 'sold' || m.type === 'transfer-out' || m.type === 'faulty' || m.type === 'deposit') afterOutQ += Math.abs(m.qty);
+      });
+    });
+
+    const remaining = Math.max(0, currQty + afterOutQ - afterInQ);
+    const afterIn = remaining + outQ + faultyQ + depositQ;
+    const start = Math.max(0, afterIn - inQ);
+
+    return { start, inQ, afterIn, outQ, faultyQ, depositQ, remaining };
   }
 
   let html = `
@@ -2823,29 +3011,41 @@ Views.weekly = function(){
 Views.exportWeeklyCsv = function(){
   const weekStart = Views._weekStart, weekEnd = isoAddDays(weekStart,6);
   const rows = [['Shop','Category','Start of week','Stock in','After stock in','Stock out','Faulty','Deposit','Remaining']];
-  // Re-run same calc quickly by re-invoking Views.weekly's logic via DOM scrape is messy; recompute directly:
   const shops = activeShops();
   shops.forEach(s=>{
     Store.data.categories.forEach(c=>{
       const itemsInCat = Store.data.items.filter(it=>it.category===c.id);
-      let start=0, inQ=0, outQ=0, faultyQ=0, depositQ=0;
+      const currQty = itemsInCat.reduce((sum, it) => sum + (it.locations[s.id]||0), 0);
+      let inQ = 0, outQ = 0, faultyQ = 0, depositQ = 0;
       itemsInCat.forEach(it=>{
-        const moves = Store.data.movements.filter(m=>m.itemId===it.id && m.location===s.id);
-        moves.filter(m=>m.date<weekStart).forEach(m=>{ start += (m.type==='stock-in'||m.type==='transfer-in')?m.qty:(m.type==='adjustment'?m.qty:-m.qty); });
-        moves.filter(m=>m.date>=weekStart&&m.date<=weekEnd).forEach(m=>{
-          if(m.type==='stock-in'||m.type==='transfer-in') inQ+=m.qty;
-          else if(m.type==='sold') outQ+=m.qty;
-          else if(m.type==='faulty') faultyQ+=m.qty;
-          else if(m.type==='deposit') depositQ+=m.qty;
+        const moves = Store.data.movements.filter(m => m.itemId === it.id && m.location === s.id);
+        const during = moves.filter(m => m.date >= weekStart && m.date <= weekEnd);
+        during.forEach(m=>{
+          if(m.type === 'stock-in' || m.type === 'transfer-in') inQ += Math.abs(m.qty);
+          else if(m.type === 'sold' || m.type === 'transfer-out') outQ += Math.abs(m.qty);
+          else if(m.type === 'faulty') faultyQ += Math.abs(m.qty);
+          else if(m.type === 'deposit') depositQ += Math.abs(m.qty);
         });
       });
-      const afterIn = start+inQ, remaining = afterIn-outQ-faultyQ-depositQ;
+      let afterInQ = 0, afterOutQ = 0;
+      itemsInCat.forEach(it=>{
+        const moves = Store.data.movements.filter(m => m.itemId === it.id && m.location === s.id);
+        const after = moves.filter(m => m.date > weekEnd);
+        after.forEach(m=>{
+          if(m.type === 'stock-in' || m.type === 'transfer-in') afterInQ += Math.abs(m.qty);
+          else if(m.type === 'sold' || m.type === 'transfer-out' || m.type === 'faulty' || m.type === 'deposit') afterOutQ += Math.abs(m.qty);
+        });
+      });
+      const remaining = Math.max(0, currQty + afterOutQ - afterInQ);
+      const afterIn = remaining + outQ + faultyQ + depositQ;
+      const start = Math.max(0, afterIn - inQ);
       rows.push([s.name, c.name, start, inQ, afterIn, outQ, faultyQ, depositQ, remaining]);
     });
   });
   csvDownload(`weekly_report_${weekStart}.csv`, rows);
   Toast.show('Weekly report exported.','ok');
 };
+
 Views.printPage = function(){ window.print(); };
 
 /* ---- STOCK LIST VIEW ---- */
