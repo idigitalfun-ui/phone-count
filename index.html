@@ -95,6 +95,10 @@ input,select,textarea{font-family:inherit;}
 .btn.danger:hover{background:var(--red-light);}
 .btn.ghost{border-color:transparent;background:none;}
 .btn.ghost:hover{background:#F0F2F5;}
+.btn.green{background:#E6F4EA;border-color:#34A853;color:#1E7E34;}
+.btn.green:hover{background:#34A853;color:#fff;}
+.btn.amber{background:#FEF7E0;border-color:#F9AB00;color:#A06000;}
+.btn.amber:hover{background:#F9AB00;color:#fff;}
 .btn.sm{padding:5px 10px;font-size:12px;}
 .btn:disabled{opacity:.45;cursor:not-allowed;}
 
@@ -1301,12 +1305,16 @@ Views.inventory = function(){
           <td>1</td>
           <td><b style="color:var(--teal-dark);">${esc(shopName(u.location))}</b></td>
           <td style="white-space:nowrap;">
-            <button class="btn sm" style="margin-right:4px;" onclick="Views.openEditUnitModal('${it.id}','${u.id}')" title="Edit IMEI, name, price, colour, etc.">✏️ Edit</button>
-            <select id="inv_to_${u.id}" style="padding:4px 8px;border:1px solid var(--line);border-radius:6px;font-size:12px;margin-right:4px;">
-              ${otherShops.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}
-            </select>
-            <button class="btn sm primary" onclick="Views.doInlineTransfer('${it.id}','${u.id}','${u.location}')">⇄ Transfer</button>
-            <button class="btn sm danger" onclick="Views.drawerRemoveUnit('${it.id}','${u.id}')" title="Remove">✕</button>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;">
+              <select id="inv_to_${u.id}" style="padding:4px 8px;border:1px solid var(--line);border-radius:6px;font-size:12px;">
+                ${otherShops.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}
+              </select>
+              <button class="btn sm primary" onclick="Views.doInlineTransfer('${it.id}','${u.id}','${u.location}')" title="Transfer to selected store">⇄ Transfer</button>
+              <button class="btn sm green" onclick="Views.invUnitAction('${it.id}','${u.id}','sold')" title="Mark as sold">✓ Sold</button>
+              <button class="btn sm amber" onclick="Views.invUnitAction('${it.id}','${u.id}','faulty')" title="Mark as faulty">⚠ Faulty</button>
+              <button class="btn sm" onclick="Views.invUnitAction('${it.id}','${u.id}','deposit')" title="Mark as deposit" style="background:#E8F0FE;color:#1967D2;border:1px solid #BDD0F7;">🔒 Deposit</button>
+              <button class="btn sm ghost" onclick="Views.drawerRemoveUnit('${it.id}','${u.id}')" title="Delete record silently (no movement logged)" style="border:1px solid var(--line);color:var(--muted);">🗑</button>
+            </div>
           </td>
         </tr>`;
       });
@@ -1448,7 +1456,52 @@ Views.doInlineTransfer = function(itemId, unitId, fromLoc){
   render();
 };
 
-// Inline transfer of bulk (no-IMEI) stock — reads qty + destination selects
+// Action on a specific IMEI unit directly from Inventory (Sold / Faulty / Deposit)
+Views.invUnitAction = function(itemId, unitId, kind){
+  const it = itemById(itemId); if(!it) return;
+  const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
+  const labels = {sold:'✓ Sold', faulty:'⚠ Faulty', deposit:'🔒 Deposit'};
+  const colors = {sold:'var(--green)', faulty:'var(--red)', deposit:'#1967D2'};
+  Modal.open(`
+    <div class="modal">
+      <div class="modal-head">
+        <h3 style="color:${colors[kind]};">${labels[kind]} — ${esc(it.name)}</h3>
+        <button class="btn ghost sm" onclick="Modal.close()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="helpbox">
+          IMEI: <b class="mono">${esc(unit.imei||'No IMEI')}</b><br>
+          Location: <b>${esc(shopName(unit.location))}</b> · ${esc(unit.color||'-')} · ${esc(unit.condition||'-')}
+        </div>
+        <div class="field-grid">
+          <div class="field"><label>Date</label><input id="iua_date" type="date" value="${todayISO()}"></div>
+          <div class="field"><label>Sale price (optional)</label><input id="iua_price" type="number" step="0.01" value="${unit.sellPrice||0}" placeholder="0.00"></div>
+        </div>
+        <div class="field"><label>Note (optional)</label><input id="iua_note" placeholder="e.g. customer name, reason…"></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" onclick="Modal.close()">Cancel</button>
+        <button class="btn primary" style="background:${colors[kind]};" onclick="Views.confirmInvUnitAction('${itemId}','${unitId}','${kind}')">${labels[kind]}</button>
+      </div>
+    </div>
+  `);
+};
+Views.confirmInvUnitAction = function(itemId, unitId, kind){
+  const it = itemById(itemId); if(!it) return;
+  const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
+  const date = val('iua_date') || todayISO();
+  const price = parseFloat(val('iua_price')) || unit.sellPrice || 0;
+  const note = val('iua_note').trim() || (kind==='sold'?'Sold from Inventory':kind==='faulty'?'Faulty — from Inventory':'Deposit — from Inventory');
+  if(price && kind==='sold') unit.sellPrice = price; // update sell price before removing
+  const mv = Stock.removeUnit(itemId, unitId, kind, date, note);
+  if(mv){
+    const labels = {sold:'Sold',faulty:'Marked faulty',deposit:'Deposit recorded'};
+    Toast.show(`${labels[kind]}: ${it.name} (IMEI ${unit.imei||'—'}).`,'ok');
+  }
+  Modal.close();
+  render();
+};
+
 Views.doBulkInlineTransfer = function(itemId, fromLoc){
   const it = itemById(itemId); if(!it) return;
   const qtyEl = document.getElementById('inv_bqty_'+itemId+'_'+fromLoc);
@@ -1799,15 +1852,21 @@ Views.drawerAddUnit = function(itemId){
   if(unit){ Toast.show('Device added.','ok'); Views.openDeviceDrawer(itemId); render(); }
 };
 Views.drawerRemoveUnit = function(itemId, unitId){
-  const it = itemById(itemId); const unit = (it.units||[]).find(u=>u.id===unitId);
+  const it = itemById(itemId); if(!it) return;
+  const unit = (it.units||[]).find(u=>u.id===unitId);
   Modal.confirm({
-    title:'Remove this device?',
-    body:`<p>Remove IMEI <b>${esc(unit?unit.imei||'(none)':'')}</b> from ${esc(shopName(unit?unit.location:''))}? Use this for sold/faulty/lost devices you're taking off the books outside the normal Sales flow.</p>`,
-    danger:true, confirmText:'Remove',
-    onConfirm:()=>{
-      Stock.removeUnit(itemId, unitId, 'adjustment', todayISO(), 'Removed from Inventory drawer');
-      Toast.show('Device removed.','ok');
-      Views.openDeviceDrawer(itemId);
+    title: 'Delete this device record?',
+    body: `<p>This will <b>silently remove</b> IMEI <b>${esc(unit?unit.imei||'(no IMEI)':'')}</b> from ${esc(shopName(unit?unit.location:''))} — no stock-in, stock-out or faulty entry will be created. Use this only to correct a data entry mistake.</p>`,
+    danger: true, confirmText: 'Delete record',
+    onConfirm: ()=>{
+      const idx = (it.units||[]).findIndex(u=>u.id===unitId);
+      if(idx >= 0){
+        const loc = it.units[idx].location;
+        it.units.splice(idx, 1);
+        it.locations[loc] = Math.max(0, (it.locations[loc]||0) - 1);
+        Store.save();
+      }
+      Toast.show('Device record deleted (no movement logged).','ok');
       render();
     }
   });
