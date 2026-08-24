@@ -212,6 +212,7 @@ tbody tr:hover{background:#FAFBFC;}
       </div>
       <div class="row" style="gap:8px;align-items:center;flex-wrap:wrap;">
         <div id="save_indicator" style="display:flex;align-items:center;gap:4px;font-size:12px;"></div>
+        <button class="btn sm no-print" onclick="Views.showRecentActivity()" title="View recent actions and revert accidental sales, deposits, or faulty marks" style="border:1px solid var(--teal);color:var(--teal-dark);font-weight:600;">↩ Revert / Activity</button>
         <button class="btn sm no-print" onclick="FileStore.exportJson()" title="Download a backup JSON file right now">⬇ Export data</button>
         <button class="btn sm no-print" onclick="FileStore.importJson()" title="Load data from a JSON backup file">⬆ Import data</button>
         <button class="btn sm no-print" onclick="Modal.backupQuick()">💾 Quick backup</button>
@@ -936,7 +937,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.6</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.6.3</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -1723,11 +1724,11 @@ Views.confirmInvUnitAction = function(itemId, unitId, kind){
   const date = val('iua_date') || todayISO();
   const price = parseFloat(val('iua_price')) || unit.sellPrice || 0;
   const note = val('iua_note').trim() || (kind==='sold'?'Sold from Inventory':kind==='faulty'?'Faulty — from Inventory':'Deposit — from Inventory');
-  if(price && kind==='sold') unit.sellPrice = price; // update sell price before removing
+  if(price && kind==='sold') unit.sellPrice = price;
   const mv = Stock.removeUnit(itemId, unitId, kind, date, note);
-  if(mv){
-    const labels = {sold:'Sold',faulty:'Marked faulty',deposit:'Deposit recorded'};
-    Toast.show(`${labels[kind]}: ${it.name} (IMEI ${unit.imei||'—'}).`,'ok');
+  if(mv && mv.id){
+    const labels = {sold:'✓ Sold',faulty:'⚠ Marked faulty',deposit:'🔒 Deposit recorded'};
+    Toast.show(`${labels[kind]}: ${it.name} (IMEI ${unit.imei||'—'}). <button class="btn sm" style="margin-left:8px;padding:2px 10px;font-size:11px;background:#fff;color:var(--ink);border:none;" onclick="Views.undoSale('${mv.id}')">↩ Undo</button>`, 'ok');
   }
   Modal.close();
   render();
@@ -2685,6 +2686,69 @@ Views.unitAction = function(itemId, unitId, kind){
 Views.undoSale = function(movementId){
   const ok = Stock.revertMovement(movementId);
   if(ok) render();
+};
+
+Views.showRecentActivity = function(){
+  const typeLabel = {
+    sold:'<span class="pill green">Sold</span>',
+    faulty:'<span class="pill red">Faulty</span>',
+    deposit:'<span class="pill amber">Deposit</span>',
+    'transfer-out':'<span class="pill teal">Transfer out</span>',
+    'transfer-in':'<span class="pill teal">Transfer in</span>',
+    'stock-in':'<span class="pill gray">Stock in</span>',
+    adjustment:'<span class="pill gray">Adjustment</span>'
+  };
+  const revertable = ['sold','faulty','deposit'];
+  // Show last 60 movements newest first
+  const movs = [...Store.data.movements]
+    .sort((a,b)=>(b.date||'').localeCompare(a.date||''))
+    .slice(0,60);
+
+  const rows = movs.length ? movs.map(m=>`
+    <tr>
+      <td style="font-size:12px;color:var(--muted);">${m.date||'—'}</td>
+      <td><b>${esc(m.itemName||'—')}</b></td>
+      <td>${typeLabel[m.type]||m.type}</td>
+      <td style="font-size:12px;">${m.unitData?.imei ? `<span class="mono" style="color:var(--teal-dark);font-weight:700;">${esc(m.unitData.imei)}</span>` : (m.note ? esc(m.note.substring(0,40)) : '—')}</td>
+      <td style="font-size:12px;">${esc(shopName(m.location))}</td>
+      <td style="text-align:right;">
+        ${revertable.includes(m.type) ? `<button class="btn sm" style="white-space:nowrap;" onclick="Views._revertFromLog('${m.id}')">↩ Revert</button>` : ''}
+      </td>
+    </tr>
+  `).join('') : `<tr><td colspan="6"><div class="empty">No activity recorded yet.</div></td></tr>`;
+
+  Modal.open(`
+    <div class="modal" style="max-width:780px;width:95vw;">
+      <div class="modal-head">
+        <h3>↩ Recent Activity — Revert anything</h3>
+        <button class="btn ghost sm" onclick="Modal.close()">✕</button>
+      </div>
+      <div class="modal-body" style="padding:0;">
+        <div class="helpbox" style="margin:12px 12px 0;border-radius:6px;">
+          Click <b>↩ Revert</b> on any <span class="pill green">Sold</span>, <span class="pill red">Faulty</span> or <span class="pill amber">Deposit</span> row to put the device <b>back into stock</b> — the IMEI and all details are fully restored. Transfers cannot be reverted here (use Transfer from Inventory instead).
+        </div>
+        <div class="table-wrap" style="max-height:60vh;overflow-y:auto;margin-top:12px;">
+          <table>
+            <thead><tr>
+              <th>Date</th><th>Device</th><th>Type</th><th>IMEI / Note</th><th>Shop</th><th style="text-align:right;">Action</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" onclick="Modal.close()">Close</button>
+      </div>
+    </div>
+  `);
+};
+
+Views._revertFromLog = function(movementId){
+  const ok = Stock.revertMovement(movementId);
+  if(ok){
+    render();
+    Views.showRecentActivity(); // refresh the modal with updated list
+  }
 };
 
 /* ---- WEEKLY REPORT (matches your uploaded sheet layout) ---- */
