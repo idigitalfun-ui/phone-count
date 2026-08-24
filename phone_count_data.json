@@ -111,10 +111,31 @@
                       "createdAt":  "2026-08-20",
                       "wholesalePrice":  13,
                       "units":  [
-
+                                    {
+                                        "id":  "unit_pissuuxonc9",
+                                        "imei":  "350032738703866",
+                                        "color":  "Starlight",
+                                        "condition":  "Used",
+                                        "location":  "warehouse",
+                                        "costPrice":  1,
+                                        "sellPrice":  285,
+                                        "batteryPct":  null,
+                                        "dateAdded":  "2026-08-24"
+                                    },
+                                    {
+                                        "id":  "unit_rmitnpsouy1",
+                                        "imei":  "350032736737429",
+                                        "color":  "Starlight",
+                                        "condition":  "Used",
+                                        "location":  "warehouse",
+                                        "costPrice":  1,
+                                        "sellPrice":  285,
+                                        "batteryPct":  null,
+                                        "dateAdded":  "2026-08-24"
+                                    }
                                 ],
                       "colors":  [
-
+                                     "Starlight"
                                  ]
                   },
                   {
@@ -1023,7 +1044,7 @@
                   },
                   {
                       "id":  "item_vqdsfdww69k",
-                      "name":  "Nokia 105",
+                      "name":  "Nokia 105 -",
                       "category":  "cat_lkhn0qyw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -1248,7 +1269,7 @@
                   },
                   {
                       "id":  "item_xil44ciw69k",
-                      "name":  "Nokia 106",
+                      "name":  "Nokia 106 -",
                       "category":  "cat_lkhn0qyw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -1573,7 +1594,7 @@
                   },
                   {
                       "id":  "item_6t2ggm3w69k",
-                      "name":  "AirPods (3rd Generation)",
+                      "name":  "AirPods (3rd Generation) -",
                       "category":  "cat_qaxr5vow69i",
                       "memory":  "-",
                       "imei":  "",
@@ -1648,7 +1669,7 @@
                   },
                   {
                       "id":  "item_hbnf1ofw69k",
-                      "name":  "AirPods Pro 3",
+                      "name":  "AirPods Pro 3 -",
                       "category":  "cat_qaxr5vow69i",
                       "memory":  "-",
                       "imei":  "",
@@ -2694,7 +2715,7 @@
                   },
                   {
                       "id":  "item_sazrno4w69k",
-                      "name":  "Mobitel 8010",
+                      "name":  "Mobitel 8010 -",
                       "category":  "cat_lkhn0qyw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -2789,7 +2810,7 @@
                   },
                   {
                       "id":  "item_tf02n21w69l",
-                      "name":  "Nokia 110",
+                      "name":  "Nokia 110 -",
                       "category":  "cat_lkhn0qyw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -2844,7 +2865,7 @@
                   },
                   {
                       "id":  "item_tt1z6ncw69l",
-                      "name":  "X16",
+                      "name":  "X16 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -2880,7 +2901,7 @@
                   },
                   {
                       "id":  "item_d18jqefw69l",
-                      "name":  "X19",
+                      "name":  "X19 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -2916,7 +2937,7 @@
                   },
                   {
                       "id":  "item_wcwn6p7w69l",
-                      "name":  "Hoco Y25",
+                      "name":  "Hoco Y25 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -2961,7 +2982,7 @@
                   },
                   {
                       "id":  "item_pvu9ni4w69l",
-                      "name":  "Hoco Y27",
+                      "name":  "Hoco Y27 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -3006,7 +3027,7 @@
                   },
                   {
                       "id":  "item_7rfjgulw69l",
-                      "name":  "Joyroom Watch",
+                      "name":  "Joyroom Watch -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -4011,7 +4032,7 @@
                   },
                   {
                       "id":  "item_lsggxg3w69l",
-                      "name":  "Doro 1380",
+                      "name":  "Doro 1380 -",
                       "category":  "cat_lkhn0qyw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -4066,7 +4087,7 @@
                   },
                   {
                       "id":  "item_zj6ey7rw69l",
-                      "name":  "Doro 6040",
+                      "name":  "Doro 6040 -",
                       "category":  "cat_lkhn0qyw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -4385,7 +4406,7 @@
                   },
                   {
                       "id":  "item_9dtukxkw69l",
-                      "name":  "Apple Pencil 2nd Gen",
+                      "name":  "Apple Pencil 2nd Gen -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -4430,7 +4451,7 @@
                   },
                   {
                       "id":  "item_9pi4pv3w69l",
-                      "name":  "Galaxy Watch 5 Pro",
+                      "name":  "Galaxy Watch 5 Pro -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -4485,7 +4506,7 @@
                   },
                   {
                       "id":  "item_5ho8z6fw69l",
-                      "name":  "Hoco Y22",
+                      "name":  "Hoco Y22 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -4530,7 +4551,7 @@
                   },
                   {
                       "id":  "item_kteanhkw69l",
-                      "name":  "Smart Bracelet",
+                      "name":  "Smart Bracelet -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -4576,7 +4597,7 @@
                   },
                   {
                       "id":  "item_7amlbnhw69m",
-                      "name":  "Samsung Buds 2",
+                      "name":  "Samsung Buds 2 -",
                       "category":  "cat_w56n2ktw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -4621,7 +4642,7 @@
                   },
                   {
                       "id":  "item_xpj7c2aw69m",
-                      "name":  "Samsung Buds 3",
+                      "name":  "Samsung Buds 3 -",
                       "category":  "cat_w56n2ktw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -4847,7 +4868,7 @@
                   },
                   {
                       "id":  "item_bwk09raw69m",
-                      "name":  "Mobitel 1010",
+                      "name":  "Mobitel 1010 -",
                       "category":  "cat_lkhn0qyw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -4977,7 +4998,7 @@
                   },
                   {
                       "id":  "item_d7tqrqtw69m",
-                      "name":  "iPad 10th Generation",
+                      "name":  "iPad 10th Generation -",
                       "category":  "cat_cgd9w36w69i",
                       "memory":  "-",
                       "imei":  "",
@@ -5067,7 +5088,7 @@
                   },
                   {
                       "id":  "item_46xn038w69m",
-                      "name":  "Google Pixel Watch",
+                      "name":  "Google Pixel Watch -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -5112,7 +5133,7 @@
                   },
                   {
                       "id":  "item_ghh8ni2w69m",
-                      "name":  "Hoco Smart Watch Y8",
+                      "name":  "Hoco Smart Watch Y8 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -5167,7 +5188,7 @@
                   },
                   {
                       "id":  "item_h7x98j1w69m",
-                      "name":  "Apple Watch Series 8 41mm",
+                      "name":  "Apple Watch Series 8 41mm -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -5212,7 +5233,7 @@
                   },
                   {
                       "id":  "item_7v9ckrew69m",
-                      "name":  "Apple Watch Series 10 42mm",
+                      "name":  "Apple Watch Series 10 42mm -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -5257,7 +5278,7 @@
                   },
                   {
                       "id":  "item_ctpmhtqw69m",
-                      "name":  "Smart Bracelet Watch",
+                      "name":  "Smart Bracelet Watch -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -5302,7 +5323,7 @@
                   },
                   {
                       "id":  "item_s9mmdgyw69m",
-                      "name":  "Smart Watch IP68 Y25",
+                      "name":  "Smart Watch IP68 Y25 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -5383,7 +5404,7 @@
                   },
                   {
                       "id":  "item_fv2fr55w69m",
-                      "name":  "Apple Watch Series 8",
+                      "name":  "Apple Watch Series 8 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -5420,7 +5441,7 @@
                   },
                   {
                       "id":  "item_8g8u4i3w69m",
-                      "name":  "Apple Watch Series 7",
+                      "name":  "Apple Watch Series 7 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -5465,7 +5486,7 @@
                   },
                   {
                       "id":  "item_r4q8a4aw69m",
-                      "name":  "Samsung Buds 3 Pro",
+                      "name":  "Samsung Buds 3 Pro -",
                       "category":  "cat_w56n2ktw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -5582,7 +5603,7 @@
                   },
                   {
                       "id":  "item_nfgzum0w69m",
-                      "name":  "iPad 9th Generation",
+                      "name":  "iPad 9th Generation -",
                       "category":  "cat_cgd9w36w69i",
                       "memory":  "-",
                       "imei":  "",
@@ -5618,7 +5639,7 @@
                   },
                   {
                       "id":  "item_4c9hnykw69m",
-                      "name":  "Hoco GA08",
+                      "name":  "Hoco GA08 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -5654,7 +5675,7 @@
                   },
                   {
                       "id":  "item_yuix6wsw69m",
-                      "name":  "Joyroom FT3 Pro",
+                      "name":  "Joyroom FT3 Pro -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -5877,7 +5898,7 @@
                   },
                   {
                       "id":  "item_x014icsw69m",
-                      "name":  "Nokia 1110",
+                      "name":  "Nokia 1110 -",
                       "category":  "cat_lkhn0qyw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -5932,7 +5953,7 @@
                   },
                   {
                       "id":  "item_oyp67k5w69m",
-                      "name":  "Nokia 1010",
+                      "name":  "Nokia 1010 -",
                       "category":  "cat_lkhn0qyw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -5968,7 +5989,7 @@
                   },
                   {
                       "id":  "item_6iqajsow69m",
-                      "name":  "Nokia C1",
+                      "name":  "Nokia C1 -",
                       "category":  "cat_lkhn0qyw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -6423,7 +6444,7 @@
                   },
                   {
                       "id":  "item_qv7jxi2w69m",
-                      "name":  "Nokia T20",
+                      "name":  "Nokia T20 -",
                       "category":  "cat_cgd9w36w69i",
                       "memory":  "-",
                       "imei":  "",
@@ -6739,7 +6760,7 @@
                   },
                   {
                       "id":  "item_z2q322fw69m",
-                      "name":  "Smart Band 7 Pro",
+                      "name":  "Smart Band 7 Pro -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -6784,7 +6805,7 @@
                   },
                   {
                       "id":  "item_hsnka2fw69m",
-                      "name":  "Haylou RS3",
+                      "name":  "Haylou RS3 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -6829,7 +6850,7 @@
                   },
                   {
                       "id":  "item_1dzxo5hw69m",
-                      "name":  "Haylou GS",
+                      "name":  "Haylou GS -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -6874,7 +6895,7 @@
                   },
                   {
                       "id":  "item_mrorqmow69m",
-                      "name":  "Amazfit BIP 3",
+                      "name":  "Amazfit BIP 3 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -6919,7 +6940,7 @@
                   },
                   {
                       "id":  "item_wpf4yfuw69m",
-                      "name":  "Kieselect L11",
+                      "name":  "Kieselect L11 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -6964,7 +6985,7 @@
                   },
                   {
                       "id":  "item_2qgclqow69n",
-                      "name":  "Borofone BD5",
+                      "name":  "Borofone BD5 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -7009,7 +7030,7 @@
                   },
                   {
                       "id":  "item_3od4x0jw69n",
-                      "name":  "Borofone BD4",
+                      "name":  "Borofone BD4 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -7054,7 +7075,7 @@
                   },
                   {
                       "id":  "item_tns4gnsw69n",
-                      "name":  "Borofone BD2",
+                      "name":  "Borofone BD2 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -7099,7 +7120,7 @@
                   },
                   {
                       "id":  "item_skzfikrw69n",
-                      "name":  "Hoco Y8",
+                      "name":  "Hoco Y8 -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -7181,7 +7202,7 @@
                   },
                   {
                       "id":  "item_tqb646rw69n",
-                      "name":  "GSK9 Mini",
+                      "name":  "GSK9 Mini -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -7218,7 +7239,7 @@
                   },
                   {
                       "id":  "item_hor3dbxw69n",
-                      "name":  "HK8 Pro Max",
+                      "name":  "HK8 Pro Max -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -7256,7 +7277,7 @@
                   },
                   {
                       "id":  "item_ll6sox5w69n",
-                      "name":  "X9 Pro",
+                      "name":  "X9 Pro -",
                       "category":  "cat_u83iatxw69i",
                       "memory":  "-",
                       "imei":  "",
@@ -7823,9 +7844,9 @@
                   },
                   {
                       "id":  "item_dr3xyreu5o2",
-                      "name":  "Samsung A56 5GB 128GB",
+                      "name":  "Samsung A56 128GB 5GB",
                       "category":  "cat_w56n2ktw69i",
-                      "memory":  "128GB",
+                      "memory":  "5GB",
                       "imei":  "",
                       "condition":  "Used",
                       "colors":  [
@@ -8529,7 +8550,7 @@
                   },
                   {
                       "id":  "item_a67i1qbu5p3",
-                      "name":  "iPad 10TH Gen. 64GB",
+                      "name":  "iPad 10th Gen. 64GB",
                       "category":  "cat_cgd9w36w69i",
                       "memory":  "64GB",
                       "imei":  "",
@@ -8574,7 +8595,7 @@
                   },
                   {
                       "id":  "item_xfl4psdu5p3",
-                      "name":  "iPad 9TH Gen.",
+                      "name":  "iPad 9th Gen.",
                       "category":  "cat_cgd9w36w69i",
                       "memory":  "",
                       "imei":  "",
@@ -12741,213 +12762,28 @@
                           "id":  "mv_uijjua111cy"
                       },
                       {
-                          "type":  "adjustment",
+                          "type":  "stock-in",
                           "itemId":  "item_cicbgruw69j",
                           "itemName":  "iPhone 14 128GB",
                           "categoryId":  "cat_7qgen7vw69i",
                           "location":  "warehouse",
-                          "qty":  -1,
+                          "fromLocation":  "supplier",
+                          "qty":  1,
                           "date":  "2026-08-24",
-                          "note":  "Cleared untracked count",
-                          "id":  "mv_mnnibhh3vbg"
+                          "note":  "Assigned IMEI to untracked stock",
+                          "id":  "mv_vcmdlsconc9"
                       },
                       {
-                          "type":  "adjustment",
-                          "itemId":  "item_pp17oagw69j",
-                          "itemName":  "iPhone 16 128GB",
+                          "type":  "stock-in",
+                          "itemId":  "item_cicbgruw69j",
+                          "itemName":  "iPhone 14 128GB",
                           "categoryId":  "cat_7qgen7vw69i",
                           "location":  "warehouse",
-                          "qty":  -1,
-                          "date":  "2026-08-24",
-                          "note":  "Cleared untracked count",
-                          "id":  "mv_uodfcqx3wul"
-                      },
-                      {
-                          "type":  "adjustment",
-                          "itemId":  "item_kb0hq9hw69k",
-                          "itemName":  "Samsung A07 4GB/128GB",
-                          "categoryId":  "cat_w56n2ktw69i",
-                          "location":  "warehouse",
-                          "qty":  -3,
-                          "date":  "2026-08-24",
-                          "note":  "Cleared untracked count",
-                          "id":  "mv_xypx6hn4e8z"
-                      },
-                      {
-                          "id":  "mv_aznsh894mkc",
-                          "type":  "adjustment",
-                          "itemId":  "item_aua8nirw69j",
-                          "itemName":  "Samsung A07 4GB/64GB",
-                          "categoryId":  "cat_w56n2ktw69i",
-                          "location":  "warehouse",
+                          "fromLocation":  "supplier",
                           "qty":  1,
                           "date":  "2026-08-24",
-                          "note":  "Removed from Inventory drawer",
-                          "sellPrice":  95,
-                          "unitData":  {
-                                           "id":  "unit_a5is86su5n9",
-                                           "imei":  "352262376794756",
-                                           "color":  "",
-                                           "condition":  "New",
-                                           "location":  "warehouse",
-                                           "costPrice":  80,
-                                           "wholesalePrice":  92,
-                                           "sellPrice":  95
-                                       }
-                      },
-                      {
-                          "id":  "mv_aenhk8e4z7g",
-                          "type":  "adjustment",
-                          "itemId":  "item_aua8nirw69j",
-                          "itemName":  "Samsung A07 4GB/64GB",
-                          "categoryId":  "cat_w56n2ktw69i",
-                          "location":  "warehouse",
-                          "qty":  1,
-                          "date":  "2026-08-24",
-                          "note":  "Removed from Inventory drawer",
-                          "sellPrice":  95,
-                          "unitData":  {
-                                           "id":  "unit_7hjln01u5n9",
-                                           "imei":  "352262376794905",
-                                           "color":  "",
-                                           "condition":  "New",
-                                           "location":  "warehouse",
-                                           "costPrice":  80,
-                                           "wholesalePrice":  92,
-                                           "sellPrice":  95
-                                       }
-                      },
-                      {
-                          "id":  "mv_6vijs3n51tw",
-                          "type":  "adjustment",
-                          "itemId":  "item_aua8nirw69j",
-                          "itemName":  "Samsung A07 4GB/64GB",
-                          "categoryId":  "cat_w56n2ktw69i",
-                          "location":  "warehouse",
-                          "qty":  1,
-                          "date":  "2026-08-24",
-                          "note":  "Removed from Inventory drawer",
-                          "sellPrice":  95,
-                          "unitData":  {
-                                           "id":  "unit_ptq1b29u5na",
-                                           "imei":  "352262376794996",
-                                           "color":  "",
-                                           "condition":  "New",
-                                           "location":  "warehouse",
-                                           "costPrice":  80,
-                                           "wholesalePrice":  92,
-                                           "sellPrice":  95
-                                       }
-                      },
-                      {
-                          "id":  "mv_0u7rfx558qc",
-                          "type":  "adjustment",
-                          "itemId":  "item_aua8nirw69j",
-                          "itemName":  "Samsung A07 4GB/64GB",
-                          "categoryId":  "cat_w56n2ktw69i",
-                          "location":  "warehouse",
-                          "qty":  1,
-                          "date":  "2026-08-24",
-                          "note":  "Removed from Inventory drawer",
-                          "sellPrice":  95,
-                          "unitData":  {
-                                           "id":  "unit_k5p1317u5nb",
-                                           "imei":  "352262376794798",
-                                           "color":  "",
-                                           "condition":  "New",
-                                           "location":  "warehouse",
-                                           "costPrice":  80,
-                                           "wholesalePrice":  92,
-                                           "sellPrice":  95
-                                       }
-                      },
-                      {
-                          "type":  "adjustment",
-                          "itemId":  "item_aua8nirw69j",
-                          "itemName":  "Samsung A07 4GB/64GB",
-                          "categoryId":  "cat_w56n2ktw69i",
-                          "location":  "warehouse",
-                          "qty":  -5,
-                          "date":  "2026-08-24",
-                          "note":  "Cleared untracked count",
-                          "id":  "mv_3gqckn25auc"
-                      },
-                      {
-                          "id":  "mv_ukh7fft5h0k",
-                          "type":  "adjustment",
-                          "itemId":  "item_ktmrwgdw69k",
-                          "itemName":  "Samsung A16 4GB/128GB",
-                          "categoryId":  "cat_w56n2ktw69i",
-                          "location":  "warehouse",
-                          "qty":  1,
-                          "date":  "2026-08-24",
-                          "note":  "Removed from Inventory drawer",
-                          "sellPrice":  120,
-                          "unitData":  {
-                                           "id":  "unit_xur54gsu5nc",
-                                           "imei":  "351355310088045",
-                                           "color":  "",
-                                           "condition":  "New",
-                                           "location":  "warehouse",
-                                           "costPrice":  99,
-                                           "wholesalePrice":  111,
-                                           "sellPrice":  120
-                                       }
-                      },
-                      {
-                          "id":  "mv_skwvlgc5joz",
-                          "type":  "adjustment",
-                          "itemId":  "item_ktmrwgdw69k",
-                          "itemName":  "Samsung A16 4GB/128GB",
-                          "categoryId":  "cat_w56n2ktw69i",
-                          "location":  "warehouse",
-                          "qty":  1,
-                          "date":  "2026-08-24",
-                          "note":  "Removed from Inventory drawer",
-                          "sellPrice":  120,
-                          "unitData":  {
-                                           "id":  "unit_kaglpvlu5nc",
-                                           "imei":  "351355310030864",
-                                           "color":  "",
-                                           "condition":  "New",
-                                           "location":  "warehouse",
-                                           "costPrice":  99,
-                                           "wholesalePrice":  111,
-                                           "sellPrice":  120
-                                       }
-                      },
-                      {
-                          "type":  "adjustment",
-                          "itemId":  "item_44l4y60w69k",
-                          "itemName":  "Samsung A36 5G 256GB",
-                          "categoryId":  "cat_w56n2ktw69i",
-                          "location":  "warehouse",
-                          "qty":  -6,
-                          "date":  "2026-08-24",
-                          "note":  "Cleared untracked count",
-                          "id":  "mv_g7bffc66hhw"
-                      },
-                      {
-                          "type":  "adjustment",
-                          "itemId":  "item_cu1j56ww69k",
-                          "itemName":  "Samsung A37 5G 256GB",
-                          "categoryId":  "cat_w56n2ktw69i",
-                          "location":  "warehouse",
-                          "qty":  -1,
-                          "date":  "2026-08-24",
-                          "note":  "Cleared untracked count",
-                          "id":  "mv_r5otxti6m2c"
-                      },
-                      {
-                          "type":  "adjustment",
-                          "itemId":  "item_imoqln3w69k",
-                          "itemName":  "Samsung A56 8GB/128GB",
-                          "categoryId":  "cat_w56n2ktw69i",
-                          "location":  "warehouse",
-                          "qty":  -1,
-                          "date":  "2026-08-24",
-                          "note":  "Cleared untracked count",
-                          "id":  "mv_xbkhimq6qak"
+                          "note":  "Assigned IMEI to untracked stock",
+                          "id":  "mv_qwdxq8qouy1"
                       }
                   ],
     "reorderList":  [
@@ -12957,7 +12793,7 @@
                  "createdAt":  "2026-08-20",
                  "imeiImportedV3":  true,
                  "imeiImportedV2":  true,
-                 "lastSaved":  "2026-08-24T19:00:50.9153315+01:00"
+                 "lastSaved":  "2026-08-24T19:12:29.7721641+01:00"
              },
     "reorderMeta":  {
                         "lastOrderDate":  null

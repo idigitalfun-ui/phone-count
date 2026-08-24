@@ -546,6 +546,7 @@ const Store = {
     if(!Array.isArray(d.categories)) d.categories = seedData().categories;
     if(!Array.isArray(d.items)) d.items = [];
     if(!Array.isArray(d.movements)) d.movements = [];
+    else d.movements = d.movements.filter(m => m && ['stock-in','transfer-in','transfer-out','sold','faulty','deposit'].includes(m.type) && m.fromLocation !== 'opening balance' && m.note !== 'Opening balance');
     if(!d.archivedCategories) d.archivedCategories=[];
     if(!d.reorderList) d.reorderList=[];
     if(!d.reorderMeta) d.reorderMeta = { lastOrderDate: null };
@@ -1126,7 +1127,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.6.6</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.6.7</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -1436,19 +1437,28 @@ const Stock = {
     Store.save();
   },
   // Adds ONE individually-tracked unit (IMEI, colour, condition, its own price). IMEI may be blank.
-  addUnit(itemId, loc, data, date, note){
+  // logMovement is FALSE by default: adding phones/IMEIs in Inventory fixes the count without logging Stock In.
+  // Only the Stock In tab sets logMovement = true.
+  addUnit(itemId, loc, data, date, note, logMovement = false){
     const it = itemById(itemId); if(!it) return null;
     if(!Array.isArray(it.units)) it.units=[];
     if(data.imei && findUnitByImei(data.imei)){ Toast.show('That IMEI is already in the system.','err'); return null; }
     const unit = {
       id: uid('unit'), imei:(data.imei||'').trim(), color:data.color||'', condition:data.condition||it.condition||'New',
-      location: loc, costPrice: data.costPrice!=null?data.costPrice:it.costPrice, sellPrice: data.sellPrice!=null?data.sellPrice:(it.shopPrices[loc]||it.costPrice),
+      location: loc, costPrice: data.costPrice!=null?data.costPrice:it.costPrice, sellPrice: data.sellPrice!=null?data.sellPrice:((it.shopPrices&&it.shopPrices[loc])||it.costPrice),
       batteryPct: data.batteryPct!=null?data.batteryPct:null, dateAdded: date||todayISO()
     };
     it.units.push(unit);
-    it.locations[loc] = (it.locations[loc]||0) + 1;
+    if(logMovement){
+      it.locations[loc] = (it.locations[loc]||0) + 1;
+      this.addMovement({type:'stock-in', itemId, itemName:it.name, categoryId:it.category, location:loc, fromLocation:'supplier', qty:1, date:date||todayISO(), note:note||(unit.imei?('IMEI '+unit.imei):'Individually tracked unit')});
+    } else {
+      // Baseline / count adjustment: ensure locations count has at least this unit counted
+      if((it.locations[loc]||0) < unitsAt(it, loc).length){
+        it.locations[loc] = unitsAt(it, loc).length;
+      }
+    }
     if(unit.color && !it.colors.includes(unit.color)) it.colors.push(unit.color);
-    this.addMovement({type:'stock-in', itemId, itemName:it.name, categoryId:it.category, location:loc, fromLocation:'supplier', qty:1, date, note:note||(unit.imei?('IMEI '+unit.imei):'Individually tracked unit')});
     Store.save();
     return unit;
   },
@@ -1596,10 +1606,7 @@ const Stock = {
   },
   adjust(itemId, shopId, newQty, note){
     const it = itemById(itemId); if(!it) return;
-    const old = it.locations[shopId]||0;
-    const diff = newQty - old;
-    it.locations[shopId] = newQty;
-    this.addMovement({type:'adjustment', itemId, itemName:it.name, categoryId:it.category, location:shopId, qty:diff, date:todayISO(), note:note||'Manual adjustment'});
+    it.locations[shopId] = Math.max(0, Number(newQty)||0);
     Store.save();
   }
 };
@@ -2020,16 +2027,6 @@ Views.removeUntrackedStock = function(itemId, shopId){
     confirmText: 'Clear from store',
     onConfirm: ()=>{
       it.locations[shopId] = unitsAt(it, shopId).length;
-      Stock.addMovement({
-        type: 'adjustment',
-        itemId: it.id,
-        itemName: it.name,
-        categoryId: it.category,
-        location: shopId,
-        qty: -qtyToClear,
-        date: todayISO(),
-        note: 'Cleared untracked count'
-      });
       Store.save();
       Toast.show(`Cleared untracked balance for ${it.name} at ${shopName(shopId)}.`,'ok');
       render();
@@ -2416,7 +2413,6 @@ Views.saveItem = function(itemId){
     const openLoc = val('f_openloc');
     if(openQty>0){
       it.locations[openLoc] = openQty;
-      Stock.addMovement({type: openLoc==='warehouse'?'stock-in':'transfer-in', itemId:it.id, itemName:it.name, categoryId:it.category, location:openLoc, fromLocation:'opening balance', qty:openQty, date:todayISO(), note:'Opening balance'});
     }
   }
   Store.save();
@@ -2504,7 +2500,7 @@ Views.doStockIn = function(){
     const unit = Stock.addUnit(itemId, loc, {
       imei, color: val('si_color'), condition: val('si_cond'),
       costPrice: val('si_cost')?Number(val('si_cost')):null, sellPrice: val('si_sell')?Number(val('si_sell')):null
-    }, date, note);
+    }, date, note, true);
     if(unit) Toast.show(`Device added to ${shopName(loc)}.`,'ok');
   } else {
     const qty = Number(val('si_qty'))||0;
