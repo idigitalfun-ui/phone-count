@@ -132,10 +132,23 @@
           "batteryPct": null,
           "dateAdded": "2026-08-24",
           "wholesalePrice": 300
+        },
+        {
+          "id": "unit_uzwpv30k8g1",
+          "imei": "357504140083957",
+          "color": "Purple",
+          "condition": "Used",
+          "location": "shop_thurles",
+          "costPrice": 285,
+          "sellPrice": 270,
+          "batteryPct": null,
+          "dateAdded": "2026-08-25",
+          "wholesalePrice": 295
         }
       ],
       "colors": [
-        "Starlight"
+        "Starlight",
+        "Purple"
       ]
     },
     {
@@ -167,8 +180,23 @@
       },
       "createdAt": "2026-08-20",
       "wholesalePrice": 13,
-      "units": [],
-      "colors": []
+      "units": [
+        {
+          "id": "unit_12duitkkmhb",
+          "imei": "355628861938255",
+          "color": "White",
+          "condition": "New",
+          "location": "shop_thurles",
+          "costPrice": 1,
+          "sellPrice": 700,
+          "batteryPct": null,
+          "dateAdded": "2026-08-25",
+          "wholesalePrice": 13
+        }
+      ],
+      "colors": [
+        "White"
+      ]
     },
     {
       "id": "item_aua8nirw69j",
@@ -1957,7 +1985,8 @@
           "costPrice": 1,
           "sellPrice": 340,
           "batteryPct": null,
-          "dateAdded": "2026-08-25"
+          "dateAdded": "2026-08-25",
+          "wholesalePrice": 13
         }
       ],
       "colors": [
@@ -7672,9 +7701,9 @@
     },
     {
       "id": "item_dr3xyreu5o2",
-      "name": "Samsung A56 128GB 5GB",
+      "name": "Samsung A56 5GB 128GB",
       "category": "cat_w56n2ktw69i",
-      "memory": "5GB",
+      "memory": "128GB",
       "imei": "",
       "condition": "Used",
       "colors": [
@@ -9808,6 +9837,39 @@
       ],
       "createdAt": "2026-08-20",
       "colors": []
+    },
+    {
+      "id": "item_443g83om18n",
+      "name": "iPhone 11",
+      "category": "cat_7qgen7vw69i",
+      "memory": "64GB",
+      "condition": "Used",
+      "batteryPct": null,
+      "imei": "",
+      "colors": [
+        "Purple"
+      ],
+      "costPrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [],
+      "createdAt": "2026-08-25"
     }
   ],
   "movements": [
@@ -9841,7 +9903,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T14:31:47.260Z"
+    "lastSaved": "2026-08-25T14:33:24.936Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
