@@ -81,7 +81,7 @@
   "items": [
     {
       "id": "item_cicbgruw69j",
-      "name": "iPhone 14 128GB",
+      "name": "iPhone 14",
       "category": "cat_7qgen7vw69i",
       "memory": "128GB",
       "imei": "",
@@ -276,7 +276,7 @@
     },
     {
       "id": "item_kb0hq9hw69k",
-      "name": "Samsung A07 4GB/128GB",
+      "name": "Samsung A07",
       "category": "cat_w56n2ktw69i",
       "memory": "4GB/128GB",
       "imei": "",
@@ -9925,7 +9925,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T15:51:42.900Z"
+    "lastSaved": "2026-08-25T15:52:14.212Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
