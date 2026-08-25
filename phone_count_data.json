@@ -4769,7 +4769,7 @@
     },
     {
       "id": "item_zrqsqf9w69m",
-      "name": "iPhone 17 Pro Max 256GB",
+      "name": "iPhone 17 Pro Max",
       "category": "cat_7qgen7vw69i",
       "memory": "256GB",
       "imei": "",
@@ -4801,7 +4801,7 @@
         {
           "id": "unit_71u7as4u5oi",
           "imei": "351309195135751",
-          "color": "",
+          "color": "Orange",
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 1,
@@ -10147,7 +10147,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:42:15.112Z"
+    "lastSaved": "2026-08-25T17:42:28.072Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
