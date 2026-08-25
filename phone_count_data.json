@@ -4998,7 +4998,7 @@
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 1,
-        "shop_mullingar": 1,
+        "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
@@ -8448,22 +8448,11 @@
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
-        "shop_mullingar": 1,
+        "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_yu8m669u5p3",
-          "imei": "SLFKXDV27L0",
-          "color": "Pink",
-          "condition": "New",
-          "location": "shop_mullingar",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 1
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-20"
     },
     {
@@ -10110,7 +10099,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:33:41.064Z"
+    "lastSaved": "2026-08-25T17:34:00.000Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
