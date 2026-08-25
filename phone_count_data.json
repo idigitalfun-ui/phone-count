@@ -553,9 +553,9 @@
     },
     {
       "id": "item_cu1j56ww69k",
-      "name": "Samsung A37 5G 256GB",
+      "name": "Samsung A37 5G",
       "category": "cat_w56n2ktw69i",
-      "memory": "256GB",
+      "memory": "6GB/128GB",
       "imei": "",
       "condition": "New",
       "colors": [
@@ -648,7 +648,7 @@
       },
       "locations": {
         "warehouse": 1,
-        "shop_thurles": 2,
+        "shop_thurles": 0,
         "shop_kilkenny": 3,
         "shop_maynooth": 2,
         "shop_mullingar": 1,
@@ -7194,7 +7194,7 @@
     },
     {
       "id": "item_zber68ru5no",
-      "name": "Samsung A56 5G 8GB/128GB",
+      "name": "Samsung A56 5G",
       "category": "cat_w56n2ktw69i",
       "memory": "8GB/128GB",
       "imei": "",
@@ -9906,7 +9906,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T15:57:09.212Z"
+    "lastSaved": "2026-08-25T15:57:47.148Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
