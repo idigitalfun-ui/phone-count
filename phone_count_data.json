@@ -4953,7 +4953,7 @@
     },
     {
       "id": "item_9x4tr8ew69m",
-      "name": "iPad Air 4 64GB",
+      "name": "iPad Air 4",
       "category": "cat_cgd9w36w69i",
       "memory": "64GB",
       "imei": "",
@@ -4985,7 +4985,7 @@
         {
           "id": "unit_4po5rjfu5ov",
           "imei": "356762111888637",
-          "color": "",
+          "color": "Gray",
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 1,
@@ -10022,7 +10022,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:55:57.073Z"
+    "lastSaved": "2026-08-25T17:56:08.649Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
