@@ -1698,7 +1698,7 @@
     },
     {
       "id": "item_zet5u37w69k",
-      "name": "iPhone 11",
+      "name": "iPhone 11 64GB",
       "category": "cat_7qgen7vw69i",
       "memory": "64GB",
       "imei": "",
@@ -1859,7 +1859,8 @@
       "wholesalePrice": 200,
       "colors": [
         "Black",
-        "Green"
+        "Green",
+        "Purple"
       ]
     },
     {
@@ -1957,7 +1958,7 @@
       "imei": "",
       "condition": "Used",
       "batteryPct": null,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 340,
         "shop_thurles": 340,
@@ -1977,7 +1978,7 @@
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
-      "wholesalePrice": 13,
+      "wholesalePrice": 0,
       "units": [
         {
           "id": "unit_5jud3xwjxvc",
@@ -1985,11 +1986,11 @@
           "color": "Blue",
           "condition": "Used",
           "location": "shop_thurles",
-          "costPrice": 1,
+          "costPrice": 0,
           "sellPrice": 340,
           "batteryPct": null,
           "dateAdded": "2026-08-25",
-          "wholesalePrice": 13
+          "wholesalePrice": 0
         }
       ],
       "colors": [
@@ -1998,7 +1999,7 @@
     },
     {
       "id": "item_qw8eo3aw69k",
-      "name": "iPhone 12",
+      "name": "iPhone 12 64GB",
       "category": "cat_7qgen7vw69i",
       "memory": "64GB",
       "imei": "",
@@ -7704,9 +7705,9 @@
     },
     {
       "id": "item_dr3xyreu5o2",
-      "name": "Samsung A56 5GB 128GB",
+      "name": "Samsung A56 128GB 5GB",
       "category": "cat_w56n2ktw69i",
-      "memory": "128GB",
+      "memory": "5GB",
       "imei": "",
       "condition": "Used",
       "colors": [
@@ -9842,41 +9843,8 @@
       "colors": []
     },
     {
-      "id": "item_443g83om18n",
-      "name": "iPhone 11",
-      "category": "cat_7qgen7vw69i",
-      "memory": "64GB",
-      "condition": "Used",
-      "batteryPct": null,
-      "imei": "",
-      "colors": [
-        "Purple"
-      ],
-      "costPrice": 0,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "units": [],
-      "createdAt": "2026-08-25"
-    },
-    {
       "id": "item_exik3cems4n",
-      "name": "iPhone 11",
+      "name": "iPhone 11 64GB",
       "category": "cat_7qgen7vw69i",
       "memory": "64GB",
       "condition": "New",
@@ -9897,7 +9865,7 @@
       },
       "locations": {
         "warehouse": 0,
-        "shop_thurles": 1,
+        "shop_thurles": 2,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
@@ -9916,42 +9884,7 @@
           "batteryPct": null,
           "dateAdded": "2026-08-25",
           "wholesalePrice": 200
-        }
-      ],
-      "createdAt": "2026-08-25",
-      "wholesalePrice": 200
-    },
-    {
-      "id": "item_9dcbhqrnj2n",
-      "name": "iPhone 11",
-      "category": "cat_7qgen7vw69i",
-      "memory": "64GB",
-      "condition": "New",
-      "batteryPct": null,
-      "imei": "351010395544525",
-      "colors": [
-        "Purple"
-      ],
-      "costPrice": 190,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 240,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 1,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "units": [
+        },
         {
           "id": "unit_p5w9t1gnl5z",
           "imei": "351010395544525",
@@ -10000,7 +9933,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T14:37:26.114Z"
+    "lastSaved": "2026-08-25T14:40:21.602Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
