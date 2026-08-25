@@ -559,10 +559,10 @@
     },
     {
       "id": "item_44l4y60w69k",
-      "name": "Samsung A36 5G 256GB",
+      "name": "Samsung A36 5G",
       "category": "cat_w56n2ktw69i",
-      "memory": "256GB",
-      "imei": "",
+      "memory": "8GB/256GB",
+      "imei": "350057712550645",
       "condition": "New",
       "colors": [
         "Black",
@@ -580,7 +580,7 @@
         "shop_tullamore": 280
       },
       "locations": {
-        "warehouse": 0,
+        "warehouse": 1,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
         "shop_maynooth": 2,
@@ -598,10 +598,22 @@
           "costPrice": 1,
           "wholesalePrice": 290,
           "sellPrice": 350
+        },
+        {
+          "id": "unit_vao1rxlgq67",
+          "imei": "350057712550645",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": 100,
+          "location": "warehouse",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 280,
+          "addedAt": "2026-08-25"
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 290
+      "wholesalePrice": 13
     },
     {
       "id": "item_cu1j56ww69k",
@@ -10016,7 +10028,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:44:59.856Z"
+    "lastSaved": "2026-08-25T17:45:14.625Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
