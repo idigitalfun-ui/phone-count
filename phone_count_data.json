@@ -1223,7 +1223,7 @@
         },
         {
           "id": "unit_kbdwqjbu5ot",
-          "imei": "355282133045505",
+          "imei": "355282134815948",
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
@@ -1233,8 +1233,8 @@
         },
         {
           "id": "unit_nib1ntsu5ot",
-          "imei": "355282133032966",
-          "color": "",
+          "imei": "355282134829428",
+          "color": "Charcoal",
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 14,
@@ -9998,7 +9998,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:53:36.424Z"
+    "lastSaved": "2026-08-25T17:54:04.569Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
