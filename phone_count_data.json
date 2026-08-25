@@ -4686,7 +4686,7 @@
     },
     {
       "id": "item_biux9rtw69m",
-      "name": "Samsung Galaxy S26 Ultra 12GB/256GB",
+      "name": "Samsung Galaxy S26 Ultra",
       "category": "cat_w56n2ktw69i",
       "memory": "12GB/256GB",
       "imei": "",
@@ -4718,7 +4718,7 @@
         {
           "id": "unit_o9leiwau5oo",
           "imei": "353885925151620",
-          "color": "",
+          "color": "Cobalt",
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 1,
@@ -10008,7 +10008,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:47:42.752Z"
+    "lastSaved": "2026-08-25T17:48:00.329Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
