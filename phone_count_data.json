@@ -2667,7 +2667,7 @@
         {
           "id": "unit_29bmmdsu5p2",
           "imei": "LINK1KNEU002809",
-          "color": "",
+          "color": "Ocean Blue",
           "condition": "New",
           "location": "shop_mullingar",
           "costPrice": 65,
@@ -10110,7 +10110,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:33:06.584Z"
+    "lastSaved": "2026-08-25T17:33:29.960Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
