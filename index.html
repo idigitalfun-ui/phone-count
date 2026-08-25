@@ -1479,7 +1479,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.8.4</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.8.5</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -2764,7 +2764,11 @@ Views.saveEditedUnit = function(itemId, unitId){
   const newName = val('eu_name').trim();
   if(!newName){ Toast.show('Please enter a device model/name.','err'); return; }
   const newCat = val('eu_cat');
-  const newMem = val('eu_mem').trim();
+  let newMem = val('eu_mem').trim();
+  if(newMem){
+    newMem = newMem.replace(/\s+/g, '').replace(/gb/gi, 'GB');
+    if(/^\d+$/.test(newMem)) newMem = newMem + 'GB';
+  }
   const newImei = val('eu_imei').replace(/[\s\-']/g,'');
   const newColor = val('eu_color').trim();
   const newCond = val('eu_cond');
@@ -2796,12 +2800,7 @@ Views.saveEditedUnit = function(itemId, unitId){
     });
   }
 
-  // Update item details
-  it.name = newName;
-  it.category = newCat;
-  it.memory = newMem;
-
-  // Update unit details
+  // Update unit specifications
   unit.imei = newImei;
   unit.color = newColor;
   unit.condition = newCond;
@@ -2809,8 +2808,56 @@ Views.saveEditedUnit = function(itemId, unitId){
   unit.wholesalePrice = newWholesale;
   unit.sellPrice = newSale;
 
-  // Sync color with item colors array if new
-  if(newColor && !it.colors.includes(newColor)) it.colors.push(newColor);
+  const canonOld = (it.name + '|' + it.category + '|' + (it.memory||'')).toLowerCase();
+  const canonNew = (newName + '|' + newCat + '|' + newMem).toLowerCase();
+
+  // If model specification (Name / Category / Memory) changed:
+  if(canonNew !== canonOld){
+    // If the original item has multiple units, split ONLY this unit out so other units (e.g. at Warehouse) remain unchanged!
+    if((it.units||[]).length > 1){
+      // 1. Detach unit from old item
+      it.units = it.units.filter(u => u.id !== unit.id);
+      it.locations[unit.location] = Math.max(0, (it.locations[unit.location]||0) - 1);
+
+      // 2. Find or create target item model
+      let targetItem = Store.data.items.find(x => ((x.name + '|' + x.category + '|' + (x.memory||'')).toLowerCase() === canonNew));
+      if(!targetItem){
+        targetItem = {
+          id: uid('item'),
+          name: newName,
+          category: newCat,
+          memory: newMem,
+          condition: newCond,
+          imei: newImei || '',
+          colors: newColor ? [newColor] : (it.colors||[]),
+          costPrice: newCost,
+          wholesalePrice: newWholesale,
+          shopPrices: JSON.parse(JSON.stringify(it.shopPrices || {})),
+          locations: {},
+          units: [],
+          createdAt: todayISO()
+        };
+        Store.data.shops.forEach(s => { targetItem.locations[s.id] = 0; });
+        Store.data.items.push(targetItem);
+      }
+      if(newColor && !targetItem.colors.includes(newColor)) targetItem.colors.push(newColor);
+      targetItem.locations[unit.location] = (targetItem.locations[unit.location]||0) + 1;
+      if(!Array.isArray(targetItem.units)) targetItem.units = [];
+      targetItem.units.push(unit);
+    } else {
+      // Only 1 unit exists in this item — safe to rename in-place
+      it.name = newName;
+      it.category = newCat;
+      it.memory = newMem;
+      if(newColor && !it.colors.includes(newColor)) it.colors.push(newColor);
+    }
+  } else {
+    // Model didn't change
+    it.name = newName;
+    it.category = newCat;
+    it.memory = newMem;
+    if(newColor && !it.colors.includes(newColor)) it.colors.push(newColor);
+  }
 
   Store.save();
   Modal.close();
