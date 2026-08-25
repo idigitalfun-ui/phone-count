@@ -4165,7 +4165,7 @@
     },
     {
       "id": "item_ppmsipbw69l",
-      "name": "Samsung Tab A11 4GB/64GB",
+      "name": "Samsung Tab A11",
       "category": "cat_cgd9w36w69i",
       "memory": "4GB/64GB",
       "imei": "",
@@ -4188,26 +4188,16 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
-        "shop_maynooth": 2,
+        "shop_maynooth": 1,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
         {
-          "id": "unit_7n4fj75u5ou",
-          "imei": "357778641668520",
-          "color": "",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 200
-        },
-        {
           "id": "unit_bf689wgu5ou",
           "imei": "357778641667134",
-          "color": "",
+          "color": "Gray",
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 1,
@@ -9858,6 +9848,50 @@
         }
       ],
       "createdAt": "2026-08-25"
+    },
+    {
+      "id": "item_498tcb8vx1c",
+      "name": "Samsung Tab A11",
+      "category": "cat_cgd9w36w69i",
+      "memory": "4GB/64GB",
+      "condition": "New",
+      "imei": "357778641668520",
+      "colors": [
+        "Gray"
+      ],
+      "costPrice": 1,
+      "wholesalePrice": 13,
+      "shopPrices": {
+        "warehouse": 200,
+        "shop_thurles": 200,
+        "shop_kilkenny": 200,
+        "shop_maynooth": 200,
+        "shop_mullingar": 200,
+        "shop_tralee": 200,
+        "shop_tullamore": 200
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 1,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_7n4fj75u5ou",
+          "imei": "357778641668520",
+          "color": "Gray",
+          "condition": "New",
+          "location": "shop_maynooth",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 200
+        }
+      ],
+      "createdAt": "2026-08-25"
     }
   ],
   "movements": [
@@ -10033,7 +10067,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:56:46.841Z"
+    "lastSaved": "2026-08-25T17:57:10.681Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
