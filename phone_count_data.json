@@ -644,7 +644,7 @@
         "warehouse": 0,
         "shop_thurles": 1,
         "shop_kilkenny": 2,
-        "shop_maynooth": 4,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -8151,23 +8151,12 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_kl3s7xiu5om",
-          "imei": "354752864646268",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 1
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-20"
     },
     {
@@ -10028,7 +10017,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:45:14.625Z"
+    "lastSaved": "2026-08-25T17:46:21.193Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
