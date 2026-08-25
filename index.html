@@ -1456,7 +1456,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.8.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.8.1</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -1527,6 +1527,20 @@ function groupByCategory(list){
   Store.data.categories.forEach(c=>groups[c.id]=[]);
   (list||Store.data.items).forEach(it=>{ (groups[it.category]||(groups[it.category]=[])).push(it); });
   return Store.data.categories.map(c=>({cat:c, items:(groups[c.id]||[]).slice().sort((a,b)=>a.name.localeCompare(b.name))})).filter(g=>g.items.length);
+}
+function cssColor(name){
+  if(!name) return '#ccc';
+  const map = {
+    black:'#1a1a1a', spaceblack:'#111', 'space black':'#111', 'space gray':'#4e4e50', 'space grey':'#4e4e50',
+    white:'#f5f5f7', starlight:'#e8e3d6', silver:'#e2e4e1', gold:'#f9e5c9', rosegold:'#edd5ce', 'rose gold':'#edd5ce',
+    purple:'#8a63c9', graphite:'#4a4a4a', charcoal:'#3a3a3a', gray:'#9aa0a6', grey:'#9aa0a6',
+    'ocean blue':'#2a6f9e', blue:'#2f6fd6', 'sierra blue':'#9bb5ce', 'pacific blue':'#2c4d63', 'midnight':'#19232d',
+    'deep purple':'#4b3b5c', 'natural titanium':'#9e9b94', 'desert titanium':'#bfa38a', 'black titanium':'#2e2e2e',
+    'white titanium':'#e3e1db', 'titanium gray':'#7f7d79', green:'#34c759', 'alpine green':'#3a5948', 'midnight green':'#2a3e35',
+    red:'#ff3b30', '(product)red':'#e00421', yellow:'#ffd60a', orange:'#ff9500', pink:'#ff2d55', coral:'#ff6b4a'
+  };
+  const key = String(name).toLowerCase().trim();
+  return map[key] || '#9aa0a6';
 }
 function signalClass(q){ if(q<=0) return 's0'; if(q<=2) return 's1'; if(q<=5) return 's2'; if(q<=10) return 's3'; return 's4'; }
 function signalHtml(q){
@@ -3604,22 +3618,31 @@ Views.stockview = function(){
   if(!Views._svLoc || !locs.find(l=>l.id===Views._svLoc)) Views._svLoc = 'warehouse';
   const locId = Views._svLoc;
   const mode = Views._svMode || 'totals';
-  let items = Store.data.items.filter(it=> locId==='all' ? totalQty(it)>0 : (it.locations[locId]||0)>0);
+  let items = Store.data.items.filter(it=> locId==='all' ? totalQty(it)>0 : ((it.locations&&it.locations[locId])||0)>0);
   const groups = groupByCategory(items);
   const dateStr = new Date().toLocaleDateString('en-IE');
 
   function renderRow(it){
-    const qty = locId==='all'?totalQty(it):(it.locations[locId]||0);
+    const qty = locId==='all'?totalQty(it):((it.locations&&it.locations[locId])||0);
     const expanded = !!Views._svExpanded[it.id];
     const defaultShopId = activeShops()[0]?.id || 'warehouse';
     const salePrice = locId==='all' ? ((it.shopPrices && it.shopPrices[defaultShopId])||it.costPrice||0) : ((it.shopPrices && it.shopPrices[locId])||it.costPrice||0);
 
+    const relUnits = locId==='all' ? (it.units||[]) : unitsAt(it, locId);
+    const unitCols = [...new Set(relUnits.map(u=>u.color).filter(Boolean))];
+    const colorsToShow = unitCols.length > 0 ? unitCols : (it.colors||[]);
+
     let mainRow = `<tr>
       <td>
         <button class="btn ghost sm" style="padding:2px 6px;margin-right:4px;" onclick="Views.toggleSvExpand('${it.id}')">${expanded?'▾':'▸'}</button>
-        <b>${esc(it.name)}</b>${it.memory?` <span class="mono" style="font-size:11.5px;color:var(--teal-dark);font-weight:600;margin-left:4px;">${esc(it.memory)}</span>`:''}
+        <b>${esc(it.name)}</b>
       </td>
-      <td>${(it.colors||[]).map(c=>`<span class="color-swatch" style="background:${cssColor(c)}"></span>`).join('')}${esc((it.colors||[]).join(', ')||'-')}</td>
+      <td>
+        ${it.memory ? `<span class="mono" style="font-size:12px;font-weight:700;color:var(--teal-dark);">${esc(it.memory)}</span>` : `<span style="color:var(--muted);">—</span>`}
+      </td>
+      <td>
+        ${colorsToShow.map(c=>`<span class="color-swatch" style="background:${cssColor(c)}" title="${esc(c)}"></span>`).join('')}${esc(colorsToShow.join(', ')||'—')}
+      </td>
       <td>
         <input type="number" step="0.01" value="${it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;font-size:12px;" title="Cost Price" onchange="Views.svSetCostPrice('${it.id}',this.value)">
       </td>
@@ -3636,27 +3659,28 @@ Views.stockview = function(){
 
     if(!expanded) return mainRow;
 
-    // Expanded: per-store sale prices + individual IMEI prices
-    let subRows = `<tr style="background:#F0F4F8;"><td colspan="8" style="padding:4px 14px;"><small style="color:var(--teal-dark);font-weight:700;">▸ Per-store sale prices (editable):</small></td></tr>`;
+    // Expanded: per-store stock & sale prices + individual IMEI prices
+    let subRows = `<tr style="background:#F0F4F8;"><td colspan="9" style="padding:6px 14px;"><small style="color:var(--teal-dark);font-weight:700;">▸ Per-store stock & sale prices (editable):</small></td></tr>`;
     activeShops().forEach(s=>{
+      const shopStock = (it.locations && it.locations[s.id]) || 0;
       subRows += `<tr style="background:#F6F8FA;">
-        <td colspan="2" style="padding-left:28px;font-size:12px;"><b>${esc(s.name)}</b> — ${it.locations[s.id]||0} in stock</td>
+        <td colspan="3" style="padding-left:28px;font-size:12px;"><b>${esc(s.name)}</b> — <b>${shopStock}</b> in stock</td>
         <td><span style="font-size:11px;color:var(--muted);">Cost:</span> ${euro(it.costPrice)}</td>
         <td><span style="font-size:11px;color:var(--muted);">Wholesale:</span> ${euro(it.wholesalePrice||0)}</td>
         <td>
           <span style="font-size:11px;color:var(--teal-dark);font-weight:600;">Sale: </span>
-          <input type="number" step="0.01" value="${it.shopPrices[s.id]||0}" style="width:80px;padding:3px 6px;border:1px solid var(--teal);border-radius:6px;font-weight:700;color:var(--teal-dark);" onchange="Views.svSetPrice('${it.id}','${s.id}',this.value)">
+          <input type="number" step="0.01" value="${it.shopPrices ? (it.shopPrices[s.id]||0) : 0}" style="width:80px;padding:3px 6px;border:1px solid var(--teal);border-radius:6px;font-weight:700;color:var(--teal-dark);" onchange="Views.svSetPrice('${it.id}','${s.id}',this.value)">
         </td>
-        <td colspan="3" style="font-size:11px;color:var(--muted);">Margin: ${euro((it.shopPrices[s.id]||0)-(it.costPrice||0))}</td>
+        <td colspan="3" style="font-size:11px;color:var(--muted);">Margin: ${euro((it.shopPrices ? (it.shopPrices[s.id]||0) : 0)-(it.costPrice||0))}</td>
       </tr>`;
     });
 
     const activeUnits = locId==='all' ? (it.units||[]) : unitsAt(it, locId);
     if(activeUnits.length > 0){
-      subRows += `<tr style="background:#F0F4F8;"><td colspan="8" style="padding:4px 14px;"><small style="color:var(--teal-dark);font-weight:700;">▸ Individual IMEI units:</small></td></tr>`;
+      subRows += `<tr style="background:#F0F4F8;"><td colspan="9" style="padding:6px 14px;"><small style="color:var(--teal-dark);font-weight:700;">▸ Individual IMEI units:</small></td></tr>`;
       activeUnits.forEach(u=>{
         subRows += `<tr style="background:#FAFBFC;">
-          <td colspan="2" style="padding-left:28px;font-size:12.5px;">
+          <td colspan="3" style="padding-left:28px;font-size:12.5px;">
             <span class="mono" style="color:var(--teal-dark);font-weight:700;">${esc(u.imei||'No IMEI')}</span>
             <span style="color:var(--muted);font-size:11px;"> — ${esc(u.color||'-')} · ${esc(u.condition||'-')} @ ${esc(shopName(u.location))}</span>
           </td>
@@ -3709,7 +3733,7 @@ Views.stockview = function(){
         <div class="table-section-title">${esc(g.cat.name)} (${g.items.reduce((a,it)=>a+(locId==='all'?totalQty(it):(it.locations[locId]||0)),0)} units)</div>
         <div class="table-wrap"><table>
           <thead><tr>
-            ${mode==='totals' ? `<th>Device</th><th>Colour</th><th>Cost Price</th><th>Wholesale Price</th><th>Sale Price</th><th>Condition</th><th>Qty</th><th></th>` : `<th>Device</th><th>IMEI</th><th>Colour</th><th>Condition</th><th>Cost</th><th>Wholesale</th><th>Sale</th><th>Location</th><th class="no-print"></th>`}
+            ${mode==='totals' ? `<th>Device</th><th>Memory</th><th>Colours</th><th>Cost Price</th><th>Wholesale Price</th><th>Sale Price</th><th>Condition</th><th>Qty</th><th></th>` : `<th>Device</th><th>IMEI</th><th>Colour</th><th>Condition</th><th>Cost</th><th>Wholesale</th><th>Sale</th><th>Location</th><th class="no-print"></th>`}
           </tr></thead>
           <tbody>
             ${g.items.map(mode==='totals' ? renderRow : renderImeiRows).join('')}
