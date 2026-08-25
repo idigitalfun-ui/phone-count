@@ -808,17 +808,31 @@ const Store = {
     // backfill every item: units[] array, and a locations/shopPrices slot for every shop (incl. any newly added one)
     d.items.forEach(it=>{
       if(!Array.isArray(it.units)) it.units = [];
-      if(it.costPrice==null) it.costPrice = 0;
-      if(it.wholesalePrice==null) it.wholesalePrice = it.costPrice||0;
       if(!it.shopPrices) it.shopPrices = {};
       d.shops.forEach(s=>{
         if(it.locations[s.id]==null) it.locations[s.id]=0;
         if(it.shopPrices[s.id]==null) it.shopPrices[s.id]=it.shopPrices.warehouse||it.costPrice||0;
       });
-      // sync cost, wholesale and sell price on tracked units
+
+      // Two-way price synchronization: harvest valid unit cost and wholesale prices into the parent item
+      const validUnitCosts = (it.units||[]).map(u=>u.costPrice).filter(c=>c!=null && c>1);
+      if(validUnitCosts.length > 0){
+        it.costPrice = validUnitCosts[0];
+      } else if(it.costPrice == null){
+        it.costPrice = 0;
+      }
+
+      const validUnitWholesales = (it.units||[]).map(u=>u.wholesalePrice).filter(w=>w!=null && w>13);
+      if(validUnitWholesales.length > 0){
+        it.wholesalePrice = validUnitWholesales[0];
+      } else if(it.wholesalePrice == null || (it.wholesalePrice <= 13 && it.costPrice > 1)){
+        it.wholesalePrice = it.costPrice > 1 ? it.costPrice + 12 : (it.costPrice || 0);
+      }
+
+      // Sync down to any unit with missing or default prices
       (it.units||[]).forEach(u=>{
         if(u.costPrice==null || (u.costPrice<=1 && it.costPrice>1)) u.costPrice = it.costPrice;
-        if(u.wholesalePrice==null || (u.wholesalePrice<=1 && it.wholesalePrice>1)) u.wholesalePrice = it.wholesalePrice;
+        if(u.wholesalePrice==null || (u.wholesalePrice<=13 && it.wholesalePrice>13)) u.wholesalePrice = it.wholesalePrice;
         const targetSell = it.shopPrices[u.location] || it.costPrice || 0;
         if(u.sellPrice==null || (u.sellPrice<=1 && targetSell>1) || (u.sellPrice!==targetSell && targetSell>0 && u.sellPrice<=1)) u.sellPrice = targetSell;
       });
@@ -1456,7 +1470,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.8.1</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.8.2</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -2273,6 +2287,13 @@ Views.invSetCostPrice = function(itemId, unitId, v){
   it.costPrice = p;
   const u = (it.units||[]).find(x=>x.id===unitId);
   if(u) u.costPrice = p;
+  // If wholesale isn't set yet or is dummy, auto-suggest wholesale
+  if(!it.wholesalePrice || it.wholesalePrice <= 13){
+    it.wholesalePrice = p > 1 ? p + 12 : p;
+    (it.units||[]).forEach(x=>{ if(x.wholesalePrice == null || x.wholesalePrice <= 13) x.wholesalePrice = it.wholesalePrice; });
+  }
+  // Sync to sibling units of this exact model with dummy/default cost
+  (it.units||[]).forEach(x=>{ if(x.costPrice == null || x.costPrice <= 1) x.costPrice = p; });
   Store.save();
   Toast.show('Cost price saved.','ok');
 };
@@ -2283,6 +2304,7 @@ Views.invSetWholesalePrice = function(itemId, unitId, v){
   it.wholesalePrice = p;
   const u = (it.units||[]).find(x=>x.id===unitId);
   if(u) u.wholesalePrice = p;
+  (it.units||[]).forEach(x=>{ if(x.wholesalePrice == null || x.wholesalePrice <= 13) x.wholesalePrice = p; });
   Store.save();
   Toast.show('Wholesale price saved.','ok');
 };
@@ -2294,6 +2316,8 @@ Views.invSetSalePrice = function(itemId, unitId, locId, v){
   it.shopPrices[locId] = p;
   const u = (it.units||[]).find(x=>x.id===unitId);
   if(u) u.sellPrice = p;
+  // Sync to sibling units at this exact location
+  (it.units||[]).filter(x=>x.location===locId).forEach(x=>{ x.sellPrice = p; });
   Store.save();
   Toast.show('Sale price saved.','ok');
 };
@@ -3632,6 +3656,9 @@ Views.stockview = function(){
     const unitCols = [...new Set(relUnits.map(u=>u.color).filter(Boolean))];
     const colorsToShow = unitCols.length > 0 ? unitCols : (it.colors||[]);
 
+    const rowCost = (relUnits.find(u=>u.costPrice!=null && u.costPrice>1)?.costPrice) || (it.units?.find(u=>u.costPrice!=null && u.costPrice>1)?.costPrice) || it.costPrice || 0;
+    const rowWholesale = (relUnits.find(u=>u.wholesalePrice!=null && u.wholesalePrice>13)?.wholesalePrice) || (it.units?.find(u=>u.wholesalePrice!=null && u.wholesalePrice>13)?.wholesalePrice) || it.wholesalePrice || (rowCost > 1 ? rowCost + 12 : 0);
+
     let mainRow = `<tr>
       <td>
         <button class="btn ghost sm" style="padding:2px 6px;margin-right:4px;" onclick="Views.toggleSvExpand('${it.id}')">${expanded?'▾':'▸'}</button>
@@ -3644,10 +3671,10 @@ Views.stockview = function(){
         ${colorsToShow.map(c=>`<span class="color-swatch" style="background:${cssColor(c)}" title="${esc(c)}"></span>`).join('')}${esc(colorsToShow.join(', ')||'—')}
       </td>
       <td>
-        <input type="number" step="0.01" value="${it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;font-size:12px;" title="Cost Price" onchange="Views.svSetCostPrice('${it.id}',this.value)">
+        <input type="number" step="0.01" value="${rowCost}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;font-size:12px;" title="Cost Price" onchange="Views.svSetCostPrice('${it.id}',this.value)">
       </td>
       <td>
-        <input type="number" step="0.01" value="${it.wholesalePrice||0}" style="width:80px;padding:4px 6px;border:1px solid #F0B429;border-radius:6px;font-size:12px;" title="Wholesale Price" onchange="Views.svSetWholesalePrice('${it.id}',this.value)">
+        <input type="number" step="0.01" value="${rowWholesale}" style="width:80px;padding:4px 6px;border:1px solid #F0B429;border-radius:6px;font-size:12px;" title="Wholesale Price" onchange="Views.svSetWholesalePrice('${it.id}',this.value)">
       </td>
       <td>
         <input type="number" step="0.01" value="${salePrice}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:6px;font-size:12px;font-weight:700;color:var(--teal-dark);" title="Sale Price" onchange="Views.svSetPrice('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value)">
