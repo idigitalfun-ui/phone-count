@@ -1653,7 +1653,7 @@
         {
           "id": "unit_7px45oju5ou",
           "imei": "SK3MFL7GR4C",
-          "color": "",
+          "color": "Blue",
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 300,
@@ -10022,7 +10022,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:55:03.537Z"
+    "lastSaved": "2026-08-25T17:55:57.073Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
