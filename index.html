@@ -755,8 +755,8 @@ const Store = {
 
       it.colors = [...new Set(it.colors.filter(Boolean))];
 
-      // Merge duplicates
-      const canonKey = (it.name + '|' + it.category + '|' + (it.memory||'') + '|' + it.condition).toLowerCase();
+      // Merge duplicates by model (Name + Category + Memory)
+      const canonKey = (it.name + '|' + it.category + '|' + (it.memory||'')).toLowerCase();
       if(itemMap.has(canonKey)){
         const primary = itemMap.get(canonKey);
         if(!primary.locations) primary.locations = {};
@@ -768,13 +768,27 @@ const Store = {
 
         d.shops.forEach(s => {
           primary.locations[s.id] = (primary.locations[s.id]||0) + (it.locations[s.id]||0);
+          if((!primary.shopPrices[s.id] || primary.shopPrices[s.id] === 0) && it.shopPrices[s.id] > 0){
+            primary.shopPrices[s.id] = it.shopPrices[s.id];
+          }
         });
         if(Array.isArray(it.units) && it.units.length > 0){
-          it.units.forEach(u => primary.units.push(u));
+          it.units.forEach(u => {
+            if(!primary.units.some(pu => pu.id === u.id || (pu.imei && u.imei && String(pu.imei).trim() === String(u.imei).trim()))){
+              primary.units.push(u);
+            }
+          });
         }
         (it.colors||[]).forEach(c => {
           if(!primary.colors.includes(c)) primary.colors.push(c);
         });
+        if(primary.costPrice == null || primary.costPrice <= 1){
+          if(it.costPrice > 1) primary.costPrice = it.costPrice;
+        }
+        if(primary.wholesalePrice == null || primary.wholesalePrice <= 1){
+          if(it.wholesalePrice > 1) primary.wholesalePrice = it.wholesalePrice;
+        }
+        if(primary.units.some(u => u.condition === 'Used')) primary.condition = 'Used';
         d.movements.forEach(m => {
           if(m.itemId === it.id){
             m.itemId = primary.id;
@@ -1445,7 +1459,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.7.3</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.7.5</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -2079,6 +2093,7 @@ Views.inventory = function(){
               <button class="btn sm green" onclick="Views.invUnitAction('${it.id}','${u.id}','sold')" title="Mark as sold">✓ Sold</button>
               <button class="btn sm amber" onclick="Views.invUnitAction('${it.id}','${u.id}','faulty')" title="Mark as faulty">⚠ Faulty</button>
               <button class="btn sm" onclick="Views.invUnitAction('${it.id}','${u.id}','deposit')" title="Mark as deposit" style="background:#E8F0FE;color:#1967D2;border:1px solid #BDD0F7;">🔒 Deposit</button>
+              <button class="btn sm" onclick="Views.openDuplicateDeviceModal('${it.id}','${u.id}')" title="Duplicate device (prefills all details with empty IMEI)" style="background:#F3F4F6;color:var(--ink);border:1px solid var(--line);">📋 Copy</button>
               <button class="btn sm ghost" onclick="Views.drawerRemoveUnit('${it.id}','${u.id}')" title="Delete record silently (no movement logged)" style="border:1px solid var(--line);color:var(--muted);">🗑</button>
             </div>
           </td>
@@ -2576,6 +2591,7 @@ Views.openEditUnitModal = function(itemId, unitId){
       </div>
       <div class="modal-foot">
         <button class="btn danger" onclick="Views.drawerRemoveUnit('${it.id}','${unit.id}');Modal.close();">Delete Device</button>
+        <button class="btn" onclick="Views.openDuplicateDeviceModal('${it.id}','${unit.id}')" title="Duplicate this phone with a new IMEI">📋 Duplicate</button>
         <button class="btn" onclick="Modal.close()">Cancel</button>
         <button class="btn primary" onclick="Views.saveEditedUnit('${it.id}','${unit.id}')">💾 Save Changes</button>
       </div>
@@ -2767,66 +2783,176 @@ Views.openItemModal = function(itemId){
     <div class="modal">
       <div class="modal-head"><h3>${it?'Edit device':'Add a device'}</h3><button class="btn ghost sm" onclick="Modal.close()">✕</button></div>
       <div class="modal-body">
-        <div class="field"><label>Name</label><input id="f_name" value="${it?esc(it.name):''}" placeholder="e.g. iPhone 13 128GB"></div>
+        <div class="field"><label>Device Name</label><input id="f_name" value="${it?esc(it.name):''}" placeholder="e.g. iPhone 13"></div>
         <div class="field-grid">
           <div class="field"><label>Category</label><select id="f_cat">${Store.data.categories.map(c=>`<option value="${c.id}" ${it&&it.category===c.id?'selected':''}>${esc(c.name)}</option>`).join('')}</select></div>
-          <div class="field"><label>Memory / storage</label><input id="f_mem" value="${it?esc(it.memory||''):''}" placeholder="128GB"></div>
-          <div class="field"><label>Condition</label><select id="f_cond"><option ${it&&it.condition==='New'?'selected':''}>New</option><option ${it&&it.condition==='Used'?'selected':''}>Used</option></select></div>
-          <div class="field"><label>Battery %</label><input id="f_batt" type="number" min="0" max="100" value="${it&&it.batteryPct!=null?it.batteryPct:''}"></div>
+          <div class="field"><label>Memory</label><input id="f_mem" value="${it?esc(it.memory||''):''}" placeholder="e.g. 128GB"></div>
+          <div class="field"><label>Condition</label><select id="f_cond"><option ${it&&it.condition==='Used'?'selected':''}>Used</option><option ${it&&it.condition==='New'?'selected':''}>New</option></select></div>
+          <div class="field"><label>Battery %</label><input id="f_batt" type="number" min="0" max="100" value="${it&&it.batteryPct!=null?it.batteryPct:''}" placeholder="e.g. 88"></div>
         </div>
-        <div class="field"><label>IMEI</label><input id="f_imei" value="${it?esc(it.imei||''):''}" placeholder="Optional — scan or type"></div>
-        <div class="field"><label>Colours (comma separated)</label><input id="f_colors" value="${it?esc((it.colors||[]).join(', ')):''}" placeholder="Black, Blue"></div>
-        <div class="field"><label>Cost price (what you paid)</label><input id="f_cost" type="number" step="0.01" value="${it?it.costPrice:''}"></div>
-        <div class="helpbox">Shop price can differ per shop. ${it?'Opening quantity is managed via Stock In / Transfer, not here — this keeps your audit trail accurate.':'Set an opening quantity below; it will be logged as an initial stock-in at the location you choose.'}</div>
+        <div class="field"><label>IMEI</label><input id="f_imei" class="mono" value="${it?esc(it.imei||''):''}" placeholder="Scan or type 15-digit IMEI"></div>
         <div class="field-grid">
-          ${shops.map(s=>`<div class="field"><label>${esc(s.name)} price</label><input class="sp" data-shop="${s.id}" type="number" step="0.01" value="${it?(it.shopPrices[s.id]||''):''}"></div>`).join('')}
+          <div class="field"><label>Color</label><input id="f_color" value="${it?esc((it.colors||[])[0]||''):''}" placeholder="e.g. Midnight, Purple, Black"></div>
+          <div class="field"><label>Cost Price (€)</label><input id="f_cost" type="number" step="0.01" value="${it?it.costPrice:''}" placeholder="e.g. 190.00"></div>
         </div>
-        ${!it? `<div class="field-grid">
-            <div class="field"><label>Opening qty</label><input id="f_openqty" type="number" min="0" value="0"></div>
-            <div class="field"><label>Opening location</label><select id="f_openloc">${shops.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select></div>
-          </div>` : ''}
+        <div class="field"><label>Opening Location</label><select id="f_openloc">${shops.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select></div>
       </div>
       <div class="modal-foot">
         ${it?`<button class="btn danger" onclick="Views.deleteItem('${it.id}')">Delete</button>`:''}
         <button class="btn" onclick="Modal.close()">Cancel</button>
-        <button class="btn primary" onclick="Views.saveItem(${it?`'${it.id}'`:'null'})">Save</button>
+        <button class="btn primary" onclick="Views.saveItem(${it?`'${it.id}'`:'null'})">Save Device</button>
       </div>
     </div>`;
   Modal.open(html);
 };
 Views.saveItem = function(itemId){
-  const name = val('f_name').trim();
-  if(!name){ Toast.show('Please enter a name.','err'); return; }
+  let name = val('f_name').trim();
+  if(!name){ Toast.show('Please enter a device name.','err'); return; }
   const cat = val('f_cat');
-  const mem = val('f_mem').trim();
-  const cond = val('f_cond');
+  let mem = val('f_mem').trim();
+  if(mem){
+    mem = mem.replace(/\s+/g, '').replace(/gb/gi, 'GB');
+    if(/^\d+$/.test(mem)) mem = mem + 'GB';
+    if(!name.toLowerCase().includes(mem.toLowerCase())){
+      name = name + ' ' + mem;
+    }
+  }
+  const cond = val('f_cond') || 'Used';
   const batt = val('f_batt');
   const imei = val('f_imei').trim();
-  const colors = val('f_colors').split(',').map(s=>s.trim()).filter(Boolean);
+  const color = val('f_color').trim() || 'Black';
   const cost = parseFloat(val('f_cost'))||0;
-  const shopPrices = {};
-  document.querySelectorAll('.sp').forEach(inp=>{ shopPrices[inp.dataset.shop] = parseFloat(inp.value)||0; });
+  const openLoc = val('f_openloc') || 'warehouse';
 
   if(itemId){
     const it = itemById(itemId);
-    Object.assign(it, {name, category:cat, memory:mem, condition:cond, batteryPct:batt===''?null:Number(batt), imei, colors, costPrice:cost, shopPrices});
-  } else {
-    const it = {
-      id:uid('item'), name, category:cat, memory:mem, condition:cond, batteryPct:batt===''?null:Number(batt),
-      imei, colors, costPrice:cost, shopPrices, locations:{}, units:[], createdAt: todayISO()
-    };
-    Store.data.shops.forEach(s=>it.locations[s.id]=0);
-    Store.data.items.push(it);
-    const openQty = Number(val('f_openqty'))||0;
-    const openLoc = val('f_openloc');
-    if(openQty>0){
-      it.locations[openLoc] = openQty;
+    if(it){
+      it.name = name;
+      it.category = cat;
+      it.memory = mem;
+      it.condition = cond;
+      it.batteryPct = batt===''?null:Number(batt);
+      it.costPrice = cost;
+      if(!it.colors.includes(color)) it.colors.push(color);
+      if(imei){
+        it.imei = imei;
+        let u = (it.units||[]).find(x => x.imei === imei);
+        if(!u && it.units && it.units.length === 1 && !it.units[0].imei){
+          u = it.units[0];
+          u.imei = imei;
+        }
+        if(u){
+          u.color = color;
+          u.condition = cond;
+          u.costPrice = cost;
+          u.location = openLoc;
+          if(batt!=='') u.batteryPct = Number(batt);
+        }
+      }
     }
+  } else {
+    // Check if item model already exists by Name + Category + Memory
+    const canonKey = (name + '|' + cat + '|' + mem).toLowerCase();
+    let it = Store.data.items.find(x => ((x.name + '|' + x.category + '|' + (x.memory||'')).toLowerCase() === canonKey));
+
+    if(!it){
+      it = {
+        id: uid('item'),
+        name: name,
+        category: cat,
+        memory: mem,
+        condition: cond,
+        batteryPct: batt===''?null:Number(batt),
+        imei: imei,
+        colors: [color],
+        costPrice: cost,
+        wholesalePrice: cost > 0 ? (cost + 12) : 0,
+        shopPrices: {},
+        locations: {},
+        units: [],
+        createdAt: todayISO()
+      };
+      Store.data.shops.forEach(s => {
+        it.locations[s.id] = 0;
+        it.shopPrices[s.id] = cost > 0 ? (cost + 50) : 0;
+      });
+      Store.data.items.push(it);
+    } else {
+      if(!it.colors.includes(color)) it.colors.push(color);
+      if(it.costPrice <= 1 && cost > 1) it.costPrice = cost;
+    }
+
+    // Add 1 unit at opening location
+    it.locations[openLoc] = (it.locations[openLoc] || 0) + 1;
+
+    const newUnit = {
+      id: uid('unit'),
+      imei: imei || '',
+      color: color,
+      condition: cond,
+      batteryPct: batt===''?null:Number(batt),
+      location: openLoc,
+      costPrice: cost || it.costPrice || 0,
+      wholesalePrice: (cost || it.costPrice || 0) > 0 ? ((cost || it.costPrice || 0) + 12) : 0,
+      sellPrice: (it.shopPrices && it.shopPrices[openLoc]) || cost || 0,
+      addedAt: todayISO()
+    };
+    if(!Array.isArray(it.units)) it.units = [];
+    it.units.push(newUnit);
   }
+
   Store.save();
   Modal.close();
-  Toast.show('Saved.','ok');
+  Toast.show('Device added to inventory.', 'ok');
   render();
+};
+Views.openDuplicateDeviceModal = function(itemId, unitId){
+  const it = itemById(itemId); if(!it) return;
+  const unit = unitId ? (it.units||[]).find(u=>u.id===unitId) : (it.units && it.units[0]);
+  const shops = activeShops();
+  const cond = (unit && unit.condition) || it.condition || 'Used';
+  const color = (unit && unit.color) || (it.colors && it.colors[0]) || 'Black';
+  const batt = (unit && unit.batteryPct != null) ? unit.batteryPct : (it.batteryPct != null ? it.batteryPct : '');
+  const cost = (unit && unit.costPrice != null && unit.costPrice > 0) ? unit.costPrice : (it.costPrice || '');
+  const loc = (unit && unit.location) || 'warehouse';
+
+  const html = `
+    <div class="modal">
+      <div class="modal-head">
+        <h3>📋 Duplicate Device</h3>
+        <button class="btn ghost sm" onclick="Modal.close()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="helpbox" style="margin-bottom:12px;background:#F0FDF4;border-color:#BBF7D0;color:#166534;">
+          All details pre-filled from <b>${esc(it.name)}</b> with empty IMEI. Scan or type the new IMEI number and click <b>Save Device</b>.
+        </div>
+        <div class="field"><label>Device Name</label><input id="f_name" value="${esc(it.name)}" placeholder="e.g. iPhone 13"></div>
+        <div class="field-grid">
+          <div class="field"><label>Category</label><select id="f_cat">${Store.data.categories.map(c=>`<option value="${c.id}" ${it.category===c.id?'selected':''}>${esc(c.name)}</option>`).join('')}</select></div>
+          <div class="field"><label>Memory</label><input id="f_mem" value="${esc(it.memory||'')}" placeholder="e.g. 128GB"></div>
+          <div class="field"><label>Condition</label><select id="f_cond"><option ${cond==='Used'?'selected':''}>Used</option><option ${cond==='New'?'selected':''}>New</option></select></div>
+          <div class="field"><label>Battery %</label><input id="f_batt" type="number" min="0" max="100" value="${batt}" placeholder="e.g. 88"></div>
+        </div>
+        <div class="field">
+          <label>IMEI (New Device)</label>
+          <input id="f_imei" class="mono" value="" placeholder="Scan or type new 15-digit IMEI" autofocus style="border:2px solid var(--teal);font-weight:700;font-size:14px;color:var(--teal-dark);">
+        </div>
+        <div class="field-grid">
+          <div class="field"><label>Color</label><input id="f_color" value="${esc(color)}" placeholder="e.g. Midnight, Purple, Black"></div>
+          <div class="field"><label>Cost Price (€)</label><input id="f_cost" type="number" step="0.01" value="${cost}" placeholder="e.g. 190.00"></div>
+        </div>
+        <div class="field"><label>Opening Location</label><select id="f_openloc">${shops.map(s=>`<option value="${s.id}" ${loc===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}</select></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" onclick="Modal.close()">Cancel</button>
+        <button class="btn primary" onclick="Views.saveItem(null)">+ Add Duplicated Device</button>
+      </div>
+    </div>`;
+  Modal.open(html);
+  setTimeout(()=>{
+    const inp = document.getElementById('f_imei');
+    if(inp) inp.focus();
+  }, 100);
 };
 Views.deleteItem = function(itemId){
   const it = itemById(itemId);
