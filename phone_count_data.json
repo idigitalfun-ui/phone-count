@@ -1604,7 +1604,7 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 4,
+        "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 2,
         "shop_maynooth": 2,
@@ -1613,36 +1613,6 @@
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_t75c8p5u5nm",
-          "imei": "SDVV4T0VGM0",
-          "color": "",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 105,
-          "wholesalePrice": 117,
-          "sellPrice": 120
-        },
-        {
-          "id": "unit_3lnnw1tu5nm",
-          "imei": "SMWXQXWHC5P",
-          "color": "",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 105,
-          "wholesalePrice": 117,
-          "sellPrice": 120
-        },
-        {
-          "id": "unit_uby0329u5nm",
-          "imei": "SDRD2LY66Q2",
-          "color": "",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 105,
-          "wholesalePrice": 117,
-          "sellPrice": 120
-        },
         {
           "id": "unit_82tynzsu5od",
           "imei": "fwxp04g6gd",
@@ -9807,6 +9777,70 @@
       ],
       "createdAt": "2026-08-20",
       "colors": []
+    },
+    {
+      "id": "item_5ugsjjin1dj",
+      "name": "AirPods (3rd Generation)",
+      "category": "cat_qaxr5vow69i",
+      "memory": "-",
+      "condition": "New",
+      "imei": "SDVV4T0VGM0",
+      "colors": [
+        "White"
+      ],
+      "costPrice": 105,
+      "wholesalePrice": 117,
+      "shopPrices": {
+        "warehouse": 120,
+        "shop_thurles": 120,
+        "shop_kilkenny": 185,
+        "shop_maynooth": 120,
+        "shop_mullingar": 185,
+        "shop_tralee": 120,
+        "shop_tullamore": 120
+      },
+      "locations": {
+        "warehouse": 3,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_t75c8p5u5nm",
+          "imei": "SDVV4T0VGM0",
+          "color": "",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 105,
+          "wholesalePrice": 117,
+          "sellPrice": 120
+        },
+        {
+          "id": "unit_3lnnw1tu5nm",
+          "imei": "SMWXQXWHC5P",
+          "color": "",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 105,
+          "wholesalePrice": 117,
+          "sellPrice": 120
+        },
+        {
+          "id": "unit_uby0329u5nm",
+          "imei": "SDRD2LY66Q2",
+          "color": "",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 105,
+          "wholesalePrice": 117,
+          "sellPrice": 120
+        }
+      ],
+      "createdAt": "2026-08-25"
     }
   ],
   "movements": [
@@ -9936,7 +9970,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:21:56.467Z"
+    "lastSaved": "2026-08-25T17:22:15.535Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
