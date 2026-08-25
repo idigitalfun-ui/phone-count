@@ -233,7 +233,7 @@
         {
           "id": "unit_b0ppqadu5n9",
           "imei": "352262376794723",
-          "color": "",
+          "color": "Black",
           "condition": "New",
           "location": "warehouse",
           "costPrice": 80,
@@ -243,7 +243,7 @@
         {
           "id": "unit_tfmskz0u5nb",
           "imei": "352262376794822",
-          "color": "",
+          "color": "Black",
           "condition": "New",
           "location": "warehouse",
           "costPrice": 80,
@@ -309,7 +309,7 @@
         {
           "id": "unit_fmodi01u5nc",
           "imei": "353451828298263",
-          "color": "",
+          "color": "Black",
           "condition": "New",
           "location": "warehouse",
           "costPrice": 95,
@@ -2144,7 +2144,7 @@
         {
           "id": "unit_bdk602tu5nd",
           "imei": "350057712578067",
-          "color": "",
+          "color": "Black",
           "condition": "New",
           "location": "warehouse",
           "costPrice": 250,
@@ -2154,7 +2154,7 @@
         {
           "id": "unit_p50bqdsu5ne",
           "imei": "350057712575980",
-          "color": "",
+          "color": "Black",
           "condition": "New",
           "location": "warehouse",
           "costPrice": 250,
@@ -2164,7 +2164,7 @@
         {
           "id": "unit_2damwueu5ne",
           "imei": "350057712550819",
-          "color": "",
+          "color": "Black",
           "condition": "New",
           "location": "warehouse",
           "costPrice": 250,
@@ -2174,7 +2174,7 @@
         {
           "id": "unit_n7b74heu5ne",
           "imei": "350057712554464",
-          "color": "",
+          "color": "Black",
           "condition": "New",
           "location": "warehouse",
           "costPrice": 250,
@@ -9907,7 +9907,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T16:52:07.031Z"
+    "lastSaved": "2026-08-25T16:53:24.933Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
