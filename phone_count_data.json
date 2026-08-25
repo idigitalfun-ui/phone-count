@@ -1504,7 +1504,7 @@
         "shop_thurles": 0,
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
-        "shop_mullingar": 0,
+        "shop_mullingar": 2,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
@@ -1578,6 +1578,28 @@
           "costPrice": 140,
           "wholesalePrice": 152,
           "sellPrice": 260
+        },
+        {
+          "id": "unit_4raehdhu5p2",
+          "imei": "350769531600985",
+          "color": "Gray",
+          "condition": "New",
+          "location": "shop_mullingar",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 200
+        },
+        {
+          "id": "unit_uga23ou36jz",
+          "imei": "350769531601488",
+          "color": "Gray",
+          "condition": "New",
+          "batteryPct": 100,
+          "location": "shop_mullingar",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 160,
+          "addedAt": "2026-08-25"
         }
       ],
       "createdAt": "2026-08-20",
@@ -2951,7 +2973,7 @@
         "shop_thurles": 2,
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
-        "shop_mullingar": 1,
+        "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
@@ -4245,7 +4267,7 @@
         "shop_thurles": 0,
         "shop_kilkenny": 1,
         "shop_maynooth": 2,
-        "shop_mullingar": 1,
+        "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
@@ -4266,16 +4288,6 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 200
-        },
-        {
-          "id": "unit_4raehdhu5p2",
-          "imei": "357778641668447",
-          "color": "",
-          "condition": "New",
-          "location": "shop_mullingar",
           "costPrice": 1,
           "wholesalePrice": 13,
           "sellPrice": 200
@@ -10099,7 +10111,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:34:16.872Z"
+    "lastSaved": "2026-08-25T17:34:53.592Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
