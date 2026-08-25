@@ -1588,7 +1588,7 @@
       "category": "cat_qaxr5vow69i",
       "memory": "-",
       "imei": "SCK2RWJGFCJ",
-      "condition": "New",
+      "condition": "Used",
       "colors": [
         "White"
       ],
@@ -1604,10 +1604,10 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 3,
-        "shop_thurles": 0,
-        "shop_kilkenny": 1,
-        "shop_maynooth": 0,
+        "warehouse": 4,
+        "shop_thurles": 1,
+        "shop_kilkenny": 2,
+        "shop_maynooth": 2,
         "shop_mullingar": 1,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -1652,42 +1652,7 @@
           "costPrice": 105,
           "wholesalePrice": 117,
           "sellPrice": 185
-        }
-      ],
-      "createdAt": "2026-08-20",
-      "wholesalePrice": 117
-    },
-    {
-      "id": "item_hbnf1ofw69k",
-      "name": "AirPods Pro 3",
-      "category": "cat_qaxr5vow69i",
-      "memory": "-",
-      "imei": "",
-      "condition": "New",
-      "colors": [
-        "White"
-      ],
-      "batteryPct": 100,
-      "costPrice": 199,
-      "shopPrices": {
-        "warehouse": 225,
-        "shop_thurles": 225,
-        "shop_kilkenny": 199,
-        "shop_maynooth": 199,
-        "shop_mullingar": 225,
-        "shop_tralee": 225,
-        "shop_tullamore": 225
-      },
-      "locations": {
-        "warehouse": 1,
-        "shop_thurles": 1,
-        "shop_kilkenny": 1,
-        "shop_maynooth": 2,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "units": [
+        },
         {
           "id": "unit_er81fx7u5nm",
           "imei": "SGJQ4LFT70W",
@@ -1720,7 +1685,7 @@
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 211
+      "wholesalePrice": 117
     },
     {
       "id": "item_zet5u37w69k",
@@ -9971,7 +9936,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:18:58.423Z"
+    "lastSaved": "2026-08-25T17:21:56.467Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
