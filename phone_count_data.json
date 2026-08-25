@@ -773,7 +773,7 @@
         {
           "id": "unit_d5z2njwu5oz",
           "imei": "350593649181013",
-          "color": "",
+          "color": "Graphite",
           "condition": "New",
           "location": "shop_mullingar",
           "costPrice": 275,
@@ -2407,7 +2407,8 @@
       "colors": [
         "Graygreen",
         "Awesome Lemon",
-        "Awesome White"
+        "Awesome White",
+        "Awesome Lavender"
       ],
       "batteryPct": 100,
       "costPrice": 190,
@@ -2493,7 +2494,7 @@
         {
           "id": "unit_vh6uk72u5oy",
           "imei": "353700230921007",
-          "color": "",
+          "color": "Awesome Lavender",
           "condition": "New",
           "location": "shop_mullingar",
           "costPrice": 190,
@@ -2503,7 +2504,7 @@
         {
           "id": "unit_18w4c8ku5oz",
           "imei": "352049250664886",
-          "color": "",
+          "color": "Graygreen",
           "condition": "New",
           "location": "shop_mullingar",
           "costPrice": 190,
@@ -10101,7 +10102,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:28:44.609Z"
+    "lastSaved": "2026-08-25T17:29:17.040Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
