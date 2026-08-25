@@ -2650,7 +2650,7 @@
     },
     {
       "id": "item_jpbzz2yw69k",
-      "name": "Modio M134 8GB/512GB",
+      "name": "Modio M134",
       "category": "cat_cgd9w36w69i",
       "memory": "8GB/512GB",
       "imei": "",
@@ -7250,7 +7250,7 @@
     },
     {
       "id": "item_z4unclvu5nr",
-      "name": "Samsung Tab A9 X115 4GB/64GB",
+      "name": "Samsung Tab A9 X115",
       "category": "cat_cgd9w36w69i",
       "memory": "4GB/64GB",
       "imei": "",
@@ -9907,7 +9907,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T16:58:48.438Z"
+    "lastSaved": "2026-08-25T16:59:04.598Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
