@@ -7718,9 +7718,9 @@
     },
     {
       "id": "item_dr3xyreu5o2",
-      "name": "Samsung A56 5GB 128GB",
+      "name": "Samsung A56 128GB 5GB",
       "category": "cat_w56n2ktw69i",
-      "memory": "128GB",
+      "memory": "5GB",
       "imei": "",
       "condition": "Used",
       "colors": [
@@ -9887,7 +9887,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T13:45:00.751Z"
+    "lastSaved": "2026-08-25T13:52:27.743Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
