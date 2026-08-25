@@ -2515,7 +2515,7 @@
       },
       "locations": {
         "warehouse": 0,
-        "shop_thurles": 1,
+        "shop_thurles": 0,
         "shop_kilkenny": 3,
         "shop_maynooth": 3,
         "shop_mullingar": 0,
@@ -2523,16 +2523,6 @@
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_u2wwujlu5nr",
-          "imei": "357884911526305",
-          "color": "",
-          "condition": "New",
-          "location": "shop_thurles",
-          "costPrice": 150,
-          "wholesalePrice": 150,
-          "sellPrice": 220
-        },
         {
           "id": "unit_n33ri0ru5oo",
           "imei": "357884911521058",
@@ -9925,7 +9915,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T15:55:36.395Z"
+    "lastSaved": "2026-08-25T15:55:48.275Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
