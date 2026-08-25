@@ -4435,7 +4435,7 @@
       "name": "Hoco Y22",
       "category": "cat_u83iatxw69i",
       "memory": "-",
-      "imei": "",
+      "imei": "6942007629003",
       "condition": "New",
       "batteryPct": 100,
       "costPrice": 1,
@@ -4461,17 +4461,20 @@
         {
           "id": "unit_r7b3i76u5ob",
           "imei": "6942007629003",
-          "color": "",
+          "color": "Black",
           "condition": "New",
-          "location": "shop_kilkenny",
+          "location": "shop_maynooth",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 85
+          "sellPrice": 85,
+          "batteryPct": 100
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 0,
-      "colors": []
+      "wholesalePrice": 13,
+      "colors": [
+        "Black"
+      ]
     },
     {
       "id": "item_kteanhkw69l",
@@ -10056,7 +10059,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:59:19.561Z"
+    "lastSaved": "2026-08-25T18:00:03.922Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
