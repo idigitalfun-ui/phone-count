@@ -4695,7 +4695,7 @@
         "Cobalt"
       ],
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 1050,
         "shop_thurles": 1050,
@@ -4721,8 +4721,8 @@
           "color": "Cobalt",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
-          "wholesalePrice": 13,
+          "costPrice": 0,
+          "wholesalePrice": 0,
           "sellPrice": 1050
         }
       ],
@@ -10008,7 +10008,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:51:11.369Z"
+    "lastSaved": "2026-08-25T17:52:05.626Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
