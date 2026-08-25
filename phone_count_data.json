@@ -529,7 +529,7 @@
       },
       "locations": {
         "warehouse": 0,
-        "shop_thurles": 1,
+        "shop_thurles": 0,
         "shop_kilkenny": 1,
         "shop_maynooth": 2,
         "shop_mullingar": 1,
@@ -537,16 +537,6 @@
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_5ips4u6u5no",
-          "imei": "355039219380259",
-          "color": "",
-          "condition": "New",
-          "location": "shop_thurles",
-          "costPrice": 250,
-          "wholesalePrice": 250,
-          "sellPrice": 300
-        },
         {
           "id": "unit_9libcd8u5o1",
           "imei": "351384482081018",
@@ -2121,7 +2111,7 @@
       "id": "item_fzfhprnw69k",
       "name": "Samsung A36",
       "category": "cat_w56n2ktw69i",
-      "memory": "128GB",
+      "memory": "256GB",
       "imei": "",
       "condition": "New",
       "colors": [
@@ -2194,7 +2184,7 @@
         {
           "id": "unit_bpvoz35u5nq",
           "imei": "350057712554555",
-          "color": "",
+          "color": "Black",
           "condition": "New",
           "location": "shop_thurles",
           "costPrice": 250,
@@ -9915,7 +9905,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T15:55:48.275Z"
+    "lastSaved": "2026-08-25T15:56:19.604Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
