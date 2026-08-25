@@ -153,7 +153,7 @@
     },
     {
       "id": "item_pp17oagw69j",
-      "name": "iPhone 16 128GB",
+      "name": "iPhone 16",
       "category": "cat_7qgen7vw69i",
       "memory": "128GB",
       "imei": "",
@@ -1889,7 +1889,7 @@
     },
     {
       "id": "item_6sqmxamw69k",
-      "name": "iPhone 17 256GB",
+      "name": "iPhone 17",
       "category": "cat_7qgen7vw69i",
       "memory": "256GB",
       "imei": "",
@@ -1923,7 +1923,7 @@
         {
           "id": "unit_gknex6ju5no",
           "imei": "350085642277120",
-          "color": "",
+          "color": "Lavender",
           "condition": "New",
           "location": "shop_thurles",
           "costPrice": 850,
@@ -9925,7 +9925,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T15:53:49.492Z"
+    "lastSaved": "2026-08-25T15:54:13.187Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
