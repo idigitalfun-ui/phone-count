@@ -1060,7 +1060,7 @@
         "shop_tullamore": 20
       },
       "locations": {
-        "warehouse": 10,
+        "warehouse": 4,
         "shop_thurles": 0,
         "shop_kilkenny": 3,
         "shop_maynooth": 2,
@@ -1102,36 +1102,6 @@
         {
           "id": "unit_czdzzepu5nj",
           "imei": "355282134807747",
-          "color": "",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 14,
-          "wholesalePrice": 26,
-          "sellPrice": 20
-        },
-        {
-          "id": "unit_8e9keqbu5nj",
-          "imei": "355282134816086",
-          "color": "",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 14,
-          "wholesalePrice": 26,
-          "sellPrice": 20
-        },
-        {
-          "id": "unit_j5yya0lu5nk",
-          "imei": "355282134797120",
-          "color": "",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 14,
-          "wholesalePrice": 26,
-          "sellPrice": 20
-        },
-        {
-          "id": "unit_gwx27deu5nk",
-          "imei": "355282134801922",
           "color": "",
           "condition": "New",
           "location": "warehouse",
@@ -1265,7 +1235,7 @@
         "shop_tullamore": 22
       },
       "locations": {
-        "warehouse": 8,
+        "warehouse": 4,
         "shop_thurles": 0,
         "shop_kilkenny": 2,
         "shop_maynooth": 2,
@@ -1535,7 +1505,7 @@
         "shop_tullamore": 340
       },
       "locations": {
-        "warehouse": 2,
+        "warehouse": 1,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 1,
@@ -9867,7 +9837,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T14:28:05.504Z"
+    "lastSaved": "2026-08-25T14:29:09.072Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
