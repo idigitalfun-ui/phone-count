@@ -1698,7 +1698,7 @@
     },
     {
       "id": "item_zet5u37w69k",
-      "name": "iPhone 11 64GB",
+      "name": "iPhone 11",
       "category": "cat_7qgen7vw69i",
       "memory": "64GB",
       "imei": "",
@@ -1976,7 +1976,7 @@
     },
     {
       "id": "item_14pcuqkw69k",
-      "name": "iPhone 13 128GB",
+      "name": "iPhone 13",
       "category": "cat_7qgen7vw69i",
       "memory": "128GB",
       "imei": "",
@@ -2023,7 +2023,7 @@
     },
     {
       "id": "item_qw8eo3aw69k",
-      "name": "iPhone 12 64GB",
+      "name": "iPhone 12",
       "category": "cat_7qgen7vw69i",
       "memory": "64GB",
       "imei": "",
@@ -9925,7 +9925,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T15:53:14.175Z"
+    "lastSaved": "2026-08-25T15:53:49.492Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
