@@ -1262,16 +1262,6 @@
           "sellPrice": 45
         },
         {
-          "id": "unit_vluzz1uu5p1",
-          "imei": "355282134834584",
-          "color": "",
-          "condition": "New",
-          "location": "shop_mullingar",
-          "costPrice": 14,
-          "wholesalePrice": 26,
-          "sellPrice": 45
-        },
-        {
           "id": "unit_0cpj2k3u5p8",
           "imei": "352157453759039",
           "color": "",
@@ -1304,6 +1294,18 @@
         {
           "id": "unit_uvpo2ph02qf",
           "imei": "355282133017884",
+          "color": "Charcoal",
+          "condition": "New",
+          "batteryPct": 100,
+          "location": "shop_mullingar",
+          "costPrice": 14,
+          "wholesalePrice": 26,
+          "sellPrice": 45,
+          "addedAt": "2026-08-25"
+        },
+        {
+          "id": "unit_dmcxf6f0rwv",
+          "imei": "355282133017769",
           "color": "Charcoal",
           "condition": "New",
           "batteryPct": 100,
@@ -1429,26 +1431,6 @@
           "sellPrice": 60
         },
         {
-          "id": "unit_8egmovuu5p1",
-          "imei": "355647768271552",
-          "color": "",
-          "condition": "New",
-          "location": "shop_mullingar",
-          "costPrice": 15,
-          "wholesalePrice": 27,
-          "sellPrice": 60
-        },
-        {
-          "id": "unit_rr7e3w6u5p2",
-          "imei": "355647768272055",
-          "color": "",
-          "condition": "New",
-          "location": "shop_mullingar",
-          "costPrice": 15,
-          "wholesalePrice": 27,
-          "sellPrice": 60
-        },
-        {
           "id": "unit_av104ygu5pl",
           "imei": "355647768278219",
           "color": "",
@@ -1467,6 +1449,30 @@
           "costPrice": 15,
           "wholesalePrice": 27,
           "sellPrice": 22
+        },
+        {
+          "id": "unit_r3vzw000zlr",
+          "imei": "355647768271552",
+          "color": "Charcoal",
+          "condition": "New",
+          "batteryPct": 100,
+          "location": "shop_mullingar",
+          "costPrice": 14,
+          "wholesalePrice": 26,
+          "sellPrice": 60,
+          "addedAt": "2026-08-25"
+        },
+        {
+          "id": "unit_mg2k1wk14ev",
+          "imei": "355647768272055",
+          "color": "Charcoal",
+          "condition": "New",
+          "batteryPct": 100,
+          "location": "shop_mullingar",
+          "costPrice": 14,
+          "wholesalePrice": 26,
+          "sellPrice": 60,
+          "addedAt": "2026-08-25"
         }
       ],
       "createdAt": "2026-08-20",
@@ -10104,7 +10110,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:32:17.753Z"
+    "lastSaved": "2026-08-25T17:33:06.584Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
