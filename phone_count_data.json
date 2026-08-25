@@ -107,7 +107,7 @@
         "shop_tullamore": 3
       },
       "createdAt": "2026-08-20",
-      "wholesalePrice": 297,
+      "wholesalePrice": 295,
       "units": [
         {
           "id": "unit_pissuuxonc9",
@@ -294,7 +294,7 @@
         "Green"
       ],
       "batteryPct": 100,
-      "costPrice": 0,
+      "costPrice": 80,
       "shopPrices": {
         "warehouse": 95,
         "shop_thurles": 95,
@@ -351,8 +351,8 @@
           "condition": "New",
           "batteryPct": null,
           "location": "shop_mullingar",
-          "costPrice": 0,
-          "wholesalePrice": 0,
+          "costPrice": 80,
+          "wholesalePrice": 92,
           "sellPrice": 95,
           "addedAt": "2026-08-25"
         },
@@ -363,14 +363,14 @@
           "condition": "New",
           "batteryPct": 100,
           "location": "shop_mullingar",
-          "costPrice": 0,
-          "wholesalePrice": 0,
+          "costPrice": 80,
+          "wholesalePrice": 92,
           "sellPrice": 95,
           "addedAt": "2026-08-25"
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 0
+      "wholesalePrice": 92
     },
     {
       "id": "item_kb0hq9hw69k",
@@ -384,7 +384,7 @@
         "Green"
       ],
       "batteryPct": 100,
-      "costPrice": 0,
+      "costPrice": 95,
       "shopPrices": {
         "warehouse": 115,
         "shop_thurles": 160,
@@ -461,8 +461,8 @@
           "condition": "New",
           "batteryPct": 100,
           "location": "shop_mullingar",
-          "costPrice": 0,
-          "wholesalePrice": 0,
+          "costPrice": 95,
+          "wholesalePrice": 107,
           "sellPrice": 115,
           "addedAt": "2026-08-25"
         },
@@ -473,14 +473,14 @@
           "condition": "New",
           "batteryPct": 100,
           "location": "shop_mullingar",
-          "costPrice": 0,
-          "wholesalePrice": 0,
+          "costPrice": 95,
+          "wholesalePrice": 107,
           "sellPrice": 115,
           "addedAt": "2026-08-25"
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 0
+      "wholesalePrice": 107
     },
     {
       "id": "item_ktmrwgdw69k",
@@ -607,13 +607,13 @@
           "batteryPct": 100,
           "location": "warehouse",
           "costPrice": 1,
-          "wholesalePrice": 13,
+          "wholesalePrice": 290,
           "sellPrice": 280,
           "addedAt": "2026-08-25"
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 13
+      "wholesalePrice": 290
     },
     {
       "id": "item_cu1j56ww69k",
@@ -1565,8 +1565,8 @@
           "color": "Gray",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 1,
-          "wholesalePrice": 13,
+          "costPrice": 140,
+          "wholesalePrice": 152,
           "sellPrice": 200
         },
         {
@@ -1576,8 +1576,8 @@
           "condition": "New",
           "batteryPct": 100,
           "location": "shop_mullingar",
-          "costPrice": 1,
-          "wholesalePrice": 13,
+          "costPrice": 140,
+          "wholesalePrice": 152,
           "sellPrice": 160,
           "addedAt": "2026-08-25"
         }
@@ -3361,7 +3361,7 @@
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
-      "wholesalePrice": 452,
+      "wholesalePrice": 440,
       "units": [
         {
           "id": "unit_m8vxy1d9wih",
@@ -7943,7 +7943,7 @@
       "condition": "New",
       "batteryPct": null,
       "costPrice": 1,
-      "wholesalePrice": 13,
+      "wholesalePrice": 0,
       "shopPrices": {
         "warehouse": 160,
         "shop_thurles": 160,
@@ -9823,7 +9823,7 @@
         "Black"
       ],
       "costPrice": 1,
-      "wholesalePrice": 13,
+      "wholesalePrice": 0,
       "shopPrices": {
         "warehouse": 1,
         "shop_thurles": 1,
@@ -10008,7 +10008,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:48:00.329Z"
+    "lastSaved": "2026-08-25T17:49:10.771Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
