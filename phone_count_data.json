@@ -2020,7 +2020,7 @@
       "name": "iPhone 13",
       "category": "cat_7qgen7vw69i",
       "memory": "128GB",
-      "imei": "",
+      "imei": "357149975344668",
       "condition": "Used",
       "batteryPct": null,
       "costPrice": 0,
@@ -2056,10 +2056,23 @@
           "batteryPct": null,
           "dateAdded": "2026-08-25",
           "wholesalePrice": 0
+        },
+        {
+          "id": "unit_natebo69m13",
+          "imei": "357149975344668",
+          "color": "Starlight",
+          "condition": "Used",
+          "batteryPct": null,
+          "location": "shop_maynooth",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 395,
+          "addedAt": "2026-08-25"
         }
       ],
       "colors": [
-        "Blue"
+        "Blue",
+        "Starlight"
       ]
     },
     {
@@ -10071,7 +10084,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:39:20.656Z"
+    "lastSaved": "2026-08-25T17:39:42.664Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
