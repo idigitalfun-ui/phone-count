@@ -1390,7 +1390,7 @@
         "shop_tullamore": 160
       },
       "locations": {
-        "warehouse": 8,
+        "warehouse": 6,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
@@ -1402,16 +1402,6 @@
         {
           "id": "unit_bd19a0lu5nl",
           "imei": "350769531601421",
-          "color": "",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 140,
-          "wholesalePrice": 152,
-          "sellPrice": 160
-        },
-        {
-          "id": "unit_ffi2vryu5nl",
-          "imei": "350769531601488",
           "color": "",
           "condition": "New",
           "location": "warehouse",
@@ -1560,7 +1550,7 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 4,
+        "warehouse": 3,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
@@ -1635,7 +1625,7 @@
         "shop_tullamore": 225
       },
       "locations": {
-        "warehouse": 2,
+        "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
         "shop_maynooth": 2,
@@ -9837,7 +9827,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T14:29:09.072Z"
+    "lastSaved": "2026-08-25T14:29:42.392Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
