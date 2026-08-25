@@ -9870,6 +9870,96 @@
       },
       "units": [],
       "createdAt": "2026-08-25"
+    },
+    {
+      "id": "item_exik3cems4n",
+      "name": "iPhone 11",
+      "category": "cat_7qgen7vw69i",
+      "memory": "64GB",
+      "condition": "New",
+      "batteryPct": null,
+      "imei": "356871118342017",
+      "colors": [
+        "Purple"
+      ],
+      "costPrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 1,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_jeg3xt4mxc7",
+          "imei": "356871118342017",
+          "color": "Purple",
+          "condition": "Used",
+          "location": "shop_thurles",
+          "costPrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null,
+          "dateAdded": "2026-08-25"
+        }
+      ],
+      "createdAt": "2026-08-25"
+    },
+    {
+      "id": "item_9dcbhqrnj2n",
+      "name": "iPhone 11",
+      "category": "cat_7qgen7vw69i",
+      "memory": "64GB",
+      "condition": "New",
+      "batteryPct": null,
+      "imei": "351010395544525",
+      "colors": [
+        "Purple"
+      ],
+      "costPrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 1,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_p5w9t1gnl5z",
+          "imei": "351010395544525",
+          "color": "Purple",
+          "condition": "New",
+          "location": "shop_thurles",
+          "costPrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null,
+          "dateAdded": "2026-08-25"
+        }
+      ],
+      "createdAt": "2026-08-25"
     }
   ],
   "movements": [
@@ -9903,7 +9993,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T14:33:24.936Z"
+    "lastSaved": "2026-08-25T14:34:37.418Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
