@@ -210,7 +210,7 @@
         "Green"
       ],
       "batteryPct": 100,
-      "costPrice": 80,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 95,
         "shop_thurles": 95,
@@ -256,8 +256,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 80,
-          "wholesalePrice": 92,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 130
         },
         {
@@ -266,13 +266,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 80,
-          "wholesalePrice": 92,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 130
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 92
+      "wholesalePrice": 13
     },
     {
       "id": "item_kb0hq9hw69k",
@@ -286,7 +286,7 @@
         "Green"
       ],
       "batteryPct": 100,
-      "costPrice": 95,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 115,
         "shop_thurles": 160,
@@ -352,8 +352,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 95,
-          "wholesalePrice": 107,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 150
         },
         {
@@ -362,8 +362,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 95,
-          "wholesalePrice": 107,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 150
         },
         {
@@ -372,13 +372,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_tullamore",
-          "costPrice": 95,
-          "wholesalePrice": 107,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 115
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 107
+      "wholesalePrice": 13
     },
     {
       "id": "item_ktmrwgdw69k",
@@ -391,7 +391,7 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 99,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 120,
         "shop_thurles": 180,
@@ -437,8 +437,8 @@
           "color": "",
           "condition": "Used",
           "location": "shop_kilkenny",
-          "costPrice": 99,
-          "wholesalePrice": 111,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 190
         },
         {
@@ -447,8 +447,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 99,
-          "wholesalePrice": 111,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 190
         },
         {
@@ -457,8 +457,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 99,
-          "wholesalePrice": 111,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 190
         },
         {
@@ -467,8 +467,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 99,
-          "wholesalePrice": 111,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 190
         },
         {
@@ -477,8 +477,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 99,
-          "wholesalePrice": 111,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 190
         },
         {
@@ -487,8 +487,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 99,
-          "wholesalePrice": 111,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 190
         },
         {
@@ -497,13 +497,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 99,
-          "wholesalePrice": 111,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 190
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 111
+      "wholesalePrice": 13
     },
     {
       "id": "item_44l4y60w69k",
@@ -566,7 +566,7 @@
         "Lavender"
       ],
       "batteryPct": 100,
-      "costPrice": 285,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 320,
         "shop_thurles": 340,
@@ -602,8 +602,8 @@
           "color": "",
           "condition": "Used",
           "location": "shop_kilkenny",
-          "costPrice": 285,
-          "wholesalePrice": 285,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 440
         },
         {
@@ -612,13 +612,13 @@
           "color": "",
           "condition": "Used",
           "location": "shop_kilkenny",
-          "costPrice": 285,
-          "wholesalePrice": 285,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 440
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 285
+      "wholesalePrice": 13
     },
     {
       "id": "item_imoqln3w69k",
@@ -636,7 +636,7 @@
         "Awesome Olive"
       ],
       "batteryPct": 100,
-      "costPrice": 275,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 305,
         "shop_thurles": 330,
@@ -672,8 +672,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 275,
-          "wholesalePrice": 287,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 380
         },
         {
@@ -682,8 +682,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 275,
-          "wholesalePrice": 287,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 380
         },
         {
@@ -692,13 +692,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 275,
-          "wholesalePrice": 287,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 305
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 287
+      "wholesalePrice": 13
     },
     {
       "id": "item_ccykxiqw69k",
@@ -711,7 +711,7 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 155,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 180,
         "shop_thurles": 180,
@@ -797,13 +797,13 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 155,
-          "wholesalePrice": 167,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 240
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 167
+      "wholesalePrice": 13
     },
     {
       "id": "item_0apjlq8w69k",
@@ -816,7 +816,7 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 135,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 155,
         "shop_thurles": 155,
@@ -912,7 +912,7 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 135,
+          "costPrice": 1,
           "wholesalePrice": 135,
           "sellPrice": 210
         },
@@ -922,13 +922,13 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 135,
-          "wholesalePrice": 147,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 210
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 147
+      "wholesalePrice": 13
     },
     {
       "id": "item_4xqsbqew69k",
@@ -942,7 +942,7 @@
         "Phantom Black"
       ],
       "batteryPct": 100,
-      "costPrice": 60,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 75,
         "shop_thurles": 75,
@@ -1018,8 +1018,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 60,
-          "wholesalePrice": 72,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 160
         },
         {
@@ -1028,8 +1028,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 60,
-          "wholesalePrice": 72,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 160
         },
         {
@@ -1038,8 +1038,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 60,
-          "wholesalePrice": 72,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 160
         },
         {
@@ -1048,13 +1048,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 60,
-          "wholesalePrice": 72,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 160
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 72
+      "wholesalePrice": 13
     },
     {
       "id": "item_vqdsfdww69k",
@@ -1067,7 +1067,7 @@
         "Charcoal"
       ],
       "batteryPct": 100,
-      "costPrice": 14,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 20,
         "shop_thurles": 20,
@@ -1133,8 +1133,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 14,
-          "wholesalePrice": 26,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 45
         },
         {
@@ -1143,8 +1143,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 14,
-          "wholesalePrice": 26,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 45
         },
         {
@@ -1153,8 +1153,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 14,
-          "wholesalePrice": 26,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 45
         },
         {
@@ -1163,8 +1163,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 14,
-          "wholesalePrice": 26,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 45
         },
         {
@@ -1173,8 +1173,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 14,
-          "wholesalePrice": 26,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 45
         },
         {
@@ -1183,8 +1183,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 14,
-          "wholesalePrice": 26,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 45
         },
         {
@@ -1193,8 +1193,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 14,
-          "wholesalePrice": 26,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 45
         },
         {
@@ -1203,8 +1203,8 @@
           "color": "",
           "condition": "Used",
           "location": "shop_tralee",
-          "costPrice": 14,
-          "wholesalePrice": 26,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 30
         },
         {
@@ -1213,8 +1213,8 @@
           "color": "",
           "condition": "Used",
           "location": "shop_tralee",
-          "costPrice": 14,
-          "wholesalePrice": 26,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 30
         },
         {
@@ -1223,13 +1223,13 @@
           "color": "",
           "condition": "Used",
           "location": "shop_tralee",
-          "costPrice": 14,
-          "wholesalePrice": 26,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 30
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 26
+      "wholesalePrice": 13
     },
     {
       "id": "item_xil44ciw69k",
@@ -1242,7 +1242,7 @@
         "Charcoal"
       ],
       "batteryPct": 100,
-      "costPrice": 15,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 22,
         "shop_thurles": 22,
@@ -1308,8 +1308,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 15,
-          "wholesalePrice": 27,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 60
         },
         {
@@ -1318,8 +1318,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 15,
-          "wholesalePrice": 27,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 60
         },
         {
@@ -1328,8 +1328,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 15,
-          "wholesalePrice": 27,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 60
         },
         {
@@ -1338,8 +1338,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 15,
-          "wholesalePrice": 27,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 60
         },
         {
@@ -1348,8 +1348,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 15,
-          "wholesalePrice": 27,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 60
         },
         {
@@ -1358,8 +1358,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 15,
-          "wholesalePrice": 27,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 60
         },
         {
@@ -1368,8 +1368,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_tullamore",
-          "costPrice": 15,
-          "wholesalePrice": 27,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 22
         },
         {
@@ -1378,13 +1378,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_tullamore",
-          "costPrice": 15,
-          "wholesalePrice": 27,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 22
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 27
+      "wholesalePrice": 13
     },
     {
       "id": "item_wqsfklyw69k",
@@ -1397,7 +1397,7 @@
         "Gray"
       ],
       "batteryPct": 100,
-      "costPrice": 140,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 160,
         "shop_thurles": 160,
@@ -1483,13 +1483,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 140,
-          "wholesalePrice": 152,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 260
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 152
+      "wholesalePrice": 13
     },
     {
       "id": "item_krrjnksw69k",
@@ -1502,7 +1502,7 @@
         "Blue"
       ],
       "batteryPct": 100,
-      "costPrice": 300,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 340,
         "shop_thurles": 340,
@@ -1538,13 +1538,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 300,
-          "wholesalePrice": 312,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 340
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 312
+      "wholesalePrice": 13
     },
     {
       "id": "item_6t2ggm3w69k",
@@ -1771,7 +1771,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 190,
-          "wholesalePrice": 200,
+          "wholesalePrice": 13,
           "sellPrice": 240
         },
         {
@@ -1781,7 +1781,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 190,
-          "wholesalePrice": 200,
+          "wholesalePrice": 13,
           "sellPrice": 240
         },
         {
@@ -1791,7 +1791,7 @@
           "condition": "Used",
           "location": "shop_mullingar",
           "costPrice": 190,
-          "wholesalePrice": 200,
+          "wholesalePrice": 13,
           "sellPrice": 240
         },
         {
@@ -1801,7 +1801,7 @@
           "condition": "Used",
           "location": "shop_tralee",
           "costPrice": 190,
-          "wholesalePrice": 200,
+          "wholesalePrice": 13,
           "sellPrice": 240
         },
         {
@@ -1811,7 +1811,7 @@
           "condition": "Used",
           "location": "shop_tralee",
           "costPrice": 190,
-          "wholesalePrice": 200,
+          "wholesalePrice": 13,
           "sellPrice": 240
         },
         {
@@ -1821,7 +1821,7 @@
           "condition": "Used",
           "location": "shop_tullamore",
           "costPrice": 190,
-          "wholesalePrice": 200,
+          "wholesalePrice": 13,
           "sellPrice": 270
         },
         {
@@ -1831,7 +1831,7 @@
           "condition": "Used",
           "location": "shop_tullamore",
           "costPrice": 190,
-          "wholesalePrice": 200,
+          "wholesalePrice": 13,
           "sellPrice": 270
         },
         {
@@ -1841,7 +1841,7 @@
           "condition": "Used",
           "location": "shop_tullamore",
           "costPrice": 190,
-          "wholesalePrice": 200,
+          "wholesalePrice": 13,
           "sellPrice": 270
         },
         {
@@ -1890,7 +1890,7 @@
         "White"
       ],
       "batteryPct": 100,
-      "costPrice": 850,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 930,
         "shop_thurles": 930,
@@ -1926,7 +1926,7 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 850,
+          "costPrice": 1,
           "wholesalePrice": 100,
           "sellPrice": 930
         },
@@ -1936,8 +1936,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 850,
-          "wholesalePrice": 850,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 930
         },
         {
@@ -1946,8 +1946,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 850,
-          "wholesalePrice": 850,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 930
         },
         {
@@ -1956,13 +1956,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 850,
-          "wholesalePrice": 850,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 930
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 850
+      "wholesalePrice": 13
     },
     {
       "id": "item_14pcuqkw69k",
@@ -2023,7 +2023,7 @@
         "Blue"
       ],
       "batteryPct": null,
-      "costPrice": 230,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 290,
         "shop_thurles": 290,
@@ -2059,7 +2059,7 @@
           "color": "",
           "condition": "Used",
           "location": "shop_kilkenny",
-          "costPrice": 230,
+          "costPrice": 1,
           "wholesalePrice": 87,
           "sellPrice": 390
         },
@@ -2069,8 +2069,8 @@
           "color": "",
           "condition": "Used",
           "location": "shop_maynooth",
-          "costPrice": 230,
-          "wholesalePrice": 230,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 290
         },
         {
@@ -2079,8 +2079,8 @@
           "color": "",
           "condition": "Used",
           "location": "shop_maynooth",
-          "costPrice": 230,
-          "wholesalePrice": 230,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 290
         },
         {
@@ -2089,8 +2089,8 @@
           "color": "",
           "condition": "Used",
           "location": "shop_maynooth",
-          "costPrice": 230,
-          "wholesalePrice": 230,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 290
         },
         {
@@ -2099,13 +2099,13 @@
           "color": "",
           "condition": "Used",
           "location": "shop_tullamore",
-          "costPrice": 230,
-          "wholesalePrice": 230,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 340
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 230
+      "wholesalePrice": 13
     },
     {
       "id": "item_fzfhprnw69k",
@@ -2121,7 +2121,7 @@
         "Lavender"
       ],
       "batteryPct": 100,
-      "costPrice": 250,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 300,
         "shop_thurles": 300,
@@ -2197,7 +2197,7 @@
           "color": "",
           "condition": "Used",
           "location": "shop_kilkenny",
-          "costPrice": 250,
+          "costPrice": 1,
           "wholesalePrice": 260,
           "sellPrice": 320
         },
@@ -2207,7 +2207,7 @@
           "color": "",
           "condition": "Used",
           "location": "shop_kilkenny",
-          "costPrice": 250,
+          "costPrice": 1,
           "wholesalePrice": 260,
           "sellPrice": 320
         },
@@ -2217,8 +2217,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 250,
-          "wholesalePrice": 262,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 320
         },
         {
@@ -2227,8 +2227,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 250,
-          "wholesalePrice": 262,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 320
         },
         {
@@ -2237,13 +2237,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 250,
-          "wholesalePrice": 262,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 320
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 262
+      "wholesalePrice": 13
     },
     {
       "id": "item_kjnrq5aw69k",
@@ -2312,7 +2312,7 @@
         "Icyblue"
       ],
       "batteryPct": 100,
-      "costPrice": 350,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 455,
         "shop_thurles": 455,
@@ -2348,8 +2348,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 350,
-          "wholesalePrice": 350,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 455
         },
         {
@@ -2358,13 +2358,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 350,
-          "wholesalePrice": 350,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 455
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 350
+      "wholesalePrice": 13
     },
     {
       "id": "item_qbvtan1w69k",
@@ -2379,7 +2379,7 @@
         "Awesome White"
       ],
       "batteryPct": 100,
-      "costPrice": 190,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 285,
         "shop_thurles": 240,
@@ -2425,8 +2425,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 190,
-          "wholesalePrice": 190,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 240
         },
         {
@@ -2435,8 +2435,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 190,
-          "wholesalePrice": 190,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 240
         },
         {
@@ -2445,8 +2445,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 190,
-          "wholesalePrice": 190,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 240
         },
         {
@@ -2455,8 +2455,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 190,
-          "wholesalePrice": 190,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 240
         },
         {
@@ -2465,8 +2465,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 190,
-          "wholesalePrice": 190,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 240
         },
         {
@@ -2475,13 +2475,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 190,
-          "wholesalePrice": 190,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 240
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 190
+      "wholesalePrice": 13
     },
     {
       "id": "item_x587cu6w69k",
@@ -2594,7 +2594,7 @@
         "Dreamy Purple"
       ],
       "batteryPct": 100,
-      "costPrice": 65,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 80,
         "shop_thurles": 80,
@@ -2630,8 +2630,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 65,
-          "wholesalePrice": 65,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 80
         },
         {
@@ -2640,13 +2640,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 65,
-          "wholesalePrice": 65,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 80
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 65
+      "wholesalePrice": 13
     },
     {
       "id": "item_jpbzz2yw69k",
@@ -2704,7 +2704,7 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 60,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 80,
         "shop_thurles": 80,
@@ -2750,7 +2750,7 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 60,
+          "costPrice": 1,
           "wholesalePrice": 60,
           "sellPrice": 100
         },
@@ -2760,8 +2760,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 60,
-          "wholesalePrice": 60,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 100
         },
         {
@@ -2770,8 +2770,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 60,
-          "wholesalePrice": 60,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 100
         },
         {
@@ -2780,13 +2780,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 60,
-          "wholesalePrice": 60,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 100
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 60
+      "wholesalePrice": 13
     },
     {
       "id": "item_tf02n21w69l",
@@ -2799,7 +2799,7 @@
         "Blue"
       ],
       "batteryPct": 100,
-      "costPrice": 20,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 30,
         "shop_thurles": 45,
@@ -2835,13 +2835,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 20,
-          "wholesalePrice": 20,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 30
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 20
+      "wholesalePrice": 13
     },
     {
       "id": "item_tt1z6ncw69l",
@@ -3192,7 +3192,7 @@
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
-      "wholesalePrice": 100,
+      "wholesalePrice": 380,
       "units": [
         {
           "id": "unit_ozbpcwdu5nu",
@@ -3305,7 +3305,7 @@
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 89
+      "wholesalePrice": 88
     },
     {
       "id": "item_bfa9y5vw69l",
@@ -3400,12 +3400,12 @@
           "condition": "Used",
           "location": "shop_tullamore",
           "costPrice": 1,
-          "wholesalePrice": 88,
+          "wholesalePrice": 13,
           "sellPrice": 700
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 88
+      "wholesalePrice": 13
     },
     {
       "id": "item_07lmh0xw69l",
@@ -3984,12 +3984,12 @@
           "condition": "Used",
           "location": "shop_tullamore",
           "costPrice": 1,
-          "wholesalePrice": 90,
+          "wholesalePrice": 13,
           "sellPrice": 140
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 90
+      "wholesalePrice": 13
     },
     {
       "id": "item_lsggxg3w69l",
@@ -5638,7 +5638,7 @@
         "Red"
       ],
       "batteryPct": null,
-      "costPrice": 300,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 380,
         "shop_thurles": 380,
@@ -5684,13 +5684,13 @@
           "color": "",
           "condition": "Used",
           "location": "shop_tullamore",
-          "costPrice": 300,
-          "wholesalePrice": 300,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 370
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 300
+      "wholesalePrice": 13
     },
     {
       "id": "item_8uiru1kw69m",
@@ -5703,7 +5703,7 @@
         "Gold"
       ],
       "batteryPct": null,
-      "costPrice": 170,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 230,
         "shop_thurles": 230,
@@ -5739,13 +5739,13 @@
           "color": "",
           "condition": "Used",
           "location": "shop_tullamore",
-          "costPrice": 170,
-          "wholesalePrice": 170,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 350
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 170
+      "wholesalePrice": 13
     },
     {
       "id": "item_4dxd3akw69m",
@@ -5759,7 +5759,7 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 220,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 300,
         "shop_thurles": 300,
@@ -5805,13 +5805,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_tullamore",
-          "costPrice": 220,
-          "wholesalePrice": 220,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 350
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 220
+      "wholesalePrice": 13
     },
     {
       "id": "item_x014icsw69m",
@@ -6058,7 +6058,7 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 60,
+      "costPrice": 1,
       "shopPrices": {
         "warehouse": 90,
         "shop_thurles": 90,
@@ -6104,13 +6104,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_tullamore",
-          "costPrice": 60,
-          "wholesalePrice": 60,
+          "costPrice": 1,
+          "wholesalePrice": 13,
           "sellPrice": 90
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 60
+      "wholesalePrice": 13
     },
     {
       "id": "item_98isb3vw69m",
@@ -7570,7 +7570,7 @@
       ],
       "batteryPct": null,
       "costPrice": 1,
-      "wholesalePrice": 107,
+      "wholesalePrice": 13,
       "shopPrices": {
         "warehouse": 190,
         "shop_thurles": 190,
@@ -7627,7 +7627,7 @@
           "condition": "New",
           "location": "shop_tullamore",
           "costPrice": 1,
-          "wholesalePrice": 107,
+          "wholesalePrice": 13,
           "sellPrice": 190
         },
         {
@@ -7637,7 +7637,7 @@
           "condition": "New",
           "location": "shop_tullamore",
           "costPrice": 1,
-          "wholesalePrice": 107,
+          "wholesalePrice": 13,
           "sellPrice": 190
         }
       ],
@@ -9907,7 +9907,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:01:47.147Z"
+    "lastSaved": "2026-08-25T16:59:35.470Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
