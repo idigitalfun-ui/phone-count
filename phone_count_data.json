@@ -5197,23 +5197,12 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
-        "shop_maynooth": 2,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_jffwwpmu5ow",
-          "imei": "00HS6620D",
-          "color": "",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 35
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-20",
       "wholesalePrice": 0,
       "colors": []
@@ -10059,7 +10048,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T18:00:03.922Z"
+    "lastSaved": "2026-08-25T18:00:40.441Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
