@@ -1262,16 +1262,6 @@
           "sellPrice": 45
         },
         {
-          "id": "unit_om13dltu5p1",
-          "imei": "355282134825061",
-          "color": "",
-          "condition": "New",
-          "location": "shop_mullingar",
-          "costPrice": 14,
-          "wholesalePrice": 26,
-          "sellPrice": 45
-        },
-        {
           "id": "unit_vluzz1uu5p1",
           "imei": "355282134834584",
           "color": "",
@@ -1310,6 +1300,18 @@
           "costPrice": 14,
           "wholesalePrice": 26,
           "sellPrice": 30
+        },
+        {
+          "id": "unit_uvpo2ph02qf",
+          "imei": "355282133017884",
+          "color": "Charcoal",
+          "condition": "New",
+          "batteryPct": 100,
+          "location": "shop_mullingar",
+          "costPrice": 14,
+          "wholesalePrice": 26,
+          "sellPrice": 45,
+          "addedAt": "2026-08-25"
         }
       ],
       "createdAt": "2026-08-20",
@@ -2723,7 +2725,8 @@
       "imei": "",
       "condition": "New",
       "colors": [
-        "Black"
+        "Black",
+        "Blue"
       ],
       "batteryPct": 100,
       "costPrice": 60,
@@ -2789,7 +2792,7 @@
         {
           "id": "unit_92g82c7u5ot",
           "imei": "862599070169725",
-          "color": "",
+          "color": "Blue",
           "condition": "New",
           "location": "shop_mullingar",
           "costPrice": 60,
@@ -10101,7 +10104,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:31:39.801Z"
+    "lastSaved": "2026-08-25T17:32:17.753Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
