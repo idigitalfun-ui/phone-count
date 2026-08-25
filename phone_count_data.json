@@ -8190,23 +8190,12 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_8id42c4u5ot",
-          "imei": "354933660374566",
-          "color": "Pink",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 0,
-          "wholesalePrice": 0,
-          "sellPrice": 0
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-20"
     },
     {
@@ -10015,6 +10004,28 @@
       "date": "2026-08-25",
       "note": "Transferred from Inventory",
       "id": "mv_pure5yzz9g7"
+    },
+    {
+      "id": "mv_py7d7c6vkag",
+      "type": "faulty",
+      "itemId": "item_43fm6seu5ot",
+      "itemName": "Modio M25 Tablet",
+      "categoryId": "cat_cgd9w36w69i",
+      "location": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-08-25",
+      "note": "stop charging, will send to warehouse as foulty",
+      "sellPrice": 0,
+      "unitData": {
+        "id": "unit_8id42c4u5ot",
+        "imei": "354933660374566",
+        "color": "Pink",
+        "condition": "New",
+        "location": "shop_maynooth",
+        "costPrice": 0,
+        "wholesalePrice": 0,
+        "sellPrice": 0
+      }
     }
   ],
   "reorderList": [],
@@ -10022,7 +10033,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:56:26.489Z"
+    "lastSaved": "2026-08-25T17:56:46.841Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
