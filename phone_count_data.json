@@ -181,7 +181,7 @@
       "imei": "",
       "condition": "New",
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 679,
         "shop_thurles": 700,
@@ -196,7 +196,7 @@
         "shop_thurles": 1,
         "shop_kilkenny": 4,
         "shop_maynooth": 1,
-        "shop_mullingar": 0,
+        "shop_mullingar": 1,
         "shop_tralee": 0,
         "shop_tullamore": 1
       },
@@ -214,6 +214,18 @@
           "batteryPct": null,
           "dateAdded": "2026-08-25",
           "wholesalePrice": 13
+        },
+        {
+          "id": "unit_9ooj3c4aznq",
+          "imei": "356342316966759",
+          "color": "White",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_mullingar",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 679,
+          "addedAt": "2026-08-25"
         }
       ],
       "colors": [
@@ -3431,7 +3443,7 @@
     },
     {
       "id": "item_07lmh0xw69l",
-      "name": "iPhone 15 128GB",
+      "name": "iPhone 15",
       "category": "cat_7qgen7vw69i",
       "memory": "128GB",
       "imei": "",
@@ -3479,7 +3491,8 @@
           "costPrice": 440,
           "sellPrice": 550,
           "batteryPct": null,
-          "dateAdded": "2026-08-25"
+          "dateAdded": "2026-08-25",
+          "wholesalePrice": 440
         }
       ],
       "colors": [
@@ -9955,7 +9968,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:12:06.300Z"
+    "lastSaved": "2026-08-25T17:12:54.991Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
