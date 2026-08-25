@@ -81,7 +81,7 @@
   "items": [
     {
       "id": "item_cicbgruw69j",
-      "name": "iPhone 14 128GB",
+      "name": "iPhone 14",
       "category": "cat_7qgen7vw69i",
       "memory": "128GB",
       "imei": "",
@@ -200,7 +200,7 @@
     },
     {
       "id": "item_aua8nirw69j",
-      "name": "Samsung A07 4GB/64GB",
+      "name": "Samsung A07",
       "category": "cat_w56n2ktw69i",
       "memory": "4GB/64GB",
       "imei": "",
@@ -276,7 +276,7 @@
     },
     {
       "id": "item_kb0hq9hw69k",
-      "name": "Samsung A07 4GB/128GB",
+      "name": "Samsung A07",
       "category": "cat_w56n2ktw69i",
       "memory": "4GB/128GB",
       "imei": "",
@@ -382,7 +382,7 @@
     },
     {
       "id": "item_ktmrwgdw69k",
-      "name": "Samsung A16 4GB/128GB",
+      "name": "Samsung A16",
       "category": "cat_w56n2ktw69i",
       "memory": "4GB/128GB",
       "imei": "",
@@ -632,7 +632,7 @@
     },
     {
       "id": "item_imoqln3w69k",
-      "name": "Samsung A56 8GB/128GB",
+      "name": "Samsung A56",
       "category": "cat_w56n2ktw69i",
       "memory": "8GB/128GB",
       "imei": "",
@@ -2095,7 +2095,7 @@
     },
     {
       "id": "item_fzfhprnw69k",
-      "name": "Samsung A36 5G 128GB",
+      "name": "Samsung A36 5G",
       "category": "cat_w56n2ktw69i",
       "memory": "128GB",
       "imei": "",
@@ -2354,7 +2354,7 @@
     },
     {
       "id": "item_qbvtan1w69k",
-      "name": "Samsung A37 5G 128GB",
+      "name": "Samsung A37 5G",
       "category": "cat_w56n2ktw69i",
       "memory": "128GB",
       "imei": "",
@@ -9933,7 +9933,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T14:40:21.602Z"
+    "lastSaved": "2026-08-25T14:43:32.578Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
