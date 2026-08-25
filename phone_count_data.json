@@ -2682,7 +2682,7 @@
         {
           "id": "unit_ylhyv7pu5nr",
           "imei": "355886880698231",
-          "color": "",
+          "color": "Gray",
           "condition": "New",
           "location": "shop_thurles",
           "costPrice": 140,
@@ -9907,7 +9907,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T16:58:31.102Z"
+    "lastSaved": "2026-08-25T16:58:48.438Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
