@@ -616,7 +616,7 @@
         "shop_thurles": 0,
         "shop_kilkenny": 1,
         "shop_maynooth": 2,
-        "shop_mullingar": 1,
+        "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
@@ -2167,7 +2167,7 @@
         "shop_thurles": 1,
         "shop_kilkenny": 2,
         "shop_maynooth": 2,
-        "shop_mullingar": 2,
+        "shop_mullingar": 1,
         "shop_tralee": 3,
         "shop_tullamore": 0
       },
@@ -2265,7 +2265,7 @@
         {
           "id": "unit_i1qi1zmu5oy",
           "imei": "350057712576640",
-          "color": "",
+          "color": "Black",
           "condition": "New",
           "location": "shop_mullingar",
           "costPrice": 250,
@@ -10077,7 +10077,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:27:41.744Z"
+    "lastSaved": "2026-08-25T17:28:15.352Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
