@@ -818,6 +818,7 @@ const Store = {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
     this.data.meta.lastSaved = new Date().toISOString();
     FileStore.writeAsync(); // silently write to linked file if one is set
+    GitHubStore.triggerDebouncedSave(); // silently push to GitHub in background
     updateSaveIndicator();
   },
   snapshotToBackups(label){
@@ -1047,18 +1048,282 @@ const FileStore = {
   }
 };
 
+/* ---------- GitHub Cloud Auto-Save Engine ---------- */
+const GITHUB_CONFIG_KEY = 'stockline_gh_config';
+
+function utf8ToBase64(str) {
+  try {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1)));
+  } catch(e) {
+    return btoa(unescape(encodeURIComponent(str)));
+  }
+}
+function base64ToUtf8(str) {
+  try {
+    return decodeURIComponent(atob(str).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+  } catch(e) {
+    return decodeURIComponent(escape(atob(str)));
+  }
+}
+
+const GitHubStore = {
+  _timer: null,
+  _debounceTimer: null,
+  _syncing: false,
+
+  getDefaultConfig(){
+    return {
+      token: '',
+      owner: 'idigitalfun-ui',
+      repo: 'phone-count',
+      branch: 'main',
+      path: 'phone_count_data.json',
+      autoSync: true,
+      intervalMinutes: 3,
+      lastSync: null,
+      status: 'unconfigured',
+      lastError: null,
+      sha: null
+    };
+  },
+
+  getConfig(){
+    try {
+      const raw = localStorage.getItem(GITHUB_CONFIG_KEY);
+      if(!raw) return this.getDefaultConfig();
+      return { ...this.getDefaultConfig(), ...JSON.parse(raw) };
+    } catch(e){
+      return this.getDefaultConfig();
+    }
+  },
+
+  saveConfig(cfg){
+    const current = this.getConfig();
+    const updated = { ...current, ...cfg };
+    localStorage.setItem(GITHUB_CONFIG_KEY, JSON.stringify(updated));
+    this.startAutoSyncTimer();
+    updateSaveIndicator();
+    return updated;
+  },
+
+  isConfigured(){
+    const cfg = this.getConfig();
+    return !!(cfg.token && cfg.token.trim() && cfg.owner && cfg.repo && cfg.path);
+  },
+
+  async testConnection(){
+    const cfg = this.getConfig();
+    if(!cfg.token || !cfg.token.trim()){
+      return { ok: false, error: 'Please enter a GitHub Personal Access Token.' };
+    }
+    const url = `https://api.github.com/repos/${encodeURIComponent(cfg.owner.trim())}/${encodeURIComponent(cfg.repo.trim())}/contents/${encodeURIComponent(cfg.path.trim())}?ref=${encodeURIComponent(cfg.branch.trim()||'main')}`;
+    try {
+      const res = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${cfg.token.trim()}`,
+          'Accept': 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28'
+        }
+      });
+      if(res.status === 200){
+        const data = await res.json();
+        this.saveConfig({ sha: data.sha, status: 'synced', lastError: null });
+        return { ok: true, fileFound: true, sha: data.sha, message: `Connected! Found '${cfg.path}' (SHA: ${data.sha.slice(0,7)}).` };
+      } else if(res.status === 404){
+        const repoRes = await fetch(`https://api.github.com/repos/${encodeURIComponent(cfg.owner.trim())}/${encodeURIComponent(cfg.repo.trim())}`, {
+          headers: {
+            'Authorization': `Bearer ${cfg.token.trim()}`,
+            'Accept': 'application/vnd.github+json'
+          }
+        });
+        if(repoRes.ok){
+          this.saveConfig({ sha: null, status: 'synced', lastError: null });
+          return { ok: true, fileFound: false, message: `Connected to repository! '${cfg.path}' will be created on first sync.` };
+        } else {
+          return { ok: false, error: `Repository not accessible (${repoRes.status}). Check repository name and token permissions.` };
+        }
+      } else if(res.status === 401 || res.status === 403){
+        const err = await res.json().catch(()=>({}));
+        return { ok: false, error: `Authentication failed (${res.status}): ${err.message || 'Check your GitHub token permissions.'}` };
+      } else {
+        return { ok: false, error: `GitHub API error: ${res.statusText} (${res.status})` };
+      }
+    } catch(e){
+      return { ok: false, error: `Network error: ${e.message}` };
+    }
+  },
+
+  async saveRemote(manual = false){
+    const cfg = this.getConfig();
+    if(!cfg.token || !cfg.token.trim() || !cfg.owner || !cfg.repo) return;
+    if(this._syncing) return;
+    this._syncing = true;
+    this.saveConfig({ status: 'syncing' });
+    updateSaveIndicator();
+
+    try {
+      let currentSha = cfg.sha;
+      const getUrl = `https://api.github.com/repos/${encodeURIComponent(cfg.owner.trim())}/${encodeURIComponent(cfg.repo.trim())}/contents/${encodeURIComponent(cfg.path.trim())}?ref=${encodeURIComponent(cfg.branch.trim()||'main')}`;
+      const getRes = await fetch(getUrl, {
+        headers: {
+          'Authorization': `Bearer ${cfg.token.trim()}`,
+          'Accept': 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28'
+        }
+      });
+      if(getRes.ok){
+        const getData = await getRes.json();
+        currentSha = getData.sha;
+      }
+
+      const jsonStr = JSON.stringify(Store.data, null, 2);
+      const base64Content = utf8ToBase64(jsonStr);
+      const timeStr = new Date().toLocaleTimeString('en-IE');
+      const body = {
+        message: `Auto-save phone inventory data [${timeStr}]`,
+        content: base64Content,
+        branch: cfg.branch.trim() || 'main'
+      };
+      if(currentSha) body.sha = currentSha;
+
+      const putUrl = `https://api.github.com/repos/${encodeURIComponent(cfg.owner.trim())}/${encodeURIComponent(cfg.repo.trim())}/contents/${encodeURIComponent(cfg.path.trim())}`;
+      const putRes = await fetch(putUrl, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${cfg.token.trim()}`,
+          'Accept': 'application/vnd.github+json',
+          'Content-Type': 'application/json',
+          'X-GitHub-Api-Version': '2022-11-28'
+        },
+        body: JSON.stringify(body)
+      });
+
+      if(putRes.ok){
+        const putData = await putRes.json();
+        const newSha = putData.content?.sha || currentSha;
+        this.saveConfig({
+          status: 'synced',
+          sha: newSha,
+          lastSync: new Date().toISOString(),
+          lastError: null
+        });
+        if(manual) Toast.show('Cloud sync complete: saved to GitHub.', 'ok');
+      } else {
+        const errJson = await putRes.json().catch(()=>({}));
+        const msg = errJson.message || `GitHub error ${putRes.status}`;
+        this.saveConfig({ status: 'error', lastError: msg });
+        if(manual) Toast.show('GitHub sync failed: ' + msg, 'err');
+      }
+    } catch(err){
+      this.saveConfig({ status: 'error', lastError: err.message });
+      if(manual) Toast.show('GitHub sync network error: ' + err.message, 'err');
+    } finally {
+      this._syncing = false;
+      updateSaveIndicator();
+    }
+  },
+
+  async pullRemote(){
+    const cfg = this.getConfig();
+    if(!cfg.token || !cfg.token.trim()){
+      Toast.show('Configure your GitHub token in Settings first.', 'err');
+      return;
+    }
+    const url = `https://api.github.com/repos/${encodeURIComponent(cfg.owner.trim())}/${encodeURIComponent(cfg.repo.trim())}/contents/${encodeURIComponent(cfg.path.trim())}?ref=${encodeURIComponent(cfg.branch.trim()||'main')}`;
+    try {
+      const res = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${cfg.token.trim()}`,
+          'Accept': 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28'
+        }
+      });
+      if(!res.ok){
+        const err = await res.json().catch(()=>({}));
+        Toast.show(`Could not pull from GitHub: ${err.message || res.statusText}`, 'err');
+        return;
+      }
+      const data = await res.json();
+      const content = base64ToUtf8(data.content.replace(/\s/g, ''));
+      const parsed = JSON.parse(content);
+      Modal.confirm({
+        title: 'Replace local data with GitHub version?',
+        body: `<p>Found <b>${esc(cfg.path)}</b> on GitHub (SHA: <code>${esc(data.sha.slice(0,7))}</code>).<br>This will update your local data. A backup snapshot of your current local data will be taken first.</p>`,
+        confirmText: 'Pull from GitHub',
+        onConfirm: () => {
+          Store.snapshotToBackups('Before pulling from GitHub');
+          Store.data = parsed;
+          Store.migrate();
+          Store.save();
+          this.saveConfig({ sha: data.sha, lastSync: new Date().toISOString(), status: 'synced' });
+          Toast.show('Data updated from GitHub successfully!', 'ok');
+          render();
+        }
+      });
+    } catch(e){
+      Toast.show('Error pulling from GitHub: ' + e.message, 'err');
+    }
+  },
+
+  triggerDebouncedSave(){
+    const cfg = this.getConfig();
+    if(!cfg.autoSync || !this.isConfigured()) return;
+    if(this._debounceTimer) clearTimeout(this._debounceTimer);
+    this._debounceTimer = setTimeout(() => {
+      this.saveRemote(false);
+    }, 10000);
+  },
+
+  startAutoSyncTimer(){
+    if(this._timer) clearInterval(this._timer);
+    const cfg = this.getConfig();
+    if(!cfg.autoSync || !this.isConfigured()) return;
+    const intervalMs = Math.max(1, cfg.intervalMinutes || 3) * 60 * 1000;
+    this._timer = setInterval(() => {
+      this.saveRemote(false);
+    }, intervalMs);
+  },
+
+  openSettingsModal(){
+    Router.go('backup');
+    setTimeout(()=>{
+      const el = document.getElementById('gh_sync_card');
+      if(el) el.scrollIntoView({ behavior:'smooth' });
+    }, 100);
+  }
+};
+
 function updateSaveIndicator(state){
   const el = document.getElementById('save_indicator');
   if(!el) return;
   const linked = !!FileStore.handle;
   const ts = Store.data?.meta?.lastSaved ? new Date(Store.data.meta.lastSaved).toLocaleTimeString('en-IE') : '—';
+
+  let localHtml = '';
   if(state==='needs-relink'){
-    el.innerHTML = `<span style="color:#F9AB00;font-weight:600;">⚠ File needs permission</span> <button class="btn sm" onclick="FileStore.requestPermission()" style="padding:3px 8px;font-size:11px;margin-left:6px;">🔓 Re-link</button>`;
+    localHtml = `<span style="color:#F9AB00;font-weight:600;font-size:11.5px;">⚠ File relink</span> <button class="btn sm" onclick="FileStore.requestPermission()" style="padding:2px 6px;font-size:10px;margin-left:4px;">🔓 Link</button>`;
   } else if(linked){
-    el.innerHTML = `<span style="color:var(--green);font-size:12px;">✓ Auto-saving to file</span> <span style="color:var(--muted);font-size:11px;margin-left:6px;">Last: ${ts}</span>`;
+    localHtml = `<span style="color:var(--green);font-size:11.5px;">✓ File saved</span>`;
   } else {
-    el.innerHTML = `<span style="color:var(--amber);font-size:12px;">⚠ Saved in browser only</span> <button class="btn sm primary" onclick="FileStore.linkFile()" style="padding:3px 10px;font-size:11px;margin-left:8px;">📁 Link data file</button>`;
+    localHtml = `<span style="color:var(--muted);font-size:11.5px;">💾 Local (${ts})</span>`;
   }
+
+  let ghHtml = '';
+  const ghCfg = GitHubStore.getConfig();
+  if(GitHubStore.isConfigured()){
+    if(ghCfg.status === 'syncing'){
+      ghHtml = `<span style="color:var(--teal-dark);font-size:11.5px;font-weight:600;display:inline-flex;align-items:center;gap:4px;">☁️ GitHub: Syncing…</span>`;
+    } else if(ghCfg.status === 'error'){
+      ghHtml = `<span style="color:var(--red);font-size:11.5px;cursor:pointer;" onclick="GitHubStore.openSettingsModal()" title="${esc(ghCfg.lastError||'Sync error')}">⚠ GitHub error</span> <button class="btn sm ghost" onclick="GitHubStore.saveRemote(true)" style="padding:1px 5px;font-size:10px;">Retry</button>`;
+    } else {
+      const ghTime = ghCfg.lastSync ? new Date(ghCfg.lastSync).toLocaleTimeString('en-IE') : 'ready';
+      ghHtml = `<span style="color:var(--green);font-size:11.5px;" title="Synced to GitHub repo ${esc(ghCfg.owner)}/${esc(ghCfg.repo)}">☁️ GitHub: Synced <span style="color:var(--muted);font-size:10px;">(${ghTime})</span></span> <button class="btn sm ghost" onclick="GitHubStore.saveRemote(true)" title="Push changes to GitHub now" style="padding:1px 6px;font-size:10px;border:1px solid var(--line);">☁️ Sync</button>`;
+    }
+  } else {
+    ghHtml = `<button class="btn sm ghost" onclick="GitHubStore.openSettingsModal()" title="Connect GitHub token for automatic cloud backup" style="padding:2px 8px;font-size:11px;border:1px dashed var(--teal);color:var(--teal-dark);font-weight:600;">☁️ Set up GitHub Sync</button>`;
+  }
+
+  el.innerHTML = `<div style="display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.03);padding:3px 8px;border-radius:6px;border:1px solid var(--line);">${localHtml} <span style="color:var(--line);">|</span> ${ghHtml}</div>`;
 }
 
 
@@ -1151,7 +1416,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.7.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.7.1</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -3753,10 +4018,78 @@ Views.restoreCategory = function(catId){
 /* ---- BACKUP & SETTINGS ---- */
 Views.backup = function(){
   const backups = Store.getBackups();
+  const ghCfg = GitHubStore.getConfig();
+  const isGhReady = GitHubStore.isConfigured();
   return `
     <div class="row">
       <div class="col" style="flex:1;min-width:320px;">
-        <div class="card card-pad">
+
+        <!-- GitHub Cloud Auto-Save Card -->
+        <div class="card card-pad" id="gh_sync_card" style="border-left:4px solid var(--teal);">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;">
+            <div>
+              <h3 style="margin-top:0;display:flex;align-items:center;gap:6px;">☁️ GitHub Cloud Auto-Save</h3>
+              <p style="color:var(--muted);font-size:13px;margin:2px 0 12px;">
+                Automatically saves your entire phone inventory dataset (<code>phone_count_data.json</code>) directly to your GitHub repository in the background every few minutes without interrupting your work.
+              </p>
+            </div>
+            <div id="gh_status_badge">
+              ${isGhReady ? (ghCfg.status==='synced' ? '<span class="pill green">✓ Connected &amp; Synced</span>' : (ghCfg.status==='syncing' ? '<span class="pill teal">☁️ Syncing…</span>' : '<span class="pill amber">⚠ Check Connection</span>')) : '<span class="pill amber">Token needed</span>'}
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:14px;">
+            <div>
+              <label style="font-size:12px;font-weight:600;color:var(--ink);display:block;margin-bottom:4px;">GitHub Personal Access Token (PAT):</label>
+              <div style="display:flex;gap:4px;">
+                <input type="password" id="gh_token_input" value="${esc(ghCfg.token||'')}" placeholder="ghp_... or github_pat_..." style="flex:1;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-family:monospace;font-size:12px;">
+                <button class="btn sm" type="button" onclick="const inp=document.getElementById('gh_token_input');inp.type=inp.type==='password'?'text':'password';this.textContent=inp.type==='password'?'👁':'🔒';">👁</button>
+              </div>
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:600;color:var(--ink);display:block;margin-bottom:4px;">Repository (Owner / Repo):</label>
+              <div style="display:flex;gap:4px;align-items:center;">
+                <input id="gh_owner_input" value="${esc(ghCfg.owner||'idigitalfun-ui')}" style="flex:1;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-size:12px;" placeholder="idigitalfun-ui">
+                <span>/</span>
+                <input id="gh_repo_input" value="${esc(ghCfg.repo||'phone-count')}" style="flex:1;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-size:12px;" placeholder="phone-count">
+              </div>
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:600;color:var(--ink);display:block;margin-bottom:4px;">Branch &amp; File Path:</label>
+              <div style="display:flex;gap:4px;align-items:center;">
+                <input id="gh_branch_input" value="${esc(ghCfg.branch||'main')}" style="width:75px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-size:12px;" placeholder="main">
+                <span>/</span>
+                <input id="gh_path_input" value="${esc(ghCfg.path||'phone_count_data.json')}" style="flex:1;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-size:12px;" placeholder="phone_count_data.json">
+              </div>
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:600;color:var(--ink);display:block;margin-bottom:4px;">Auto-Save Frequency:</label>
+              <select id="gh_interval_select" style="width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-size:12px;">
+                <option value="2" ${ghCfg.intervalMinutes===2?'selected':''}>Every 2 minutes</option>
+                <option value="3" ${ghCfg.intervalMinutes===3?'selected':''}>Every 3 minutes (Recommended)</option>
+                <option value="5" ${ghCfg.intervalMinutes===5?'selected':''}>Every 5 minutes</option>
+                <option value="10" ${ghCfg.intervalMinutes===10?'selected':''}>Every 10 minutes</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px;">
+            <button class="btn primary" onclick="Views.saveGitHubConfigAndTest()">💾 Save &amp; Test Connection</button>
+            <button class="btn green" onclick="GitHubStore.saveRemote(true)">☁️ Sync to GitHub Now</button>
+            <button class="btn" onclick="GitHubStore.pullRemote()">⬇ Pull Latest from GitHub</button>
+            <span id="gh_test_result" style="font-size:12.5px;margin-left:4px;"></span>
+          </div>
+
+          <div class="helpbox" style="margin-bottom:0;font-size:12px;line-height:1.5;">
+            <b>How to generate your GitHub Token:</b><br>
+            1. Open <a href="https://github.com/settings/tokens/new" target="_blank" style="color:var(--teal-dark);font-weight:700;text-decoration:underline;">GitHub Token Generator</a> (opens in new tab).<br>
+            2. Note: e.g. <code>PhoneCount Auto-Save</code>. Expiration: 90 days or No expiration.<br>
+            3. Select scope: Check <b><code>repo</code></b> (Full control of private/public repositories).<br>
+            4. Click <b>Generate token</b>, copy the <code>ghp_...</code> string, paste it in the box above, and click <b>Save &amp; Test Connection</b>.
+          </div>
+        </div>
+
+        <div class="card card-pad" style="margin-top:16px;">
           <h3 style="margin-top:0;">Full data backup</h3>
           <p style="color:var(--muted);font-size:13px;">Download everything — items, stock levels, categories, and history — as one file. Keep it somewhere safe (email to yourself, cloud drive, USB).</p>
           <button class="btn primary" onclick="Views.downloadFullBackup()">⬇ Download full backup (.json)</button>
@@ -3776,18 +4109,6 @@ Views.backup = function(){
           </div>
           <p style="color:var(--muted);font-size:12px;margin-top:10px;">Select all 7 shop CSV files if auto-load doesn't work (e.g. opening the file directly from Downloads).</p>
         </div>
-        <div class="card card-pad" style="margin-top:16px;">
-          <h3 style="margin-top:0;">Publish online (Cloudflare)</h3>
-          <p style="color:var(--muted);font-size:13px;line-height:1.6;">
-            This app is a single file — you can host it for free on <b>Cloudflare Pages</b>:<br>
-            1. Download this page (use your browser's Save As, or ask for the file).<br>
-            2. Go to the Cloudflare dashboard → Workers &amp; Pages → Create → Pages → upload the file.<br>
-            3. Cloudflare gives you a public link you can open from any device.
-          </p>
-          <p style="color:var(--muted);font-size:13px;">
-            Note: stock data is saved in the browser you're using (per device). For one shared list across all shops and devices, ask to connect this to a small cloud database — happy to help set that up next.
-          </p>
-        </div>
       </div>
       <div class="col" style="flex:1;min-width:320px;">
         <div class="card card-pad">
@@ -3803,6 +4124,29 @@ Views.backup = function(){
       </div>
     </div>
   `;
+};
+Views.saveGitHubConfigAndTest = async function(){
+  const token = val('gh_token_input').trim();
+  const owner = val('gh_owner_input').trim() || 'idigitalfun-ui';
+  const repo = val('gh_repo_input').trim() || 'phone-count';
+  const branch = val('gh_branch_input').trim() || 'main';
+  const path = val('gh_path_input').trim() || 'phone_count_data.json';
+  const intervalMinutes = Number(val('gh_interval_select')) || 3;
+
+  GitHubStore.saveConfig({ token, owner, repo, branch, path, intervalMinutes, autoSync: true });
+  const resEl = document.getElementById('gh_test_result');
+  if(resEl) resEl.innerHTML = '<span style="color:var(--muted);">Testing connection…</span>';
+
+  const result = await GitHubStore.testConnection();
+  if(result.ok){
+    if(resEl) resEl.innerHTML = `<span style="color:var(--green);font-weight:600;">✓ ${esc(result.message)}</span>`;
+    Toast.show('GitHub connected successfully! Auto-save is active.', 'ok');
+    GitHubStore.saveRemote(false);
+  } else {
+    if(resEl) resEl.innerHTML = `<span style="color:var(--red);font-weight:600;">✕ ${esc(result.error)}</span>`;
+    Toast.show('Connection failed: ' + result.error, 'err');
+  }
+  render();
 };
 Views.fetchShopCsvs = function(){
   CsvImport.tryFetchAll().then(n=>{
@@ -3877,6 +4221,7 @@ Views.addShop = function(){
 Store.load();
 render();
 FileStore.init(); // restore file handle from IndexedDB and sync data if file is newer
+GitHubStore.startAutoSyncTimer(); // start silent background GitHub cloud sync timer
 </script>
 </body>
 </html>
