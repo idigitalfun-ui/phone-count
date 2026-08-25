@@ -659,7 +659,7 @@
         {
           "id": "unit_ouhazfnu5nf",
           "imei": "350593649273349",
-          "color": "",
+          "color": "Graphite",
           "condition": "New",
           "location": "warehouse",
           "costPrice": 275,
@@ -9907,7 +9907,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T16:53:24.933Z"
+    "lastSaved": "2026-08-25T16:53:47.806Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
