@@ -8509,7 +8509,7 @@
         "White"
       ],
       "batteryPct": null,
-      "costPrice": 1,
+      "costPrice": 0,
       "wholesalePrice": 0,
       "shopPrices": {
         "warehouse": 1,
@@ -8536,8 +8536,8 @@
           "color": "White",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 1,
-          "wholesalePrice": 13,
+          "costPrice": 0,
+          "wholesalePrice": 0,
           "sellPrice": 1
         }
       ],
@@ -9853,6 +9853,53 @@
         }
       ],
       "createdAt": "2026-08-25"
+    },
+    {
+      "id": "item_sefq9ocsbvy",
+      "name": "AirPods Pro 3",
+      "category": "cat_qaxr5vow69i",
+      "memory": "",
+      "condition": "New",
+      "batteryPct": null,
+      "imei": "SCK2RWJGFCJ",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 1,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_i6kqzq9sbvy",
+          "imei": "SCK2RWJGFCJ",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_mullingar",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "addedAt": "2026-08-25"
+        }
+      ],
+      "createdAt": "2026-08-25"
     }
   ],
   "movements": [
@@ -9982,7 +10029,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:25:56.575Z"
+    "lastSaved": "2026-08-25T17:26:24.384Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
