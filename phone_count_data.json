@@ -1769,7 +1769,7 @@
         "warehouse": 0,
         "shop_thurles": 4,
         "shop_kilkenny": 6,
-        "shop_maynooth": 2,
+        "shop_maynooth": 1,
         "shop_mullingar": 1,
         "shop_tralee": 2,
         "shop_tullamore": 3
@@ -1826,19 +1826,9 @@
           "sellPrice": 400
         },
         {
-          "id": "unit_7pi62bwu5oe",
-          "imei": "356812112925555",
-          "color": "",
-          "condition": "Used",
-          "location": "shop_maynooth",
-          "costPrice": 190,
-          "wholesalePrice": 200,
-          "sellPrice": 240
-        },
-        {
           "id": "unit_8i95lxhu5oh",
           "imei": "353973107065261",
-          "color": "",
+          "color": "Purple",
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 190,
@@ -2098,7 +2088,7 @@
         "warehouse": 0,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 3,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 1
@@ -2123,36 +2113,6 @@
           "costPrice": 230,
           "wholesalePrice": 87,
           "sellPrice": 390
-        },
-        {
-          "id": "unit_tww851bu5of",
-          "imei": "350400614369773",
-          "color": "",
-          "condition": "Used",
-          "location": "shop_maynooth",
-          "costPrice": 230,
-          "wholesalePrice": 230,
-          "sellPrice": 290
-        },
-        {
-          "id": "unit_ggq68cmu5og",
-          "imei": "353920964084414",
-          "color": "",
-          "condition": "Used",
-          "location": "shop_maynooth",
-          "costPrice": 230,
-          "wholesalePrice": 230,
-          "sellPrice": 290
-        },
-        {
-          "id": "unit_4iicb5qu5oh",
-          "imei": "354047643253738",
-          "color": "",
-          "condition": "Used",
-          "location": "shop_maynooth",
-          "costPrice": 230,
-          "wholesalePrice": 230,
-          "sellPrice": 290
         },
         {
           "id": "unit_idxe9azu5pd",
@@ -10111,7 +10071,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:34:58.496Z"
+    "lastSaved": "2026-08-25T17:39:20.656Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
