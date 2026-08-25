@@ -101,7 +101,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 4,
-        "shop_maynooth": 1,
+        "shop_maynooth": 4,
         "shop_mullingar": 2,
         "shop_tralee": 1,
         "shop_tullamore": 3
@@ -173,6 +173,42 @@
           "id": "unit_32ex5mw9xnr",
           "imei": "354768881961878",
           "color": "Starlight",
+          "condition": "Used",
+          "batteryPct": null,
+          "location": "shop_maynooth",
+          "costPrice": 285,
+          "wholesalePrice": 297,
+          "sellPrice": 460,
+          "addedAt": "2026-08-25"
+        },
+        {
+          "id": "unit_eqtvm9uasxz",
+          "imei": "350032735798075",
+          "color": "Starlight",
+          "condition": "Used",
+          "batteryPct": null,
+          "location": "shop_maynooth",
+          "costPrice": 285,
+          "wholesalePrice": 297,
+          "sellPrice": 460,
+          "addedAt": "2026-08-25"
+        },
+        {
+          "id": "unit_4l190xpay5r",
+          "imei": "350967687737664",
+          "color": "Starlight",
+          "condition": "Used",
+          "batteryPct": null,
+          "location": "shop_maynooth",
+          "costPrice": 285,
+          "wholesalePrice": 297,
+          "sellPrice": 460,
+          "addedAt": "2026-08-25"
+        },
+        {
+          "id": "unit_ny1gqswb55r",
+          "imei": "354768889302802",
+          "color": "Purple",
           "condition": "Used",
           "batteryPct": null,
           "location": "shop_maynooth",
@@ -4707,7 +4743,7 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -10096,7 +10132,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:40:25.179Z"
+    "lastSaved": "2026-08-25T17:41:01.840Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
