@@ -2654,7 +2654,7 @@
         "warehouse": 0,
         "shop_thurles": 2,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -2686,16 +2686,6 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 60,
-          "wholesalePrice": 60,
-          "sellPrice": 100
-        },
-        {
-          "id": "unit_te4w32hu5os",
-          "imei": "862599070093610",
-          "color": "",
-          "condition": "New",
-          "location": "shop_maynooth",
           "costPrice": 60,
           "wholesalePrice": 60,
           "sellPrice": 100
@@ -4818,7 +4808,7 @@
         {
           "id": "unit_r31i1cuu5os",
           "imei": "355225690429026",
-          "color": "",
+          "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 1,
@@ -4828,7 +4818,7 @@
         {
           "id": "unit_1lqzjknu5ot",
           "imei": "355225690420991",
-          "color": "",
+          "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 1,
@@ -10008,7 +9998,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:52:59.545Z"
+    "lastSaved": "2026-08-25T17:53:36.424Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
