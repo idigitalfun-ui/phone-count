@@ -1456,7 +1456,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.7.7</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.8.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -3424,31 +3424,25 @@ Views.toggleSalesExpand = function(itemId){ Views._salesExpanded[itemId] = !View
 function pillForType(t){
   return {sold:'<span class="pill green">Sold</span>',faulty:'<span class="pill red">Faulty</span>',deposit:'<span class="pill amber">Deposit</span>'}[t]||t;
 }
-Views.quickAction = function(itemId,shopId,type){
-  const it = itemById(itemId); if(!it) return;
-  const count = (it.locations&&it.locations[shopId])||0;
-  if(count<=0){ Toast.show('No stock at this location.','err'); return; }
-  const unit = unitsAt(it, shopId)[0];
-  const unitData = unit ? {id:unit.id, imei:unit.imei, color:unit.color, condition:unit.condition} : null;
-  const label = {sold:'Sold',faulty:'Marked faulty',deposit:'Put on deposit'}[type]||'Action completed';
-  Stock.removeStock(itemId, shopId, 1, type, todayISO(), `${label} at ${shopName(shopId)}`, unitData);
-  Toast.show(unit?`${label}: IMEI ${unit.imei||unit.id}`:`${label}: ${it.name}`,'ok');
-  render();
+Views.quickAction = function(itemId, shopId, type){
+  const fn = {sold:Stock.sell, faulty:Stock.faulty, deposit:Stock.deposit}[type];
+  if(!fn) return;
+  const mv = fn.call(Stock, itemId, shopId, 1, todayISO(), type==='sold'?'Shop sale':type);
+  if(mv && mv.id){
+    render();
+  }
 };
-Views.unitAction = function(itemId,unitId,type){
-  const it = itemById(itemId); if(!it) return;
-  const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
-  const shopId = unit.location;
-  const unitData = {id:unit.id, imei:unit.imei, color:unit.color, condition:unit.condition};
-  const label = {sold:'Sold',faulty:'Marked faulty',deposit:'Put on deposit'}[type]||'Action completed';
-  Stock.removeStock(itemId, shopId, 1, type, todayISO(), `${label} at ${shopName(shopId)}`, unitData);
-  Toast.show(`${label}: IMEI ${unit.imei||unit.id}`,'ok');
-  render();
+Views.unitAction = function(itemId, unitId, type){
+  const mv = Stock.removeUnit(itemId, unitId, type, todayISO(), type==='sold'?'Shop sale':type);
+  if(mv && mv.id){
+    const label = {sold:'Sold', faulty:'Marked faulty', deposit:'Put on deposit'}[type] || 'Action completed';
+    Toast.show(`${label}: IMEI ${mv.unitData?.imei || unitId}`, 'ok');
+    render();
+  }
 };
 Views.undoSale = function(moveId){
-  Stock.undoMovement(moveId);
-  Toast.show('Action undone — device returned to stock.','ok');
-  render();
+  const ok = Stock.revertMovement(moveId);
+  if(ok) render();
 };
 
 /* ---- WEEKLY REPORT (Monday-Sunday, matching paper sheet) ---- */
