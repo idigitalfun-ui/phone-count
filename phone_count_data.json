@@ -1731,17 +1731,17 @@
           "condition": "Used",
           "location": "shop_thurles",
           "costPrice": 190,
-          "wholesalePrice": 190,
+          "wholesalePrice": 200,
           "sellPrice": 240
         },
         {
           "id": "unit_bnk8a0wu5nn",
           "imei": "353980106083070",
-          "color": "",
+          "color": "Green",
           "condition": "Used",
           "location": "shop_thurles",
           "costPrice": 190,
-          "wholesalePrice": 190,
+          "wholesalePrice": 200,
           "sellPrice": 240
         },
         {
@@ -1856,9 +1856,10 @@
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 13,
+      "wholesalePrice": 200,
       "colors": [
-        "Black"
+        "Black",
+        "Green"
       ]
     },
     {
@@ -1997,7 +1998,7 @@
     },
     {
       "id": "item_qw8eo3aw69k",
-      "name": "iPhone 12 64GB",
+      "name": "iPhone 12",
       "category": "cat_7qgen7vw69i",
       "memory": "64GB",
       "imei": "",
@@ -2030,7 +2031,7 @@
         {
           "id": "unit_jdetas5u5no",
           "imei": "353045119846234",
-          "color": "",
+          "color": "White",
           "condition": "Used",
           "location": "shop_thurles",
           "costPrice": 230,
@@ -9884,10 +9885,10 @@
       "colors": [
         "Purple"
       ],
-      "costPrice": 0,
+      "costPrice": 190,
       "shopPrices": {
         "warehouse": 0,
-        "shop_thurles": 0,
+        "shop_thurles": 240,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
@@ -9910,13 +9911,15 @@
           "color": "Purple",
           "condition": "Used",
           "location": "shop_thurles",
-          "costPrice": 0,
-          "sellPrice": 0,
+          "costPrice": 190,
+          "sellPrice": 240,
           "batteryPct": null,
-          "dateAdded": "2026-08-25"
+          "dateAdded": "2026-08-25",
+          "wholesalePrice": 200
         }
       ],
-      "createdAt": "2026-08-25"
+      "createdAt": "2026-08-25",
+      "wholesalePrice": 200
     },
     {
       "id": "item_9dcbhqrnj2n",
@@ -9929,10 +9932,10 @@
       "colors": [
         "Purple"
       ],
-      "costPrice": 0,
+      "costPrice": 190,
       "shopPrices": {
         "warehouse": 0,
-        "shop_thurles": 0,
+        "shop_thurles": 240,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
@@ -9955,14 +9958,15 @@
           "color": "Purple",
           "condition": "Used",
           "location": "shop_thurles",
-          "costPrice": 0,
-          "sellPrice": 0,
+          "costPrice": 190,
+          "sellPrice": 240,
           "batteryPct": null,
           "dateAdded": "2026-08-25",
-          "wholesalePrice": 12
+          "wholesalePrice": 200
         }
       ],
-      "createdAt": "2026-08-25"
+      "createdAt": "2026-08-25",
+      "wholesalePrice": 200
     }
   ],
   "movements": [
@@ -9996,7 +10000,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T14:35:35.184Z"
+    "lastSaved": "2026-08-25T14:37:26.114Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
