@@ -8037,14 +8037,14 @@
     },
     {
       "id": "item_knkv7ouu5o6",
-      "name": "Blackview N1000 4GB",
+      "name": "Blackview N1000",
       "category": "cat_kzhvkkxw69i",
       "memory": "4GB",
-      "imei": "",
+      "imei": "353359200195231",
       "condition": "New",
       "batteryPct": null,
       "costPrice": 1,
-      "wholesalePrice": 58,
+      "wholesalePrice": 13,
       "shopPrices": {
         "warehouse": 160,
         "shop_thurles": 160,
@@ -8064,8 +8064,23 @@
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
-      "units": [],
-      "colors": []
+      "units": [
+        {
+          "id": "unit_owe11pvxbw7",
+          "imei": "353359200195231",
+          "color": "Phantom Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_mullingar",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 160,
+          "addedAt": "2026-08-25"
+        }
+      ],
+      "colors": [
+        "Phantom Black"
+      ]
     },
     {
       "id": "item_8uh5k4cu5o9",
@@ -10092,7 +10107,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:29:51.496Z"
+    "lastSaved": "2026-08-25T17:30:09.656Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
