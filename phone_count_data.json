@@ -733,7 +733,7 @@
         {
           "id": "unit_ksgzfbgu5ok",
           "imei": "350593640585246",
-          "color": "",
+          "color": "Olive",
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 275,
@@ -2351,7 +2351,8 @@
         "Graygreen",
         "Awesome Lemon",
         "Awesome White",
-        "Awesome Lavender"
+        "Awesome Lavender",
+        "Awesome GrayGreen"
       ],
       "batteryPct": 100,
       "costPrice": 190,
@@ -2427,7 +2428,7 @@
         {
           "id": "unit_7fa9tuuu5om",
           "imei": "353700230904797",
-          "color": "",
+          "color": "Awesome GrayGreen",
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 190,
@@ -10017,7 +10018,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:46:55.016Z"
+    "lastSaved": "2026-08-25T17:47:18.489Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
