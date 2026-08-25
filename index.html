@@ -1165,8 +1165,9 @@ const GitHubStore = {
 
     try {
       let currentSha = cfg.sha;
-      const getUrl = `https://api.github.com/repos/${encodeURIComponent(cfg.owner.trim())}/${encodeURIComponent(cfg.repo.trim())}/contents/${encodeURIComponent(cfg.path.trim())}?ref=${encodeURIComponent(cfg.branch.trim()||'main')}`;
+      const getUrl = `https://api.github.com/repos/${encodeURIComponent(cfg.owner.trim())}/${encodeURIComponent(cfg.repo.trim())}/contents/${encodeURIComponent(cfg.path.trim())}?ref=${encodeURIComponent(cfg.branch.trim()||'main')}&_t=${Date.now()}`;
       const getRes = await fetch(getUrl, {
+        cache: 'no-store',
         headers: {
           'Authorization': `Bearer ${cfg.token.trim()}`,
           'Accept': 'application/vnd.github+json',
@@ -1189,7 +1190,7 @@ const GitHubStore = {
       if(currentSha) body.sha = currentSha;
 
       const putUrl = `https://api.github.com/repos/${encodeURIComponent(cfg.owner.trim())}/${encodeURIComponent(cfg.repo.trim())}/contents/${encodeURIComponent(cfg.path.trim())}`;
-      const putRes = await fetch(putUrl, {
+      let putRes = await fetch(putUrl, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${cfg.token.trim()}`,
@@ -1199,6 +1200,32 @@ const GitHubStore = {
         },
         body: JSON.stringify(body)
       });
+
+      // If SHA mismatch (409 Conflict), automatically re-fetch latest SHA and retry once
+      if(putRes.status === 409){
+        const retryGet = await fetch(getUrl, {
+          cache: 'no-store',
+          headers: {
+            'Authorization': `Bearer ${cfg.token.trim()}`,
+            'Accept': 'application/vnd.github+json',
+            'X-GitHub-Api-Version': '2022-11-28'
+          }
+        });
+        if(retryGet.ok){
+          const retryData = await retryGet.json();
+          body.sha = retryData.sha;
+          putRes = await fetch(putUrl, {
+            method: 'PUT',
+            headers: {
+              'Authorization': `Bearer ${cfg.token.trim()}`,
+              'Accept': 'application/vnd.github+json',
+              'Content-Type': 'application/json',
+              'X-GitHub-Api-Version': '2022-11-28'
+            },
+            body: JSON.stringify(body)
+          });
+        }
+      }
 
       if(putRes.ok){
         const putData = await putRes.json();
@@ -1418,7 +1445,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.7.2</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.7.3</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
