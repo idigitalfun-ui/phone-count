@@ -667,11 +667,11 @@ const Store = {
       });
 
       // Standardize memory (uppercase GB)
+      // Standardize memory (uppercase GB)
       let memory = it.memory || '';
       const memMatch = name.match(/(\d+\s*gb\s*\/\s*\d+\s*gb|\d+\s*gb|\d+\s*\/\s*\d+\s*gb)/i);
-      if(memMatch){
+      if(!memory && memMatch){
         memory = memMatch[0].replace(/\s+/g, '').replace(/gb/gi, 'GB');
-        name = name.replace(memMatch[0], '').trim();
       }
       if(memory){
         memory = memory.replace(/\s+/g, '').replace(/gb/gi, 'GB');
@@ -730,11 +730,8 @@ const Store = {
         return letter.toUpperCase() + num.toUpperCase();
       });
 
-      // Clean extra spaces & append standard memory
+      // Clean extra spaces - preserve exact user model name
       name = name.replace(/\s+/g, ' ').replace(/\s+-\s*$/, '').trim();
-      if(memory && !name.includes(memory)){
-        name = name + ' ' + memory;
-      }
       it.name = name;
 
       // Category assignment: Samsung A11, A11+, A9, iPads, Kindles -> iPad & Tablets
@@ -1459,7 +1456,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.7.5</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.7.6</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -2813,9 +2810,6 @@ Views.saveItem = function(itemId){
   if(mem){
     mem = mem.replace(/\s+/g, '').replace(/gb/gi, 'GB');
     if(/^\d+$/.test(mem)) mem = mem + 'GB';
-    if(!name.toLowerCase().includes(mem.toLowerCase())){
-      name = name + ' ' + mem;
-    }
   }
   const cond = val('f_cond') || 'Used';
   const batt = val('f_batt');
