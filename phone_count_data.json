@@ -200,7 +200,7 @@
     },
     {
       "id": "item_aua8nirw69j",
-      "name": "Samsung A07 4GB/64GB",
+      "name": "Samsung A07",
       "category": "cat_w56n2ktw69i",
       "memory": "4GB/64GB",
       "imei": "",
@@ -632,7 +632,7 @@
     },
     {
       "id": "item_imoqln3w69k",
-      "name": "Samsung A56 8GB/128GB",
+      "name": "Samsung A56",
       "category": "cat_w56n2ktw69i",
       "memory": "8GB/128GB",
       "imei": "",
@@ -712,7 +712,7 @@
     },
     {
       "id": "item_ccykxiqw69k",
-      "name": "Blackview NB 4800 Pro 128GB",
+      "name": "Blackview NB 4800 Pro",
       "category": "cat_kzhvkkxw69i",
       "memory": "128GB",
       "imei": "",
@@ -817,7 +817,7 @@
     },
     {
       "id": "item_0apjlq8w69k",
-      "name": "Blackview BV 4800 SE 64GB",
+      "name": "Blackview BV 4800 SE",
       "category": "cat_kzhvkkxw69i",
       "memory": "64GB",
       "imei": "",
@@ -942,7 +942,7 @@
     },
     {
       "id": "item_4xqsbqew69k",
-      "name": "Blackview N1000 1GB/4GB",
+      "name": "Blackview N1000",
       "category": "cat_kzhvkkxw69i",
       "memory": "1GB/4GB",
       "imei": "",
@@ -1398,7 +1398,7 @@
     },
     {
       "id": "item_wqsfklyw69k",
-      "name": "Samsung Tab A11 128GB",
+      "name": "Samsung Tab A11",
       "category": "cat_cgd9w36w69i",
       "memory": "128GB",
       "imei": "",
@@ -1503,7 +1503,7 @@
     },
     {
       "id": "item_krrjnksw69k",
-      "name": "iPad 11th Generation A16 128GB",
+      "name": "iPad 11th Generation A16",
       "category": "cat_cgd9w36w69i",
       "memory": "128GB",
       "imei": "",
@@ -2119,7 +2119,7 @@
     },
     {
       "id": "item_fzfhprnw69k",
-      "name": "Samsung A36 5G 128GB",
+      "name": "Samsung A36",
       "category": "cat_w56n2ktw69i",
       "memory": "128GB",
       "imei": "",
@@ -9925,7 +9925,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T15:52:14.212Z"
+    "lastSaved": "2026-08-25T15:53:07.452Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
