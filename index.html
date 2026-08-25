@@ -1479,7 +1479,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.8.3</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.8.4</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -2137,12 +2137,14 @@ Views.inventory = function(){
       if(filterShop){
         const untracked = untrackedQtyAt(it, filterShop);
         if(untracked > 0){
-          rows += `<tr style="background:#FFFDF7;border-left:3px solid var(--amber);">
+          const otherShops = shops.filter(s=>s.id!==filterShop);
+          const wholesaleVal = it.costPrice === 0 ? 0 : (it.wholesalePrice || (it.costPrice>0?it.costPrice+12:0));
+          rows += `<tr>
             <td>
-              <b>${esc(it.name)}</b>
-              <br><span style="font-size:11px;color:var(--muted);">${esc(it.memory||'')} · ${it.condition}</span>
+              <a href="javascript:void(0)" onclick="Views.openItemModal('${it.id}')" style="color:var(--ink);text-decoration:none;font-weight:700;cursor:pointer;" title="Click to edit product">${esc(it.name)}</a>
+              <br><span style="font-size:11px;color:var(--muted);">${esc(it.memory||'')} · ${it.condition==='New'?'<span style="color:var(--green)">New</span>':'<span style="color:var(--muted)">Used</span>'}</span>
             </td>
-            <td><span class="pill amber">${untracked} unit(s) with no IMEI</span></td>
+            <td><span class="pill gray" style="font-size:11px;font-weight:600;background:#F1F5F9;color:#475569;border:1px solid #CBD5E1;">🏷️ Generic (No IMEI)</span></td>
             <td><span class="pill teal">${esc(catName(it.category))}</span></td>
             <td class="mono">${esc(it.memory||'-')}</td>
             <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
@@ -2150,16 +2152,27 @@ Views.inventory = function(){
               <input type="number" step="0.01" value="${it.costPrice||0}" style="width:72px;padding:3px 6px;border:1px solid var(--line);border-radius:5px;font-size:12px;" title="Cost Price" onchange="Views.invSetUntrackedCost('${it.id}',this.value)">
             </td>
             <td>
-              <input type="number" step="0.01" value="${it.wholesalePrice||(it.costPrice||0)+12}" style="width:72px;padding:3px 6px;border:1px solid #F0B429;border-radius:5px;font-size:12px;color:#8A5A16;font-weight:600;" title="Wholesale Price" onchange="Views.invSetUntrackedWholesale('${it.id}',this.value)">
+              <input type="number" step="0.01" value="${wholesaleVal}" style="width:72px;padding:3px 6px;border:1px solid #F0B429;border-radius:5px;font-size:12px;color:#8A5A16;font-weight:600;" title="Wholesale Price" onchange="Views.invSetUntrackedWholesale('${it.id}',this.value)">
             </td>
             <td>
               <input type="number" step="0.01" value="${(it.shopPrices&&it.shopPrices[filterShop])||it.costPrice||0}" style="width:72px;padding:3px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12px;color:var(--teal-dark);font-weight:700;" title="Sale Price" onchange="Views.invSetUntrackedSale('${it.id}','${filterShop}',this.value)">
             </td>
-            <td><b>${untracked}</b></td>
+            <td>
+              <input type="number" min="0" value="${untracked}" style="width:58px;padding:3px 6px;border:1px solid var(--teal);border-radius:5px;font-size:13px;font-weight:700;text-align:center;color:var(--teal-dark);background:#F0FDFA;" title="Change stock quantity directly" onchange="Views.invSetUntrackedQty('${it.id}','${filterShop}',this.value)">
+            </td>
             <td><b style="color:var(--teal-dark);">${esc(shopName(filterShop))}</b></td>
             <td style="white-space:nowrap;">
-              <button class="btn sm primary" onclick="Views.openAddImeiToUntracked('${it.id}','${filterShop}')" title="Assign an IMEI to this unit">+ Add IMEI</button>
-              <button class="btn sm danger" onclick="Views.removeUntrackedStock('${it.id}','${filterShop}')" title="Remove untracked stock balance">✕ Clear</button>
+              <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;">
+                <select id="inv_untracked_to_${it.id}_${filterShop}" style="padding:4px 8px;border:1px solid var(--line);border-radius:6px;font-size:12px;">
+                  ${otherShops.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}
+                </select>
+                <button class="btn sm primary" onclick="Views.doUntrackedTransfer('${it.id}','${filterShop}')" title="Transfer 1 unit to selected store">⇄ Transfer</button>
+                <button class="btn sm green" onclick="Views.invUntrackedAction('${it.id}','${filterShop}','sold')" title="Mark 1 as sold">✓ Sold</button>
+                <button class="btn sm amber" onclick="Views.invUntrackedAction('${it.id}','${filterShop}','faulty')" title="Mark 1 as faulty">⚠ Faulty</button>
+                <button class="btn sm" onclick="Views.invUntrackedAction('${it.id}','${filterShop}','deposit')" title="Mark 1 as deposit" style="background:#E8F0FE;color:#1967D2;border:1px solid #BDD0F7;">🔒 Deposit</button>
+                <button class="btn sm" onclick="Views.openDuplicateDeviceModal('${it.id}')" title="Duplicate product details" style="background:#F3F4F6;color:var(--ink);border:1px solid var(--line);">📋 Copy</button>
+                <button class="btn sm ghost" onclick="Views.removeUntrackedStock('${it.id}','${filterShop}')" title="Clear generic stock balance" style="border:1px solid var(--line);color:var(--muted);">🗑</button>
+              </div>
             </td>
           </tr>`;
         }
@@ -2167,12 +2180,14 @@ Views.inventory = function(){
         shops.forEach(s=>{
           const untracked = untrackedQtyAt(it, s.id);
           if(untracked > 0){
-            rows += `<tr style="background:#FFFDF7;border-left:3px solid var(--amber);">
+            const otherShops = shops.filter(x=>x.id!==s.id);
+            const wholesaleVal = it.costPrice === 0 ? 0 : (it.wholesalePrice || (it.costPrice>0?it.costPrice+12:0));
+            rows += `<tr>
               <td>
-                <b>${esc(it.name)}</b>
-                <br><span style="font-size:11px;color:var(--muted);">${esc(it.memory||'')} · ${it.condition}</span>
+                <a href="javascript:void(0)" onclick="Views.openItemModal('${it.id}')" style="color:var(--ink);text-decoration:none;font-weight:700;cursor:pointer;" title="Click to edit product">${esc(it.name)}</a>
+                <br><span style="font-size:11px;color:var(--muted);">${esc(it.memory||'')} · ${it.condition==='New'?'<span style="color:var(--green)">New</span>':'<span style="color:var(--muted)">Used</span>'}</span>
               </td>
-              <td><span class="pill amber">${untracked} unit(s) with no IMEI</span></td>
+              <td><span class="pill gray" style="font-size:11px;font-weight:600;background:#F1F5F9;color:#475569;border:1px solid #CBD5E1;">🏷️ Generic (No IMEI)</span></td>
               <td><span class="pill teal">${esc(catName(it.category))}</span></td>
               <td class="mono">${esc(it.memory||'-')}</td>
               <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
@@ -2180,16 +2195,27 @@ Views.inventory = function(){
                 <input type="number" step="0.01" value="${it.costPrice||0}" style="width:72px;padding:3px 6px;border:1px solid var(--line);border-radius:5px;font-size:12px;" title="Cost Price" onchange="Views.invSetUntrackedCost('${it.id}',this.value)">
               </td>
               <td>
-                <input type="number" step="0.01" value="${it.wholesalePrice||(it.costPrice||0)+12}" style="width:72px;padding:3px 6px;border:1px solid #F0B429;border-radius:5px;font-size:12px;color:#8A5A16;font-weight:600;" title="Wholesale Price" onchange="Views.invSetUntrackedWholesale('${it.id}',this.value)">
+                <input type="number" step="0.01" value="${wholesaleVal}" style="width:72px;padding:3px 6px;border:1px solid #F0B429;border-radius:5px;font-size:12px;color:#8A5A16;font-weight:600;" title="Wholesale Price" onchange="Views.invSetUntrackedWholesale('${it.id}',this.value)">
               </td>
               <td>
                 <input type="number" step="0.01" value="${(it.shopPrices&&it.shopPrices[s.id])||it.costPrice||0}" style="width:72px;padding:3px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12px;color:var(--teal-dark);font-weight:700;" title="Sale Price" onchange="Views.invSetUntrackedSale('${it.id}','${s.id}',this.value)">
               </td>
-              <td><b>${untracked}</b></td>
+              <td>
+                <input type="number" min="0" value="${untracked}" style="width:58px;padding:3px 6px;border:1px solid var(--teal);border-radius:5px;font-size:13px;font-weight:700;text-align:center;color:var(--teal-dark);background:#F0FDFA;" title="Change stock quantity directly" onchange="Views.invSetUntrackedQty('${it.id}','${s.id}',this.value)">
+              </td>
               <td><b style="color:var(--teal-dark);">${esc(s.name)}</b></td>
               <td style="white-space:nowrap;">
-                <button class="btn sm primary" onclick="Views.openAddImeiToUntracked('${it.id}','${s.id}')" title="Assign an IMEI to this unit">+ Add IMEI</button>
-                <button class="btn sm danger" onclick="Views.removeUntrackedStock('${it.id}','${s.id}')" title="Remove untracked stock balance">✕ Clear</button>
+                <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;">
+                  <select id="inv_untracked_to_${it.id}_${s.id}" style="padding:4px 8px;border:1px solid var(--line);border-radius:6px;font-size:12px;">
+                    ${otherShops.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join('')}
+                  </select>
+                  <button class="btn sm primary" onclick="Views.doUntrackedTransfer('${it.id}','${s.id}')" title="Transfer 1 unit to selected store">⇄ Transfer</button>
+                  <button class="btn sm green" onclick="Views.invUntrackedAction('${it.id}','${s.id}','sold')" title="Mark 1 as sold">✓ Sold</button>
+                  <button class="btn sm amber" onclick="Views.invUntrackedAction('${it.id}','${s.id}','faulty')" title="Mark 1 as faulty">⚠ Faulty</button>
+                  <button class="btn sm" onclick="Views.invUntrackedAction('${it.id}','${s.id}','deposit')" title="Mark 1 as deposit" style="background:#E8F0FE;color:#1967D2;border:1px solid #BDD0F7;">🔒 Deposit</button>
+                  <button class="btn sm" onclick="Views.openDuplicateDeviceModal('${it.id}')" title="Duplicate product details" style="background:#F3F4F6;color:var(--ink);border:1px solid var(--line);">📋 Copy</button>
+                  <button class="btn sm ghost" onclick="Views.removeUntrackedStock('${it.id}','${s.id}')" title="Clear generic stock balance" style="border:1px solid var(--line);color:var(--muted);">🗑</button>
+                </div>
               </td>
             </tr>`;
           }
@@ -2357,6 +2383,94 @@ Views.invSetUntrackedSale = function(itemId, locId, v){
   (it.units||[]).filter(u=>u.location===locId).forEach(u => { u.sellPrice = p; });
   Store.save();
   Toast.show('Sale price saved.','ok');
+};
+
+Views.invSetUntrackedQty = function(itemId, locId, v){
+  const q = parseInt(v);
+  if(isNaN(q) || q < 0){ Toast.show('Enter a valid quantity (0 or greater).','err'); return; }
+  const it = itemById(itemId); if(!it) return;
+  if(!it.locations) it.locations = {};
+  const trackedAtLoc = unitsAt(it, locId).length;
+  it.locations[locId] = trackedAtLoc + q;
+  Store.save();
+  Toast.show(`Stock quantity for ${it.name} updated to ${it.locations[locId]} at ${shopName(locId)}.`, 'ok');
+  render();
+};
+
+Views.doUntrackedTransfer = function(itemId, fromLoc){
+  const it = itemById(itemId); if(!it) return;
+  const toLoc = document.getElementById(`inv_untracked_to_${itemId}_${fromLoc}`)?.value;
+  if(!toLoc || toLoc === fromLoc){ Toast.show('Pick a different destination store.','err'); return; }
+  const untracked = untrackedQtyAt(it, fromLoc);
+  if(untracked <= 0){ Toast.show(`No generic stock available at ${shopName(fromLoc)}.`, 'err'); return; }
+  const ok = Stock.transferGeneric(itemId, fromLoc, toLoc, 1, todayISO(), 'Generic stock transfer from Inventory');
+  if(ok){
+    Toast.show(`1 unit of ${it.name} transferred: ${shopName(fromLoc)} → ${shopName(toLoc)}.`, 'ok');
+    render();
+  }
+};
+
+Views.invUntrackedAction = function(itemId, locId, kind){
+  const it = itemById(itemId); if(!it) return;
+  const untracked = untrackedQtyAt(it, locId);
+  if(untracked <= 0){ Toast.show(`No generic stock available at ${shopName(locId)}.`, 'err'); return; }
+  const labels = {sold:'✓ Sold', faulty:'⚠ Faulty', deposit:'🔒 Deposit'};
+  const colors = {sold:'var(--green)', faulty:'var(--red)', deposit:'#1967D2'};
+  const defaultPrice = (it.shopPrices && it.shopPrices[locId]) || it.costPrice || 0;
+
+  Modal.open(`
+    <div class="modal">
+      <div class="modal-head">
+        <h3 style="color:${colors[kind]};">${labels[kind]} — ${esc(it.name)}</h3>
+        <button class="btn ghost sm" onclick="Modal.close()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="helpbox">
+          Type: <b>Generic Product (No IMEI)</b><br>
+          Location: <b>${esc(shopName(locId))}</b> · Stock available: <b>${untracked}</b>
+        </div>
+        <div class="field-grid">
+          <div class="field"><label>Date</label><input id="iua_date" type="date" value="${todayISO()}"></div>
+          <div class="field"><label>Sale price (€)</label><input id="iua_price" type="number" step="0.01" value="${defaultPrice}" placeholder="0.00"></div>
+        </div>
+        <div class="field"><label>Note (optional)</label><input id="iua_note" placeholder="e.g. customer name, reason…"></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" onclick="Modal.close()">Cancel</button>
+        <button class="btn primary" style="background:${colors[kind]};" onclick="Views.confirmInvUntrackedAction('${itemId}','${locId}','${kind}')">${labels[kind]}</button>
+      </div>
+    </div>
+  `);
+};
+
+Views.confirmInvUntrackedAction = function(itemId, locId, kind){
+  const it = itemById(itemId); if(!it) return;
+  const date = val('iua_date') || todayISO();
+  const price = parseFloat(val('iua_price')) || (it.shopPrices && it.shopPrices[locId]) || 0;
+  const note = val('iua_note').trim() || (kind==='sold'?'Generic sold from Inventory':kind==='faulty'?'Generic faulty — from Inventory':'Generic deposit — from Inventory');
+
+  if(it.locations[locId] <= 0){ Toast.show('No stock at that location.','err'); return; }
+  it.locations[locId] = Math.max(0, it.locations[locId] - 1);
+
+  const mv = {
+    id: uid('mv'),
+    type: kind,
+    itemId,
+    itemName: it.name,
+    categoryId: it.category,
+    location: locId,
+    qty: 1,
+    date: date,
+    note: note,
+    sellPrice: price
+  };
+  Stock.addMovement(mv);
+  Store.save();
+  Modal.close();
+
+  const labels = {sold:'✓ Sold', faulty:'⚠ Marked faulty', deposit:'🔒 Deposit recorded'};
+  Toast.show(`${labels[kind]}: ${it.name} at ${shopName(locId)}. <button class="btn sm" style="margin-left:8px;padding:2px 10px;font-size:11px;background:#fff;color:var(--ink);border:none;" onclick="Views.undoSale('${mv.id}')">↩ Undo</button>`, 'ok');
+  render();
 };
 
 // Inline transfer of a tracked IMEI unit — reads the inline <select> for destination
