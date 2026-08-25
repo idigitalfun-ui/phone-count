@@ -3476,7 +3476,7 @@
       "name": "iPhone 15",
       "category": "cat_7qgen7vw69i",
       "memory": "128GB",
-      "imei": "",
+      "imei": "355663152578817",
       "condition": "Used",
       "batteryPct": null,
       "costPrice": 440,
@@ -3499,7 +3499,7 @@
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
-      "wholesalePrice": 440,
+      "wholesalePrice": 452,
       "units": [
         {
           "id": "unit_m8vxy1d9wih",
@@ -3524,6 +3524,18 @@
           "batteryPct": null,
           "dateAdded": "2026-08-25",
           "wholesalePrice": 440
+        },
+        {
+          "id": "unit_xbg0om6blif",
+          "imei": "355663152578817",
+          "color": "Yellow",
+          "condition": "Used",
+          "batteryPct": null,
+          "location": "shop_maynooth",
+          "costPrice": 440,
+          "wholesalePrice": 452,
+          "sellPrice": 550,
+          "addedAt": "2026-08-25"
         }
       ],
       "colors": [
@@ -10132,7 +10144,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:41:01.840Z"
+    "lastSaved": "2026-08-25T17:41:15.305Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
