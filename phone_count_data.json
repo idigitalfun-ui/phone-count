@@ -5209,13 +5209,14 @@
     },
     {
       "id": "item_s9mmdgyw69m",
-      "name": "Smart Watch IP68 Y25",
+      "name": "Smart Bracelet Watch",
       "category": "cat_u83iatxw69i",
       "memory": "-",
       "imei": "",
       "condition": "New",
       "colors": [
-        "Silver"
+        "Silver",
+        "Black"
       ],
       "batteryPct": 100,
       "costPrice": 50,
@@ -5232,13 +5233,13 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
-        "shop_maynooth": 1,
+        "shop_maynooth": 2,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
-      "wholesalePrice": 50,
+      "wholesalePrice": 62,
       "units": []
     },
     {
@@ -10048,7 +10049,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T18:00:40.441Z"
+    "lastSaved": "2026-08-25T18:01:00.500Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
