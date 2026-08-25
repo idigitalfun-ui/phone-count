@@ -297,9 +297,9 @@
         "shop_tullamore": 115
       },
       "locations": {
-        "warehouse": 2,
+        "warehouse": 1,
         "shop_thurles": 2,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 2,
         "shop_maynooth": 2,
         "shop_mullingar": 0,
         "shop_tralee": 1,
@@ -321,7 +321,7 @@
           "imei": "353451828264620",
           "color": "",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_kilkenny",
           "costPrice": 95,
           "wholesalePrice": 107,
           "sellPrice": 115
@@ -402,9 +402,9 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 0,
         "shop_thurles": 2,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 3,
         "shop_maynooth": 5,
         "shop_mullingar": 1,
         "shop_tralee": 2,
@@ -416,7 +416,7 @@
           "imei": "351355310086908",
           "color": "",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_kilkenny",
           "costPrice": 99,
           "wholesalePrice": 111,
           "sellPrice": 120
@@ -2399,9 +2399,9 @@
         "shop_tullamore": 240
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 0,
         "shop_thurles": 1,
-        "shop_kilkenny": 0,
+        "shop_kilkenny": 1,
         "shop_maynooth": 4,
         "shop_mullingar": 2,
         "shop_tralee": 1,
@@ -2413,7 +2413,7 @@
           "imei": "353700230989772",
           "color": "",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_kilkenny",
           "costPrice": 190,
           "wholesalePrice": 190,
           "sellPrice": 285
@@ -9846,6 +9846,78 @@
       "date": "2026-08-25",
       "note": "Transferred from Inventory",
       "id": "mv_336smeje7zf"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_kb0hq9hw69k",
+      "itemName": "Samsung A07 4GB/128GB",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_kilkenny",
+      "qty": 1,
+      "date": "2026-08-25",
+      "note": "Transferred from Inventory",
+      "id": "mv_sgifl10eexn"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_kb0hq9hw69k",
+      "itemName": "Samsung A07 4GB/128GB",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_kilkenny",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-08-25",
+      "note": "Transferred from Inventory",
+      "id": "mv_6nsuftxeexn"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_ktmrwgdw69k",
+      "itemName": "Samsung A16 4GB/128GB",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_kilkenny",
+      "qty": 1,
+      "date": "2026-08-25",
+      "note": "Transferred from Inventory",
+      "id": "mv_9u7euebelnf"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_ktmrwgdw69k",
+      "itemName": "Samsung A16 4GB/128GB",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_kilkenny",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-08-25",
+      "note": "Transferred from Inventory",
+      "id": "mv_jiyv9oyelnf"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_qbvtan1w69k",
+      "itemName": "Samsung A37 5G 128GB",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_kilkenny",
+      "qty": 1,
+      "date": "2026-08-25",
+      "note": "Transferred from Inventory",
+      "id": "mv_uopsdw9eq7n"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_qbvtan1w69k",
+      "itemName": "Samsung A37 5G 128GB",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_kilkenny",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-08-25",
+      "note": "Transferred from Inventory",
+      "id": "mv_wup4bqoeq7n"
     }
   ],
   "reorderList": [],
@@ -9853,7 +9925,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T15:51:19.276Z"
+    "lastSaved": "2026-08-25T15:51:42.900Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
