@@ -1456,7 +1456,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.7.6</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.7.7</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -3314,15 +3314,16 @@ Views._salesExpanded = {};
 Views.sales = function(){
   const shops = activeShops();
   if(!shops.length) return `<div class="empty">No active shops found.</div>`;
-  if(!Views._salesShop || !shops.find(s=>s.id===Views._salesShop)) Views._salesShop = shops[0].id;
+  if(!Views._salesShop || (Views._salesShop!=='all' && !shops.find(s=>s.id===Views._salesShop))) Views._salesShop = shops[0].id;
   const shopId = Views._salesShop;
-  const items = sortedItems((Store.data?.items||[]).filter(it=>((it?.locations&&it.locations[shopId])||0) > 0));
+  const isAll = (shopId === 'all');
+  const items = sortedItems((Store.data?.items||[]).filter(it => isAll ? totalQty(it) > 0 : ((it?.locations&&it.locations[shopId])||0) > 0));
   const weekStart = Views._weekStart || mostRecentMonday();
   const weekEnd = isoAddDays(weekStart,6);
 
   function itemRows(it){
     if(!it) return '';
-    const units = unitsAt(it, shopId);
+    const units = isAll ? (it.units||[]) : unitsAt(it, shopId);
     const expanded = !!(Views._salesExpanded && Views._salesExpanded[it.id]);
 
     let imeiStr = '';
@@ -3339,25 +3340,28 @@ Views.sales = function(){
       imeiStr = `<span style="color:var(--muted)">—</span>`;
     }
 
-    const price = (it.shopPrices && it.shopPrices[shopId]) != null ? it.shopPrices[shopId] : (it.costPrice || 0);
+    const price = isAll ? ((it.shopPrices && it.shopPrices[shops[0].id]) || it.costPrice || 0) : ((it.shopPrices && it.shopPrices[shopId]) != null ? it.shopPrices[shopId] : (it.costPrice || 0));
+    const qty = isAll ? totalQty(it) : ((it.locations&&it.locations[shopId])||0);
 
     let rows = `<tr>
       <td><b>${esc(it.name||'')}</b>${units.length? ` <button class="btn ghost sm" style="padding:2px 6px;margin-left:4px;" onclick="Views.toggleSalesExpand('${it.id}')">${expanded?'▾':'▸'} ${units.length} IMEI</button>`:''}</td>
       <td>${imeiStr}</td>
       <td><span class="pill teal">${esc(catName(it.category))}</span></td>
-      <td>${signalHtml((it.locations&&it.locations[shopId])||0)} ${(it.locations&&it.locations[shopId])||0}</td>
+      <td>${signalHtml(qty)} ${qty}</td>
       <td>${euro(price)}</td>
       <td>
-        <button class="btn sm primary" onclick="Views.quickAction('${it.id}','${shopId}','sold')">✓ Sold</button>
-        <button class="btn sm" onclick="Views.quickAction('${it.id}','${shopId}','faulty')">⚠ Faulty</button>
-        <button class="btn sm" onclick="Views.quickAction('${it.id}','${shopId}','deposit')">🔒 Deposit</button>
+        ${!isAll ? `
+          <button class="btn sm primary" onclick="Views.quickAction('${it.id}','${shopId}','sold')">✓ Sold</button>
+          <button class="btn sm" onclick="Views.quickAction('${it.id}','${shopId}','faulty')">⚠ Faulty</button>
+          <button class="btn sm" onclick="Views.quickAction('${it.id}','${shopId}','deposit')">🔒 Deposit</button>
+        ` : `<span style="font-size:12px;color:var(--muted);">Select a shop above to sell</span>`}
       </td>
     </tr>`;
     if(expanded){
       rows += units.map(u=>`
         <tr style="background:#FAFBFC;">
           <td colspan="2" style="padding-left:28px;font-size:12.5px;">
-            ↳ <span class="mono"><b>${esc(u?.imei||'No IMEI')}</b></span> — ${esc(u?.color||'-')} · ${esc(u?.condition||'-')}
+            ↳ <span class="mono"><b>${esc(u?.imei||'No IMEI')}</b></span> — ${esc(u?.color||'-')} · ${esc(u?.condition||'-')} <small style="color:var(--muted);">@ ${esc(shopName(u?.location))}</small>
           </td>
           <td colspan="2" style="font-size:12px;">Price: <b>${euro(u?.sellPrice!=null?u.sellPrice:price)}</b></td>
           <td colspan="2">
@@ -3370,32 +3374,38 @@ Views.sales = function(){
     return rows;
   }
 
+  const moves = (Store.data?.movements||[]).filter(m => m && (isAll ? true : m.location===shopId) && ['sold','faulty','deposit'].includes(m.type) && m.date>=weekStart && m.date<=weekEnd);
+
   return `
     <div class="toolbar">
-      <div class="chip-select">${shops.map(s=>`<button class="${shopId===s.id?'active':''}" onclick="Views._salesShop='${s.id}';render()">${esc(s.name)}</button>`).join('')}</div>
+      <div class="chip-select">
+        <button class="${shopId==='all'?'active':''}" onclick="Views._salesShop='all';render()">All Shops</button>
+        ${shops.map(s=>`<button class="${shopId===s.id?'active':''}" onclick="Views._salesShop='${s.id}';render()">${esc(s.name)}</button>`).join('')}
+      </div>
       <div class="spacer"></div>
       <span style="font-size:12.5px;color:var(--muted);">Week: ${weekLabel(weekStart,weekEnd)}</span>
     </div>
     <div class="helpbox">Tap <b>Sold</b> on the item row to sell any one unit (it auto-picks a tracked IMEI if one exists). To sell a <i>specific</i> device, expand the IMEI list first and act on that exact row.</div>
     <div class="card">
       <div class="table-wrap"><table>
-        <thead><tr><th>Item</th><th>IMEI</th><th>Category</th><th>In stock at ${esc(shopName(shopId))}</th><th>Price</th><th>Actions</th></tr></thead>
+        <thead><tr><th>Item</th><th>IMEI</th><th>Category</th><th>In stock at ${isAll ? 'all stores' : esc(shopName(shopId))}</th><th>Price</th><th>Actions</th></tr></thead>
         <tbody>
-        ${items.length? items.map(itemRows).join('') : `<tr><td colspan="6"><div class="empty">No stock at this shop yet — transfer some in from Inventory.</div></td></tr>`}
+        ${items.length? items.map(itemRows).join('') : `<tr><td colspan="6"><div class="empty">No stock found for this selection.</div></td></tr>`}
         </tbody>
       </table></div>
     </div>
     <div class="card card-pad" style="margin-top:16px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
-        <h3 style="margin:0;">This week's activity — ${esc(shopName(shopId))}</h3>
+        <h3 style="margin:0;">This week's activity — ${isAll ? 'All Shops' : esc(shopName(shopId))}</h3>
         <small style="color:var(--muted)">Accidentally clicked Sold? Click <b>↩ Revert</b> on any row below to return the phone back into stock.</small>
       </div>
       <div class="table-wrap"><table>
-        <thead><tr><th>Date</th><th>Item</th><th>Details / IMEI</th><th>Type</th><th>Qty</th><th style="text-align:right;">Action</th></tr></thead>
+        <thead><tr><th>Date</th><th>Shop</th><th>Item</th><th>Details / IMEI</th><th>Type</th><th>Qty</th><th style="text-align:right;">Action</th></tr></thead>
         <tbody>
-          ${(Store.data?.movements||[]).filter(m=>m&&m.location===shopId && ['sold','faulty','deposit'].includes(m.type) && m.date>=weekStart && m.date<=weekEnd).slice().reverse().map(m=>`
+          ${moves.slice().reverse().map(m=>`
             <tr>
               <td>${m.date||'—'}</td>
+              <td><b>${esc(shopName(m.location))}</b></td>
               <td><b>${esc(m.itemName||'—')}</b></td>
               <td>${m.unitData?.imei ? `<span class="mono" style="color:var(--teal-dark);font-weight:700;">${esc(m.unitData.imei)}</span>` : (m.note ? esc(m.note) : '—')}</td>
               <td>${pillForType(m.type)}</td>
@@ -3404,7 +3414,7 @@ Views.sales = function(){
                 <button class="btn sm ghost" style="border:1px solid var(--line);" onclick="Views.undoSale('${m.id}')" title="Undo this and return device to stock">↩ Revert</button>
               </td>
             </tr>
-          `).join('') || `<tr><td colspan="6"><div class="empty">No sales, faulty, or deposits recorded for this shop this week.</div></td></tr>`}
+          `).join('') || `<tr><td colspan="7"><div class="empty">No sales, faulty, or deposits recorded for ${isAll ? 'any shop' : 'this shop'} this week.</div></td></tr>`}
         </tbody>
       </table></div>
     </div>
@@ -3414,105 +3424,45 @@ Views.toggleSalesExpand = function(itemId){ Views._salesExpanded[itemId] = !View
 function pillForType(t){
   return {sold:'<span class="pill green">Sold</span>',faulty:'<span class="pill red">Faulty</span>',deposit:'<span class="pill amber">Deposit</span>'}[t]||t;
 }
-Views.quickAction = function(itemId, shopId, kind){
-  const fn = {sold:Stock.sell, faulty:Stock.faulty, deposit:Stock.deposit}[kind];
-  const mv = fn.call(Stock, itemId, shopId, 1, todayISO(), kind==='sold'?'Weekly shop sale':kind);
-  if(mv && mv.id){
-    const label = kind==='sold'?'Marked as sold.':kind==='faulty'?'Marked faulty.':'Marked as deposit.';
-    Toast.show(`${label} <button class="btn sm" style="margin-left:8px;padding:2px 8px;font-size:11px;background:#fff;color:var(--ink);border:none;" onclick="Views.undoSale('${mv.id}')">↩ Undo</button>`, 'ok');
-    render();
-  }
+Views.quickAction = function(itemId,shopId,type){
+  const it = itemById(itemId); if(!it) return;
+  const count = (it.locations&&it.locations[shopId])||0;
+  if(count<=0){ Toast.show('No stock at this location.','err'); return; }
+  const unit = unitsAt(it, shopId)[0];
+  const unitData = unit ? {id:unit.id, imei:unit.imei, color:unit.color, condition:unit.condition} : null;
+  const label = {sold:'Sold',faulty:'Marked faulty',deposit:'Put on deposit'}[type]||'Action completed';
+  Stock.removeStock(itemId, shopId, 1, type, todayISO(), `${label} at ${shopName(shopId)}`, unitData);
+  Toast.show(unit?`${label}: IMEI ${unit.imei||unit.id}`:`${label}: ${it.name}`,'ok');
+  render();
 };
-Views.unitAction = function(itemId, unitId, kind){
-  const mv = Stock.removeUnit(itemId, unitId, kind, todayISO(), kind==='sold'?'Weekly shop sale':kind);
-  if(mv && mv.id){
-    const label = kind==='sold'?'Marked as sold.':kind==='faulty'?'Marked faulty.':'Marked as deposit.';
-    Toast.show(`${label} <button class="btn sm" style="margin-left:8px;padding:2px 8px;font-size:11px;background:#fff;color:var(--ink);border:none;" onclick="Views.undoSale('${mv.id}')">↩ Undo</button>`, 'ok');
-    render();
-  }
+Views.unitAction = function(itemId,unitId,type){
+  const it = itemById(itemId); if(!it) return;
+  const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
+  const shopId = unit.location;
+  const unitData = {id:unit.id, imei:unit.imei, color:unit.color, condition:unit.condition};
+  const label = {sold:'Sold',faulty:'Marked faulty',deposit:'Put on deposit'}[type]||'Action completed';
+  Stock.removeStock(itemId, shopId, 1, type, todayISO(), `${label} at ${shopName(shopId)}`, unitData);
+  Toast.show(`${label}: IMEI ${unit.imei||unit.id}`,'ok');
+  render();
 };
-Views.undoSale = function(movementId){
-  const ok = Stock.revertMovement(movementId);
-  if(ok) render();
-};
-
-Views.showRecentActivity = function(){
-  const typeLabel = {
-    sold:'<span class="pill green">Sold</span>',
-    faulty:'<span class="pill red">Faulty</span>',
-    deposit:'<span class="pill amber">Deposit</span>',
-    'transfer-out':'<span class="pill teal">Transfer out</span>',
-    'transfer-in':'<span class="pill teal">Transfer in</span>',
-    'stock-in':'<span class="pill gray">Stock in</span>',
-    adjustment:'<span class="pill gray">Adjustment</span>'
-  };
-  const revertable = ['sold','faulty','deposit'];
-  // Show last 60 movements newest first
-  const movs = [...Store.data.movements]
-    .sort((a,b)=>(b.date||'').localeCompare(a.date||''))
-    .slice(0,60);
-
-  const rows = movs.length ? movs.map(m=>`
-    <tr>
-      <td style="font-size:12px;color:var(--muted);">${m.date||'—'}</td>
-      <td><b>${esc(m.itemName||'—')}</b></td>
-      <td>${typeLabel[m.type]||m.type}</td>
-      <td style="font-size:12px;">${m.unitData?.imei ? `<span class="mono" style="color:var(--teal-dark);font-weight:700;">${esc(m.unitData.imei)}</span>` : (m.note ? esc(m.note.substring(0,40)) : '—')}</td>
-      <td style="font-size:12px;">${esc(shopName(m.location))}</td>
-      <td style="text-align:right;">
-        ${revertable.includes(m.type) ? `<button class="btn sm" style="white-space:nowrap;" onclick="Views._revertFromLog('${m.id}')">↩ Revert</button>` : ''}
-      </td>
-    </tr>
-  `).join('') : `<tr><td colspan="6"><div class="empty">No activity recorded yet.</div></td></tr>`;
-
-  Modal.open(`
-    <div class="modal" style="max-width:780px;width:95vw;">
-      <div class="modal-head">
-        <h3>↩ Recent Activity — Revert anything</h3>
-        <button class="btn ghost sm" onclick="Modal.close()">✕</button>
-      </div>
-      <div class="modal-body" style="padding:0;">
-        <div class="helpbox" style="margin:12px 12px 0;border-radius:6px;">
-          Click <b>↩ Revert</b> on any <span class="pill green">Sold</span>, <span class="pill red">Faulty</span> or <span class="pill amber">Deposit</span> row to put the device <b>back into stock</b> — the IMEI and all details are fully restored. Transfers cannot be reverted here (use Transfer from Inventory instead).
-        </div>
-        <div class="table-wrap" style="max-height:60vh;overflow-y:auto;margin-top:12px;">
-          <table>
-            <thead><tr>
-              <th>Date</th><th>Device</th><th>Type</th><th>IMEI / Note</th><th>Shop</th><th style="text-align:right;">Action</th>
-            </tr></thead>
-            <tbody>${rows}</tbody>
-          </table>
-        </div>
-      </div>
-      <div class="modal-foot">
-        <button class="btn" onclick="Modal.close()">Close</button>
-      </div>
-    </div>
-  `);
+Views.undoSale = function(moveId){
+  Stock.undoMovement(moveId);
+  Toast.show('Action undone — device returned to stock.','ok');
+  render();
 };
 
-Views._revertFromLog = function(movementId){
-  const ok = Stock.revertMovement(movementId);
-  if(ok){
-    render();
-    Views.showRecentActivity(); // refresh the modal with updated list
-  }
-};
-
-/* ---- WEEKLY REPORT (matches your uploaded sheet layout) ---- */
+/* ---- WEEKLY REPORT (Monday-Sunday, matching paper sheet) ---- */
 Views._weekStart = mostRecentMonday();
 Views.weekly = function(){
-  const weekStart = Views._weekStart;
-  const weekEnd = isoAddDays(weekStart,6);
+  const weekStart = Views._weekStart, weekEnd = isoAddDays(weekStart,6);
   const shops = activeShops();
-
   function calcFor(shopId, catId){
     const itemsInCat = Store.data.items.filter(it=>it.category===catId);
-    const currQty = itemsInCat.reduce((sum, it) => sum + (it.locations[shopId]||0), 0);
-    
+    const currQty = itemsInCat.reduce((sum, it) => sum + ((it.locations&&it.locations[shopId])||0), 0);
+
     let inQ = 0, outQ = 0, faultyQ = 0, depositQ = 0;
     itemsInCat.forEach(it=>{
-      const moves = Store.data.movements.filter(m => m.itemId === it.id && m.location === shopId);
+      const moves = (Store.data.movements||[]).filter(m => m && m.itemId === it.id && m.location === shopId);
       const during = moves.filter(m => m.date >= weekStart && m.date <= weekEnd);
       during.forEach(m=>{
         if(m.type === 'stock-in' || m.type === 'transfer-in') inQ += Math.abs(m.qty);
@@ -3522,10 +3472,9 @@ Views.weekly = function(){
       });
     });
 
-    // If viewing a past week, adjust for movements that occurred after weekEnd
     let afterInQ = 0, afterOutQ = 0;
     itemsInCat.forEach(it=>{
-      const moves = Store.data.movements.filter(m => m.itemId === it.id && m.location === shopId);
+      const moves = (Store.data.movements||[]).filter(m => m && m.itemId === it.id && m.location === shopId);
       const after = moves.filter(m => m.date > weekEnd);
       after.forEach(m=>{
         if(m.type === 'stock-in' || m.type === 'transfer-in') afterInQ += Math.abs(m.qty);
@@ -3578,10 +3527,10 @@ Views.exportWeeklyCsv = function(){
   shops.forEach(s=>{
     Store.data.categories.forEach(c=>{
       const itemsInCat = Store.data.items.filter(it=>it.category===c.id);
-      const currQty = itemsInCat.reduce((sum, it) => sum + (it.locations[s.id]||0), 0);
+      const currQty = itemsInCat.reduce((sum, it) => sum + ((it.locations&&it.locations[s.id])||0), 0);
       let inQ = 0, outQ = 0, faultyQ = 0, depositQ = 0;
       itemsInCat.forEach(it=>{
-        const moves = Store.data.movements.filter(m => m.itemId === it.id && m.location === s.id);
+        const moves = (Store.data.movements||[]).filter(m => m && m.itemId === it.id && m.location === s.id);
         const during = moves.filter(m => m.date >= weekStart && m.date <= weekEnd);
         during.forEach(m=>{
           if(m.type === 'stock-in' || m.type === 'transfer-in') inQ += Math.abs(m.qty);
@@ -3592,7 +3541,7 @@ Views.exportWeeklyCsv = function(){
       });
       let afterInQ = 0, afterOutQ = 0;
       itemsInCat.forEach(it=>{
-        const moves = Store.data.movements.filter(m => m.itemId === it.id && m.location === s.id);
+        const moves = (Store.data.movements||[]).filter(m => m && m.itemId === it.id && m.location === s.id);
         const after = moves.filter(m => m.date > weekEnd);
         after.forEach(m=>{
           if(m.type === 'stock-in' || m.type === 'transfer-in') afterInQ += Math.abs(m.qty);
@@ -3605,24 +3554,59 @@ Views.exportWeeklyCsv = function(){
       rows.push([s.name, c.name, start, inQ, afterIn, outQ, faultyQ, depositQ, remaining]);
     });
   });
-  csvDownload(`weekly_report_${weekStart}.csv`, rows);
-  Toast.show('Weekly report exported.','ok');
+  csvDownload(`weekly_stock_report_${weekStart}.csv`, rows);
+  Toast.show('Weekly report exported to Excel CSV.','ok');
 };
 
-Views.printPage = function(){ window.print(); };
-
-/* ---- STOCK LIST VIEW ---- */
+/* ---- STOCK LIST VIEW (PDF-like table) ---- */
 Views._svLoc = 'warehouse';
 Views._svMode = 'totals';
 Views._svExpanded = {};
-
-Views.toggleSvExpand = function(itemId){
-  Views._svExpanded[itemId] = !Views._svExpanded[itemId];
-  render();
+Views.toggleSvExpand = function(itemId){ Views._svExpanded[itemId] = !Views._svExpanded[itemId]; render(); };
+Views.svSetCostPrice = function(itemId, v){
+  const p = Number(v); if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+  const it = itemById(itemId); if(!it) return;
+  it.costPrice = p; (it.units||[]).forEach(u=>{ u.costPrice = p; }); Store.save(); Toast.show('Cost price updated.','ok'); render();
 };
-
+Views.svSetWholesalePrice = function(itemId, v){
+  const p = Number(v); if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+  const it = itemById(itemId); if(!it) return;
+  it.wholesalePrice = p; (it.units||[]).forEach(u=>{ u.wholesalePrice = p; }); Store.save(); Toast.show('Wholesale price updated.','ok'); render();
+};
+Views.svSetPrice = function(itemId, shopId, v){
+  const p = Number(v); if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+  const it = itemById(itemId); if(!it) return;
+  if(!it.shopPrices) it.shopPrices = {};
+  it.shopPrices[shopId] = p;
+  (it.units||[]).filter(u=>u.location===shopId).forEach(u=>{ u.sellPrice = p; });
+  Store.save(); Toast.show('Sale price updated.','ok'); render();
+};
+Views.svSetUnitCost = function(itemId, unitId, v){
+  const p = Number(v); if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+  const it = itemById(itemId); if(!it) return;
+  const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
+  unit.costPrice = p; Store.save(); Toast.show('Unit cost updated.','ok'); render();
+};
+Views.svSetUnitWholesale = function(itemId, unitId, v){
+  const p = Number(v); if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+  const it = itemById(itemId); if(!it) return;
+  const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
+  unit.wholesalePrice = p; Store.save(); Toast.show('Unit wholesale updated.','ok'); render();
+};
+Views.svSetUnitPrice = function(itemId, unitId, v){
+  const p = Number(v); if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+  const it = itemById(itemId); if(!it) return;
+  const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
+  unit.sellPrice = p; Store.save(); Toast.show('Unit price updated.','ok'); render();
+};
+Views.svSetQty = function(itemId, shopId, v){
+  const q = Number(v); if(isNaN(q)||q<0){ Toast.show('Enter a valid quantity.','err'); return; }
+  const it = itemById(itemId); if(!it) return;
+  if(!it.locations) it.locations = {};
+  it.locations[shopId] = q; Store.save(); Toast.show('Quantity updated.','ok'); render();
+};
 Views.stockview = function(){
-  const locs = [{id:'all',name:'All shops (total)'}, ...activeShops()];
+  const locs = [{id:'all',name:'All locations (Total)'}, ...activeShops()];
   if(!Views._svLoc || !locs.find(l=>l.id===Views._svLoc)) Views._svLoc = 'warehouse';
   const locId = Views._svLoc;
   const mode = Views._svMode || 'totals';
@@ -3639,7 +3623,7 @@ Views.stockview = function(){
     let mainRow = `<tr>
       <td>
         <button class="btn ghost sm" style="padding:2px 6px;margin-right:4px;" onclick="Views.toggleSvExpand('${it.id}')">${expanded?'▾':'▸'}</button>
-        <b>${esc(it.name)}</b>
+        <b>${esc(it.name)}</b>${it.memory?` <span class="mono" style="font-size:11.5px;color:var(--teal-dark);font-weight:600;margin-left:4px;">${esc(it.memory)}</span>`:''}
       </td>
       <td>${(it.colors||[]).map(c=>`<span class="color-swatch" style="background:${cssColor(c)}"></span>`).join('')}${esc((it.colors||[]).join(', ')||'-')}</td>
       <td>
@@ -3652,7 +3636,7 @@ Views.stockview = function(){
         <input type="number" step="0.01" value="${salePrice}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:6px;font-size:12px;font-weight:700;color:var(--teal-dark);" title="Sale Price" onchange="Views.svSetPrice('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value)">
       </td>
       <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
-      <td><input type="number" min="0" value="${qty}" style="width:60px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;font-weight:700;" onchange="Views.svSetQty('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value)"></td>
+      <td><b style="font-size:14px;">${qty}</b></td>
       <td><button class="btn sm ghost" onclick="Views.toggleSvExpand('${it.id}')">${expanded?'▴ Collapse':'▾ Expand'}</button></td>
     </tr>`;
 
@@ -3696,7 +3680,7 @@ Views.stockview = function(){
   function renderImeiRows(it){
     const relevantUnits = locId==='all' ? (it.units||[]) : unitsAt(it, locId);
     const rows = relevantUnits.map(u=>`<tr>
-      <td><a href="javascript:void(0)" onclick="Views.openEditUnitModal('${it.id}','${u.id}')" style="color:var(--ink);text-decoration:none;font-weight:700;cursor:pointer;" title="Click to edit">${esc(it.name)}</a></td>
+      <td><a href="javascript:void(0)" onclick="Views.openEditUnitModal('${it.id}','${u.id}')" style="color:var(--ink);text-decoration:none;font-weight:700;cursor:pointer;" title="Click to edit">${esc(it.name)}${it.memory?` <span class="mono" style="font-size:11.5px;color:var(--teal-dark);font-weight:600;">${esc(it.memory)}</span>`:''}</a></td>
       <td class="mono" style="color:var(--teal-dark);font-weight:700;">${esc(u.imei||'—')}</td>
       <td>${esc(u.color||'-')}</td>
       <td>${u.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
@@ -3726,155 +3710,60 @@ Views.stockview = function(){
       <button class="btn" onclick="Views.exportStockviewCsv()">⬇ Export CSV</button>
     </div>
     ${legend}
-    <h2 style="text-align:center;margin:6px 0 16px;">${locId==='all'?'All Shops — Stock List':esc(shopName(locId))+' — Stock List'} <span style="font-weight:400;color:var(--muted);font-size:14px;">(${dateStr})</span></h2>
-    ${groups.length? groups.map(g=>`
+    ${groups.map(g=>`
       <div class="card" style="margin-bottom:18px;">
-        <div class="table-section-title">${esc(g.cat.name)} <span style="font-weight:400;opacity:.85;">(${g.items.reduce((a,it)=>a+(locId==='all'?totalQty(it):it.locations[locId]),0)} units)</span></div>
+        <div class="table-section-title">${esc(g.cat.name)} (${g.items.reduce((a,it)=>a+(locId==='all'?totalQty(it):(it.locations[locId]||0)),0)} units)</div>
         <div class="table-wrap"><table>
-          ${mode==='totals'? `
-            <thead><tr>
-              <th>Name</th><th>Colours</th>
-              <th style="border-bottom:3px solid var(--line);">Cost Price</th>
-              <th style="border-bottom:3px solid #F0B429;">Wholesale</th>
-              <th style="border-bottom:3px solid var(--teal);">Sale Price</th>
-              <th>Condition</th><th>Qty</th><th>Expand</th>
-            </tr></thead>
-            <tbody>${g.items.map(renderRow).join('')}</tbody>
-          ` : `
-            <thead><tr>
-              <th>Name</th><th>IMEI</th><th>Colour</th><th>Condition</th>
-              <th style="border-bottom:3px solid var(--line);">Cost</th>
-              <th style="border-bottom:3px solid #F0B429;">Wholesale</th>
-              <th style="border-bottom:3px solid var(--teal);">Sale Price</th>
-              <th>Location</th>
-              <th class="no-print"></th>
-            </tr></thead>
-            <tbody>${g.items.map(renderImeiRows).join('') || `<tr><td colspan="9"><div class="empty">No individually tracked devices in this category yet.</div></td></tr>`}</tbody>
-          `}
+          <thead><tr>
+            ${mode==='totals' ? `<th>Device</th><th>Colour</th><th>Cost Price</th><th>Wholesale Price</th><th>Sale Price</th><th>Condition</th><th>Qty</th><th></th>` : `<th>Device</th><th>IMEI</th><th>Colour</th><th>Condition</th><th>Cost</th><th>Wholesale</th><th>Sale</th><th>Location</th><th class="no-print"></th>`}
+          </tr></thead>
+          <tbody>
+            ${g.items.map(mode==='totals' ? renderRow : renderImeiRows).join('')}
+          </tbody>
         </table></div>
-      </div>`).join('') : `<div class="card card-pad"><div class="empty">No stock at this location yet.</div></div>`}
+      </div>
+    `).join('') || '<div class="empty">No items in stock.</div>'}
   `;
 };
-Views.svSetQty = function(itemId, locId, v){
-  const q = Number(v);
-  if(isNaN(q)||q<0){ Toast.show('Enter a valid quantity.','err'); return; }
-  Stock.adjust(itemId, locId, q, 'Adjusted from Stock List View');
-  Toast.show('Quantity updated.','ok');
-  render();
-};
-Views.svSetPrice = function(itemId, locId, v){
-  const p = Number(v);
-  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
-  const it = itemById(itemId); if(!it) return;
-  if(!it.shopPrices) it.shopPrices = {};
-  it.shopPrices[locId] = p;
-  (it.units||[]).filter(u=>u.location===locId).forEach(u => { u.sellPrice = p; });
-  Store.save();
-  Toast.show('Sale price updated.','ok');
-};
-Views.svSetCostPrice = function(itemId, v){
-  const p = Number(v);
-  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
-  const it = itemById(itemId); if(!it) return;
-  it.costPrice = p;
-  (it.units||[]).forEach(u => { u.costPrice = p; });
-  Store.save();
-  Toast.show('Cost price updated.','ok');
-};
-Views.svSetWholesalePrice = function(itemId, v){
-  const p = Number(v);
-  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
-  const it = itemById(itemId); if(!it) return;
-  it.wholesalePrice = p;
-  (it.units||[]).forEach(u => { u.wholesalePrice = p; });
-  Store.save();
-  Toast.show('Wholesale price updated.','ok');
-};
-Views.svSetUnitPrice = function(itemId, unitId, v){
-  const p = Number(v);
-  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
-  const it = itemById(itemId); if(!it) return;
-  const u = (it.units||[]).find(x=>x.id===unitId); if(!u) return;
-  u.sellPrice = p;
-  Store.save();
-  Toast.show('Sale price updated.','ok');
-};
-Views.svSetUnitCost = function(itemId, unitId, v){
-  const p = Number(v);
-  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
-  const it = itemById(itemId); if(!it) return;
-  const u = (it.units||[]).find(x=>x.id===unitId); if(!u) return;
-  u.costPrice = p;
-  Store.save();
-  Toast.show('Cost price updated.','ok');
-};
-Views.svSetUnitWholesale = function(itemId, unitId, v){
-  const p = Number(v);
-  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
-  const it = itemById(itemId); if(!it) return;
-  const u = (it.units||[]).find(x=>x.id===unitId); if(!u) return;
-  u.wholesalePrice = p;
-  Store.save();
-  Toast.show('Wholesale price updated.','ok');
-};
-Views.svRemoveFromLocation = function(itemId, locId){
-  const it = itemById(itemId); if(!it) return;
-  Modal.confirm({
-    title:'Remove from this list?',
-    body:`<p>Set <b>${esc(it.name)}</b> to 0 at <b>${esc(shopName(locId))}</b>? A backup is taken first, and the item stays in Inventory (with 0 units here) so nothing is lost.</p>`,
-    danger:true, confirmText:'Remove',
-    onConfirm:()=>{
-      Store.snapshotToBackups('Before zeroing '+it.name+' at '+shopName(locId));
-      Stock.adjust(itemId, locId, 0, 'Removed via Stock List View');
-      Toast.show('Removed from this list.','ok');
-      render();
-    }
-  });
-};
-function cssColor(name){
-  const map = {black:'#222',white:'#eee',starlight:'#e8e3d6',purple:'#8a63c9',graphite:'#4a4a4a',charcoal:'#3a3a3a',gray:'#9aa0a6','ocean blue':'#2a6f9e',blue:'#2f6fd6'};
-  return map[(name||'').toLowerCase()] || '#c8c8c8';
-}
 Views.exportStockviewCsv = function(){
-  const locId = Views._svLoc;
-  const mode = Views._svMode;
-  const items = Store.data.items.filter(it=> locId==='all' ? totalQty(it)>0 : (it.locations[locId]||0)>0);
-  const groups = groupByCategory(items);
-  if(mode==='imei'){
-    const rows = [['Category','Name','IMEI','Colour','Condition','Cost Price','Wholesale Price','Sale Price','Location']];
-    groups.forEach(g=>{
-      g.items.forEach(it=>{
-        const units = locId==='all' ? (it.units||[]) : unitsAt(it, locId);
-        units.filter(u=>u.imei).forEach(u=>{
-          rows.push([g.cat.name, it.name, u.imei, u.color||'', u.condition||'',
-            u.costPrice||it.costPrice, u.wholesalePrice||it.wholesalePrice, u.sellPrice||it.shopPrices[u.location],
-            shopName(u.location)]);
-        });
-      });
-    });
-    csvDownload(`stock_list_imei_${locId}.csv`, rows);
-  } else {
-    const rows = [['Category','Name','Colours','Cost Price','Wholesale Price','Sale Price','Condition','Qty']];
-    groups.forEach(g=>{
-      g.items.forEach(it=>{
-        const qty = locId==='all'?totalQty(it):it.locations[locId];
-        const sale = locId==='all'?it.shopPrices[activeShops()[0]?.id]:it.shopPrices[locId];
-        rows.push([g.cat.name, it.name, (it.colors||[]).join(', '), it.costPrice, it.wholesalePrice||0, sale||0, it.condition, qty]);
-      });
-    });
-    csvDownload(`stock_list_${locId}.csv`, rows);
-  }
-  Toast.show('Stock list exported.','ok');
-};
+  const locId = Views._svLoc || 'warehouse';
+  const mode = Views._svMode || 'totals';
+  const isAll = locId === 'all';
+  let items = Store.data.items.filter(it=> isAll ? totalQty(it)>0 : (it.locations[locId]||0)>0);
 
+  let rows = [];
+  if(mode === 'imei'){
+    rows.push(['Device', 'IMEI', 'Category', 'Memory', 'Colour', 'Condition', 'Cost Price', 'Wholesale Price', 'Sale Price', 'Location']);
+    items.forEach(it=>{
+      const units = isAll ? (it.units||[]) : unitsAt(it, locId);
+      units.forEach(u=>{
+        const cost = u.costPrice != null ? u.costPrice : (it.costPrice || 0);
+        const wholesale = u.wholesalePrice != null ? u.wholesalePrice : (it.wholesalePrice || cost + 12);
+        const sale = u.sellPrice != null ? u.sellPrice : (it.shopPrices[u.location] || it.costPrice || 0);
+        rows.push([it.name, u.imei||'—', catName(it.category), it.memory||'', u.color||'', u.condition||it.condition, cost, wholesale, sale, shopName(u.location)]);
+      });
+    });
+  } else {
+    rows.push(['Device', 'Category', 'Memory', 'Colours', 'Condition', 'Cost Price', 'Wholesale Price', 'Sale Price', 'Qty In Stock', 'Location']);
+    items.forEach(it=>{
+      const qty = isAll ? totalQty(it) : (it.locations[locId]||0);
+      const defaultShopId = activeShops()[0]?.id || 'warehouse';
+      const sale = isAll ? ((it.shopPrices && it.shopPrices[defaultShopId])||it.costPrice||0) : ((it.shopPrices && it.shopPrices[locId])||it.costPrice||0);
+      rows.push([it.name, catName(it.category), it.memory||'', (it.colors||[]).join(', '), it.condition, it.costPrice||0, it.wholesalePrice||0, sale, qty, isAll ? 'All locations' : shopName(locId)]);
+    });
+  }
+
+  csvDownload(`stock_list_${locId}_${mode}_${todayISO()}.csv`, rows);
+  Toast.show('Stock list exported to CSV.','ok');
+};
 
 /* ---- BEST SELLERS ---- */
 Views._bsRange = 30;
 Views.bestsellers = function(){
   const range = Views._bsRange;
-  const cutoff = isoAddDays(todayISO(), -range);
+  const since = isoAddDays(todayISO(), -range);
   const sold = {};
-  Store.data.movements.filter(m=>m.type==='sold' && m.date>=cutoff).forEach(m=>{
+  Store.data.movements.filter(m=>m.type==='sold' && m.date>=since).forEach(m=>{
     sold[m.itemId] = (sold[m.itemId]||0) + m.qty;
   });
   const rows = Object.entries(sold).map(([id,q])=>({item:itemById(id),q})).filter(r=>r.item).sort((a,b)=>b.q-a.q);
@@ -3976,19 +3865,66 @@ Views.removeReorder = function(itemId){
   Store.data.reorderList = Store.data.reorderList.filter(r=>r.itemId!==itemId);
   Store.save(); render();
 };
-Views.addAnyToReorder = function(){
-  const since = reorderPeriodStart();
-  Modal.open(`
-    <div class="modal">
-      <div class="modal-head"><h3>Add item to reorder list</h3><button class="btn ghost sm" onclick="Modal.close()">✕</button></div>
-      <div class="modal-body">
-        <div class="field"><label>Item</label><select id="ro_item" onchange="Views.updateReorderSoldHint()">${sortedItems().map(it=>`<option value="${it.id}">${esc(it.name)}</option>`).join('')}</select></div>
-        <div class="helpbox" id="ro_sold_hint" style="margin-top:-4px;"></div>
-        <div class="field"><label>Quantity to order</label><input id="ro_qty" type="number" min="1" value="5"></div>
+Views._reorderModalMode = 'existing';
+Views.addAnyToReorder = function(mode = 'existing'){
+  Views._reorderModalMode = mode;
+  const isNew = (mode === 'new');
+  const items = sortedItems();
+
+  const html = `
+    <div class="modal" style="max-width:480px;">
+      <div class="modal-head">
+        <h3>Add item to reorder list</h3>
+        <button class="btn ghost sm" onclick="Modal.close()">✕</button>
       </div>
-      <div class="modal-foot"><button class="btn" onclick="Modal.close()">Cancel</button><button class="btn primary" onclick="Views.confirmAddReorder()">Add</button></div>
-    </div>`);
-  Views.updateReorderSoldHint();
+      <div class="modal-body">
+        <div style="display:flex;gap:6px;margin-bottom:14px;">
+          <button class="btn ${!isNew?'primary':''}" style="flex:1;" onclick="Views.addAnyToReorder('existing')">Choose Existing Item</button>
+          <button class="btn ${isNew?'primary':''}" style="flex:1;" onclick="Views.addAnyToReorder('new')">+ Add New Device Model</button>
+        </div>
+
+        ${!isNew ? `
+          <div class="field">
+            <label>Select Item</label>
+            <select id="ro_item" onchange="Views.updateReorderSoldHint()">
+              ${items.map(it=>`<option value="${it.id}">${esc(it.name)}</option>`).join('')}
+            </select>
+          </div>
+          <div class="helpbox" id="ro_sold_hint" style="margin-top:-4px;"></div>
+        ` : `
+          <div class="field">
+            <label>Device Name / Model</label>
+            <input id="ro_new_name" placeholder="e.g. iPhone 15 Pro" autofocus>
+          </div>
+          <div class="field-grid">
+            <div class="field">
+              <label>Category</label>
+              <select id="ro_new_cat">
+                ${Store.data.categories.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}
+              </select>
+            </div>
+            <div class="field">
+              <label>Memory / Storage</label>
+              <input id="ro_new_mem" placeholder="e.g. 128GB">
+            </div>
+          </div>
+          <div class="helpbox" style="margin-top:-4px;">
+            This will create a new product line in your system (with 0 current stock) and add it straight to your supplier reorder list.
+          </div>
+        `}
+
+        <div class="field">
+          <label>Quantity to order</label>
+          <input id="ro_qty" type="number" min="1" value="5">
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" onclick="Modal.close()">Cancel</button>
+        <button class="btn primary" onclick="Views.confirmAddReorder()">Add to Reorder List</button>
+      </div>
+    </div>`;
+  Modal.open(html);
+  if(!isNew) Views.updateReorderSoldHint();
 };
 Views.updateReorderSoldHint = function(){
   const it = itemById(val('ro_item'));
@@ -3998,11 +3934,39 @@ Views.updateReorderSoldHint = function(){
   el.textContent = `Currently in stock: ${totalQty(it)} · Sold in selected period: ${soldInPeriod(it, since)}`;
 };
 Views.confirmAddReorder = function(){
-  const itemId = val('ro_item');
-  const qty = Number(val('ro_qty'))||1;
-  const existing = Store.data.reorderList.find(r=>r.itemId===itemId);
-  if(existing) existing.qty = qty; else Store.data.reorderList.push({itemId,qty});
-  Store.save(); Modal.close(); Toast.show('Added to reorder list.','ok'); render();
+  const isNew = (Views._reorderModalMode === 'new');
+  const qty = Number(val('ro_qty')) || 1;
+
+  if(isNew){
+    const name = val('ro_new_name').trim();
+    if(!name){ Toast.show('Please enter a device model name.', 'err'); return; }
+    const cat = val('ro_new_cat');
+    let mem = val('ro_new_mem').trim();
+    if(mem){
+      mem = mem.replace(/\s+/g, '').replace(/gb/gi, 'GB');
+      if(/^\d+$/.test(mem)) mem = mem + 'GB';
+    }
+
+    const canonKey = (name + '|' + cat + '|' + mem).toLowerCase();
+    let it = Store.data.items.find(x => ((x.name + '|' + x.category + '|' + (x.memory||'')).toLowerCase() === canonKey));
+    if(!it){
+      it = {
+        id: uid('item'), name, category: cat, memory: mem, condition: 'Used', batteryPct: null, imei: '', colors: [],
+        costPrice: 0, wholesalePrice: 0, shopPrices: {}, locations: {}, units: [], createdAt: todayISO()
+      };
+      Store.data.shops.forEach(s => { it.locations[s.id] = 0; it.shopPrices[s.id] = 0; });
+      Store.data.items.push(it);
+    }
+    const existing = Store.data.reorderList.find(r => r.itemId === it.id);
+    if(existing) existing.qty = qty; else Store.data.reorderList.push({ itemId: it.id, qty });
+  } else {
+    const itemId = val('ro_item');
+    if(!itemId) return;
+    const existing = Store.data.reorderList.find(r => r.itemId === itemId);
+    if(existing) existing.qty = qty; else Store.data.reorderList.push({ itemId, qty });
+  }
+
+  Store.save(); Modal.close(); Toast.show('Added to reorder list.', 'ok'); render();
 };
 Views.exportReorderCsv = function(){
   const since = reorderPeriodStart();
