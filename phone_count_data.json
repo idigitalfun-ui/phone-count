@@ -153,7 +153,7 @@
     },
     {
       "id": "item_pp17oagw69j",
-      "name": "iPhone 16 128GB",
+      "name": "iPhone 16",
       "category": "cat_7qgen7vw69i",
       "memory": "128GB",
       "imei": "",
@@ -712,7 +712,7 @@
     },
     {
       "id": "item_ccykxiqw69k",
-      "name": "Blackview NB 4800 Pro 128GB",
+      "name": "Blackview NB 4800 Pro",
       "category": "cat_kzhvkkxw69i",
       "memory": "128GB",
       "imei": "",
@@ -817,7 +817,7 @@
     },
     {
       "id": "item_0apjlq8w69k",
-      "name": "Blackview BV 4800 SE 64GB",
+      "name": "Blackview BV 4800 SE",
       "category": "cat_kzhvkkxw69i",
       "memory": "64GB",
       "imei": "",
@@ -942,7 +942,7 @@
     },
     {
       "id": "item_4xqsbqew69k",
-      "name": "Blackview N1000 1GB/4GB",
+      "name": "Blackview N1000",
       "category": "cat_kzhvkkxw69i",
       "memory": "1GB/4GB",
       "imei": "",
@@ -1068,7 +1068,7 @@
     },
     {
       "id": "item_vqdsfdww69k",
-      "name": "Nokia 105 -",
+      "name": "Nokia 105",
       "category": "cat_lkhn0qyw69i",
       "memory": "-",
       "imei": "",
@@ -1243,7 +1243,7 @@
     },
     {
       "id": "item_xil44ciw69k",
-      "name": "Nokia 106 -",
+      "name": "Nokia 106",
       "category": "cat_lkhn0qyw69i",
       "memory": "-",
       "imei": "",
@@ -1398,7 +1398,7 @@
     },
     {
       "id": "item_wqsfklyw69k",
-      "name": "Samsung Tab A11 128GB",
+      "name": "Samsung Tab A11",
       "category": "cat_cgd9w36w69i",
       "memory": "128GB",
       "imei": "",
@@ -1503,7 +1503,7 @@
     },
     {
       "id": "item_krrjnksw69k",
-      "name": "iPad 11th Generation A16 128GB",
+      "name": "iPad 11th Generation A16",
       "category": "cat_cgd9w36w69i",
       "memory": "128GB",
       "imei": "",
@@ -1558,7 +1558,7 @@
     },
     {
       "id": "item_6t2ggm3w69k",
-      "name": "AirPods (3rd Generation) -",
+      "name": "AirPods (3rd Generation)",
       "category": "cat_qaxr5vow69i",
       "memory": "-",
       "imei": "",
@@ -1633,7 +1633,7 @@
     },
     {
       "id": "item_hbnf1ofw69k",
-      "name": "AirPods Pro 3 -",
+      "name": "AirPods Pro 3",
       "category": "cat_qaxr5vow69i",
       "memory": "-",
       "imei": "",
@@ -1698,7 +1698,7 @@
     },
     {
       "id": "item_zet5u37w69k",
-      "name": "iPhone 11 64GB",
+      "name": "iPhone 11",
       "category": "cat_7qgen7vw69i",
       "memory": "64GB",
       "imei": "",
@@ -1865,7 +1865,7 @@
     },
     {
       "id": "item_6sqmxamw69k",
-      "name": "iPhone 17 256GB",
+      "name": "iPhone 17",
       "category": "cat_7qgen7vw69i",
       "memory": "256GB",
       "imei": "",
@@ -1952,7 +1952,7 @@
     },
     {
       "id": "item_14pcuqkw69k",
-      "name": "iPhone 13 128GB",
+      "name": "iPhone 13",
       "category": "cat_7qgen7vw69i",
       "memory": "128GB",
       "imei": "",
@@ -1999,7 +1999,7 @@
     },
     {
       "id": "item_qw8eo3aw69k",
-      "name": "iPhone 12 64GB",
+      "name": "iPhone 12",
       "category": "cat_7qgen7vw69i",
       "memory": "64GB",
       "imei": "",
@@ -9844,7 +9844,7 @@
     },
     {
       "id": "item_exik3cems4n",
-      "name": "iPhone 11 64GB",
+      "name": "iPhone 11",
       "category": "cat_7qgen7vw69i",
       "memory": "64GB",
       "condition": "New",
@@ -9933,7 +9933,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T14:43:32.578Z"
+    "lastSaved": "2026-08-25T14:44:42.282Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
