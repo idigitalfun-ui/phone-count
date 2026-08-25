@@ -1689,7 +1689,7 @@
         "warehouse": 2,
         "shop_thurles": 1,
         "shop_kilkenny": 2,
-        "shop_maynooth": 2,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -10067,7 +10067,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:57:10.681Z"
+    "lastSaved": "2026-08-25T17:57:25.465Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
