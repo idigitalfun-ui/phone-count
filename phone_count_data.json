@@ -346,7 +346,7 @@
         "Green"
       ],
       "batteryPct": 100,
-      "costPrice": 95,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 115,
         "shop_thurles": 160,
@@ -361,7 +361,7 @@
         "shop_thurles": 2,
         "shop_kilkenny": 2,
         "shop_maynooth": 2,
-        "shop_mullingar": 0,
+        "shop_mullingar": 2,
         "shop_tralee": 1,
         "shop_tullamore": 1
       },
@@ -435,10 +435,34 @@
           "costPrice": 95,
           "wholesalePrice": 107,
           "sellPrice": 115
+        },
+        {
+          "id": "unit_6z21wcgttae",
+          "imei": "353451828263754",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": 100,
+          "location": "shop_mullingar",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 115,
+          "addedAt": "2026-08-25"
+        },
+        {
+          "id": "unit_35bi3shtyce",
+          "imei": "353451828298040",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": 100,
+          "location": "shop_mullingar",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 115,
+          "addedAt": "2026-08-25"
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 107
+      "wholesalePrice": 0
     },
     {
       "id": "item_ktmrwgdw69k",
@@ -553,7 +577,7 @@
         },
         {
           "id": "unit_u49qmbdu5oy",
-          "imei": "351355310134567",
+          "imei": "351355310030864",
           "color": "",
           "condition": "New",
           "location": "shop_mullingar",
@@ -10053,7 +10077,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:27:10.808Z"
+    "lastSaved": "2026-08-25T17:27:41.744Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
