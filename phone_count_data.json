@@ -4891,7 +4891,7 @@
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 2,
-        "shop_mullingar": 2,
+        "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 1
       },
@@ -4912,26 +4912,6 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 90
-        },
-        {
-          "id": "unit_q61ue54u5p0",
-          "imei": "355225690431717",
-          "color": "",
-          "condition": "New",
-          "location": "shop_mullingar",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 90
-        },
-        {
-          "id": "unit_qn5jnqeu5p1",
-          "imei": "355225690427798",
-          "color": "",
-          "condition": "New",
-          "location": "shop_mullingar",
           "costPrice": 1,
           "wholesalePrice": 13,
           "sellPrice": 90
@@ -5570,7 +5550,7 @@
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
-        "shop_mullingar": 1,
+        "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
@@ -8399,9 +8379,9 @@
     },
     {
       "id": "item_o2r72fsu5p0",
-      "name": "Poco C40 4/64GB",
+      "name": "Poco C40",
       "category": "cat_kzhvkkxw69i",
-      "memory": "4/64GB",
+      "memory": "4GB/64GB",
       "imei": "",
       "condition": "New",
       "colors": [
@@ -10107,7 +10087,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:30:09.656Z"
+    "lastSaved": "2026-08-25T17:30:37.201Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
