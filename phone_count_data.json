@@ -81,7 +81,7 @@
   "items": [
     {
       "id": "item_cicbgruw69j",
-      "name": "iPhone 14",
+      "name": "iPhone 14 128GB",
       "category": "cat_7qgen7vw69i",
       "memory": "128GB",
       "imei": "",
@@ -276,7 +276,7 @@
     },
     {
       "id": "item_kb0hq9hw69k",
-      "name": "Samsung A07",
+      "name": "Samsung A07 4GB/128GB",
       "category": "cat_w56n2ktw69i",
       "memory": "4GB/128GB",
       "imei": "",
@@ -7695,9 +7695,9 @@
     },
     {
       "id": "item_dr3xyreu5o2",
-      "name": "Samsung A56 128GB 5GB",
+      "name": "Samsung A56 5GB 128GB",
       "category": "cat_w56n2ktw69i",
-      "memory": "5GB",
+      "memory": "128GB",
       "imei": "",
       "condition": "Used",
       "colors": [
@@ -9829,7 +9829,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T14:48:19.984Z"
+    "lastSaved": "2026-08-25T14:48:29.536Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
