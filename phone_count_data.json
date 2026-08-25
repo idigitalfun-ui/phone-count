@@ -743,7 +743,7 @@
         {
           "id": "unit_12mgweuu5ok",
           "imei": "350593649176203",
-          "color": "",
+          "color": "Graphite",
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 275,
@@ -2310,7 +2310,7 @@
         "warehouse": 0,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -2322,16 +2322,6 @@
           "color": "Navy",
           "condition": "New",
           "location": "shop_thurles",
-          "costPrice": 350,
-          "wholesalePrice": 350,
-          "sellPrice": 455
-        },
-        {
-          "id": "unit_rjkfb84u5oj",
-          "imei": "359620571179045",
-          "color": "",
-          "condition": "New",
-          "location": "shop_maynooth",
           "costPrice": 350,
           "wholesalePrice": 350,
           "sellPrice": 455
@@ -3702,7 +3692,7 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -5398,7 +5388,7 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -10018,7 +10008,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:47:18.489Z"
+    "lastSaved": "2026-08-25T17:47:42.752Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
