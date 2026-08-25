@@ -607,13 +607,13 @@
           "batteryPct": 100,
           "location": "shop_maynooth",
           "costPrice": 1,
-          "wholesalePrice": 13,
+          "wholesalePrice": 290,
           "sellPrice": 280,
           "addedAt": "2026-08-25"
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 13
+      "wholesalePrice": 290
     },
     {
       "id": "item_cu1j56ww69k",
@@ -4188,7 +4188,7 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 2,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -4197,6 +4197,16 @@
         {
           "id": "unit_bf689wgu5ou",
           "imei": "357778641667134",
+          "color": "Gray",
+          "condition": "New",
+          "location": "shop_maynooth",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 200
+        },
+        {
+          "id": "unit_7n4fj75u5ou",
+          "imei": "357778641668520",
           "color": "Gray",
           "condition": "New",
           "location": "shop_maynooth",
@@ -4471,7 +4481,7 @@
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 13,
+      "wholesalePrice": 0,
       "colors": [
         "Black"
       ]
@@ -5183,7 +5193,7 @@
       "imei": "",
       "condition": "New",
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 50,
       "shopPrices": {
         "warehouse": 35,
         "shop_thurles": 35,
@@ -5197,50 +5207,18 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
-        "shop_maynooth": 0,
+        "shop_maynooth": 2,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 0,
-      "colors": []
-    },
-    {
-      "id": "item_s9mmdgyw69m",
-      "name": "Smart Bracelet Watch",
-      "category": "cat_u83iatxw69i",
-      "memory": "-",
-      "imei": "",
-      "condition": "New",
+      "wholesalePrice": 62,
       "colors": [
         "Silver",
         "Black"
-      ],
-      "batteryPct": 100,
-      "costPrice": 50,
-      "shopPrices": {
-        "warehouse": 70,
-        "shop_thurles": 70,
-        "shop_kilkenny": 70,
-        "shop_maynooth": 70,
-        "shop_mullingar": 70,
-        "shop_tralee": 70,
-        "shop_tullamore": 70
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 2,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "createdAt": "2026-08-20",
-      "wholesalePrice": 62,
-      "units": []
+      ]
     },
     {
       "id": "item_dagk5rtw69m",
@@ -9830,50 +9808,6 @@
         }
       ],
       "createdAt": "2026-08-25"
-    },
-    {
-      "id": "item_498tcb8vx1c",
-      "name": "Samsung Tab A11",
-      "category": "cat_cgd9w36w69i",
-      "memory": "4GB/64GB",
-      "condition": "New",
-      "imei": "357778641668520",
-      "colors": [
-        "Gray"
-      ],
-      "costPrice": 1,
-      "wholesalePrice": 13,
-      "shopPrices": {
-        "warehouse": 200,
-        "shop_thurles": 200,
-        "shop_kilkenny": 200,
-        "shop_maynooth": 200,
-        "shop_mullingar": 200,
-        "shop_tralee": 200,
-        "shop_tullamore": 200
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 1,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "units": [
-        {
-          "id": "unit_7n4fj75u5ou",
-          "imei": "357778641668520",
-          "color": "Gray",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 200
-        }
-      ],
-      "createdAt": "2026-08-25"
     }
   ],
   "movements": [
@@ -10049,7 +9983,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T18:03:42.785Z"
+    "lastSaved": "2026-08-25T18:05:15.260Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
