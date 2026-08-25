@@ -665,7 +665,7 @@
         "shop_thurles": 1,
         "shop_kilkenny": 2,
         "shop_maynooth": 4,
-        "shop_mullingar": 2,
+        "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
@@ -8238,7 +8238,7 @@
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 1,
-        "shop_mullingar": 2,
+        "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
@@ -8249,26 +8249,6 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 1
-        },
-        {
-          "id": "unit_1x8ad6nu5oy",
-          "imei": "354752864056351",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_mullingar",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 1
-        },
-        {
-          "id": "unit_n9etnzcu5oy",
-          "imei": "354752864661531",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_mullingar",
           "costPrice": 1,
           "wholesalePrice": 13,
           "sellPrice": 1
@@ -9948,6 +9928,50 @@
         }
       ],
       "createdAt": "2026-08-25"
+    },
+    {
+      "id": "item_gvjdumfv6rz",
+      "name": "Samsung A36",
+      "category": "cat_w56n2ktw69i",
+      "memory": "6GB/128GB",
+      "condition": "New",
+      "imei": "354752864056351",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 1,
+      "wholesalePrice": 13,
+      "shopPrices": {
+        "warehouse": 1,
+        "shop_thurles": 1,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 1,
+        "shop_mullingar": 1,
+        "shop_tralee": 1,
+        "shop_tullamore": 1
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 1,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_1x8ad6nu5oy",
+          "imei": "354752864056351",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_mullingar",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 1
+        }
+      ],
+      "createdAt": "2026-08-25"
     }
   ],
   "movements": [
@@ -10077,7 +10101,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:28:15.352Z"
+    "lastSaved": "2026-08-25T17:28:44.609Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
