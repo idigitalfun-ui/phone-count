@@ -2741,7 +2741,7 @@
         "shop_thurles": 2,
         "shop_kilkenny": 1,
         "shop_maynooth": 2,
-        "shop_mullingar": 1,
+        "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
@@ -2792,16 +2792,6 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 60,
-          "wholesalePrice": 60,
-          "sellPrice": 100
-        },
-        {
-          "id": "unit_i7w6nazu5p0",
-          "imei": "862599070110133",
-          "color": "",
-          "condition": "New",
-          "location": "shop_mullingar",
           "costPrice": 60,
           "wholesalePrice": 60,
           "sellPrice": 100
@@ -10087,7 +10077,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:30:37.201Z"
+    "lastSaved": "2026-08-25T17:31:17.536Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
