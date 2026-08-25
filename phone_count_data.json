@@ -1584,7 +1584,7 @@
     },
     {
       "id": "item_6t2ggm3w69k",
-      "name": "AirPods (3rd Generation)",
+      "name": "AirPods Pro 3",
       "category": "cat_qaxr5vow69i",
       "memory": "-",
       "imei": "SCK2RWJGFCJ",
@@ -9971,7 +9971,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:18:42.295Z"
+    "lastSaved": "2026-08-25T17:18:58.423Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
