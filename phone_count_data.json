@@ -84,7 +84,7 @@
       "name": "iPhone 14",
       "category": "cat_7qgen7vw69i",
       "memory": "128GB",
-      "imei": "",
+      "imei": "354768881961878",
       "condition": "Used",
       "batteryPct": null,
       "costPrice": 285,
@@ -101,13 +101,13 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 4,
-        "shop_maynooth": 3,
+        "shop_maynooth": 1,
         "shop_mullingar": 2,
         "shop_tralee": 1,
         "shop_tullamore": 3
       },
       "createdAt": "2026-08-20",
-      "wholesalePrice": 295,
+      "wholesalePrice": 297,
       "units": [
         {
           "id": "unit_pissuuxonc9",
@@ -168,6 +168,18 @@
           "batteryPct": null,
           "dateAdded": "2026-08-25",
           "wholesalePrice": 295
+        },
+        {
+          "id": "unit_32ex5mw9xnr",
+          "imei": "354768881961878",
+          "color": "Starlight",
+          "condition": "Used",
+          "batteryPct": null,
+          "location": "shop_maynooth",
+          "costPrice": 285,
+          "wholesalePrice": 297,
+          "sellPrice": 460,
+          "addedAt": "2026-08-25"
         }
       ],
       "colors": [
@@ -10084,7 +10096,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T17:39:42.664Z"
+    "lastSaved": "2026-08-25T17:40:04.864Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
