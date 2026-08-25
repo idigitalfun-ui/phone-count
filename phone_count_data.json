@@ -1704,7 +1704,7 @@
       "imei": "",
       "condition": "Used",
       "batteryPct": null,
-      "costPrice": 1,
+      "costPrice": 190,
       "shopPrices": {
         "warehouse": 240,
         "shop_thurles": 240,
@@ -1716,7 +1716,7 @@
       },
       "locations": {
         "warehouse": 0,
-        "shop_thurles": 2,
+        "shop_thurles": 4,
         "shop_kilkenny": 6,
         "shop_maynooth": 2,
         "shop_mullingar": 1,
@@ -1750,7 +1750,7 @@
           "color": "",
           "condition": "Used",
           "location": "shop_kilkenny",
-          "costPrice": 1,
+          "costPrice": 190,
           "wholesalePrice": 78,
           "sellPrice": 400
         },
@@ -1760,7 +1760,7 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 1,
+          "costPrice": 190,
           "wholesalePrice": 100,
           "sellPrice": 400
         },
@@ -1770,7 +1770,7 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 1,
+          "costPrice": 190,
           "wholesalePrice": 100,
           "sellPrice": 400
         },
@@ -1780,7 +1780,7 @@
           "color": "",
           "condition": "Used",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 190,
           "wholesalePrice": 13,
           "sellPrice": 240
         },
@@ -1790,7 +1790,7 @@
           "color": "",
           "condition": "Used",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 190,
           "wholesalePrice": 13,
           "sellPrice": 240
         },
@@ -1800,7 +1800,7 @@
           "color": "",
           "condition": "Used",
           "location": "shop_mullingar",
-          "costPrice": 1,
+          "costPrice": 190,
           "wholesalePrice": 13,
           "sellPrice": 240
         },
@@ -1810,7 +1810,7 @@
           "color": "blue",
           "condition": "Used",
           "location": "shop_tralee",
-          "costPrice": 1,
+          "costPrice": 190,
           "wholesalePrice": 13,
           "sellPrice": 240
         },
@@ -1820,7 +1820,7 @@
           "color": "black",
           "condition": "Used",
           "location": "shop_tralee",
-          "costPrice": 1,
+          "costPrice": 190,
           "wholesalePrice": 13,
           "sellPrice": 240
         },
@@ -1830,7 +1830,7 @@
           "color": "",
           "condition": "Used",
           "location": "shop_tullamore",
-          "costPrice": 1,
+          "costPrice": 190,
           "wholesalePrice": 13,
           "sellPrice": 270
         },
@@ -1840,7 +1840,7 @@
           "color": "",
           "condition": "Used",
           "location": "shop_tullamore",
-          "costPrice": 1,
+          "costPrice": 190,
           "wholesalePrice": 13,
           "sellPrice": 270
         },
@@ -1850,9 +1850,33 @@
           "color": "",
           "condition": "Used",
           "location": "shop_tullamore",
-          "costPrice": 1,
+          "costPrice": 190,
           "wholesalePrice": 13,
           "sellPrice": 270
+        },
+        {
+          "id": "unit_jeg3xt4mxc7",
+          "imei": "356871118342017",
+          "color": "Purple",
+          "condition": "Used",
+          "location": "shop_thurles",
+          "costPrice": 190,
+          "sellPrice": 240,
+          "batteryPct": null,
+          "dateAdded": "2026-08-25",
+          "wholesalePrice": 200
+        },
+        {
+          "id": "unit_p5w9t1gnl5z",
+          "imei": "351010395544525",
+          "color": "Purple",
+          "condition": "Used",
+          "location": "shop_thurles",
+          "costPrice": 190,
+          "sellPrice": 240,
+          "batteryPct": null,
+          "dateAdded": "2026-08-25",
+          "wholesalePrice": 200
         }
       ],
       "createdAt": "2026-08-20",
@@ -3180,7 +3204,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 2,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -3188,7 +3212,18 @@
       },
       "createdAt": "2026-08-20",
       "wholesalePrice": 380,
-      "units": []
+      "units": [
+        {
+          "id": "unit_ozbpcwdu5nu",
+          "imei": "354628702051921",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_kilkenny",
+          "costPrice": 380,
+          "wholesalePrice": 100,
+          "sellPrice": 470
+        }
+      ]
     },
     {
       "id": "item_x7g19rbw69l",
@@ -7277,51 +7312,6 @@
       "createdAt": "2026-08-20"
     },
     {
-      "id": "item_vkk7wpqu5nu",
-      "name": "iPhone 11 128GB",
-      "category": "cat_7qgen7vw69i",
-      "memory": "128GB",
-      "imei": "",
-      "condition": "New",
-      "colors": [
-        "Black"
-      ],
-      "batteryPct": null,
-      "costPrice": 1,
-      "wholesalePrice": 100,
-      "shopPrices": {
-        "warehouse": 470,
-        "shop_thurles": 470,
-        "shop_kilkenny": 470,
-        "shop_maynooth": 470,
-        "shop_mullingar": 470,
-        "shop_tralee": 470,
-        "shop_tullamore": 470
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 1,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "units": [
-        {
-          "id": "unit_ozbpcwdu5nu",
-          "imei": "354628702051921",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_kilkenny",
-          "costPrice": 1,
-          "wholesalePrice": 100,
-          "sellPrice": 470
-        }
-      ],
-      "createdAt": "2026-08-20"
-    },
-    {
       "id": "item_u3wugxju5ny",
       "name": "Samsung A06 5G 64GB",
       "category": "cat_w56n2ktw69i",
@@ -7705,9 +7695,9 @@
     },
     {
       "id": "item_dr3xyreu5o2",
-      "name": "Samsung A56 5GB 128GB",
+      "name": "Samsung A56 128GB 5GB",
       "category": "cat_w56n2ktw69i",
-      "memory": "128GB",
+      "memory": "5GB",
       "imei": "",
       "condition": "Used",
       "colors": [
@@ -7867,7 +7857,7 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 2
       },
       "units": [
         {
@@ -7876,6 +7866,26 @@
           "color": "Black",
           "condition": "Used",
           "location": "shop_kilkenny",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 220
+        },
+        {
+          "id": "unit_b5re9hnu5pk",
+          "imei": "357884911523864",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_tullamore",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 220
+        },
+        {
+          "id": "unit_rq1zodlu5pk",
+          "imei": "357884911523328",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
           "sellPrice": 220
@@ -9366,61 +9376,6 @@
       "createdAt": "2026-08-20"
     },
     {
-      "id": "item_5jbg9w6u5pk",
-      "name": "Samsung A17 128GB",
-      "category": "cat_w56n2ktw69i",
-      "memory": "128GB",
-      "imei": "",
-      "condition": "New",
-      "colors": [
-        "Black"
-      ],
-      "batteryPct": null,
-      "costPrice": 1,
-      "wholesalePrice": 13,
-      "shopPrices": {
-        "warehouse": 1,
-        "shop_thurles": 1,
-        "shop_kilkenny": 1,
-        "shop_maynooth": 1,
-        "shop_mullingar": 1,
-        "shop_tralee": 1,
-        "shop_tullamore": 1
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 2
-      },
-      "units": [
-        {
-          "id": "unit_b5re9hnu5pk",
-          "imei": "357884911523864",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 1
-        },
-        {
-          "id": "unit_rq1zodlu5pk",
-          "imei": "357884911523328",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 1
-        }
-      ],
-      "createdAt": "2026-08-20"
-    },
-    {
       "id": "item_f8v3qsvu5pk",
       "name": "Blackview A90",
       "category": "cat_kzhvkkxw69i",
@@ -9841,65 +9796,6 @@
       ],
       "createdAt": "2026-08-20",
       "colors": []
-    },
-    {
-      "id": "item_exik3cems4n",
-      "name": "iPhone 11 64GB",
-      "category": "cat_7qgen7vw69i",
-      "memory": "64GB",
-      "condition": "New",
-      "batteryPct": null,
-      "imei": "356871118342017",
-      "colors": [
-        "Purple"
-      ],
-      "costPrice": 190,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 240,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 2,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "units": [
-        {
-          "id": "unit_jeg3xt4mxc7",
-          "imei": "356871118342017",
-          "color": "Purple",
-          "condition": "Used",
-          "location": "shop_thurles",
-          "costPrice": 190,
-          "sellPrice": 240,
-          "batteryPct": null,
-          "dateAdded": "2026-08-25",
-          "wholesalePrice": 200
-        },
-        {
-          "id": "unit_p5w9t1gnl5z",
-          "imei": "351010395544525",
-          "color": "Purple",
-          "condition": "Used",
-          "location": "shop_thurles",
-          "costPrice": 190,
-          "sellPrice": 240,
-          "batteryPct": null,
-          "dateAdded": "2026-08-25",
-          "wholesalePrice": 200
-        }
-      ],
-      "createdAt": "2026-08-25",
-      "wholesalePrice": 200
     }
   ],
   "movements": [
@@ -9933,7 +9829,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-25T14:47:13.037Z"
+    "lastSaved": "2026-08-25T14:47:54.276Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
