@@ -10627,8 +10627,8 @@
         "shop_tullamore": 140
       },
       "locations": {
-        "warehouse": 17,
-        "shop_thurles": 0,
+        "warehouse": 16,
+        "shop_thurles": 1,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
@@ -10809,7 +10809,7 @@
           "imei": "350276231678089",
           "color": "Light Blue",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_thurles",
           "costPrice": 140,
           "sellPrice": 140,
           "batteryPct": null,
@@ -14827,6 +14827,30 @@
       "date": "2026-08-26",
       "note": "Transferred from Inventory",
       "id": "mv_xqqyz431v5e"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_1tue6b29lkh",
+      "itemName": "Samsung A17",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_thurles",
+      "qty": 1,
+      "date": "2026-08-26",
+      "note": "Transferred from Inventory",
+      "id": "mv_wybacor2bsa"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_1tue6b29lkh",
+      "itemName": "Samsung A17",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_thurles",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-08-26",
+      "note": "Transferred from Inventory",
+      "id": "mv_6ruf83e2bsa"
     }
   ],
   "reorderList": [],
@@ -14834,7 +14858,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-26T15:57:22.804Z"
+    "lastSaved": "2026-08-26T15:57:44.364Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
