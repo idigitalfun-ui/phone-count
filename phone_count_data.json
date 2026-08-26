@@ -117,7 +117,7 @@
           "location": "shop_thurles",
           "costPrice": 285,
           "sellPrice": 350,
-          "batteryPct": null,
+          "batteryPct": 87,
           "dateAdded": "2026-08-24",
           "wholesalePrice": 295
         },
@@ -129,7 +129,7 @@
           "location": "shop_kilkenny",
           "costPrice": 285,
           "sellPrice": 350,
-          "batteryPct": null,
+          "batteryPct": 86,
           "dateAdded": "2026-08-24",
           "wholesalePrice": 300,
           "battery": "86%"
@@ -11255,78 +11255,6 @@
   ],
   "movements": [
     {
-      "type": "transfer-in",
-      "itemId": "item_cicbgruw69j",
-      "itemName": "iPhone 14 128GB",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_kilkenny",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-08-25",
-      "note": "Transferred from Inventory",
-      "id": "mv_336smeje7zf"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_kb0hq9hw69k",
-      "itemName": "Samsung A07 4GB/128GB",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_kilkenny",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-08-25",
-      "note": "Transferred from Inventory",
-      "id": "mv_6nsuftxeexn"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_ktmrwgdw69k",
-      "itemName": "Samsung A16 4GB/128GB",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_kilkenny",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-08-25",
-      "note": "Transferred from Inventory",
-      "id": "mv_jiyv9oyelnf"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_qbvtan1w69k",
-      "itemName": "Samsung A37 5G 128GB",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_kilkenny",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-08-25",
-      "note": "Transferred from Inventory",
-      "id": "mv_wup4bqoeq7n"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_sazrno4w69k",
-      "itemName": "Mobitel 8010",
-      "categoryId": "cat_lkhn0qyw69i",
-      "location": "shop_maynooth",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-08-25",
-      "note": "Transferred from Inventory",
-      "id": "mv_99zl7z1z9g7"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_sazrno4w69k",
-      "itemName": "Mobitel 8010",
-      "categoryId": "cat_lkhn0qyw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-08-25",
-      "note": "Transferred from Inventory",
-      "id": "mv_pure5yzz9g7"
-    },
-    {
       "id": "mv_py7d7c6vkag",
       "type": "faulty",
       "itemId": "item_43fm6seu5ot",
@@ -14709,160 +14637,164 @@
       "note": "Transferred from Warehouse"
     },
     {
-      "type": "stock-in",
-      "itemId": "item_ktmrwgdw69k",
-      "itemName": "Samsung A16",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "fromLocation": "supplier",
-      "supplier": "Supplier Stock In",
-      "invoice": "",
-      "qty": 1,
-      "date": "2026-08-26",
-      "unitData": {
-        "imei": "351355315356470",
-        "color": "Black",
-        "condition": "New",
-        "costPrice": 125
-      },
-      "note": "IMEI 351355315356470",
-      "id": "mv_5c9yu4dxqwr"
-    },
-    {
-      "type": "stock-in",
-      "itemId": "item_ktmrwgdw69k",
-      "itemName": "Samsung A16",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "fromLocation": "supplier",
-      "supplier": "Supplier Stock In",
-      "invoice": "",
-      "qty": 1,
-      "date": "2026-08-26",
-      "unitData": {
-        "imei": "351355313419759",
-        "color": "Black",
-        "condition": "New",
-        "costPrice": 125
-      },
-      "note": "IMEI 351355313419759",
-      "id": "mv_5iifgg6y21m"
-    },
-    {
-      "type": "stock-in",
-      "itemId": "item_ktmrwgdw69k",
-      "itemName": "Samsung A16",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "fromLocation": "supplier",
-      "supplier": "Supplier Stock In",
-      "invoice": "",
-      "qty": 1,
-      "date": "2026-08-26",
-      "unitData": {
-        "imei": "351355313432414",
-        "color": "Black",
-        "condition": "New",
-        "costPrice": 125
-      },
-      "note": "IMEI 351355313432414",
-      "id": "mv_dy9ivfdy6mi"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_cicbgruw69j",
-      "itemName": "iPhone 14",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_thurles",
-      "qty": 1,
-      "date": "2026-08-26",
-      "note": "Transferred from Inventory",
-      "id": "mv_va0ueo20h7n"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_cicbgruw69j",
-      "itemName": "iPhone 14",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_thurles",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-08-26",
-      "note": "Transferred from Inventory",
-      "id": "mv_z1cd9wf0h7n"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_b3rxt5y9lm5",
-      "itemName": "Samsung A27 5G",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_thurles",
-      "qty": 1,
-      "date": "2026-08-26",
-      "note": "Transferred from Inventory",
-      "id": "mv_pdfkb8c1gjf"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_b3rxt5y9lm5",
-      "itemName": "Samsung A27 5G",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_thurles",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-08-26",
-      "note": "Transferred from Inventory",
-      "id": "mv_jbpclc71gjf"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_tdbu89k9ljo",
-      "itemName": "Samsung A17 5G",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_thurles",
-      "qty": 1,
-      "date": "2026-08-26",
-      "note": "Transferred from Inventory",
-      "id": "mv_5q4xu7r1v5e"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_tdbu89k9ljo",
-      "itemName": "Samsung A17 5G",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_thurles",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-08-26",
-      "note": "Transferred from Inventory",
-      "id": "mv_xqqyz431v5e"
-    },
-    {
+      "id": "mv_tout_350276231678089",
       "type": "transfer-out",
       "itemId": "item_1tue6b29lkh",
       "itemName": "Samsung A17",
       "categoryId": "cat_w56n2ktw69i",
       "location": "warehouse",
+      "fromLocation": "warehouse",
       "toLocation": "shop_thurles",
       "qty": 1,
       "date": "2026-08-26",
-      "note": "Transferred from Inventory",
-      "id": "mv_wybacor2bsa"
+      "unitData": {
+        "imei": "350276231678089",
+        "color": "Light Blue",
+        "condition": "New",
+        "costPrice": 140,
+        "battery": ""
+      },
+      "note": "Transferred to Thurles"
     },
     {
+      "id": "mv_tin_350276231678089",
       "type": "transfer-in",
       "itemId": "item_1tue6b29lkh",
       "itemName": "Samsung A17",
       "categoryId": "cat_w56n2ktw69i",
       "location": "shop_thurles",
       "fromLocation": "warehouse",
+      "toLocation": "shop_thurles",
       "qty": 1,
       "date": "2026-08-26",
-      "note": "Transferred from Inventory",
-      "id": "mv_6ruf83e2bsa"
+      "unitData": {
+        "imei": "350276231678089",
+        "color": "Light Blue",
+        "condition": "New",
+        "costPrice": 140,
+        "battery": ""
+      },
+      "note": "Transferred from Warehouse"
+    },
+    {
+      "id": "mv_tout_351158945536341",
+      "type": "transfer-out",
+      "itemId": "item_tdbu89k9ljo",
+      "itemName": "Samsung A17 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "fromLocation": "warehouse",
+      "toLocation": "shop_thurles",
+      "qty": 1,
+      "date": "2026-08-26",
+      "unitData": {
+        "imei": "351158945536341",
+        "color": "Black",
+        "condition": "New",
+        "costPrice": 160,
+        "battery": ""
+      },
+      "note": "Transferred to Thurles"
+    },
+    {
+      "id": "mv_tin_351158945536341",
+      "type": "transfer-in",
+      "itemId": "item_tdbu89k9ljo",
+      "itemName": "Samsung A17 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_thurles",
+      "fromLocation": "warehouse",
+      "toLocation": "shop_thurles",
+      "qty": 1,
+      "date": "2026-08-26",
+      "unitData": {
+        "imei": "351158945536341",
+        "color": "Black",
+        "condition": "New",
+        "costPrice": 160,
+        "battery": ""
+      },
+      "note": "Transferred from Warehouse"
+    },
+    {
+      "id": "mv_tout_350983933499793",
+      "type": "transfer-out",
+      "itemId": "item_b3rxt5y9lm5",
+      "itemName": "Samsung A27 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "fromLocation": "warehouse",
+      "toLocation": "shop_thurles",
+      "qty": 1,
+      "date": "2026-08-26",
+      "unitData": {
+        "imei": "350983933499793",
+        "color": "Light Pink",
+        "condition": "New",
+        "costPrice": 220,
+        "battery": ""
+      },
+      "note": "Transferred to Thurles"
+    },
+    {
+      "id": "mv_tin_350983933499793",
+      "type": "transfer-in",
+      "itemId": "item_b3rxt5y9lm5",
+      "itemName": "Samsung A27 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_thurles",
+      "fromLocation": "warehouse",
+      "toLocation": "shop_thurles",
+      "qty": 1,
+      "date": "2026-08-26",
+      "unitData": {
+        "imei": "350983933499793",
+        "color": "Light Pink",
+        "condition": "New",
+        "costPrice": 220,
+        "battery": ""
+      },
+      "note": "Transferred from Warehouse"
+    },
+    {
+      "id": "mv_tout_350032738703866",
+      "type": "transfer-out",
+      "itemId": "item_cicbgruw69j",
+      "itemName": "iPhone 14",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "warehouse",
+      "fromLocation": "warehouse",
+      "toLocation": "shop_thurles",
+      "qty": 1,
+      "date": "2026-08-26",
+      "unitData": {
+        "imei": "350032738703866",
+        "color": "Starlight",
+        "condition": "Used",
+        "costPrice": 285,
+        "battery": "87%"
+      },
+      "note": "Transferred to Thurles (Battery: 87%)"
+    },
+    {
+      "id": "mv_tin_350032738703866",
+      "type": "transfer-in",
+      "itemId": "item_cicbgruw69j",
+      "itemName": "iPhone 14",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_thurles",
+      "fromLocation": "warehouse",
+      "toLocation": "shop_thurles",
+      "qty": 1,
+      "date": "2026-08-26",
+      "unitData": {
+        "imei": "350032738703866",
+        "color": "Starlight",
+        "condition": "Used",
+        "costPrice": 285,
+        "battery": "87%"
+      },
+      "note": "Transferred from Warehouse (Battery: 87%)"
     }
   ],
   "reorderList": [],
@@ -14870,7 +14802,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-26T15:59:36.067Z"
+    "lastSaved": "2026-08-26T16:16:42.277Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
