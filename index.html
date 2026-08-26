@@ -1613,7 +1613,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.3</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.4</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -2187,6 +2187,23 @@ const Stock = {
     this.addMovement(mv);
     Store.save();
     return mv;
+  },
+  sellUnit(itemId, unitId, date, note){ return this.removeUnit(itemId, unitId, 'sold', date, note); },
+  faultyUnit(itemId, unitId, date, note){ return this.removeUnit(itemId, unitId, 'faulty', date, note); },
+  depositUnit(itemId, unitId, date, note){ return this.removeUnit(itemId, unitId, 'deposit', date, note); },
+  receiveFaultyInWarehouse(movementId){
+    const mv = (Store.data.movements||[]).find(m=>m.id===movementId);
+    if(!mv){ Toast.show('Record not found.','err'); return false; }
+    mv.faultyStatus = 'received_warehouse';
+    mv.warehouseReceivedDate = todayISO();
+    if(mv.unitData){
+      mv.unitData.location = 'warehouse';
+      mv.unitData.faultyStatus = 'received_warehouse';
+    }
+    Store.save();
+    Toast.show(`Faulty ${mv.itemName||'device'} marked as Received in Warehouse.`, 'ok');
+    render();
+    return true;
   },
   deleteMovement(movementId){
     const mIdx = Store.data.movements.findIndex(m=>m.id===movementId);
@@ -3715,9 +3732,9 @@ Views.doStockIn = function(){
 };
 
 /* =========================================================================
-   HISTORY: Date-wise Stock In & Stock Out Records (Minimizable Batches)
+   HISTORY: Date-wise Stock In, Stock Out & Faulty Records (Minimizable Batches)
    ========================================================================= */
-Views._historyTab = 'stockin'; // 'stockin' or 'stockout'
+Views._historyTab = 'stockin'; // 'stockin', 'stockout', 'faulty'
 Views._historyFilter = { shop: 'all', search: '' };
 Views._historyExpandedDates = Views._historyExpandedDates || {};
 
@@ -3727,15 +3744,28 @@ Views.history = function(){
   const shops = activeShops();
   const moves = (Store.data.movements || []).slice();
 
-  // Filter movements: Stock In ONLY includes 'stock-in'. Transfers go to Stock Out.
+  const faultyCount = moves.filter(m => m && m.type === 'faulty' && m.faultyStatus !== 'received_warehouse').length;
+
+  // Filter movements
   let filtered = moves.filter(m => {
     if(!m) return false;
     if(tab === 'stockin'){
       if(m.type !== 'stock-in') return false;
+    } else if(tab === 'faulty'){
+      if(m.type !== 'faulty') return false;
     } else {
-      if(!['sold', 'transfer-out', 'transfer-in', 'faulty', 'deposit'].includes(m.type)) return false;
+      // Stock Out & Transfers
+      if(!['sold', 'transfer-out', 'deposit'].includes(m.type) && m.type !== 'faulty') {
+        // Only include transfer-in if there's no matching transfer-out in the dataset
+        if(m.type === 'transfer-in'){
+          const hasOut = moves.some(o => o.type === 'transfer-out' && o.itemId === m.itemId && o.date === m.date && o.toLocation === m.location);
+          if(hasOut) return false; // Deduplicate paired transfer
+        } else {
+          return false;
+        }
+      }
     }
-    if(f.shop !== 'all' && m.location !== f.shop && m.toLocation !== f.shop) return false;
+    if(f.shop !== 'all' && m.location !== f.shop && m.toLocation !== f.shop && m.fromLocation !== f.shop) return false;
     if(f.search){
       const q = f.search.toLowerCase();
       const match = (m.itemName||'').toLowerCase().includes(q) ||
@@ -3760,8 +3790,9 @@ Views.history = function(){
   let html = `
     <div class="toolbar" style="flex-wrap:wrap;gap:10px;">
       <div class="chip-select">
-        <button class="${tab==='stockin'?'active':''}" onclick="Views._historyTab='stockin';render();">📥 Stock In History (Arrivals)</button>
-        <button class="${tab==='stockout'?'active':''}" onclick="Views._historyTab='stockout';render();">📤 Stock Out & Transfers History</button>
+        <button class="${tab==='stockin'?'active':''}" onclick="Views._historyTab='stockin';render();">📥 Stock In (Arrivals)</button>
+        <button class="${tab==='stockout'?'active':''}" onclick="Views._historyTab='stockout';render();">📤 Stock Out & Transfers</button>
+        <button class="${tab==='faulty'?'active':''}" onclick="Views._historyTab='faulty';render();">⚠️ Faulty Devices (${faultyCount} active)</button>
       </div>
       <div class="spacer"></div>
       <div class="field" style="margin:0;min-width:180px;">
@@ -3790,6 +3821,7 @@ Views.history = function(){
     const isOpen = !!Views._historyExpandedDates[tab + '_' + dateKey];
 
     if(tab === 'stockin'){
+      // Stock In: Model, IMEI, Condition, Color, Qty, From (Supplier), To (Destination Shop), Cost Price, Action
       html += `
         <div class="card" style="margin-bottom:16px;border:1px solid #E2E8F0;">
           <details ${isOpen?'open':''} ontoggle="Views._historyExpandedDates['${tab}_${dateKey}']=this.open">
@@ -3814,9 +3846,9 @@ Views.history = function(){
                     <th>Condition</th>
                     <th>Color</th>
                     <th>Qty</th>
+                    <th>From (Supplier / Source)</th>
+                    <th>To (Warehouse / Shop)</th>
                     <th>Cost Price</th>
-                    <th>Destination</th>
-                    <th>Supplier / Invoice</th>
                     <th style="width:80px;text-align:right;">Action</th>
                   </tr>
                 </thead>
@@ -3827,6 +3859,8 @@ Views.history = function(){
                     const color = m.unitData?.color || (it?.colors?.join(', ')) || '—';
                     const cond = m.unitData?.condition || it?.condition || 'New';
                     const cost = m.unitData?.costPrice != null ? euro(m.unitData.costPrice) : (it?.costPrice != null && it.costPrice > 1 ? euro(it.costPrice) : '—');
+                    const fromStr = esc(m.supplier || (m.fromLocation ? shopName(m.fromLocation) : 'Supplier Stock In')) + (m.invoice ? ` (${esc(m.invoice)})` : '');
+                    const toStr = `<b>${esc(shopName(m.location))}</b>`;
                     return `
                     <tr>
                       <td><b>${esc(m.itemName||'—')}</b></td>
@@ -3834,9 +3868,9 @@ Views.history = function(){
                       <td>${(cond==='New')?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
                       <td>${esc(color)}</td>
                       <td><b style="color:var(--green);">+${m.qty||1}</b></td>
+                      <td>${fromStr}</td>
+                      <td>${toStr}</td>
                       <td>${cost}</td>
-                      <td><b>${esc(shopName(m.location))}</b></td>
-                      <td>${esc(m.supplier || 'Supplier')}${m.invoice ? ` (${esc(m.invoice)})` : ''}</td>
                       <td style="text-align:right;">
                         <button class="btn sm danger ghost" onclick="Views.deleteMovement('${m.id}')" title="Delete this stock-in record" style="padding:2px 8px;font-size:11px;">🗑 Remove</button>
                       </td>
@@ -3848,8 +3882,8 @@ Views.history = function(){
           </details>
         </div>
       `;
-    } else {
-      // Stock Out / Sent Out / Transfers
+    } else if(tab === 'stockout') {
+      // Stock Out & Transfers: Model, IMEI, Condition, Color, Qty, From, To, Type, Reference/Note, Action
       html += `
         <div class="card" style="margin-bottom:16px;border:1px solid #E2E8F0;">
           <details ${isOpen?'open':''} ontoggle="Views._historyExpandedDates['${tab}_${dateKey}']=this.open">
@@ -3872,9 +3906,10 @@ Views.history = function(){
                     <th>Condition</th>
                     <th>Color</th>
                     <th>Qty</th>
-                    <th>Destination / Status</th>
-                    <th>Type</th>
-                    <th>Note / Reference</th>
+                    <th>From</th>
+                    <th>To (Destination)</th>
+                    <th>Type / Action</th>
+                    <th>Reference / Note</th>
                     <th style="width:80px;text-align:right;">Action</th>
                   </tr>
                 </thead>
@@ -3884,7 +3919,23 @@ Views.history = function(){
                     const imei = m.unitData?.imei || (m.note && !m.note.includes('Transferred') ? m.note : 'Untracked / Bulk');
                     const color = m.unitData?.color || (it?.colors?.join(', ')) || '—';
                     const cond = m.unitData?.condition || it?.condition || 'New';
-                    const dest = m.toLocation ? shopName(m.toLocation) : (m.type==='sold'?'Customer Sale':(m.type==='faulty'?'Faulty Return':'Deposit'));
+                    
+                    let fromLocStr = '—', toLocStr = '—', typePill = pillForType(m.type);
+                    if(m.type === 'sold'){
+                      fromLocStr = `<b>${esc(shopName(m.location))}</b>`;
+                      toLocStr = `<span class="pill green" style="font-weight:700;">Customer Sale</span>`;
+                    } else if(m.type === 'deposit'){
+                      fromLocStr = `<b>${esc(shopName(m.location))}</b>`;
+                      toLocStr = `<span class="pill purple" style="font-weight:700;">Customer Deposit</span>`;
+                    } else if(m.type === 'faulty'){
+                      fromLocStr = `<b>${esc(shopName(m.location))}</b>`;
+                      toLocStr = `<span class="pill amber" style="font-weight:700;">Faulty Return</span>`;
+                    } else if(m.type === 'transfer-out' || m.type === 'transfer-in'){
+                      fromLocStr = `<b>${esc(shopName(m.fromLocation || m.location))}</b>`;
+                      toLocStr = `<b>${esc(shopName(m.toLocation || (m.type==='transfer-in' ? m.location : 'Shop')))}</b>`;
+                      typePill = `<span class="pill blue">⇄ Transfer</span>`;
+                    }
+
                     return `
                     <tr>
                       <td><b>${esc(m.itemName||'—')}</b></td>
@@ -3892,11 +3943,75 @@ Views.history = function(){
                       <td>${(cond==='New')?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
                       <td>${esc(color)}</td>
                       <td><b style="color:var(--danger);">-${m.qty||1}</b></td>
-                      <td><b>${esc(dest)}</b></td>
-                      <td>${pillForType(m.type)}</td>
-                      <td style="color:var(--muted);">${esc(m.fromLocation ? `Transferred from ${shopName(m.fromLocation)}` : (m.note || '—'))}</td>
+                      <td>${fromLocStr}</td>
+                      <td>${toLocStr}</td>
+                      <td>${typePill}</td>
+                      <td style="color:var(--muted);">${esc(m.note || (m.type==='sold'?'Retail sale':(m.type==='deposit'?'Deposit hold':(m.type==='faulty'?'Faulty return':'Shop transfer'))))}</td>
                       <td style="text-align:right;">
                         <button class="btn sm danger ghost" onclick="Views.deleteMovement('${m.id}')" title="Delete / Revert this record" style="padding:2px 8px;font-size:11px;">🗑 Remove</button>
+                      </td>
+                    </tr>`;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+      `;
+    } else {
+      // Faulty Tab
+      html += `
+        <div class="card" style="margin-bottom:16px;border:1px solid #E2E8F0;">
+          <details ${isOpen?'open':''} ontoggle="Views._historyExpandedDates['${tab}_${dateKey}']=this.open">
+            <summary style="padding:12px 16px;background:#F8FAFC;cursor:pointer;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;border-bottom:1px solid #E2E8F0;">
+              <div style="display:flex;align-items:center;gap:12px;font-weight:700;font-size:14px;color:#D97706;">
+                <span>📅 ${dateKey}</span>
+                <span class="pill amber" style="font-size:12px;">${batch.length} Faulty Records</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;font-size:13px;">
+                <span>Total: <b style="color:#D97706;">${totalQty} faulty</b></span>
+              </div>
+            </summary>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr style="background:#F1F5F9;font-size:12px;">
+                    <th>Date</th>
+                    <th>Model</th>
+                    <th>IMEI</th>
+                    <th>Condition</th>
+                    <th>Color</th>
+                    <th>Reported At (Shop)</th>
+                    <th>Status</th>
+                    <th>Issue / Note</th>
+                    <th style="text-align:right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${batch.map(m => {
+                    const it = itemById(m.itemId);
+                    const imei = m.unitData?.imei || (m.note && !m.note.includes('Faulty') ? m.note : '—');
+                    const color = m.unitData?.color || (it?.colors?.join(', ')) || '—';
+                    const cond = m.unitData?.condition || it?.condition || 'New';
+                    const isReceived = m.faultyStatus === 'received_warehouse' || m.location === 'warehouse';
+
+                    return `
+                    <tr>
+                      <td>${m.date||'—'}</td>
+                      <td><b>${esc(m.itemName||'—')}</b></td>
+                      <td class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(imei)}</td>
+                      <td>${(cond==='New')?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
+                      <td>${esc(color)}</td>
+                      <td><b>${esc(shopName(m.location))}</b></td>
+                      <td>
+                        ${isReceived ? `<span class="pill green" style="font-weight:700;">✓ Received in Warehouse</span>${m.warehouseReceivedDate ? `<br><small style="color:var(--muted);">On ${m.warehouseReceivedDate}</small>` : ''}` : `<span class="pill amber" style="font-weight:700;">⚠️ Faulty at ${esc(shopName(m.location))}</span>`}
+                      </td>
+                      <td style="color:var(--muted);">${esc(m.note || 'Reported faulty')}</td>
+                      <td style="text-align:right;white-space:nowrap;">
+                        <div style="display:flex;gap:4px;justify-content:flex-end;align-items:center;">
+                          ${!isReceived ? `<button class="btn sm primary" onclick="Stock.receiveFaultyInWarehouse('${m.id}')" title="Confirm device has physically arrived at Warehouse" style="padding:2px 8px;font-size:11px;">📦 Receive in Warehouse</button>` : ''}
+                          <button class="btn sm danger ghost" onclick="Views.deleteMovement('${m.id}')" title="Delete record" style="padding:2px 8px;font-size:11px;">🗑 Remove</button>
+                        </div>
                       </td>
                     </tr>`;
                   }).join('')}
@@ -4483,13 +4598,13 @@ Views.weekly = function(){
             </summary>
             <div class="table-wrap" style="margin-top:8px;background:#fff;border:1px solid #E2E8F0;border-radius:6px;">
               <table>
-                <thead><tr style="background:#F1F5F9;font-size:12px;"><th>Date</th><th>Supplier / Source</th><th>Invoice / Ref</th><th>Device / Model</th><th>IMEI / Details</th><th>Category</th><th>Qty</th><th style="width:80px;text-align:right;">Action</th></tr></thead>
+                <thead><tr style="background:#F1F5F9;font-size:12px;"><th>Date</th><th>From (Supplier / Source)</th><th>To</th><th>Device / Model</th><th>IMEI / Details</th><th>Category</th><th>Qty</th><th style="width:80px;text-align:right;">Action</th></tr></thead>
                 <tbody>
                   ${inMoves.length ? inMoves.slice().reverse().map(m=>`
                     <tr style="font-size:12.5px;">
                       <td>${m.date||'—'}</td>
-                      <td><b>${esc(m.supplier || (m.fromLocation ? ('Transfer from ' + shopName(m.fromLocation)) : 'Supplier Stock In'))}</b></td>
-                      <td style="color:var(--muted);">${esc(m.invoice ? 'Inv #'+m.invoice : (m.note||'—'))}</td>
+                      <td><b>${esc(m.supplier || (m.fromLocation ? ('Transfer from ' + shopName(m.fromLocation)) : 'Supplier Stock In'))}</b>${m.invoice ? ` <span style="color:var(--muted);font-size:11px;">(${esc(m.invoice)})</span>` : ''}</td>
+                      <td><b>${esc(shopName(m.location))}</b></td>
                       <td><b>${esc(m.itemName||'—')}</b></td>
                       <td>${m.unitData?.imei ? `<span class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(m.unitData.imei)}</span>` : (m.note ? esc(m.note) : '—')}</td>
                       <td><span class="pill teal" style="font-size:11px;">${esc(catName(m.categoryId))}</span></td>
@@ -4509,12 +4624,13 @@ Views.weekly = function(){
             </summary>
             <div class="table-wrap" style="margin-top:8px;background:#fff;border:1px solid #E2E8F0;border-radius:6px;">
               <table>
-                <thead><tr style="background:#F1F5F9;font-size:12px;"><th>Date</th><th>Destination / Status</th><th>Device / Model</th><th>IMEI / Details</th><th>Type</th><th>Qty</th><th>Note / Reference</th><th style="width:80px;text-align:right;">Action</th></tr></thead>
+                <thead><tr style="background:#F1F5F9;font-size:12px;"><th>Date</th><th>From</th><th>To (Destination)</th><th>Device / Model</th><th>IMEI / Details</th><th>Type / Action</th><th>Qty</th><th>Reference / Note</th><th style="width:80px;text-align:right;">Action</th></tr></thead>
                 <tbody>
                   ${outMoves.length ? outMoves.slice().reverse().map(m=>`
                     <tr style="font-size:12.5px;">
                       <td>${m.date||'—'}</td>
-                      <td><b>${esc(m.toLocation ? ('Sent to ' + shopName(m.toLocation)) : (m.type==='sold'?'Customer Sale':(m.type==='faulty'?'Faulty Return':'Deposit')))}</b></td>
+                      <td><b>${esc(shopName(m.fromLocation || m.location))}</b></td>
+                      <td>${m.toLocation ? `<b>${esc(shopName(m.toLocation))}</b>` : (m.type==='sold'?'<span class="pill green" style="font-weight:700;">Customer Sale</span>':(m.type==='faulty'?'<span class="pill amber" style="font-weight:700;">Faulty Return</span>':'<span class="pill purple" style="font-weight:700;">Customer Deposit</span>'))}</td>
                       <td><b>${esc(m.itemName||'—')}</b></td>
                       <td>${m.unitData?.imei ? `<span class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(m.unitData.imei)}</span>` : (m.note ? esc(m.note) : '—')}</td>
                       <td>${pillForType(m.type)}</td>
@@ -4523,7 +4639,7 @@ Views.weekly = function(){
                       <td style="text-align:right;">
                         <button class="btn sm danger ghost" onclick="Views.deleteMovement('${m.id}')" title="Delete / Revert this record" style="padding:2px 8px;font-size:11px;">🗑 Remove</button>
                       </td>
-                    </tr>`).join('') : `<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:10px;">No stock-out movements for ${esc(s.name)} this week.</td></tr>`}
+                    </tr>`).join('') : `<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:10px;">No stock-out movements for ${esc(s.name)} this week.</td></tr>`}
                 </tbody>
               </table>
             </div>
