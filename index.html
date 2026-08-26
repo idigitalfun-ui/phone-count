@@ -1723,7 +1723,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.7</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.8</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -1744,6 +1744,23 @@ function render(){
     if(subEl) subEl.textContent = sub;
     const c = document.getElementById('content');
     if(!c) return;
+
+    // PRESERVE FOCUSED INPUT & CARET POSITION
+    let focusInfo = null;
+    const active = document.activeElement;
+    if(active && c.contains(active)){
+      if(active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.tagName === 'SELECT'){
+        focusInfo = {
+          id: active.id || null,
+          placeholder: active.placeholder || null,
+          className: active.className || null,
+          tagName: active.tagName,
+          selectionStart: (typeof active.selectionStart === 'number') ? active.selectionStart : null,
+          selectionEnd: (typeof active.selectionEnd === 'number') ? active.selectionEnd : null
+        };
+      }
+    }
+
     const fns = {
       dashboard: Views.dashboard, inventory: Views.inventory, stockin: Views.stockin,
       transfer: Views.stockview, sales: Views.stockview, weekly: Views.weekly,
@@ -1752,6 +1769,28 @@ function render(){
     };
     c.innerHTML = (fns[Router.current]||(()=>'<p>Not found</p>'))();
     if(Views.after && Views.after[Router.current]) Views.after[Router.current]();
+
+    // RESTORE FOCUSED INPUT & CARET POSITION
+    if(focusInfo){
+      let target = null;
+      if(focusInfo.id){
+        target = document.getElementById(focusInfo.id);
+      }
+      if(!target && focusInfo.placeholder){
+        target = c.querySelector(`${focusInfo.tagName.toLowerCase()}[placeholder="${CSS.escape(focusInfo.placeholder)}"]`);
+      }
+      if(!target && focusInfo.className){
+        target = c.querySelector(`${focusInfo.tagName.toLowerCase()}.${focusInfo.className.trim().split(/\s+/).join('.')}`);
+      }
+      if(target){
+        target.focus();
+        if(focusInfo.selectionStart !== null && focusInfo.selectionEnd !== null && typeof target.setSelectionRange === 'function'){
+          try {
+            target.setSelectionRange(focusInfo.selectionStart, focusInfo.selectionEnd);
+          } catch(e){}
+        }
+      }
+    }
   }catch(e){
     console.error('Render error:', e);
     const c = document.getElementById('content');
@@ -2703,7 +2742,7 @@ Views.inventory = function(){
     <div class="toolbar" style="flex-wrap:wrap;gap:8px;">
       <div class="chip-select" style="flex-wrap:wrap;">${shopChips}</div>
       <div class="spacer"></div>
-      <div class="search-input"><span class="ic">🔎</span><input placeholder="Search name / IMEI…" value="${esc(f.q)}" oninput="Views._invFilter.q=this.value;render()"></div>
+      <div class="search-input"><span class="ic">🔎</span><input id="inv_search_q" placeholder="Search name / IMEI…" value="${esc(f.q)}" oninput="Views._invFilter.q=this.value;render()"></div>
       <select onchange="Views._invFilter.cat=this.value;render()">
         <option value="all">All categories</option>
         ${Store.data.categories.map(c=>`<option value="${c.id}" ${f.cat===c.id?'selected':''}>${esc(c.name)}</option>`).join('')}
@@ -3955,7 +3994,7 @@ Views.history = function(){
         </select>
       </div>
       <div class="field" style="margin:0;min-width:220px;">
-        <input type="text" placeholder="Search model, IMEI, color, supplier..." value="${esc(f.search)}" oninput="Views._historyFilter.search=this.value;render();">
+        <input id="hist_search_q" type="text" placeholder="Search model, IMEI, color, supplier..." value="${esc(f.search)}" oninput="Views._historyFilter.search=this.value;render();">
       </div>
     </div>
   `;
