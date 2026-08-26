@@ -957,7 +957,8 @@
         "Awesome White",
         "Graygreen",
         "White",
-        "Lavender"
+        "Lavender",
+        "Awesome Graygreen"
       ],
       "batteryPct": 100,
       "costPrice": 285,
@@ -971,7 +972,7 @@
         "shop_tullamore": 320
       },
       "locations": {
-        "warehouse": 0,
+        "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 2,
         "shop_maynooth": 0,
@@ -1009,6 +1010,18 @@
           "costPrice": 285,
           "wholesalePrice": 285,
           "sellPrice": 440
+        },
+        {
+          "id": "unit_ycyyuov9lmk",
+          "imei": "354380322913557",
+          "color": "Awesome Graygreen",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 230,
+          "sellPrice": 220,
+          "batteryPct": null,
+          "dateAdded": "2026-08-26",
+          "wholesalePrice": 242
         }
       ],
       "createdAt": "2026-08-20",
@@ -10772,7 +10785,7 @@
         "shop_tullamore": 220
       },
       "locations": {
-        "warehouse": 14,
+        "warehouse": 13,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
@@ -10887,17 +10900,6 @@
           "condition": "New",
           "location": "warehouse",
           "costPrice": 220,
-          "sellPrice": 220,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26"
-        },
-        {
-          "id": "unit_ycyyuov9lmk",
-          "imei": "354380322913557",
-          "color": "Awesome Graygreen",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 230,
           "sellPrice": 220,
           "batteryPct": null,
           "dateAdded": "2026-08-26"
@@ -11304,7 +11306,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-26T10:56:12.618Z"
+    "lastSaved": "2026-08-26T10:59:25.130Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
