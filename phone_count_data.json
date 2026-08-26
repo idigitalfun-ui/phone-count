@@ -2135,7 +2135,7 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 2,
         "shop_thurles": 1,
         "shop_kilkenny": 2,
         "shop_maynooth": 0,
@@ -2183,6 +2183,18 @@
           "costPrice": 199,
           "wholesalePrice": 211,
           "sellPrice": 199
+        },
+        {
+          "id": "unit_az92ka6ny6o",
+          "imei": "SCK2RWJGFCJ",
+          "color": "White",
+          "condition": "Used",
+          "batteryPct": 100,
+          "location": "warehouse",
+          "costPrice": 105,
+          "wholesalePrice": 117,
+          "sellPrice": 120,
+          "addedAt": "2026-08-26"
         }
       ],
       "createdAt": "2026-08-20",
@@ -13473,7 +13485,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-26T11:47:08.391Z"
+    "lastSaved": "2026-08-26T12:30:36.243Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
