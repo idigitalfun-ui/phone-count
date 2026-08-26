@@ -625,7 +625,7 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 20,
+        "warehouse": 17,
         "shop_thurles": 1,
         "shop_kilkenny": 3,
         "shop_maynooth": 0,
@@ -673,42 +673,6 @@
           "costPrice": 125,
           "wholesalePrice": 137,
           "sellPrice": 190
-        },
-        {
-          "id": "unit_1b9xmzp9llb",
-          "imei": "351355315356470",
-          "color": "Black",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 125,
-          "sellPrice": 120,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 111
-        },
-        {
-          "id": "unit_cgl8pbj9llc",
-          "imei": "351355313419759",
-          "color": "Black",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 125,
-          "sellPrice": 120,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 111
-        },
-        {
-          "id": "unit_lr8mngi9lld",
-          "imei": "351355313432414",
-          "color": "Black",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 125,
-          "sellPrice": 120,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 111
         },
         {
           "id": "unit_bdhaxb69llf",
@@ -14714,7 +14678,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-26T15:52:36.043Z"
+    "lastSaved": "2026-08-26T15:53:00.571Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
