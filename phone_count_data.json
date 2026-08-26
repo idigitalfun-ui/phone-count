@@ -941,7 +941,7 @@
         "shop_tullamore": 280
       },
       "locations": {
-        "warehouse": 4,
+        "warehouse": 3,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
         "shop_maynooth": 1,
@@ -1043,7 +1043,7 @@
         "shop_tullamore": 320
       },
       "locations": {
-        "warehouse": 4,
+        "warehouse": 3,
         "shop_thurles": 1,
         "shop_kilkenny": 2,
         "shop_maynooth": 0,
@@ -1161,7 +1161,7 @@
         "shop_tullamore": 305
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 3,
         "shop_maynooth": 2,
@@ -2081,7 +2081,7 @@
         "shop_tullamore": 340
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 1,
@@ -2136,7 +2136,7 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 2,
+        "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 2,
         "shop_maynooth": 0,
@@ -2184,18 +2184,6 @@
           "costPrice": 199,
           "wholesalePrice": 211,
           "sellPrice": 199
-        },
-        {
-          "id": "unit_az92ka6ny6o",
-          "imei": "SCK2RWJGFCJ",
-          "color": "White",
-          "condition": "Used",
-          "batteryPct": 100,
-          "location": "warehouse",
-          "costPrice": 105,
-          "wholesalePrice": 117,
-          "sellPrice": 120,
-          "addedAt": "2026-08-26"
         }
       ],
       "createdAt": "2026-08-20",
@@ -10207,7 +10195,7 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 3,
+        "warehouse": 1,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
@@ -11072,7 +11060,7 @@
         "shop_tullamore": 480
       },
       "locations": {
-        "warehouse": 2,
+        "warehouse": 1,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
@@ -11132,7 +11120,7 @@
         "shop_tullamore": 385
       },
       "locations": {
-        "warehouse": 5,
+        "warehouse": 3,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
@@ -11227,7 +11215,7 @@
         "shop_tullamore": 560
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
@@ -14774,7 +14762,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-26T15:55:18.044Z"
+    "lastSaved": "2026-08-26T15:55:58.028Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
