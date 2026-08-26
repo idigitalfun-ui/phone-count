@@ -396,7 +396,7 @@
         "shop_tullamore": 115
       },
       "locations": {
-        "warehouse": 11,
+        "warehouse": 7,
         "shop_thurles": 2,
         "shop_kilkenny": 2,
         "shop_maynooth": 0,
@@ -14714,7 +14714,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-26T15:52:18.939Z"
+    "lastSaved": "2026-08-26T15:52:36.043Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
