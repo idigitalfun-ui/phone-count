@@ -10904,8 +10904,8 @@
         "shop_tullamore": 220
       },
       "locations": {
-        "warehouse": 5,
-        "shop_thurles": 0,
+        "warehouse": 4,
+        "shop_thurles": 1,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
@@ -10990,7 +10990,7 @@
           "imei": "350983933499793",
           "color": "Light Pink",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_thurles",
           "costPrice": 220,
           "sellPrice": 220,
           "batteryPct": null,
@@ -14779,6 +14779,30 @@
       "date": "2026-08-26",
       "note": "Transferred from Inventory",
       "id": "mv_z1cd9wf0h7n"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_b3rxt5y9lm5",
+      "itemName": "Samsung A27 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_thurles",
+      "qty": 1,
+      "date": "2026-08-26",
+      "note": "Transferred from Inventory",
+      "id": "mv_pdfkb8c1gjf"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_b3rxt5y9lm5",
+      "itemName": "Samsung A27 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_thurles",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-08-26",
+      "note": "Transferred from Inventory",
+      "id": "mv_jbpclc71gjf"
     }
   ],
   "reorderList": [],
@@ -14786,7 +14810,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-26T15:56:18.085Z"
+    "lastSaved": "2026-08-26T15:57:03.869Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
