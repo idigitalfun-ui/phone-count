@@ -873,6 +873,43 @@ const Store = {
         if(u.sellPrice==null || (u.sellPrice<=1 && targetSell>1) || (u.sellPrice!==targetSell && targetSell>0 && u.sellPrice<=1)) u.sellPrice = targetSell;
       });
     });
+
+    // Ensure suppliers array exists
+    if(!Array.isArray(d.suppliers) || d.suppliers.length === 0){
+      d.suppliers = ['B2B Wholesaler', 'Swappie', 'BackMarket', 'Foxway', 'Direct Trade-In', 'Customer Buyback', 'Distributor'];
+    }
+
+    // Backfill stock-in movements for units added on 2026-08-26 so Weekly Report properly shows them under Stock In
+    if(!Array.isArray(d.movements)) d.movements = [];
+    const existingMvImeis = new Set(d.movements.map(m => (m.unitData?.imei || m.note || '').trim().toLowerCase()).filter(Boolean));
+    
+    d.items.forEach(it => {
+      (it.units || []).forEach(u => {
+        const uDate = u.dateAdded || u.addedAt || (it.createdAt === '2026-08-26' ? '2026-08-26' : null);
+        if(uDate && uDate >= '2026-08-26'){
+          const imeiKey = (u.imei || '').trim().toLowerCase();
+          if(!imeiKey || !existingMvImeis.has(imeiKey)){
+            if(imeiKey) existingMvImeis.add(imeiKey);
+            d.movements.push({
+              id: uid('mv'),
+              type: 'stock-in',
+              itemId: it.id,
+              itemName: it.name,
+              categoryId: it.category,
+              location: u.location || 'warehouse',
+              fromLocation: 'supplier',
+              supplier: 'Supplier Stock In',
+              invoice: '',
+              qty: 1,
+              date: uDate,
+              unitData: { imei: u.imei || '', color: u.color || '', condition: u.condition || 'New', costPrice: u.costPrice || it.costPrice || 0 },
+              note: u.imei ? `IMEI ${u.imei}` : 'Stock In'
+            });
+          }
+        }
+      });
+    });
+
     this.save();
   },
   save(){
@@ -1506,7 +1543,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.8.9</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -1901,17 +1938,29 @@ const Stock = {
     m.id = uid('mv'); m.date = m.date||todayISO();
     Store.data.movements.push(m);
   },
-  stockIn(itemId, qty, date, note, location){
+  stockIn(itemId, qty, date, note, location, supplier = '', invoice = ''){
     const it = itemById(itemId); if(!it||qty<=0) return;
     const loc = location || 'warehouse';
     it.locations[loc] = (it.locations[loc]||0) + qty;
-    this.addMovement({type:'stock-in', itemId, itemName:it.name, categoryId:it.category, location:loc, fromLocation:'supplier', qty, date, note});
+    this.addMovement({
+      type: 'stock-in',
+      itemId,
+      itemName: it.name,
+      categoryId: it.category,
+      location: loc,
+      fromLocation: supplier || 'supplier',
+      supplier: supplier || 'Supplier Stock In',
+      invoice: invoice || '',
+      qty,
+      date: date || todayISO(),
+      note: note || (invoice ? `Invoice #${invoice}` : (supplier ? `From ${supplier}` : 'Stock In'))
+    });
     Store.save();
   },
   // Adds ONE individually-tracked unit (IMEI, colour, condition, its own price). IMEI may be blank.
   // logMovement is FALSE by default: adding phones/IMEIs in Inventory fixes the count without logging Stock In.
   // Only the Stock In tab sets logMovement = true.
-  addUnit(itemId, loc, data, date, note, logMovement = false){
+  addUnit(itemId, loc, data, date, note, logMovement = false, supplier = '', invoice = ''){
     const it = itemById(itemId); if(!it) return null;
     if(!Array.isArray(it.units)) it.units=[];
     if(data.imei && findUnitByImei(data.imei)){ Toast.show('That IMEI is already in the system.','err'); return null; }
@@ -1923,7 +1972,20 @@ const Stock = {
     it.units.push(unit);
     if(logMovement){
       it.locations[loc] = (it.locations[loc]||0) + 1;
-      this.addMovement({type:'stock-in', itemId, itemName:it.name, categoryId:it.category, location:loc, fromLocation:'supplier', qty:1, date:date||todayISO(), note:note||(unit.imei?('IMEI '+unit.imei):'Individually tracked unit')});
+      this.addMovement({
+        type: 'stock-in',
+        itemId,
+        itemName: it.name,
+        categoryId: it.category,
+        location: loc,
+        fromLocation: supplier || 'supplier',
+        supplier: supplier || 'Supplier Stock In',
+        invoice: invoice || '',
+        qty: 1,
+        date: date||todayISO(),
+        unitData: { imei: unit.imei || '', color: unit.color, condition: unit.condition, costPrice: unit.costPrice },
+        note: note || (invoice ? `Invoice #${invoice}` : (supplier ? `From ${supplier}` : (unit.imei ? `IMEI ${unit.imei}` : 'Stock In')))
+      });
     } else {
       // Baseline / count adjustment: ensure locations count has at least this unit counted
       if((it.locations[loc]||0) < unitsAt(it, loc).length){
@@ -3181,6 +3243,19 @@ Views.openItemModal = function(itemId, shopId){
           <div class="field"><label>Color</label><input id="f_color" value="${it?esc((it.colors||[])[0]||''):''}" placeholder="e.g. Black, Silver, Midnight"></div>
           <div class="field"><label>Cost Price (€)</label><input id="f_cost" type="number" step="0.01" value="${it?it.costPrice:''}" placeholder="e.g. 0.00 or 25.00"></div>
         </div>
+        <div class="field-grid">
+          <div class="field">
+            <label>Supplier / Source</label>
+            <input id="f_supplier" list="f_supplier_list" placeholder="e.g. B2B Wholesaler, Swappie, Foxway">
+            <datalist id="f_supplier_list">
+              ${(Store.data.suppliers||['B2B Wholesaler','Swappie','BackMarket','Foxway','Direct Trade-In','Customer Buyback','Distributor']).map(s=>`<option value="${esc(s)}">`).join('')}
+            </datalist>
+          </div>
+          <div class="field">
+            <label>Invoice / Ref #</label>
+            <input id="f_invoice" placeholder="e.g. INV-10492 (Optional)">
+          </div>
+        </div>
         <div class="field"><label>Opening Location</label><select id="f_openloc" onchange="if(window._currentEditItemId){ const q = untrackedQtyAt(itemById(window._currentEditItemId), this.value); const qi = document.getElementById('f_qty'); if(qi) qi.value = q; const ql = document.querySelector('#f_qty_wrap label'); if(ql) ql.textContent = 'Stock Quantity at ' + this.options[this.selectedIndex].text; }">${shops.map(s=>`<option value="${s.id}" ${s.id===defaultLoc?'selected':''}>${esc(s.name)}</option>`).join('')}</select></div>
       </div>
       <div class="modal-foot">
@@ -3210,6 +3285,12 @@ Views.saveItem = function(itemId){
   const wholesale = cost > 0 ? (cost + 12) : 0;
   const openLoc = val('f_openloc') || 'warehouse';
   const qty = isGeneric ? Math.max(0, parseInt(val('f_qty')) || 0) : 1;
+  const supplier = val('f_supplier').trim();
+  const invoice = val('f_invoice').trim();
+
+  if(supplier && Array.isArray(Store.data.suppliers) && !Store.data.suppliers.includes(supplier)){
+    Store.data.suppliers.push(supplier);
+  }
 
   if(itemId){
     const it = itemById(itemId);
@@ -3322,6 +3403,22 @@ Views.saveItem = function(itemId){
       if(!Array.isArray(it.units)) it.units = [];
       it.units.push(newUnit);
     }
+
+    // Log Stock In movement so Weekly Report accurately reflects this arrival
+    Stock.addMovement({
+      type: 'stock-in',
+      itemId: it.id,
+      itemName: it.name,
+      categoryId: it.category,
+      location: openLoc,
+      fromLocation: supplier || 'supplier',
+      supplier: supplier || 'Supplier Stock In',
+      invoice: invoice || '',
+      qty: qty,
+      date: todayISO(),
+      unitData: (imei && !isGeneric) ? { imei, color, condition: cond, costPrice: cost } : null,
+      note: invoice ? `Invoice #${invoice}${supplier ? ' (' + supplier + ')' : ''}` : (supplier ? `From ${supplier}` : (imei ? `IMEI ${imei}` : 'Stock In'))
+    });
   }
 
   Store.save();
@@ -3402,6 +3499,7 @@ Views.deleteItem = function(itemId){
 /* ---- STOCK IN ---- */
 Views.stockin = function(){
   if(!Store.data.items.length) return `<div class="empty"><div class="big">No items yet</div>Add a device in <b>Inventory</b> first, then come back to receive stock for it.</div>`;
+  const stockInMoves = (Store.data.movements||[]).filter(m=>m.type==='stock-in');
   return `
     <div class="row">
       <div class="col" style="flex:1;min-width:340px;">
@@ -3411,6 +3509,19 @@ Views.stockin = function(){
           <div class="field-grid">
             <div class="field"><label>Goes into</label><select id="si_loc">${activeShops().map(s=>`<option value="${s.id}" ${s.isWarehouse?'selected':''}>${esc(s.name)}${s.isWarehouse?' (warehouse)':''}</option>`).join('')}</select></div>
             <div class="field"><label>Date</label><input id="si_date" type="date" value="${todayISO()}"></div>
+          </div>
+          <div class="field-grid">
+            <div class="field">
+              <label>Supplier / Source</label>
+              <input id="si_supplier" list="si_supplier_list" placeholder="e.g. B2B Wholesaler, Swappie, Foxway">
+              <datalist id="si_supplier_list">
+                ${(Store.data.suppliers||['B2B Wholesaler','Swappie','BackMarket','Foxway','Direct Trade-In','Customer Buyback','Distributor']).map(s=>`<option value="${esc(s)}">`).join('')}
+              </datalist>
+            </div>
+            <div class="field">
+              <label>Invoice / Ref #</label>
+              <input id="si_invoice" placeholder="e.g. INV-10492 (Optional)">
+            </div>
           </div>
           <div class="field"><label>IMEI (optional — leave blank for bulk stock like accessories)</label><input id="si_imei" placeholder="Leave blank if you don't want to track this one individually"></div>
           <div class="helpbox no-print" id="si_imei_hint">No IMEI → enter a quantity below and it's added as plain bulk stock. IMEI filled in → colour/condition/price below apply to that one device, quantity is fixed at 1.</div>
@@ -3423,7 +3534,7 @@ Views.stockin = function(){
             <div class="field"><label>Sell price</label><input id="si_sell" type="number" step="0.01" placeholder="Optional"></div>
           </div>
           <div class="field"><label>Quantity (only used when IMEI is blank)</label><input id="si_qty" type="number" min="1" value="1"></div>
-          <div class="field"><label>Note (supplier, invoice #...)</label><input id="si_note" placeholder="Optional"></div>
+          <div class="field"><label>Note / Remarks</label><input id="si_note" placeholder="Optional"></div>
           <button class="btn primary" onclick="Views.doStockIn()">⬇ Add to stock</button>
         </div>
       </div>
@@ -3446,9 +3557,22 @@ Samsung A36 6GB/128GB	10"></textarea>
       </div>
     </div>
     <div class="card card-pad" style="margin-top:16px;">
-      <h3 style="margin-top:0;">Recent stock-in history</h3>
-      <div class="table-wrap"><table><thead><tr><th>Date</th><th>Item</th><th>Qty</th><th>Note</th></tr></thead><tbody>
-        ${Store.data.movements.filter(m=>m.type==='stock-in').slice(-15).reverse().map(m=>`<tr><td>${m.date}</td><td>${esc(m.itemName)}</td><td>+${m.qty}</td><td>${esc(m.note||'')}</td></tr>`).join('') || '<tr><td colspan="4"><div class="empty">No stock-in records yet.</div></td></tr>'}
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+        <h3 style="margin:0;">Recent stock-in history (${stockInMoves.length} total)</h3>
+        <small style="color:var(--muted);">All incoming devices and batches received from suppliers</small>
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>Date</th><th>Supplier / Source</th><th>Invoice / Ref</th><th>Item</th><th>IMEI / Details</th><th>Shop</th><th>Qty</th><th>Cost</th></tr></thead><tbody>
+        ${stockInMoves.length ? stockInMoves.slice(-30).reverse().map(m=>`
+          <tr>
+            <td>${m.date}</td>
+            <td><b>${esc(m.supplier || (m.fromLocation ? shopName(m.fromLocation) : 'Supplier'))}</b></td>
+            <td style="color:var(--muted);">${esc(m.invoice ? 'Inv #'+m.invoice : (m.note||'—'))}</td>
+            <td><b>${esc(m.itemName)}</b></td>
+            <td>${m.unitData?.imei ? `<span class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(m.unitData.imei)}</span>` : (m.note ? esc(m.note) : '—')}</td>
+            <td><b style="color:var(--teal-dark);">${esc(shopName(m.location))}</b></td>
+            <td><b style="color:var(--green);">+${m.qty}</b></td>
+            <td>${m.unitData?.costPrice ? euro(m.unitData.costPrice) : '—'}</td>
+          </tr>`).join('') : '<tr><td colspan="8"><div class="empty">No stock-in records yet.</div></td></tr>'}
       </tbody></table></div>
     </div>
   `;
@@ -3457,18 +3581,25 @@ Views.doStockIn = function(){
   const itemId = val('si_item');
   const loc = val('si_loc');
   const date = val('si_date')||todayISO();
-  const note = val('si_note');
+  const supplier = val('si_supplier').trim();
+  const invoice = val('si_invoice').trim();
+  const note = val('si_note').trim();
   const imei = val('si_imei').trim();
+
+  if(supplier && Array.isArray(Store.data.suppliers) && !Store.data.suppliers.includes(supplier)){
+    Store.data.suppliers.push(supplier);
+  }
+
   if(imei){
     const unit = Stock.addUnit(itemId, loc, {
       imei, color: val('si_color'), condition: val('si_cond'),
       costPrice: val('si_cost')?Number(val('si_cost')):null, sellPrice: val('si_sell')?Number(val('si_sell')):null
-    }, date, note, true);
+    }, date, note, true, supplier, invoice);
     if(unit) Toast.show(`Device added to ${shopName(loc)}.`,'ok');
   } else {
     const qty = Number(val('si_qty'))||0;
     if(qty<=0){ Toast.show('Enter a quantity greater than 0.','err'); return; }
-    Stock.stockIn(itemId, qty, date, note, loc);
+    Stock.stockIn(itemId, qty, date, note, loc, supplier, invoice);
     Toast.show(`Stock received into ${shopName(loc)}.`,'ok');
   }
   render();
@@ -3857,7 +3988,14 @@ Views.sales = function(){
 };
 Views.toggleSalesExpand = function(itemId){ Views._salesExpanded[itemId] = !Views._salesExpanded[itemId]; render(); };
 function pillForType(t){
-  return {sold:'<span class="pill green">Sold</span>',faulty:'<span class="pill red">Faulty</span>',deposit:'<span class="pill amber">Deposit</span>'}[t]||t;
+  return {
+    sold:'<span class="pill green">Sold</span>',
+    faulty:'<span class="pill red">Faulty</span>',
+    deposit:'<span class="pill amber">Deposit</span>',
+    'stock-in':'<span class="pill green">Stock In</span>',
+    'transfer-in':'<span class="pill teal">Transfer In</span>',
+    'transfer-out':'<span class="pill purple">Transfer Out</span>'
+  }[t] || `<span class="pill gray">${esc(t)}</span>`;
 }
 Views.quickAction = function(itemId, shopId, type){
   const fn = {sold:Stock.sell, faulty:Stock.faulty, deposit:Stock.deposit}[type];
@@ -3868,14 +4006,16 @@ Views.quickAction = function(itemId, shopId, type){
   }
 };
 Views.unitAction = function(itemId, unitId, type){
-  const mv = Stock.removeUnit(itemId, unitId, type, todayISO(), type==='sold'?'Shop sale':type);
+  const fn = {sold:Stock.sellUnit, faulty:Stock.faultyUnit, deposit:Stock.depositUnit}[type];
+  if(!fn) return;
+  const mv = fn.call(Stock, itemId, unitId, todayISO(), type==='sold'?'Shop sale':type);
   if(mv && mv.id){
-    const label = {sold:'Sold', faulty:'Marked faulty', deposit:'Put on deposit'}[type] || 'Action completed';
-    Toast.show(`${label}: IMEI ${mv.unitData?.imei || unitId}`, 'ok');
     render();
   }
 };
 Views.undoSale = function(moveId){
+  const mv = (Store.data.movements||[]).find(m=>m.id===moveId);
+  if(!mv){ Toast.show('Movement record not found.','err'); return; }
   const ok = Stock.revertMovement(moveId);
   if(ok) render();
 };
@@ -3935,9 +4075,16 @@ Views.weekly = function(){
       tS+=r.start;tI+=r.inQ;tAI+=r.afterIn;tO+=r.outQ;tF+=r.faultyQ;tD+=r.depositQ;tR+=r.remaining;
       return `<tr><td>${esc(c.name)}</td><td>${r.start}</td><td>${r.inQ?'+'+r.inQ:0}</td><td>${r.afterIn}</td><td>${r.outQ?'-'+r.outQ:0}</td><td>${r.faultyQ||0}</td><td>${r.depositQ||0}</td><td><b>${r.remaining}</b></td></tr>`;
     }).join('');
+
+    const inMoves = (Store.data.movements||[]).filter(m => m && (m.location===s.id || (m.type==='transfer-in' && m.location===s.id)) && (m.type==='stock-in'||m.type==='transfer-in') && m.date>=weekStart && m.date<=weekEnd);
+    const outMoves = (Store.data.movements||[]).filter(m => m && m.location===s.id && (m.type==='sold'||m.type==='transfer-out'||m.type==='faulty'||m.type==='deposit') && m.date>=weekStart && m.date<=weekEnd);
+
     html += `
-      <div class="card" style="margin-bottom:18px;">
-        <div class="table-section-title">${esc(s.name)}</div>
+      <div class="card" style="margin-bottom:24px;border:1px solid #E2E8F0;">
+        <div class="table-section-title" style="display:flex;justify-content:space-between;align-items:center;">
+          <span>🏬 ${esc(s.name)}</span>
+          <span style="font-size:12px;font-weight:normal;opacity:.9;">Week: ${weekLabel(weekStart,weekEnd)}</span>
+        </div>
         <div class="table-wrap"><table>
           <thead><tr><th>Category</th><th>Start of week</th><th>Stock in</th><th>After stock in</th><th>Stock out</th><th>Faulty</th><th>Deposit</th><th>Remaining</th></tr></thead>
           <tbody>
@@ -3945,6 +4092,55 @@ Views.weekly = function(){
             ${catRows}
           </tbody>
         </table></div>
+
+        <!-- Detailed Activity Breakdown for this shop -->
+        <div style="padding:12px 14px;background:#F8FAFC;border-top:1px solid #E2E8F0;">
+          <details style="margin-bottom:8px;" ${inMoves.length>0?'open':''}>
+            <summary style="font-weight:700;font-size:13px;cursor:pointer;color:var(--teal-dark);padding:4px 0;">
+              📥 Stock In & Arrivals for ${esc(s.name)} (${inMoves.length} recorded this week)
+            </summary>
+            <div class="table-wrap" style="margin-top:8px;background:#fff;border:1px solid #E2E8F0;border-radius:6px;">
+              <table>
+                <thead><tr style="background:#F1F5F9;font-size:12px;"><th>Date</th><th>Supplier / Source</th><th>Invoice / Ref</th><th>Device / Model</th><th>IMEI / Details</th><th>Category</th><th>Qty</th></tr></thead>
+                <tbody>
+                  ${inMoves.length ? inMoves.slice().reverse().map(m=>`
+                    <tr style="font-size:12.5px;">
+                      <td>${m.date||'—'}</td>
+                      <td><b>${esc(m.supplier || (m.fromLocation ? shopName(m.fromLocation) : 'Supplier Stock In'))}</b></td>
+                      <td style="color:var(--muted);">${esc(m.invoice ? 'Inv #'+m.invoice : (m.note||'—'))}</td>
+                      <td><b>${esc(m.itemName||'—')}</b></td>
+                      <td>${m.unitData?.imei ? `<span class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(m.unitData.imei)}</span>` : (m.note ? esc(m.note) : '—')}</td>
+                      <td><span class="pill teal" style="font-size:11px;">${esc(catName(m.categoryId))}</span></td>
+                      <td><b style="color:var(--green);">+${m.qty||1}</b></td>
+                    </tr>`).join('') : `<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:10px;">No stock-in arrivals for ${esc(s.name)} this week.</td></tr>`}
+                </tbody>
+              </table>
+            </div>
+          </details>
+
+          <details ${outMoves.length>0?'open':''}>
+            <summary style="font-weight:700;font-size:13px;cursor:pointer;color:#C2410C;padding:4px 0;">
+              📤 Stock Out, Transfers & Sales for ${esc(s.name)} (${outMoves.length} recorded this week)
+            </summary>
+            <div class="table-wrap" style="margin-top:8px;background:#fff;border:1px solid #E2E8F0;border-radius:6px;">
+              <table>
+                <thead><tr style="background:#F1F5F9;font-size:12px;"><th>Date</th><th>Destination / Status</th><th>Device / Model</th><th>IMEI / Details</th><th>Type</th><th>Qty</th><th>Note / Reference</th></tr></thead>
+                <tbody>
+                  ${outMoves.length ? outMoves.slice().reverse().map(m=>`
+                    <tr style="font-size:12.5px;">
+                      <td>${m.date||'—'}</td>
+                      <td><b>${esc(m.toLocation ? ('Sent to ' + shopName(m.toLocation)) : (m.type==='sold'?'Customer Sale':(m.type==='faulty'?'Faulty Return':'Deposit')))}</b></td>
+                      <td><b>${esc(m.itemName||'—')}</b></td>
+                      <td>${m.unitData?.imei ? `<span class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(m.unitData.imei)}</span>` : (m.note ? esc(m.note) : '—')}</td>
+                      <td>${pillForType(m.type)}</td>
+                      <td><b style="color:var(--danger);">-${m.qty||1}</b></td>
+                      <td style="color:var(--muted);">${esc(m.note||'—')}</td>
+                    </tr>`).join('') : `<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:10px;">No stock-out movements for ${esc(s.name)} this week.</td></tr>`}
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </div>
       </div>`;
   });
   return html;
