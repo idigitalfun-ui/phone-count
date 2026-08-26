@@ -996,6 +996,101 @@ const Store = {
       }
     });
 
+    // Remove legacy untracked transfer movements from 2026-08-25
+    d.movements = d.movements.filter(m => !(m.date === '2026-08-25' && (m.type === 'transfer-out' || m.type === 'transfer-in') && m.location === 'warehouse'));
+
+    // 33 Real Warehouse Transfers on 2026-08-26
+    const transfers26 = [
+      {model:"Samsung A37 5G 8GB/256GB Awesome Lavender", imei:"353700230989772", cond:"New", shop:"shop_kilkenny", cost:285.00, color:"Awesome Lavender", batt:""},
+      {model:"Samsung A16 4GB/128GB Black", imei:"351355310086908", cond:"New", shop:"shop_kilkenny", cost:99.00, color:"Black", batt:""},
+      {model:"Samsung A07 4GB/128GB Black", imei:"353451828264620", cond:"New", shop:"shop_kilkenny", cost:95.00, color:"Black", batt:""},
+      {model:"iPhone 14 128GB Starlight Grade 'A'", imei:"350032736737429", cond:"Used", shop:"shop_kilkenny", cost:285.00, color:"Starlight", batt:"86%"},
+
+      {model:"AirPods (3rd Generation)", imei:"SDVV4T0VGM0", cond:"New", shop:"shop_maynooth", cost:105.00, color:"White", batt:""},
+      {model:"AirPods (3rd Generation)", imei:"SDRD2LY66Q2", cond:"New", shop:"shop_maynooth", cost:105.00, color:"White", batt:""},
+      {model:"Samsung A56 8GB/128GB Graphite", imei:"350593649273349", cond:"New", shop:"shop_maynooth", cost:275.00, color:"Graphite", batt:""},
+      {model:"Samsung A36 5G 8GB/256GB Black", imei:"350057712554464", cond:"New", shop:"shop_maynooth", cost:250.00, color:"Black", batt:""},
+      {model:"Samsung A07 4GB/64GB Black", imei:"352262376794723", cond:"New", shop:"shop_maynooth", cost:80.00, color:"Black", batt:""},
+      {model:"Samsung A07 4GB/64GB Black", imei:"352262376794822", cond:"New", shop:"shop_maynooth", cost:80.00, color:"Black", batt:""},
+      {model:"Samsung A07 4GB/128GB Black", imei:"351388337853992", cond:"New", shop:"shop_maynooth", cost:115.00, color:"Black", batt:""},
+      {model:"Samsung A07 4GB/128GB Black", imei:"351388337858306", cond:"New", shop:"shop_maynooth", cost:115.00, color:"Black", batt:""},
+      {model:"Samsung A16 4GB/128GB Black", imei:"351355313872528", cond:"New", shop:"shop_maynooth", cost:125.00, color:"Black", batt:""},
+      {model:"Samsung A37 5G 6GB/128GB Awesome Graygreen", imei:"354380322908714", cond:"New", shop:"shop_maynooth", cost:230.00, color:"Awesome Graygreen", batt:""},
+      {model:"Samsung A17 4GB/128GB Gray", imei:"350276231205313", cond:"New", shop:"shop_maynooth", cost:140.00, color:"Gray", batt:""},
+      {model:"Samsung A17 4GB/128GB Light Blue", imei:"350276232016271", cond:"New", shop:"shop_maynooth", cost:140.00, color:"Light Blue", batt:""},
+      {model:"Samsung A17 5G 4GB/128GB Black", imei:"351158945531433", cond:"New", shop:"shop_maynooth", cost:160.00, color:"Black", batt:""},
+      {model:"Samsung A17 5G 4GB/128GB Gray", imei:"351158945155241", cond:"New", shop:"shop_maynooth", cost:160.00, color:"Gray", batt:""},
+      {model:"Samsung A27 5G 6GB/128GB Light Pink", imei:"350983933500475", cond:"New", shop:"shop_maynooth", cost:220.00, color:"Light Pink", batt:""},
+      {model:"Samsung A27 5G 6GB/128GB Blue", imei:"350983933959754", cond:"New", shop:"shop_maynooth", cost:220.00, color:"Blue", batt:""},
+      {model:"Samsung S25 12GB/128GB Icyblue", imei:"350890902089382", cond:"New", shop:"shop_maynooth", cost:480.00, color:"Icyblue", batt:""},
+      {model:"Samsung S25fe 8GB/128GB Navy", imei:"351060965617458", cond:"New", shop:"shop_maynooth", cost:385.00, color:"Navy", batt:""},
+
+      {model:"Samsung A17 4GB/128GB Light Blue", imei:"350276232016339", cond:"New", shop:"shop_mullingar", cost:140.00, color:"Light Blue", batt:""},
+      {model:"Samsung A27 5G 6GB/128GB Light Pink", imei:"350983933499744", cond:"New", shop:"shop_mullingar", cost:220.00, color:"Light Pink", batt:""},
+      {model:"Samsung A27 5G 6GB/128GB Blue", imei:"350983933957303", cond:"New", shop:"shop_mullingar", cost:220.00, color:"Blue", batt:""},
+      {model:"Samsung S25fe 8GB/128GB Jetblack", imei:"351060965623373", cond:"New", shop:"shop_mullingar", cost:385.00, color:"Jetblack", batt:""},
+      {model:"Samsung S26 12GB/256GB Black", imei:"359555175198209", cond:"New", shop:"shop_mullingar", cost:560.00, color:"Black", batt:""},
+      {model:"Samsung A17 5G 4GB/128GB Black", imei:"351158945531466", cond:"New", shop:"shop_mullingar", cost:160.00, color:"Black", batt:""},
+      {model:"Samsung A17 5G 4GB/128GB Black", imei:"351158945536655", cond:"New", shop:"shop_mullingar", cost:160.00, color:"Black", batt:""},
+      {model:"iPad 11th Generation A16 128GB Blue", imei:"SDNWN2L14FL", cond:"New", shop:"shop_mullingar", cost:300.00, color:"Blue", batt:""},
+
+      {model:"Samsung A27 5G 6GB/128GB Light Pink", imei:"350983933500434", cond:"New", shop:"shop_tralee", cost:220.00, color:"Light Pink", batt:""},
+      {model:"Samsung A07 4GB/128GB Black", imei:"351388337854016", cond:"New", shop:"shop_tralee", cost:115.00, color:"Black", batt:""},
+      {model:"Samsung A07 4GB/128GB Black", imei:"351388337849909", cond:"New", shop:"shop_tralee", cost:115.00, color:"Black", batt:""}
+    ];
+
+    transfers26.forEach(t => {
+      let matchedItem = null, matchedUnit = null;
+      d.items.forEach(it => {
+        if(it.units){
+          const u = it.units.find(un => (un.imei || '').trim().toLowerCase() === t.imei.toLowerCase());
+          if(u){ matchedItem = it; matchedUnit = u; }
+        }
+      });
+      if(matchedItem && matchedUnit){
+        matchedUnit.location = t.shop;
+        matchedUnit.color = t.color;
+        matchedUnit.condition = t.cond;
+        matchedUnit.costPrice = t.cost;
+        if(t.batt) matchedUnit.battery = t.batt;
+
+        const hasOutMv = d.movements.some(m => m.type === 'transfer-out' && m.unitData?.imei === t.imei && m.date === '2026-08-26');
+        if(!hasOutMv){
+          d.movements.push({
+            id: 'mv_tout_' + t.imei,
+            type: 'transfer-out',
+            itemId: matchedItem.id,
+            itemName: matchedItem.name,
+            categoryId: matchedItem.category,
+            location: 'warehouse',
+            fromLocation: 'warehouse',
+            toLocation: t.shop,
+            qty: 1,
+            date: '2026-08-26',
+            unitData: { imei: t.imei, color: t.color, condition: t.cond, costPrice: t.cost, battery: t.batt },
+            note: 'Transferred to ' + shopName(t.shop) + (t.batt ? ` (Battery: ${t.batt})` : '')
+          });
+        }
+        const hasInMv = d.movements.some(m => m.type === 'transfer-in' && m.unitData?.imei === t.imei && m.date === '2026-08-26');
+        if(!hasInMv){
+          d.movements.push({
+            id: 'mv_tin_' + t.imei,
+            type: 'transfer-in',
+            itemId: matchedItem.id,
+            itemName: matchedItem.name,
+            categoryId: matchedItem.category,
+            location: t.shop,
+            fromLocation: 'warehouse',
+            toLocation: t.shop,
+            qty: 1,
+            date: '2026-08-26',
+            unitData: { imei: t.imei, color: t.color, condition: t.cond, costPrice: t.cost, battery: t.batt },
+            note: 'Transferred from Warehouse' + (t.batt ? ` (Battery: ${t.batt})` : '')
+          });
+        }
+      }
+    });
+
     this.save();
   },
   save(){
@@ -1628,7 +1723,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.6</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.7</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -3768,15 +3863,36 @@ Views.doStockIn = function(){
    ========================================================================= */
 Views._historyTab = 'stockin'; // 'stockin', 'stockout', 'faulty'
 Views._historyFilter = { shop: 'all', search: '' };
+Views._historySubFilter = Views._historySubFilter || 'all';
 Views._historyExpandedDates = Views._historyExpandedDates || {};
 
 Views.history = function(){
   const tab = Views._historyTab || 'stockin';
   const f = Views._historyFilter || { shop: 'all', search: '' };
+  const subFilter = Views._historySubFilter || 'all';
   const shops = activeShops();
   const moves = (Store.data.movements || []).slice();
 
   const faultyCount = moves.filter(m => m && m.type === 'faulty' && m.faultyStatus !== 'received_warehouse').length;
+
+  // Stock Out & Transfers Activity Counts
+  const allOutMoves = moves.filter(m => {
+    if(!m) return false;
+    if(!['sold', 'transfer-out', 'deposit'].includes(m.type) && m.type !== 'faulty'){
+      if(m.type === 'transfer-in'){
+        const hasOut = moves.some(o => o.type === 'transfer-out' && o.itemId === m.itemId && o.date === m.date && o.toLocation === m.location);
+        if(hasOut) return false;
+      } else return false;
+    }
+    if(f.shop !== 'all' && m.location !== f.shop && m.toLocation !== f.shop && m.fromLocation !== f.shop) return false;
+    return true;
+  });
+
+  const countTransfers = allOutMoves.filter(m => m.type === 'transfer-out' || m.type === 'transfer-in').length;
+  const countSold = allOutMoves.filter(m => m.type === 'sold').length;
+  const countFaultyOut = allOutMoves.filter(m => m.type === 'faulty').length;
+  const countDeposit = allOutMoves.filter(m => m.type === 'deposit').length;
+  const countAllOut = allOutMoves.length;
 
   // Filter movements
   let filtered = moves.filter(m => {
@@ -3796,12 +3912,17 @@ Views.history = function(){
           return false;
         }
       }
+      if(subFilter === 'transfer' && !(m.type === 'transfer-out' || m.type === 'transfer-in')) return false;
+      if(subFilter === 'sold' && m.type !== 'sold') return false;
+      if(subFilter === 'faulty' && m.type !== 'faulty') return false;
+      if(subFilter === 'deposit' && m.type !== 'deposit') return false;
     }
     if(f.shop !== 'all' && m.location !== f.shop && m.toLocation !== f.shop && m.fromLocation !== f.shop) return false;
     if(f.search){
       const q = f.search.toLowerCase();
       const match = (m.itemName||'').toLowerCase().includes(q) ||
                     (m.unitData?.imei||'').toLowerCase().includes(q) ||
+                    (m.unitData?.color||'').toLowerCase().includes(q) ||
                     (m.supplier||'').toLowerCase().includes(q) ||
                     (m.invoice||'').toLowerCase().includes(q) ||
                     (m.note||'').toLowerCase().includes(q);
@@ -3834,10 +3955,25 @@ Views.history = function(){
         </select>
       </div>
       <div class="field" style="margin:0;min-width:220px;">
-        <input type="text" placeholder="Search model, IMEI, supplier..." value="${esc(f.search)}" oninput="Views._historyFilter.search=this.value;render();">
+        <input type="text" placeholder="Search model, IMEI, color, supplier..." value="${esc(f.search)}" oninput="Views._historyFilter.search=this.value;render();">
       </div>
     </div>
   `;
+
+  if(tab === 'stockout'){
+    html += `
+      <div style="margin:-6px 0 16px 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <span style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;">Activity Sub-Type:</span>
+        <div class="chip-select">
+          <button class="${subFilter==='all'?'active':''}" onclick="Views._historySubFilter='all';render();">All Activity (${countAllOut})</button>
+          <button class="${subFilter==='transfer'?'active':''}" onclick="Views._historySubFilter='transfer';render();">⇄ Transfers (${countTransfers})</button>
+          <button class="${subFilter==='sold'?'active':''}" onclick="Views._historySubFilter='sold';render();">✓ Customer Sales (${countSold})</button>
+          <button class="${subFilter==='faulty'?'active':''}" onclick="Views._historySubFilter='faulty';render();">⚠️ Faulty Returns (${countFaultyOut})</button>
+          <button class="${subFilter==='deposit'?'active':''}" onclick="Views._historySubFilter='deposit';render();">🔒 Deposits (${countDeposit})</button>
+        </div>
+      </div>
+    `;
+  }
 
   if(sortedDates.length === 0){
     html += `<div class="empty"><div class="big">No records found</div>Try clearing filters or search criteria.</div>`;
@@ -3896,7 +4032,7 @@ Views.history = function(){
                     return `
                     <tr>
                       <td><b>${esc(m.itemName||'—')}</b></td>
-                      <td class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(imei)}</td>
+                      <td><span class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(imei)}</span></td>
                       <td>${(cond==='New')?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
                       <td>${esc(color)}</td>
                       <td><b style="color:var(--green);">+${m.qty||1}</b></td>
@@ -3915,7 +4051,7 @@ Views.history = function(){
         </div>
       `;
     } else if(tab === 'stockout') {
-      // Stock Out & Transfers: Model, IMEI, Condition, Color, Qty, From, To, Type, Reference/Note, Action
+      // Stock Out & Transfers: Model, IMEI, Condition, Color, Qty, From, To, Type, Cost Price, Reference/Note, Action
       html += `
         <div class="card" style="margin-bottom:16px;border:1px solid #E2E8F0;">
           <details ${isOpen?'open':''} ontoggle="Views._historyExpandedDates['${tab}_${dateKey}']=this.open">
@@ -3941,6 +4077,7 @@ Views.history = function(){
                     <th>From</th>
                     <th>To (Destination)</th>
                     <th>Type / Action</th>
+                    <th>Cost Price</th>
                     <th>Reference / Note</th>
                     <th style="width:80px;text-align:right;">Action</th>
                   </tr>
@@ -3951,6 +4088,7 @@ Views.history = function(){
                     const imei = m.unitData?.imei || (m.note && !m.note.includes('Transferred') ? m.note : 'Untracked / Bulk');
                     const color = m.unitData?.color || (it?.colors?.join(', ')) || '—';
                     const cond = m.unitData?.condition || it?.condition || 'New';
+                    const cost = m.unitData?.costPrice != null ? euro(m.unitData.costPrice) : (it?.costPrice != null && it.costPrice > 1 ? euro(it.costPrice) : '—');
                     
                     let fromLocStr = '—', toLocStr = '—', typePill = pillForType(m.type);
                     if(m.type === 'sold'){
@@ -3971,13 +4109,14 @@ Views.history = function(){
                     return `
                     <tr>
                       <td><b>${esc(m.itemName||'—')}</b></td>
-                      <td class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(imei)}</td>
+                      <td><span class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(imei)}</span></td>
                       <td>${(cond==='New')?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
                       <td>${esc(color)}</td>
                       <td><b style="color:var(--danger);">-${m.qty||1}</b></td>
                       <td>${fromLocStr}</td>
                       <td>${toLocStr}</td>
                       <td>${typePill}</td>
+                      <td>${cost}</td>
                       <td style="color:var(--muted);">${esc(m.note || (m.type==='sold'?'Retail sale':(m.type==='deposit'?'Deposit hold':(m.type==='faulty'?'Faulty return':'Shop transfer'))))}</td>
                       <td style="text-align:right;">
                         <button class="btn sm danger ghost" onclick="Views.deleteMovement('${m.id}')" title="Delete / Revert this record" style="padding:2px 8px;font-size:11px;">🗑 Remove</button>
