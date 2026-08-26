@@ -625,7 +625,7 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 19,
+        "warehouse": 20,
         "shop_thurles": 1,
         "shop_kilkenny": 3,
         "shop_maynooth": 0,
@@ -893,6 +893,18 @@
         {
           "id": "unit_e3j5bf2y21m",
           "imei": "351355313419759",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": 100,
+          "location": "warehouse",
+          "costPrice": 125,
+          "wholesalePrice": 137,
+          "sellPrice": 120,
+          "addedAt": "2026-08-26"
+        },
+        {
+          "id": "unit_3szcpvvy6mi",
+          "imei": "351355313432414",
           "color": "Black",
           "condition": "New",
           "batteryPct": 100,
@@ -14735,6 +14747,26 @@
       },
       "note": "IMEI 351355313419759",
       "id": "mv_5iifgg6y21m"
+    },
+    {
+      "type": "stock-in",
+      "itemId": "item_ktmrwgdw69k",
+      "itemName": "Samsung A16",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "fromLocation": "supplier",
+      "supplier": "Supplier Stock In",
+      "invoice": "",
+      "qty": 1,
+      "date": "2026-08-26",
+      "unitData": {
+        "imei": "351355313432414",
+        "color": "Black",
+        "condition": "New",
+        "costPrice": 125
+      },
+      "note": "IMEI 351355313432414",
+      "id": "mv_dy9ivfdy6mi"
     }
   ],
   "reorderList": [],
@@ -14742,7 +14774,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-26T15:54:25.116Z"
+    "lastSaved": "2026-08-26T15:54:31.052Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
