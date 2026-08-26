@@ -121,6 +121,21 @@ tbody tr:hover{filter:brightness(0.97);}
 .table-section-title{background:var(--teal);color:#fff;font-family:'Space Grotesk';font-weight:700;padding:8px 12px;font-size:14px;}
 .table-total-row td{background:#FBF7EC;font-weight:700;border-bottom:2px solid var(--amber);}
 
+/* Strict Column Alignment for Weekly Reports */
+.weekly-table{width:100%;table-layout:fixed;border-collapse:collapse;border:1px solid #CBD5E1;font-size:12.5px;background:#fff;}
+.weekly-table th{background:#FEF3C7;color:#92400E;border:1px solid #CBD5E1;padding:8px 6px;font-size:11px;font-weight:700;letter-spacing:.02em;text-align:center;text-transform:uppercase;white-space:normal;line-height:1.2;}
+.weekly-table td{border:1px solid #E2E8F0;padding:7px 6px;text-align:center;vertical-align:middle;}
+.weekly-table th:nth-child(1), .weekly-table td:nth-child(1){width:15%;text-align:left;font-family:'IBM Plex Mono',monospace;font-size:11.5px;}
+.weekly-table th:nth-child(2), .weekly-table td:nth-child(2){width:18%;text-align:left;}
+.weekly-table th:nth-child(3), .weekly-table td:nth-child(3){width:11%;text-align:center;}
+.weekly-table th:nth-child(4), .weekly-table td:nth-child(4){width:9%;text-align:center;}
+.weekly-table th:nth-child(5), .weekly-table td:nth-child(5){width:11%;text-align:center;}
+.weekly-table th:nth-child(6), .weekly-table td:nth-child(6){width:9%;text-align:center;}
+.weekly-table th:nth-child(7), .weekly-table td:nth-child(7){width:8%;text-align:center;}
+.weekly-table th:nth-child(8), .weekly-table td:nth-child(8){width:8%;text-align:center;}
+.weekly-table th:nth-child(9), .weekly-table td:nth-child(9){width:11%;text-align:center;}
+.weekly-table tr.table-total-row td{background:#FEF3C7;border-top:2px solid #F59E0B;border-bottom:2px solid #F59E0B;font-weight:bold;}
+
 .field{margin-bottom:12px;}
 .field label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;}
 .field input,.field select,.field textarea{
@@ -1613,7 +1628,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.5</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.6</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -4578,12 +4593,12 @@ Views.weekly = function(){
           <span style="font-size:16px;font-weight:bold;">${esc(s.name)}</span>
           <span style="font-size:12px;font-weight:normal;opacity:.8;">${esc(wLabel)}</span>
         </div>
-        <div class="table-wrap"><table>
+        <div class="table-wrap"><table class="weekly-table">
           <thead>
-            <tr style="background:#FFFF00;color:#000;font-weight:bold;text-align:center;">
+            <tr>
               <th>Weeks</th>
               <th>Model (Category)</th>
-              <th>Start of Week</th>
+              <th>Total Quantity in the Start</th>
               <th>Stock In</th>
               <th>Stock After In</th>
               <th>Stock Out</th>
@@ -4591,15 +4606,16 @@ Views.weekly = function(){
               <th>Deposit</th>
               <th>Remaining Stock</th>
             </tr>
-            <tr class="table-total-row" style="background:#FFFF00;color:#000;font-weight:bold;text-align:center;">
-              <td colspan="2"><b>Total (${esc(s.name)})</b></td>
+            <tr class="table-total-row">
+              <td style="font-weight:bold;color:#92400E;text-align:left;">Total (${esc(s.name)})</td>
+              <td style="text-align:left;color:var(--muted);font-size:11px;">All Categories</td>
               <td><b>${tS}</b></td>
-              <td><b>${tI?'+'+tI:0}</b></td>
+              <td><b style="color:var(--green);">${tI?'+'+tI:0}</b></td>
               <td><b>${tAI}</b></td>
-              <td><b>${tO?'-'+tO:0}</b></td>
+              <td><b style="color:var(--danger);">${tO?'-'+tO:0}</b></td>
               <td><b>${tF}</b></td>
               <td><b>${tD}</b></td>
-              <td><b>${tR}</b></td>
+              <td><b style="color:var(--teal-dark);font-size:13.5px;">${tR}</b></td>
             </tr>
           </thead>
           <tbody>
