@@ -187,16 +187,27 @@ tbody tr:hover{filter:brightness(0.97);}
 .helpbox{background:var(--teal-light);border:1px solid #C8E2EA;border-radius:8px;padding:10px 14px;font-size:12.5px;color:var(--teal-dark);margin-bottom:16px;}
 
 @media print{
+  @page {
+    size: landscape;
+    margin: 8mm 6mm;
+  }
   #sidebar,#topbar,.no-print,button,.toolbar,details summary button{display:none !important;}
-  body{background:#fff !important;margin:0 !important;padding:10px !important;color:#000 !important;font-size:11px !important;}
-  #main{width:100% !important;padding:0 !important;}
-  #content{padding:0 !important;}
-  .card{box-shadow:none !important;border:1px solid #000 !important;margin-bottom:24px !important;break-inside:avoid !important;page-break-inside:avoid !important;}
-  .table-section-title{background:#fff !important;color:#000 !important;font-size:18px !important;font-weight:900 !important;text-align:center !important;border-bottom:2px solid #000 !important;padding:6px !important;}
-  table{width:100% !important;border-collapse:collapse !important;}
-  th, td{border:1px solid #000 !important;padding:5px 8px !important;font-size:11.5px !important;color:#000 !important;}
-  thead th{background:#FFFF00 !important;color:#000 !important;font-weight:bold !important;text-align:center !important;}
-  .table-total-row td{background:#FFFF00 !important;color:#000 !important;font-weight:bold !important;text-align:center !important;}
+  body{background:#fff !important;margin:0 !important;padding:0 !important;color:#000 !important;font-size:10px !important;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  #main,#content{width:100% !important;padding:0 !important;margin:0 !important;}
+  .card{box-shadow:none !important;border:1px solid #000 !important;margin-bottom:16px !important;break-inside:avoid !important;page-break-inside:avoid !important;}
+  .table-section-title{background:#fff !important;color:#000 !important;font-size:15px !important;font-weight:900 !important;text-align:center !important;border-bottom:2px solid #000 !important;padding:4px 6px !important;}
+  table{width:100% !important;table-layout:fixed !important;border-collapse:collapse !important;}
+  th, td{border:1px solid #000 !important;padding:3px 4px !important;font-size:9.5px !important;color:#000 !important;text-align:center !important;overflow:hidden !important;word-wrap:break-word !important;white-space:normal !important;}
+  th:nth-child(1), td:nth-child(1){width:14%;font-size:9px;}
+  th:nth-child(2), td:nth-child(2){width:18%;text-align:left !important;font-weight:bold;}
+  th:nth-child(3), td:nth-child(3){width:11%;}
+  th:nth-child(4), td:nth-child(4){width:9%;}
+  th:nth-child(5), td:nth-child(5){width:11%;}
+  th:nth-child(6), td:nth-child(6){width:9%;}
+  th:nth-child(7), td:nth-child(7){width:8%;}
+  th:nth-child(8), td:nth-child(8){width:8%;}
+  th:nth-child(9), td:nth-child(9){width:12%;font-weight:bold;}
+  thead th, thead tr.table-total-row td{background:#FFFF00 !important;color:#000 !important;font-weight:bold !important;}
   details{display:none !important;}
 }
 @media (max-width:900px){
@@ -917,21 +928,28 @@ const Store = {
       }
     });
 
-    // Backfill stock-in movements for units added on 2026-08-26 so Weekly Report properly shows them under Stock In
-    if(!Array.isArray(d.movements)) d.movements = [];
+    // Clean up any non-Samsung stock-in movements mistakenly dated 2026-08-26
+    if(Array.isArray(d.movements)){
+      d.movements = d.movements.filter(m => !(m.date === '2026-08-26' && m.type === 'stock-in' && !samsungPriceMap[(m.itemName||'').trim().toLowerCase()]));
+    } else {
+      d.movements = [];
+    }
+
+    // Backfill stock-in movements for Samsung units added on 2026-08-26
     const existingMvImeis = new Set(d.movements.map(m => (m.unitData?.imei || m.note || '').trim().toLowerCase()).filter(Boolean));
     
     d.items.forEach(it => {
       const cleanName = (it.name || '').trim().toLowerCase();
       const match = samsungPriceMap[cleanName];
-      const modelCost = match ? match.cost : (it.costPrice || 0);
+      if(!match) return; // Only process Samsung delivery devices!
+      const modelCost = match.cost;
 
       (it.units || []).forEach(u => {
         const uDate = u.dateAdded || u.addedAt || (it.createdAt === '2026-08-26' ? '2026-08-26' : null);
-        if(uDate && uDate >= '2026-08-26'){
+        if(uDate && uDate === '2026-08-26'){
           const imeiKey = (u.imei || '').trim().toLowerCase();
-          if(!imeiKey || !existingMvImeis.has(imeiKey)){
-            if(imeiKey) existingMvImeis.add(imeiKey);
+          if(imeiKey && !existingMvImeis.has(imeiKey)){
+            existingMvImeis.add(imeiKey);
             d.movements.push({
               id: uid('mv'),
               type: 'stock-in',
@@ -943,9 +961,9 @@ const Store = {
               supplier: 'Supplier Stock In',
               invoice: '',
               qty: 1,
-              date: uDate,
+              date: '2026-08-26',
               unitData: { imei: u.imei || '', color: u.color || '', condition: u.condition || 'New', costPrice: u.costPrice || modelCost },
-              note: u.imei ? `IMEI ${u.imei}` : 'Stock In'
+              note: `IMEI ${u.imei}`
             });
           }
         }
@@ -1595,7 +1613,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.2</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.3</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -3701,6 +3719,7 @@ Views.doStockIn = function(){
    ========================================================================= */
 Views._historyTab = 'stockin'; // 'stockin' or 'stockout'
 Views._historyFilter = { shop: 'all', search: '' };
+Views._historyExpandedDates = Views._historyExpandedDates || {};
 
 Views.history = function(){
   const tab = Views._historyTab || 'stockin';
@@ -3708,13 +3727,13 @@ Views.history = function(){
   const shops = activeShops();
   const moves = (Store.data.movements || []).slice();
 
-  // Filter movements
+  // Filter movements: Stock In ONLY includes 'stock-in'. Transfers go to Stock Out.
   let filtered = moves.filter(m => {
     if(!m) return false;
     if(tab === 'stockin'){
-      if(m.type !== 'stock-in' && m.type !== 'transfer-in') return false;
+      if(m.type !== 'stock-in') return false;
     } else {
-      if(!['sold', 'transfer-out', 'faulty', 'deposit'].includes(m.type)) return false;
+      if(!['sold', 'transfer-out', 'transfer-in', 'faulty', 'deposit'].includes(m.type)) return false;
     }
     if(f.shop !== 'all' && m.location !== f.shop && m.toLocation !== f.shop) return false;
     if(f.search){
@@ -3741,8 +3760,8 @@ Views.history = function(){
   let html = `
     <div class="toolbar" style="flex-wrap:wrap;gap:10px;">
       <div class="chip-select">
-        <button class="${tab==='stockin'?'active':''}" onclick="Views._historyTab='stockin';render();">📥 Stock In History</button>
-        <button class="${tab==='stockout'?'active':''}" onclick="Views._historyTab='stockout';render();">📤 Stock Out History (Sent Out / Sales)</button>
+        <button class="${tab==='stockin'?'active':''}" onclick="Views._historyTab='stockin';render();">📥 Stock In History (Arrivals)</button>
+        <button class="${tab==='stockout'?'active':''}" onclick="Views._historyTab='stockout';render();">📤 Stock Out & Transfers History</button>
       </div>
       <div class="spacer"></div>
       <div class="field" style="margin:0;min-width:180px;">
@@ -3762,18 +3781,18 @@ Views.history = function(){
     return html;
   }
 
-  sortedDates.forEach((dateKey, idx) => {
+  sortedDates.forEach((dateKey) => {
     const batch = dateGroups[dateKey];
     const totalQty = batch.reduce((sum, m) => sum + (Number(m.qty) || 1), 0);
-    const totalVal = batch.reduce((sum, m) => sum + ((Number(m.unitData?.costPrice) || Number(m.unitData?.sellPrice) || 0) * (Number(m.qty) || 1)), 0);
+    const totalVal = batch.reduce((sum, m) => sum + ((Number(m.unitData?.costPrice) || Number(itemById(m.itemId)?.costPrice) || 0) * (Number(m.qty) || 1)), 0);
     const firstSupplier = batch.find(m => m.supplier)?.supplier || (tab==='stockin'?'Supplier Delivery':'Shop Activity');
     const firstInvoice = batch.find(m => m.invoice)?.invoice || '';
-    const isOpen = idx === 0; // first date batch open by default
+    const isOpen = !!Views._historyExpandedDates[tab + '_' + dateKey];
 
     if(tab === 'stockin'){
       html += `
         <div class="card" style="margin-bottom:16px;border:1px solid #E2E8F0;">
-          <details ${isOpen?'open':''}>
+          <details ${isOpen?'open':''} ontoggle="Views._historyExpandedDates['${tab}_${dateKey}']=this.open">
             <summary style="padding:12px 16px;background:#F8FAFC;cursor:pointer;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;border-bottom:1px solid #E2E8F0;">
               <div style="display:flex;align-items:center;gap:12px;font-weight:700;font-size:14px;color:var(--teal-dark);">
                 <span>📅 ${dateKey}</span>
@@ -3802,20 +3821,27 @@ Views.history = function(){
                   </tr>
                 </thead>
                 <tbody>
-                  ${batch.map(m => `
+                  ${batch.map(m => {
+                    const it = itemById(m.itemId);
+                    const imei = m.unitData?.imei || (m.note && !m.note.includes('Stock In') && !m.note.includes('Transferred') ? m.note : '—');
+                    const color = m.unitData?.color || (it?.colors?.join(', ')) || '—';
+                    const cond = m.unitData?.condition || it?.condition || 'New';
+                    const cost = m.unitData?.costPrice != null ? euro(m.unitData.costPrice) : (it?.costPrice != null && it.costPrice > 1 ? euro(it.costPrice) : '—');
+                    return `
                     <tr>
                       <td><b>${esc(m.itemName||'—')}</b></td>
-                      <td class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(m.unitData?.imei || m.note || '—')}</td>
-                      <td>${(m.unitData?.condition==='New' || !m.unitData?.condition)?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
-                      <td>${esc(m.unitData?.color || '—')}</td>
+                      <td class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(imei)}</td>
+                      <td>${(cond==='New')?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
+                      <td>${esc(color)}</td>
                       <td><b style="color:var(--green);">+${m.qty||1}</b></td>
-                      <td>${m.unitData?.costPrice!=null ? euro(m.unitData.costPrice) : '—'}</td>
+                      <td>${cost}</td>
                       <td><b>${esc(shopName(m.location))}</b></td>
-                      <td>${esc(m.supplier || (m.fromLocation ? shopName(m.fromLocation) : 'Supplier'))}${m.invoice ? ` (${esc(m.invoice)})` : ''}</td>
+                      <td>${esc(m.supplier || 'Supplier')}${m.invoice ? ` (${esc(m.invoice)})` : ''}</td>
                       <td style="text-align:right;">
                         <button class="btn sm danger ghost" onclick="Views.deleteMovement('${m.id}')" title="Delete this stock-in record" style="padding:2px 8px;font-size:11px;">🗑 Remove</button>
                       </td>
-                    </tr>`).join('')}
+                    </tr>`;
+                  }).join('')}
                 </tbody>
               </table>
             </div>
@@ -3823,10 +3849,10 @@ Views.history = function(){
         </div>
       `;
     } else {
-      // Stock Out / Sent Out
+      // Stock Out / Sent Out / Transfers
       html += `
         <div class="card" style="margin-bottom:16px;border:1px solid #E2E8F0;">
-          <details ${isOpen?'open':''}>
+          <details ${isOpen?'open':''} ontoggle="Views._historyExpandedDates['${tab}_${dateKey}']=this.open">
             <summary style="padding:12px 16px;background:#F8FAFC;cursor:pointer;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;border-bottom:1px solid #E2E8F0;">
               <div style="display:flex;align-items:center;gap:12px;font-weight:700;font-size:14px;color:#C2410C;">
                 <span>📅 ${dateKey}</span>
@@ -3853,20 +3879,27 @@ Views.history = function(){
                   </tr>
                 </thead>
                 <tbody>
-                  ${batch.map(m => `
+                  ${batch.map(m => {
+                    const it = itemById(m.itemId);
+                    const imei = m.unitData?.imei || (m.note && !m.note.includes('Transferred') ? m.note : 'Untracked / Bulk');
+                    const color = m.unitData?.color || (it?.colors?.join(', ')) || '—';
+                    const cond = m.unitData?.condition || it?.condition || 'New';
+                    const dest = m.toLocation ? shopName(m.toLocation) : (m.type==='sold'?'Customer Sale':(m.type==='faulty'?'Faulty Return':'Deposit'));
+                    return `
                     <tr>
                       <td><b>${esc(m.itemName||'—')}</b></td>
-                      <td class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(m.unitData?.imei || m.note || '—')}</td>
-                      <td>${(m.unitData?.condition==='New' || !m.unitData?.condition)?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
-                      <td>${esc(m.unitData?.color || '—')}</td>
+                      <td class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(imei)}</td>
+                      <td>${(cond==='New')?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
+                      <td>${esc(color)}</td>
                       <td><b style="color:var(--danger);">-${m.qty||1}</b></td>
-                      <td><b>${esc(m.toLocation ? shopName(m.toLocation) : (m.type==='sold'?'Customer Sale':(m.type==='faulty'?'Faulty Return':'Deposit')))}</b></td>
+                      <td><b>${esc(dest)}</b></td>
                       <td>${pillForType(m.type)}</td>
-                      <td style="color:var(--muted);">${esc(m.note || '—')}</td>
+                      <td style="color:var(--muted);">${esc(m.fromLocation ? `Transferred from ${shopName(m.fromLocation)}` : (m.note || '—'))}</td>
                       <td style="text-align:right;">
                         <button class="btn sm danger ghost" onclick="Views.deleteMovement('${m.id}')" title="Delete / Revert this record" style="padding:2px 8px;font-size:11px;">🗑 Remove</button>
                       </td>
-                    </tr>`).join('')}
+                    </tr>`;
+                  }).join('')}
                 </tbody>
               </table>
             </div>
@@ -4348,6 +4381,7 @@ Views.undoSale = function(moveId){
 
 /* ---- WEEKLY REPORT (Monday-Sunday, matching paper sheet) ---- */
 Views._weekStart = mostRecentMonday();
+Views._weeklyExpandedDetails = Views._weeklyExpandedDetails || {};
 Views.weekly = function(){
   const weekStart = Views._weekStart, weekEnd = isoAddDays(weekStart,6);
   const shops = activeShops();
@@ -4385,7 +4419,7 @@ Views.weekly = function(){
   }
 
   let html = `
-    <div class="toolbar">
+    <div class="toolbar no-print">
       <button class="btn sm" onclick="Views._weekStart=isoAddDays(Views._weekStart,-7);render()">← Prev week</button>
       <span style="font-weight:600;">${weekLabel(weekStart,weekEnd)}</span>
       <button class="btn sm" onclick="Views._weekStart=isoAddDays(Views._weekStart,7);render()">Next week →</button>
@@ -4409,7 +4443,7 @@ Views.weekly = function(){
     html += `
       <div class="card" style="margin-bottom:24px;border:1px solid #000;">
         <div class="table-section-title" style="display:flex;justify-content:space-between;align-items:center;background:#fff;color:#000;border-bottom:2px solid #000;">
-          <span style="font-size:18px;font-weight:bold;">${esc(s.name)}</span>
+          <span style="font-size:16px;font-weight:bold;">${esc(s.name)}</span>
           <span style="font-size:12px;font-weight:normal;opacity:.8;">${esc(wLabel)}</span>
         </div>
         <div class="table-wrap"><table>
@@ -4417,9 +4451,9 @@ Views.weekly = function(){
             <tr style="background:#FFFF00;color:#000;font-weight:bold;text-align:center;">
               <th>Weeks</th>
               <th>Model (Category)</th>
-              <th>Total Quantity in the Start</th>
+              <th>Start of Week</th>
               <th>Stock In</th>
-              <th>Stock after stock in</th>
+              <th>Stock After In</th>
               <th>Stock Out</th>
               <th>Faulty</th>
               <th>Deposit</th>
@@ -4442,8 +4476,8 @@ Views.weekly = function(){
         </table></div>
 
         <!-- Detailed Activity Breakdown for this shop -->
-        <div style="padding:12px 14px;background:#F8FAFC;border-top:1px solid #E2E8F0;">
-          <details style="margin-bottom:8px;" ${inMoves.length>0?'open':''}>
+        <div style="padding:12px 14px;background:#F8FAFC;border-top:1px solid #E2E8F0;" class="no-print">
+          <details style="margin-bottom:8px;" ${Views._weeklyExpandedDetails[s.id+'_in']?'open':''} ontoggle="Views._weeklyExpandedDetails['${s.id}_in']=this.open">
             <summary style="font-weight:700;font-size:13px;cursor:pointer;color:var(--teal-dark);padding:4px 0;">
               📥 Stock In & Arrivals for ${esc(s.name)} (${inMoves.length} recorded this week)
             </summary>
@@ -4454,7 +4488,7 @@ Views.weekly = function(){
                   ${inMoves.length ? inMoves.slice().reverse().map(m=>`
                     <tr style="font-size:12.5px;">
                       <td>${m.date||'—'}</td>
-                      <td><b>${esc(m.supplier || (m.fromLocation ? shopName(m.fromLocation) : 'Supplier Stock In'))}</b></td>
+                      <td><b>${esc(m.supplier || (m.fromLocation ? ('Transfer from ' + shopName(m.fromLocation)) : 'Supplier Stock In'))}</b></td>
                       <td style="color:var(--muted);">${esc(m.invoice ? 'Inv #'+m.invoice : (m.note||'—'))}</td>
                       <td><b>${esc(m.itemName||'—')}</b></td>
                       <td>${m.unitData?.imei ? `<span class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(m.unitData.imei)}</span>` : (m.note ? esc(m.note) : '—')}</td>
@@ -4469,7 +4503,7 @@ Views.weekly = function(){
             </div>
           </details>
 
-          <details ${outMoves.length>0?'open':''}>
+          <details ${Views._weeklyExpandedDetails[s.id+'_out']?'open':''} ontoggle="Views._weeklyExpandedDetails['${s.id}_out']=this.open">
             <summary style="font-weight:700;font-size:13px;cursor:pointer;color:#C2410C;padding:4px 0;">
               📤 Stock Out, Transfers & Sales for ${esc(s.name)} (${outMoves.length} recorded this week)
             </summary>
