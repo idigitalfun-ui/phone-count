@@ -960,41 +960,6 @@ const Store = {
       d.movements = [];
     }
 
-    // Backfill stock-in movements for Samsung units added on 2026-08-26
-    const existingMvImeis = new Set(d.movements.filter(m => m.date === '2026-08-26' && m.type === 'stock-in').map(m => (m.unitData?.imei || m.note || '').trim().toLowerCase()).filter(Boolean));
-    
-    d.items.forEach(it => {
-      const cleanName = (it.name || '').trim().toLowerCase();
-      const match = samsungPriceMap[cleanName];
-      if(!match) return; // Only process Samsung delivery devices!
-      const modelCost = match.cost;
-
-      (it.units || []).forEach(u => {
-        const uDate = u.dateAdded || u.addedAt || (it.createdAt === '2026-08-26' ? '2026-08-26' : null);
-        if(uDate && uDate === '2026-08-26'){
-          const imeiKey = (u.imei || '').trim().toLowerCase();
-          if(imeiKey && !existingMvImeis.has(imeiKey)){
-            existingMvImeis.add(imeiKey);
-            d.movements.push({
-              id: uid('mv'),
-              type: 'stock-in',
-              itemId: it.id,
-              itemName: it.name,
-              categoryId: it.category,
-              location: u.location || 'warehouse',
-              fromLocation: 'supplier',
-              supplier: 'Second Life Supplier',
-              invoice: '',
-              qty: 1,
-              date: '2026-08-26',
-              unitData: { imei: u.imei || '', color: u.color || '', condition: u.condition || 'New', costPrice: u.costPrice || modelCost },
-              note: `IMEI ${u.imei}`
-            });
-          }
-        }
-      });
-    });
-
     // Ensure movement costs are synchronized
     d.movements.forEach(m => {
       if(m.date >= '2026-08-26' && m.type === 'stock-in' && m.unitData){
@@ -1006,10 +971,16 @@ const Store = {
       }
     });
 
-    // Remove legacy untracked transfer movements from 2026-08-25
-    d.movements = d.movements.filter(m => !(m.date === '2026-08-25' && (m.type === 'transfer-out' || m.type === 'transfer-in') && m.location === 'warehouse'));
+    // Remove all legacy untracked transfer movements
+    d.movements = d.movements.filter(m => {
+      if(m.type === 'transfer-out' || m.type === 'transfer-in'){
+        const imei = (m.unitData?.imei || m.note || '').trim();
+        if(!imei || imei.includes('Untracked') || imei === 'Transferred from Inventory') return false;
+      }
+      return true;
+    });
 
-    // 33 Real Warehouse Transfers on 2026-08-26
+    // 37 Real Warehouse Transfers on 2026-08-26
     const transfers26 = [
       {model:"Samsung A37 5G 8GB/256GB Awesome Lavender", imei:"353700230989772", cond:"New", shop:"shop_kilkenny", cost:285.00, color:"Awesome Lavender", batt:""},
       {model:"Samsung A16 4GB/128GB Black", imei:"351355310086908", cond:"New", shop:"shop_kilkenny", cost:99.00, color:"Black", batt:""},
@@ -1046,7 +1017,12 @@ const Store = {
 
       {model:"Samsung A27 5G 6GB/128GB Light Pink", imei:"350983933500434", cond:"New", shop:"shop_tralee", cost:220.00, color:"Light Pink", batt:""},
       {model:"Samsung A07 4GB/128GB Black", imei:"351388337854016", cond:"New", shop:"shop_tralee", cost:115.00, color:"Black", batt:""},
-      {model:"Samsung A07 4GB/128GB Black", imei:"351388337849909", cond:"New", shop:"shop_tralee", cost:115.00, color:"Black", batt:""}
+      {model:"Samsung A07 4GB/128GB Black", imei:"351388337849909", cond:"New", shop:"shop_tralee", cost:115.00, color:"Black", batt:""},
+
+      {model:"Samsung A17 4GB/128GB Light Blue", imei:"350276231678089", cond:"New", shop:"shop_thurles", cost:140.00, color:"Light Blue", batt:""},
+      {model:"Samsung A17 5G 4GB/128GB Black", imei:"351158945536341", cond:"New", shop:"shop_thurles", cost:160.00, color:"Black", batt:""},
+      {model:"Samsung A27 5G 6GB/128GB Light Pink", imei:"350983933499793", cond:"New", shop:"shop_thurles", cost:220.00, color:"Light Pink", batt:""},
+      {model:"iPhone 14 128GB Starlight Grade 'A'", imei:"350032738703866", cond:"Used", shop:"shop_thurles", cost:285.00, color:"Starlight", batt:"87%"}
     ];
 
     transfers26.forEach(t => {
@@ -1062,7 +1038,7 @@ const Store = {
         matchedUnit.color = t.color;
         matchedUnit.condition = t.cond;
         matchedUnit.costPrice = t.cost;
-        if(t.batt) matchedUnit.battery = t.batt;
+        if(t.batt) matchedUnit.batteryPct = parseInt(t.batt)||null;
 
         const hasOutMv = d.movements.some(m => m.type === 'transfer-out' && m.unitData?.imei === t.imei && m.date === '2026-08-26');
         if(!hasOutMv){
@@ -1733,7 +1709,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.9</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.0.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -3725,22 +3701,6 @@ Views.saveItem = function(itemId){
       if(!Array.isArray(it.units)) it.units = [];
       it.units.push(newUnit);
     }
-
-    // Log Stock In movement so Weekly Report accurately reflects this arrival
-    Stock.addMovement({
-      type: 'stock-in',
-      itemId: it.id,
-      itemName: it.name,
-      categoryId: it.category,
-      location: openLoc,
-      fromLocation: supplier || 'supplier',
-      supplier: supplier || 'Supplier Stock In',
-      invoice: invoice || '',
-      qty: qty,
-      date: todayISO(),
-      unitData: (imei && !isGeneric) ? { imei, color, condition: cond, costPrice: cost } : null,
-      note: invoice ? `Invoice #${invoice}${supplier ? ' (' + supplier + ')' : ''}` : (supplier ? `From ${supplier}` : (imei ? `IMEI ${imei}` : 'Stock In'))
-    });
   }
 
   Store.save();
@@ -4824,7 +4784,7 @@ Views.weekly = function(){
                   ${inMoves.length ? inMoves.slice().reverse().map(m=>`
                     <tr style="font-size:12.5px;">
                       <td>${m.date||'—'}</td>
-                      <td><b>${esc(m.supplier || (m.fromLocation ? ('Transfer from ' + shopName(m.fromLocation)) : 'Supplier Stock In'))}</b>${m.invoice ? ` <span style="color:var(--muted);font-size:11px;">(${esc(m.invoice)})</span>` : ''}</td>
+                      <td><b>${esc(m.fromLocation ? shopName(m.fromLocation) : (m.supplier || 'Supplier Stock In'))}</b>${m.invoice ? ` <span style="color:var(--muted);font-size:11px;">(${esc(m.invoice)})</span>` : ''}</td>
                       <td><b>${esc(shopName(m.location))}</b></td>
                       <td><b>${esc(m.itemName||'—')}</b></td>
                       <td>${m.unitData?.imei ? `<span class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(m.unitData.imei)}</span>` : (m.note ? esc(m.note) : '—')}</td>
