@@ -2527,7 +2527,7 @@
         "shop_tullamore": 300
       },
       "locations": {
-        "warehouse": 4,
+        "warehouse": 0,
         "shop_thurles": 1,
         "shop_kilkenny": 2,
         "shop_maynooth": 0,
@@ -2536,46 +2536,6 @@
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_bdk602tu5nd",
-          "imei": "350057712578067",
-          "color": "Black",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 250,
-          "wholesalePrice": 262,
-          "sellPrice": 300
-        },
-        {
-          "id": "unit_p50bqdsu5ne",
-          "imei": "350057712575980",
-          "color": "Black",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 250,
-          "wholesalePrice": 262,
-          "sellPrice": 300
-        },
-        {
-          "id": "unit_2damwueu5ne",
-          "imei": "350057712550819",
-          "color": "Black",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 250,
-          "wholesalePrice": 262,
-          "sellPrice": 300
-        },
-        {
-          "id": "unit_n7b74heu5ne",
-          "imei": "350057712554464",
-          "color": "Black",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 250,
-          "wholesalePrice": 262,
-          "sellPrice": 300
-        },
         {
           "id": "unit_bpvoz35u5nq",
           "imei": "350057712554555",
@@ -11134,6 +11094,80 @@
         }
       ],
       "createdAt": "2026-08-26"
+    },
+    {
+      "id": "item_5y19n3ffpt4",
+      "name": "Samsung A36 5G",
+      "category": "cat_w56n2ktw69i",
+      "memory": "256GB",
+      "condition": "New",
+      "imei": "350057712578067",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 250,
+      "wholesalePrice": 262,
+      "shopPrices": {
+        "warehouse": 300,
+        "shop_thurles": 300,
+        "shop_kilkenny": 320,
+        "shop_maynooth": 320,
+        "shop_mullingar": 320,
+        "shop_tralee": 320,
+        "shop_tullamore": 300
+      },
+      "locations": {
+        "warehouse": 4,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_bdk602tu5nd",
+          "imei": "350057712578067",
+          "color": "Black",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 250,
+          "wholesalePrice": 262,
+          "sellPrice": 300
+        },
+        {
+          "id": "unit_p50bqdsu5ne",
+          "imei": "350057712575980",
+          "color": "Black",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 250,
+          "wholesalePrice": 262,
+          "sellPrice": 300
+        },
+        {
+          "id": "unit_2damwueu5ne",
+          "imei": "350057712550819",
+          "color": "Black",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 250,
+          "wholesalePrice": 262,
+          "sellPrice": 300
+        },
+        {
+          "id": "unit_n7b74heu5ne",
+          "imei": "350057712554464",
+          "color": "Black",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 250,
+          "wholesalePrice": 262,
+          "sellPrice": 300
+        }
+      ],
+      "createdAt": "2026-08-26"
     }
   ],
   "movements": [
@@ -11309,7 +11343,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-26T10:59:54.618Z"
+    "lastSaved": "2026-08-26T11:00:32.202Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
