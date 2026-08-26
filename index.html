@@ -943,15 +943,25 @@ const Store = {
       }
     });
 
-    // Clean up any non-Samsung stock-in movements mistakenly dated 2026-08-26
+    // Clean up and strictly deduplicate 2026-08-26 stock-in movements
     if(Array.isArray(d.movements)){
-      d.movements = d.movements.filter(m => !(m.date === '2026-08-26' && m.type === 'stock-in' && !samsungPriceMap[(m.itemName||'').trim().toLowerCase()]));
+      const seenStockInImeis = new Set();
+      d.movements = d.movements.filter(m => {
+        if(m.date === '2026-08-26' && m.type === 'stock-in'){
+          if(!samsungPriceMap[(m.itemName||'').trim().toLowerCase()]) return false;
+          const imei = (m.unitData?.imei || m.note || '').trim().toLowerCase();
+          if(!imei || seenStockInImeis.has(imei)) return false;
+          seenStockInImeis.add(imei);
+          if(!m.supplier || m.supplier === 'Supplier Stock In') m.supplier = 'Second Life Supplier';
+        }
+        return true;
+      });
     } else {
       d.movements = [];
     }
 
     // Backfill stock-in movements for Samsung units added on 2026-08-26
-    const existingMvImeis = new Set(d.movements.map(m => (m.unitData?.imei || m.note || '').trim().toLowerCase()).filter(Boolean));
+    const existingMvImeis = new Set(d.movements.filter(m => m.date === '2026-08-26' && m.type === 'stock-in').map(m => (m.unitData?.imei || m.note || '').trim().toLowerCase()).filter(Boolean));
     
     d.items.forEach(it => {
       const cleanName = (it.name || '').trim().toLowerCase();
@@ -973,7 +983,7 @@ const Store = {
               categoryId: it.category,
               location: u.location || 'warehouse',
               fromLocation: 'supplier',
-              supplier: 'Supplier Stock In',
+              supplier: 'Second Life Supplier',
               invoice: '',
               qty: 1,
               date: '2026-08-26',
@@ -1723,7 +1733,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.8</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.9</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
