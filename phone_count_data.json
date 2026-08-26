@@ -12076,26 +12076,6 @@
       "note": "IMEI 354380322908714"
     },
     {
-      "id": "mv_gb9ffiabnsl",
-      "type": "stock-in",
-      "itemId": "item_6t2ggm3w69k",
-      "itemName": "AirPods Pro 3",
-      "categoryId": "cat_qaxr5vow69i",
-      "location": "warehouse",
-      "fromLocation": "supplier",
-      "supplier": "Second Life Supplier",
-      "invoice": "",
-      "qty": 1,
-      "date": "2026-08-26",
-      "unitData": {
-        "imei": "SCK2RWJGFCJ",
-        "color": "White",
-        "condition": "Used",
-        "costPrice": 105
-      },
-      "note": "IMEI SCK2RWJGFCJ"
-    },
-    {
       "id": "mv_ghv0b0jbnsl",
       "type": "stock-in",
       "itemId": "item_kjnrq5aw69k",
@@ -13461,7 +13441,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-26T12:31:58.754Z"
+    "lastSaved": "2026-08-26T13:44:03.557Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
