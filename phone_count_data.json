@@ -10351,8 +10351,8 @@
         "shop_tullamore": 160
       },
       "locations": {
-        "warehouse": 16,
-        "shop_thurles": 0,
+        "warehouse": 15,
+        "shop_thurles": 1,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
@@ -10377,7 +10377,7 @@
           "imei": "351158945536341",
           "color": "Black",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_thurles",
           "costPrice": 160,
           "sellPrice": 160,
           "batteryPct": null,
@@ -14803,6 +14803,30 @@
       "date": "2026-08-26",
       "note": "Transferred from Inventory",
       "id": "mv_jbpclc71gjf"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_tdbu89k9ljo",
+      "itemName": "Samsung A17 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_thurles",
+      "qty": 1,
+      "date": "2026-08-26",
+      "note": "Transferred from Inventory",
+      "id": "mv_5q4xu7r1v5e"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_tdbu89k9ljo",
+      "itemName": "Samsung A17 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_thurles",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-08-26",
+      "note": "Transferred from Inventory",
+      "id": "mv_xqqyz431v5e"
     }
   ],
   "reorderList": [],
@@ -14810,7 +14834,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-26T15:57:03.869Z"
+    "lastSaved": "2026-08-26T15:57:22.804Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
