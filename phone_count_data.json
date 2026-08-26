@@ -910,7 +910,7 @@
         "shop_tullamore": 280
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 3,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
         "shop_maynooth": 1,
@@ -940,6 +940,36 @@
           "wholesalePrice": 290,
           "sellPrice": 280,
           "addedAt": "2026-08-25"
+        },
+        {
+          "id": "unit_bdk602tu5nd",
+          "imei": "350057712578067",
+          "color": "Black",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 250,
+          "wholesalePrice": 262,
+          "sellPrice": 300
+        },
+        {
+          "id": "unit_p50bqdsu5ne",
+          "imei": "350057712575980",
+          "color": "Black",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 250,
+          "wholesalePrice": 262,
+          "sellPrice": 300
+        },
+        {
+          "id": "unit_2damwueu5ne",
+          "imei": "350057712550819",
+          "color": "Black",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 250,
+          "wholesalePrice": 262,
+          "sellPrice": 300
         }
       ],
       "createdAt": "2026-08-20",
@@ -11099,7 +11129,7 @@
       "id": "item_5y19n3ffpt4",
       "name": "Samsung A36 5G",
       "category": "cat_w56n2ktw69i",
-      "memory": "256GB",
+      "memory": "8GB/256GB",
       "condition": "New",
       "imei": "350057712578067",
       "colors": [
@@ -11117,7 +11147,7 @@
         "shop_tullamore": 300
       },
       "locations": {
-        "warehouse": 4,
+        "warehouse": 1,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
@@ -11126,36 +11156,6 @@
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_bdk602tu5nd",
-          "imei": "350057712578067",
-          "color": "Black",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 250,
-          "wholesalePrice": 262,
-          "sellPrice": 300
-        },
-        {
-          "id": "unit_p50bqdsu5ne",
-          "imei": "350057712575980",
-          "color": "Black",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 250,
-          "wholesalePrice": 262,
-          "sellPrice": 300
-        },
-        {
-          "id": "unit_2damwueu5ne",
-          "imei": "350057712550819",
-          "color": "Black",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 250,
-          "wholesalePrice": 262,
-          "sellPrice": 300
-        },
         {
           "id": "unit_n7b74heu5ne",
           "imei": "350057712554464",
@@ -11343,7 +11343,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-26T11:00:32.202Z"
+    "lastSaved": "2026-08-26T11:01:06.841Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
