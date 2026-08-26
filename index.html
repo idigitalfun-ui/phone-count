@@ -1613,7 +1613,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.4</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.5</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -1771,14 +1771,31 @@ function signalClass(q){ if(q<=0) return 's0'; if(q<=2) return 's1'; if(q<=5) re
 function signalHtml(q){
   return `<span class="signal ${signalClass(q)}" title="${q} in stock"><i></i><i></i><i></i><i></i></span>`;
 }
-function weekLabel(startISO,endISO){ return `${startISO} – ${endISO}`; }
-function isoAddDays(iso,days){ const d=new Date(iso+'T00:00:00'); d.setDate(d.getDate()+days); return d.toISOString().slice(0,10); }
+function weekLabel(startISO,endISO){
+  function fmt(iso){
+    if(!iso) return '';
+    const p = iso.split('-');
+    return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : iso;
+  }
+  return `${fmt(startISO)} – ${fmt(endISO)}`;
+}
+function isoAddDays(iso,days){
+  const parts = String(iso).split('-').map(Number);
+  const d = new Date(parts[0], parts[1]-1, parts[2] + days, 12, 0, 0);
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2, '0');
+  const dt = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${dt}`;
+}
 function mostRecentMonday(){
   const d = new Date();
   const day = d.getDay(); // 0 sun .. 6 sat
   const diff = (day===0? -6 : 1-day);
   d.setDate(d.getDate()+diff);
-  return d.toISOString().slice(0,10);
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2, '0');
+  const dt = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${dt}`;
 }
 function csvDownload(filename, rows){
   const csv = rows.map(r=>r.map(v=>{
