@@ -98,8 +98,8 @@
         "shop_tullamore": 740
       },
       "locations": {
-        "warehouse": 1,
-        "shop_thurles": 1,
+        "warehouse": 0,
+        "shop_thurles": 2,
         "shop_kilkenny": 4,
         "shop_maynooth": 4,
         "shop_mullingar": 2,
@@ -114,7 +114,7 @@
           "imei": "350032738703866",
           "color": "Starlight",
           "condition": "Used",
-          "location": "warehouse",
+          "location": "shop_thurles",
           "costPrice": 285,
           "sellPrice": 350,
           "batteryPct": null,
@@ -14755,6 +14755,30 @@
       },
       "note": "IMEI 351355313432414",
       "id": "mv_dy9ivfdy6mi"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_cicbgruw69j",
+      "itemName": "iPhone 14",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "warehouse",
+      "toLocation": "shop_thurles",
+      "qty": 1,
+      "date": "2026-08-26",
+      "note": "Transferred from Inventory",
+      "id": "mv_va0ueo20h7n"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_cicbgruw69j",
+      "itemName": "iPhone 14",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_thurles",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-08-26",
+      "note": "Transferred from Inventory",
+      "id": "mv_z1cd9wf0h7n"
     }
   ],
   "reorderList": [],
@@ -14762,7 +14786,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-26T15:55:58.028Z"
+    "lastSaved": "2026-08-26T15:56:18.085Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
