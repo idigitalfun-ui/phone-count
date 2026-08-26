@@ -1595,7 +1595,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.1</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v1.9.2</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -2170,25 +2170,51 @@ const Stock = {
     Store.save();
     return mv;
   },
-  revertMovement(movementId){
+  deleteMovement(movementId){
     const mIdx = Store.data.movements.findIndex(m=>m.id===movementId);
     if(mIdx < 0){ Toast.show('Activity record not found.','err'); return false; }
     const m = Store.data.movements[mIdx];
     const it = itemById(m.itemId);
-    if(!it){ Toast.show('Product not found.','err'); return false; }
 
-    const qty = Math.abs(m.qty || 1);
-    it.locations[m.location] = (it.locations[m.location]||0) + qty;
-    if(m.unitData){
-      if(!Array.isArray(it.units)) it.units = [];
-      if(!it.units.some(u=>u.id===m.unitData.id || (m.unitData.imei && u.imei===m.unitData.imei))){
-        it.units.push(m.unitData);
+    if(it){
+      const qty = Math.abs(m.qty || 1);
+      if(m.type === 'stock-in'){
+        // If stock-in record is removed, decrease location count and remove tracked unit if present
+        if(m.unitData && m.unitData.imei && Array.isArray(it.units)){
+          const uIdx = it.units.findIndex(u => u.imei && u.imei.trim().toLowerCase() === m.unitData.imei.trim().toLowerCase());
+          if(uIdx >= 0) it.units.splice(uIdx, 1);
+        }
+        if(it.locations && it.locations[m.location]){
+          it.locations[m.location] = Math.max(0, (it.locations[m.location] || 0) - qty);
+        }
+      } else if(m.type === 'sold' || m.type === 'faulty' || m.type === 'deposit'){
+        // If sold/faulty/deposit is removed, restore device to store stock
+        if(it.locations){
+          it.locations[m.location] = (it.locations[m.location] || 0) + qty;
+        }
+        if(m.unitData){
+          if(!Array.isArray(it.units)) it.units = [];
+          if(!it.units.some(u => u.id === m.unitData.id || (m.unitData.imei && u.imei === m.unitData.imei))){
+            it.units.push(m.unitData);
+          }
+        }
+      } else if(m.type === 'transfer-out' || m.type === 'transfer-in'){
+        // Revert transfer between locations
+        if(m.fromLocation && it.locations){
+          it.locations[m.fromLocation] = (it.locations[m.fromLocation] || 0) + qty;
+        }
+        if(m.toLocation && it.locations && it.locations[m.toLocation]){
+          it.locations[m.toLocation] = Math.max(0, (it.locations[m.toLocation] || 0) - qty);
+        }
       }
     }
+
     Store.data.movements.splice(mIdx, 1);
     Store.save();
-    Toast.show(`✓ Reverted: ${it.name} restored to ${shopName(m.location)} stock.`,'ok');
     return true;
+  },
+  revertMovement(movementId){
+    return this.deleteMovement(movementId);
   },
   adjust(itemId, shopId, newQty, note){
     const it = itemById(itemId); if(!it) return;
@@ -2202,6 +2228,39 @@ const Stock = {
    ========================================================================= */
 const Views = {};
 Views.after = {};
+Views.printPage = function(){
+  try {
+    window.print();
+  } catch(e){
+    console.error('Print error:', e);
+    Toast.show('Print preview not available in this browser window.', 'err');
+  }
+};
+Views.deleteMovement = function(moveId){
+  const m = (Store.data.movements||[]).find(x => x.id === moveId);
+  if(!m){ Toast.show('Record not found.','err'); return; }
+  Modal.confirm({
+    title: 'Remove this record?',
+    body: `<p>Are you sure you want to remove this movement record?</p>
+           <div style="background:#F8FAFC;padding:10px 14px;border-radius:6px;border:1px solid #E2E8F0;font-size:13px;margin:10px 0;">
+             <b>${esc(m.itemName)}</b> ${m.unitData?.imei ? ` · IMEI: <span class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(m.unitData.imei)}</span>` : ''}
+             <div style="margin-top:4px;display:flex;gap:8px;align-items:center;">
+               ${pillForType(m.type)} <span>📅 ${esc(m.date||'—')}</span> · <span>🏬 ${esc(shopName(m.location))}</span>
+             </div>
+           </div>
+           <p style="font-size:12px;color:var(--muted);margin:0;">This will delete the record and immediately re-sync inventory stock counts, Weekly Reports, and Best Sellers.</p>`,
+    danger: true,
+    confirmText: '🗑 Delete Record',
+    onConfirm: () => {
+      Store.snapshotToBackups('Before deleting record: ' + (m.itemName || ''));
+      const ok = Stock.deleteMovement(moveId);
+      if(ok){
+        Toast.show('Record removed and stock synced.','ok');
+        render();
+      }
+    }
+  });
+};
 
 /* ---- DASHBOARD ---- */
 Views.dashboard = function(){
@@ -3739,6 +3798,7 @@ Views.history = function(){
                     <th>Cost Price</th>
                     <th>Destination</th>
                     <th>Supplier / Invoice</th>
+                    <th style="width:80px;text-align:right;">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -3752,6 +3812,9 @@ Views.history = function(){
                       <td>${m.unitData?.costPrice!=null ? euro(m.unitData.costPrice) : '—'}</td>
                       <td><b>${esc(shopName(m.location))}</b></td>
                       <td>${esc(m.supplier || (m.fromLocation ? shopName(m.fromLocation) : 'Supplier'))}${m.invoice ? ` (${esc(m.invoice)})` : ''}</td>
+                      <td style="text-align:right;">
+                        <button class="btn sm danger ghost" onclick="Views.deleteMovement('${m.id}')" title="Delete this stock-in record" style="padding:2px 8px;font-size:11px;">🗑 Remove</button>
+                      </td>
                     </tr>`).join('')}
                 </tbody>
               </table>
@@ -3786,6 +3849,7 @@ Views.history = function(){
                     <th>Destination / Status</th>
                     <th>Type</th>
                     <th>Note / Reference</th>
+                    <th style="width:80px;text-align:right;">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -3799,6 +3863,9 @@ Views.history = function(){
                       <td><b>${esc(m.toLocation ? shopName(m.toLocation) : (m.type==='sold'?'Customer Sale':(m.type==='faulty'?'Faulty Return':'Deposit')))}</b></td>
                       <td>${pillForType(m.type)}</td>
                       <td style="color:var(--muted);">${esc(m.note || '—')}</td>
+                      <td style="text-align:right;">
+                        <button class="btn sm danger ghost" onclick="Views.deleteMovement('${m.id}')" title="Delete / Revert this record" style="padding:2px 8px;font-size:11px;">🗑 Remove</button>
+                      </td>
                     </tr>`).join('')}
                 </tbody>
               </table>
@@ -4382,7 +4449,7 @@ Views.weekly = function(){
             </summary>
             <div class="table-wrap" style="margin-top:8px;background:#fff;border:1px solid #E2E8F0;border-radius:6px;">
               <table>
-                <thead><tr style="background:#F1F5F9;font-size:12px;"><th>Date</th><th>Supplier / Source</th><th>Invoice / Ref</th><th>Device / Model</th><th>IMEI / Details</th><th>Category</th><th>Qty</th></tr></thead>
+                <thead><tr style="background:#F1F5F9;font-size:12px;"><th>Date</th><th>Supplier / Source</th><th>Invoice / Ref</th><th>Device / Model</th><th>IMEI / Details</th><th>Category</th><th>Qty</th><th style="width:80px;text-align:right;">Action</th></tr></thead>
                 <tbody>
                   ${inMoves.length ? inMoves.slice().reverse().map(m=>`
                     <tr style="font-size:12.5px;">
@@ -4393,7 +4460,10 @@ Views.weekly = function(){
                       <td>${m.unitData?.imei ? `<span class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(m.unitData.imei)}</span>` : (m.note ? esc(m.note) : '—')}</td>
                       <td><span class="pill teal" style="font-size:11px;">${esc(catName(m.categoryId))}</span></td>
                       <td><b style="color:var(--green);">+${m.qty||1}</b></td>
-                    </tr>`).join('') : `<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:10px;">No stock-in arrivals for ${esc(s.name)} this week.</td></tr>`}
+                      <td style="text-align:right;">
+                        <button class="btn sm danger ghost" onclick="Views.deleteMovement('${m.id}')" title="Delete this stock-in record" style="padding:2px 8px;font-size:11px;">🗑 Remove</button>
+                      </td>
+                    </tr>`).join('') : `<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:10px;">No stock-in arrivals for ${esc(s.name)} this week.</td></tr>`}
                 </tbody>
               </table>
             </div>
@@ -4405,7 +4475,7 @@ Views.weekly = function(){
             </summary>
             <div class="table-wrap" style="margin-top:8px;background:#fff;border:1px solid #E2E8F0;border-radius:6px;">
               <table>
-                <thead><tr style="background:#F1F5F9;font-size:12px;"><th>Date</th><th>Destination / Status</th><th>Device / Model</th><th>IMEI / Details</th><th>Type</th><th>Qty</th><th>Note / Reference</th></tr></thead>
+                <thead><tr style="background:#F1F5F9;font-size:12px;"><th>Date</th><th>Destination / Status</th><th>Device / Model</th><th>IMEI / Details</th><th>Type</th><th>Qty</th><th>Note / Reference</th><th style="width:80px;text-align:right;">Action</th></tr></thead>
                 <tbody>
                   ${outMoves.length ? outMoves.slice().reverse().map(m=>`
                     <tr style="font-size:12.5px;">
@@ -4416,7 +4486,10 @@ Views.weekly = function(){
                       <td>${pillForType(m.type)}</td>
                       <td><b style="color:var(--danger);">-${m.qty||1}</b></td>
                       <td style="color:var(--muted);">${esc(m.note||'—')}</td>
-                    </tr>`).join('') : `<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:10px;">No stock-out movements for ${esc(s.name)} this week.</td></tr>`}
+                      <td style="text-align:right;">
+                        <button class="btn sm danger ghost" onclick="Views.deleteMovement('${m.id}')" title="Delete / Revert this record" style="padding:2px 8px;font-size:11px;">🗑 Remove</button>
+                      </td>
+                    </tr>`).join('') : `<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:10px;">No stock-out movements for ${esc(s.name)} this week.</td></tr>`}
                 </tbody>
               </table>
             </div>
@@ -4428,9 +4501,12 @@ Views.weekly = function(){
 };
 Views.exportWeeklyCsv = function(){
   const weekStart = Views._weekStart, weekEnd = isoAddDays(weekStart,6);
-  const rows = [['Shop','Category','Start of week','Stock in','After stock in','Stock out','Faulty','Deposit','Remaining']];
+  const wLabel = weekLabel(weekStart, weekEnd);
+  const rows = [['Shop', 'Weeks', 'Category', 'Total Quantity in the Start', 'Stock In', 'Stock after stock in', 'Stock Out', 'Faulty', 'Deposit', 'Remaining Stock']];
   const shops = activeShops();
   shops.forEach(s=>{
+    let tS=0, tI=0, tAI=0, tO=0, tF=0, tD=0, tR=0;
+    const catRows = [];
     Store.data.categories.forEach(c=>{
       const itemsInCat = Store.data.items.filter(it=>it.category===c.id);
       const currQty = itemsInCat.reduce((sum, it) => sum + ((it.locations&&it.locations[s.id])||0), 0);
@@ -4457,8 +4533,11 @@ Views.exportWeeklyCsv = function(){
       const remaining = Math.max(0, currQty + afterOutQ - afterInQ);
       const afterIn = remaining + outQ + faultyQ + depositQ;
       const start = Math.max(0, afterIn - inQ);
-      rows.push([s.name, c.name, start, inQ, afterIn, outQ, faultyQ, depositQ, remaining]);
+      tS+=start; tI+=inQ; tAI+=afterIn; tO+=outQ; tF+=faultyQ; tD+=depositQ; tR+=remaining;
+      catRows.push([s.name, wLabel, c.name, start, inQ, afterIn, outQ, faultyQ, depositQ, remaining]);
     });
+    rows.push([s.name, wLabel, `Total (${s.name})`, tS, tI, tAI, tO, tF, tD, tR]);
+    catRows.forEach(cr => rows.push(cr));
   });
   csvDownload(`weekly_stock_report_${weekStart}.csv`, rows);
   Toast.show('Weekly report exported to Excel CSV.','ok');
@@ -4544,6 +4623,7 @@ Views.stockview = function(){
       <td>
         ${colorsToShow.map(c=>`<span class="color-swatch" style="background:${cssColor(c)}" title="${esc(c)}"></span>`).join('')}${esc(colorsToShow.join(', ')||'—')}
       </td>
+      <td><b style="font-size:14px;color:var(--teal-dark);">${qty}</b></td>
       <td>
         <input type="number" step="0.01" value="${rowCost}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;font-size:12px;" title="Cost Price" onchange="Views.svSetCostPrice('${it.id}',this.value)">
       </td>
@@ -4554,7 +4634,6 @@ Views.stockview = function(){
         <input type="number" step="0.01" value="${salePrice}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:6px;font-size:12px;font-weight:700;color:var(--teal-dark);" title="Sale Price" onchange="Views.svSetPrice('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value)">
       </td>
       <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
-      <td><b style="font-size:14px;">${qty}</b></td>
       <td><button class="btn sm ghost" onclick="Views.toggleSvExpand('${it.id}')">${expanded?'▴ Collapse':'▾ Expand'}</button></td>
     </tr>`;
 
@@ -4565,14 +4644,15 @@ Views.stockview = function(){
     activeShops().forEach(s=>{
       const shopStock = (it.locations && it.locations[s.id]) || 0;
       subRows += `<tr style="background:#F6F8FA;">
-        <td colspan="3" style="padding-left:28px;font-size:12px;"><b>${esc(s.name)}</b> — <b>${shopStock}</b> in stock</td>
+        <td colspan="3" style="padding-left:28px;font-size:12px;"><b>${esc(s.name)}</b></td>
+        <td><b>${shopStock}</b> in stock</td>
         <td><span style="font-size:11px;color:var(--muted);">Cost:</span> ${euro(it.costPrice)}</td>
         <td><span style="font-size:11px;color:var(--muted);">Wholesale:</span> ${euro(it.wholesalePrice||0)}</td>
         <td>
           <span style="font-size:11px;color:var(--teal-dark);font-weight:600;">Sale: </span>
           <input type="number" step="0.01" value="${it.shopPrices ? (it.shopPrices[s.id]||0) : 0}" style="width:80px;padding:3px 6px;border:1px solid var(--teal);border-radius:6px;font-weight:700;color:var(--teal-dark);" onchange="Views.svSetPrice('${it.id}','${s.id}',this.value)">
         </td>
-        <td colspan="3" style="font-size:11px;color:var(--muted);">Margin: ${euro((it.shopPrices ? (it.shopPrices[s.id]||0) : 0)-(it.costPrice||0))}</td>
+        <td colspan="2" style="font-size:11px;color:var(--muted);">Margin: ${euro((it.shopPrices ? (it.shopPrices[s.id]||0) : 0)-(it.costPrice||0))}</td>
       </tr>`;
     });
 
@@ -4585,10 +4665,11 @@ Views.stockview = function(){
             <span class="mono" style="color:var(--teal-dark);font-weight:700;">${esc(u.imei||'No IMEI')}</span>
             <span style="color:var(--muted);font-size:11px;"> — ${esc(u.color||'-')} · ${esc(u.condition||'-')} @ ${esc(shopName(u.location))}</span>
           </td>
+          <td><b>1</b></td>
           <td><span style="font-size:11px;color:var(--muted);">Cost:</span> <input type="number" step="0.01" value="${u.costPrice||0}" style="width:74px;padding:3px 5px;border:1px solid var(--line);border-radius:5px;font-size:12px;" onchange="Views.svSetUnitCost('${it.id}','${u.id}',this.value)"></td>
           <td><span style="font-size:11px;color:var(--muted);">Whl:</span> <input type="number" step="0.01" value="${u.wholesalePrice||0}" style="width:74px;padding:3px 5px;border:1px solid #F0B429;border-radius:5px;font-size:12px;" onchange="Views.svSetUnitWholesale('${it.id}','${u.id}',this.value)"></td>
           <td><span style="font-size:11px;color:var(--teal-dark);font-weight:600;">Sale:</span> <input type="number" step="0.01" value="${u.sellPrice||0}" style="width:74px;padding:3px 5px;border:1px solid var(--teal);border-radius:5px;font-size:12px;font-weight:700;color:var(--teal-dark);" onchange="Views.svSetUnitPrice('${it.id}','${u.id}',this.value)"></td>
-          <td colspan="3" style="text-align:right;white-space:nowrap;">
+          <td colspan="2" style="text-align:right;white-space:nowrap;">
             <div style="display:flex;gap:4px;justify-content:flex-end;align-items:center;">
               <button class="btn sm green" onclick="Views.unitAction('${it.id}','${u.id}','sold')" title="Sell this device">✓ Sold</button>
               <button class="btn sm amber" onclick="Views.unitAction('${it.id}','${u.id}','faulty')" title="Mark as faulty">⚠ Faulty</button>
@@ -4609,7 +4690,7 @@ Views.stockview = function(){
       <td><a href="javascript:void(0)" onclick="Views.openEditUnitModal('${it.id}','${u.id}')" style="color:var(--ink);text-decoration:none;font-weight:700;cursor:pointer;" title="Click to edit">${esc(it.name)}${it.memory?` <span class="mono" style="font-size:11.5px;color:var(--teal-dark);font-weight:600;">${esc(it.memory)}</span>`:''}</a></td>
       <td class="mono" style="color:var(--teal-dark);font-weight:700;">${esc(u.imei||'—')}</td>
       <td>${esc(u.color||'-')}</td>
-      <td>${u.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
+      <td><b>1</b></td>
       <td><input type="number" step="0.01" value="${u.costPrice||0}" style="width:74px;padding:3px 5px;border:1px solid var(--line);border-radius:5px;font-size:12px;" title="Cost" onchange="Views.svSetUnitCost('${it.id}','${u.id}',this.value)"></td>
       <td><input type="number" step="0.01" value="${u.wholesalePrice||0}" style="width:74px;padding:3px 5px;border:1px solid #F0B429;border-radius:5px;font-size:12px;" title="Wholesale" onchange="Views.svSetUnitWholesale('${it.id}','${u.id}',this.value)"></td>
       <td><input type="number" step="0.01" value="${u.sellPrice||0}" style="width:74px;padding:3px 5px;border:1px solid var(--teal);border-radius:5px;font-size:12px;font-weight:700;color:var(--teal-dark);" title="Sale Price" onchange="Views.svSetUnitPrice('${it.id}','${u.id}',this.value)"></td>
@@ -4647,7 +4728,7 @@ Views.stockview = function(){
         <div class="table-section-title">${esc(g.cat.name)} (${g.items.reduce((a,it)=>a+(locId==='all'?totalQty(it):(it.locations[locId]||0)),0)} units)</div>
         <div class="table-wrap"><table>
           <thead><tr>
-            ${mode==='totals' ? `<th>Device</th><th>Memory</th><th>Colours</th><th>Cost Price</th><th>Wholesale Price</th><th>Sale Price</th><th>Condition</th><th>Qty</th><th></th>` : `<th>Device</th><th>IMEI</th><th>Colour</th><th>Condition</th><th>Cost</th><th>Wholesale</th><th>Sale</th><th>Location</th><th class="no-print"></th>`}
+            ${mode==='totals' ? `<th>Device</th><th>Memory</th><th>Colours</th><th>Qty</th><th>Cost Price</th><th>Wholesale Price</th><th>Sale Price</th><th>Condition</th><th></th>` : `<th>Device</th><th>IMEI</th><th>Colour</th><th>Qty</th><th>Cost</th><th>Wholesale</th><th>Sale</th><th>Location</th><th class="no-print"></th>`}
           </tr></thead>
           <tbody>
             ${g.items.map(mode==='totals' ? renderRow : renderImeiRows).join('')}
