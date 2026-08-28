@@ -307,7 +307,7 @@
           "imei": "354257908567595",
           "color": "Ultramarine",
           "condition": "New",
-          "batteryPct": 0,
+          "batteryPct": null,
           "location": "shop_kilkenny",
           "costPrice": 750,
           "wholesalePrice": 0,
@@ -3953,7 +3953,7 @@
           "imei": "354485255324589",
           "color": "Blue",
           "condition": "Used",
-          "batteryPct": 0,
+          "batteryPct": null,
           "location": "shop_kilkenny",
           "costPrice": 440,
           "wholesalePrice": 0,
@@ -15148,7 +15148,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:51:17.943Z"
+    "lastSaved": "2026-08-28T13:51:35.391Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
