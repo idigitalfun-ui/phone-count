@@ -7940,20 +7940,10 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 2
       },
       "units": [
-        {
-          "id": "unit_n4jvuovu5p5",
-          "imei": "352600229516464",
-          "color": "black",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 1,
-          "wholesalePrice": 107,
-          "sellPrice": 190
-        },
         {
           "id": "unit_8ypjymau5pi",
           "imei": "353578127007084",
@@ -11865,6 +11855,51 @@
         }
       ],
       "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_ur3oegk6b0f",
+      "name": "Samsung A16",
+      "category": "cat_w56n2ktw69i",
+      "memory": "128GB",
+      "condition": "New",
+      "imei": "352600229516464",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 190,
+        "shop_thurles": 190,
+        "shop_kilkenny": 190,
+        "shop_maynooth": 190,
+        "shop_mullingar": 190,
+        "shop_tralee": 190,
+        "shop_tullamore": 190
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_n4jvuovu5p5",
+          "imei": "352600229516464",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
     }
   ],
   "movements": [
@@ -15440,7 +15475,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:39:50.689Z"
+    "lastSaved": "2026-08-28T14:40:11.585Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
