@@ -6251,12 +6251,13 @@
         {
           "id": "unit_koq6fbuu5p7",
           "imei": "355225690428911",
-          "color": "black",
-          "condition": "Used",
+          "color": "Black",
+          "condition": "New",
           "location": "shop_tralee",
-          "costPrice": 20,
-          "wholesalePrice": 20,
-          "sellPrice": 30
+          "costPrice": 38,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         },
         {
           "id": "unit_r9najlgu5p7",
@@ -15654,7 +15655,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:49:22.969Z"
+    "lastSaved": "2026-08-28T14:50:01.313Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
