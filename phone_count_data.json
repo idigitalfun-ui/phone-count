@@ -87,14 +87,14 @@
       "imei": "354768881961878",
       "condition": "Used",
       "batteryPct": null,
-      "costPrice": 285,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 350,
         "shop_thurles": 270,
         "shop_kilkenny": 475,
         "shop_maynooth": 460,
         "shop_mullingar": 460,
-        "shop_tralee": 430,
+        "shop_tralee": 0,
         "shop_tullamore": 740
       },
       "locations": {
@@ -103,11 +103,11 @@
         "shop_kilkenny": 1,
         "shop_maynooth": 4,
         "shop_mullingar": 2,
-        "shop_tralee": 0,
+        "shop_tralee": 1,
         "shop_tullamore": 3
       },
       "createdAt": "2026-08-20",
-      "wholesalePrice": 295,
+      "wholesalePrice": 0,
       "units": [
         {
           "id": "unit_pissuuxonc9",
@@ -217,11 +217,24 @@
           "wholesalePrice": 297,
           "sellPrice": 460,
           "addedAt": "2026-08-25"
+        },
+        {
+          "id": "unit_tqsvjvtozri",
+          "imei": "356879772357379",
+          "color": "Yellow",
+          "condition": "Used",
+          "batteryPct": null,
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "addedAt": "2026-08-28"
         }
       ],
       "colors": [
         "Starlight",
-        "Purple"
+        "Purple",
+        "Yellow"
       ]
     },
     {
@@ -15458,7 +15471,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:26:27.152Z"
+    "lastSaved": "2026-08-28T14:26:45.784Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
