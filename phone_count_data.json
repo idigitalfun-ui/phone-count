@@ -672,7 +672,7 @@
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 1,
-        "shop_tralee": 2,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
@@ -7940,20 +7940,10 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 2,
+        "shop_tralee": 1,
         "shop_tullamore": 2
       },
       "units": [
-        {
-          "id": "unit_cla25rgu5p4",
-          "imei": "352600229513065",
-          "color": "black",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 1,
-          "wholesalePrice": 107,
-          "sellPrice": 190
-        },
         {
           "id": "unit_n4jvuovu5p5",
           "imei": "352600229516464",
@@ -15450,7 +15440,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:39:27.689Z"
+    "lastSaved": "2026-08-28T14:39:50.689Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
