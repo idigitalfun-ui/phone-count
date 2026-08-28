@@ -9067,13 +9067,14 @@
     },
     {
       "id": "item_zg33hetu5p8",
-      "name": "Nokia 8010 64",
+      "name": "Nokia 8010",
       "category": "cat_lkhn0qyw69i",
       "memory": "",
       "imei": "",
       "condition": "Used",
       "colors": [
-        "black"
+        "black",
+        "Black"
       ],
       "batteryPct": null,
       "costPrice": 0,
@@ -9100,12 +9101,13 @@
         {
           "id": "unit_2p7p0sju5p8",
           "imei": "862599070156391",
-          "color": "black",
-          "condition": "Used",
+          "color": "Black",
+          "condition": "New",
           "location": "shop_tralee",
-          "costPrice": 0,
+          "costPrice": 62,
           "wholesalePrice": 0,
-          "sellPrice": 0
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20"
@@ -15656,7 +15658,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:50:34.858Z"
+    "lastSaved": "2026-08-28T14:51:16.802Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
