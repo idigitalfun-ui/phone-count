@@ -1170,7 +1170,7 @@
         "shop_kilkenny": 2,
         "shop_maynooth": 2,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
@@ -2911,7 +2911,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 4,
         "shop_mullingar": 2,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
@@ -8895,13 +8895,14 @@
     },
     {
       "id": "item_xdk67qtu5p5",
-      "name": "Samsung A36 128GB",
+      "name": "Samsung A36",
       "category": "cat_w56n2ktw69i",
       "memory": "128GB",
       "imei": "",
       "condition": "New",
       "colors": [
-        "AwesomeNavy"
+        "AwesomeNavy",
+        "Lavender"
       ],
       "batteryPct": null,
       "costPrice": 0,
@@ -8921,39 +8922,20 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 3,
+        "shop_tralee": 1,
         "shop_tullamore": 0
       },
       "units": [
         {
-          "id": "unit_dkdraoqu5p5",
-          "imei": "350290815117711",
-          "color": "AwesomeNavy",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 0,
-          "wholesalePrice": 0,
-          "sellPrice": 0
-        },
-        {
-          "id": "unit_57ab6rwu5p6",
-          "imei": "355838611201959",
-          "color": "black",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 0,
-          "wholesalePrice": 0,
-          "sellPrice": 0
-        },
-        {
           "id": "unit_nkgdaoxu5p6",
           "imei": "355838610731790",
-          "color": "lavender",
+          "color": "Lavender",
           "condition": "New",
           "location": "shop_tralee",
           "costPrice": 0,
           "wholesalePrice": 0,
-          "sellPrice": 0
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20"
@@ -11902,6 +11884,51 @@
           "wholesalePrice": 0,
           "sellPrice": 190,
           "addedAt": "2026-08-28"
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_alqjwwe9ivr",
+      "name": "Samsung A36",
+      "category": "cat_w56n2ktw69i",
+      "memory": "128GB",
+      "condition": "New",
+      "imei": "355838611201959",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_57ab6rwu5p6",
+          "imei": "355838611201959",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-28"
@@ -15480,7 +15507,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:42:18.865Z"
+    "lastSaved": "2026-08-28T14:42:59.657Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
