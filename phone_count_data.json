@@ -9041,20 +9041,10 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 3,
+        "shop_tralee": 2,
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_m2clfg5u5p6",
-          "imei": "356771220266320",
-          "color": "",
-          "condition": "Used",
-          "location": "shop_tralee",
-          "costPrice": 0,
-          "wholesalePrice": 0,
-          "sellPrice": 0
-        },
         {
           "id": "unit_qmgsbcju5p6",
           "imei": "352482910532203",
@@ -11949,6 +11939,51 @@
           "id": "unit_foavhrwu5p6",
           "imei": "353359200196726",
           "color": "Phantom Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_vtpigo2codj",
+      "name": "Black View BV 4800 SE",
+      "category": "cat_lkhn0qyw69i",
+      "memory": "64GB",
+      "condition": "New",
+      "imei": "356771220266320",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_m2clfg5u5p6",
+          "imei": "356771220266320",
+          "color": "Black",
           "condition": "New",
           "location": "shop_tralee",
           "costPrice": 0,
@@ -15533,7 +15568,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:44:22.593Z"
+    "lastSaved": "2026-08-28T14:45:08.841Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
