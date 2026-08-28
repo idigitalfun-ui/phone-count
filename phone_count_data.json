@@ -1115,7 +1115,7 @@
         "warehouse": 320,
         "shop_thurles": 340,
         "shop_kilkenny": 440,
-        "shop_maynooth": 440,
+        "shop_maynooth": 0,
         "shop_mullingar": 340,
         "shop_tralee": 320,
         "shop_tullamore": 320
@@ -1183,10 +1183,12 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 230,
-          "sellPrice": 220,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 242
+          "wholesalePrice": 242,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -3018,7 +3020,7 @@
         "warehouse": 285,
         "shop_thurles": 240,
         "shop_kilkenny": 240,
-        "shop_maynooth": 240,
+        "shop_maynooth": 0,
         "shop_mullingar": 240,
         "shop_tralee": 320,
         "shop_tullamore": 240
@@ -3051,7 +3053,7 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 240
+          "sellPrice": 0
         },
         {
           "id": "unit_2fu9c61u5ol",
@@ -3061,7 +3063,7 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 240
+          "sellPrice": 0
         },
         {
           "id": "unit_14ij1atu5om",
@@ -3071,7 +3073,7 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 240
+          "sellPrice": 0
         },
         {
           "id": "unit_7fa9tuuu5om",
@@ -3081,7 +3083,7 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 240
+          "sellPrice": 0
         },
         {
           "id": "unit_vh6uk72u5oy",
@@ -14978,7 +14980,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T16:33:13.468Z"
+    "lastSaved": "2026-08-28T16:33:35.135Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
