@@ -3943,7 +3943,8 @@
           "wholesalePrice": 110,
           "sellPrice": 160,
           "verified": true,
-          "verifiedAt": "2026-08-28"
+          "verifiedAt": "2026-08-28",
+          "batteryPct": 74
         }
       ],
       "createdAt": "2026-08-20",
@@ -15182,7 +15183,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T16:48:48.169Z"
+    "lastSaved": "2026-08-28T16:50:53.759Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
