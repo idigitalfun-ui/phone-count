@@ -360,7 +360,7 @@
         "warehouse": 95,
         "shop_thurles": 95,
         "shop_kilkenny": 130,
-        "shop_maynooth": 130,
+        "shop_maynooth": 0,
         "shop_mullingar": 95,
         "shop_tralee": 130,
         "shop_tullamore": 95
@@ -383,7 +383,9 @@
           "location": "shop_maynooth",
           "costPrice": 80,
           "wholesalePrice": 0,
-          "sellPrice": 95
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_tfmskz0u5nb",
@@ -393,7 +395,9 @@
           "location": "shop_maynooth",
           "costPrice": 80,
           "wholesalePrice": 0,
-          "sellPrice": 95
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_3tn3d46u5oq",
@@ -403,7 +407,7 @@
           "location": "shop_maynooth",
           "costPrice": 115,
           "wholesalePrice": 0,
-          "sellPrice": 130
+          "sellPrice": 0
         },
         {
           "id": "unit_zvup0bjtbtr",
@@ -14956,7 +14960,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T15:45:02.130Z"
+    "lastSaved": "2026-08-28T15:46:02.658Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
