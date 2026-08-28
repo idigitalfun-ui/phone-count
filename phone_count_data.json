@@ -100,7 +100,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 2,
-        "shop_kilkenny": 4,
+        "shop_kilkenny": 1,
         "shop_maynooth": 4,
         "shop_mullingar": 2,
         "shop_tralee": 1,
@@ -127,11 +127,11 @@
           "color": "Starlight",
           "condition": "Used",
           "location": "shop_kilkenny",
-          "costPrice": 285,
-          "sellPrice": 350,
+          "costPrice": 0,
+          "sellPrice": 460,
           "batteryPct": 86,
           "dateAdded": "2026-08-24",
-          "wholesalePrice": 300,
+          "wholesalePrice": 0,
           "battery": "86%"
         },
         {
@@ -245,7 +245,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 1,
-        "shop_kilkenny": 4,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 0,
@@ -3858,7 +3858,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 4,
+        "shop_kilkenny": 0,
         "shop_maynooth": 2,
         "shop_mullingar": 2,
         "shop_tralee": 0,
@@ -14849,7 +14849,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T11:54:45.338Z"
+    "lastSaved": "2026-08-28T11:55:09.505Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
