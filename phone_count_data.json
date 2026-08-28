@@ -2199,14 +2199,14 @@
       "imei": "",
       "condition": "Used",
       "batteryPct": null,
-      "costPrice": 190,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 240,
         "shop_thurles": 240,
         "shop_kilkenny": 400,
         "shop_maynooth": 240,
         "shop_mullingar": 240,
-        "shop_tralee": 240,
+        "shop_tralee": 0,
         "shop_tullamore": 270
       },
       "locations": {
@@ -2215,7 +2215,7 @@
         "shop_kilkenny": 2,
         "shop_maynooth": 1,
         "shop_mullingar": 1,
-        "shop_tralee": 1,
+        "shop_tralee": 2,
         "shop_tullamore": 3
       },
       "units": [
@@ -2283,12 +2283,13 @@
         {
           "id": "unit_2e1agrlu5p3",
           "imei": "353989107678598",
-          "color": "black",
+          "color": "Black",
           "condition": "Used",
           "location": "shop_tralee",
-          "costPrice": 190,
-          "wholesalePrice": 200,
-          "sellPrice": 240
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         },
         {
           "id": "unit_uuy9nr3u5pd",
@@ -2343,10 +2344,22 @@
           "batteryPct": null,
           "dateAdded": "2026-08-25",
           "wholesalePrice": 200
+        },
+        {
+          "id": "unit_uxxi2b7nhwv",
+          "imei": "35291810002950",
+          "color": "Black",
+          "condition": "Used",
+          "batteryPct": null,
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "addedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 200,
+      "wholesalePrice": 0,
       "colors": [
         "Black",
         "Green",
@@ -15408,7 +15421,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:25:12.753Z"
+    "lastSaved": "2026-08-28T14:25:38.916Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
