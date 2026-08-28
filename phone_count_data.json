@@ -3874,7 +3874,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 3,
         "shop_maynooth": 2,
         "shop_mullingar": 2,
         "shop_tralee": 0,
@@ -3951,6 +3951,18 @@
           "batteryPct": 95,
           "location": "shop_kilkenny",
           "costPrice": 540,
+          "wholesalePrice": 0,
+          "sellPrice": 550,
+          "addedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_6cdb8n6f11r",
+          "imei": "356925795464252",
+          "color": "Pink",
+          "condition": "Used",
+          "batteryPct": 85,
+          "location": "shop_kilkenny",
+          "costPrice": 500,
           "wholesalePrice": 0,
           "sellPrice": 550,
           "addedAt": "2026-08-28"
@@ -14890,7 +14902,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T11:58:39.902Z"
+    "lastSaved": "2026-08-28T11:59:04.020Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
