@@ -1308,12 +1308,12 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 155,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 180,
         "shop_thurles": 180,
         "shop_kilkenny": 180,
-        "shop_maynooth": 240,
+        "shop_maynooth": 0,
         "shop_mullingar": 180,
         "shop_tralee": 180,
         "shop_tullamore": 180
@@ -1394,9 +1394,11 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 155,
+          "costPrice": 0,
           "wholesalePrice": 167,
-          "sellPrice": 240
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -1413,12 +1415,12 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 135,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 155,
         "shop_thurles": 155,
         "shop_kilkenny": 210,
-        "shop_maynooth": 210,
+        "shop_maynooth": 0,
         "shop_mullingar": 155,
         "shop_tralee": 155,
         "shop_tullamore": 155
@@ -1520,9 +1522,11 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 135,
+          "costPrice": 0,
           "wholesalePrice": 147,
-          "sellPrice": 210
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -1540,12 +1544,12 @@
         "Phantom Black"
       ],
       "batteryPct": 100,
-      "costPrice": 60,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 75,
         "shop_thurles": 75,
         "shop_kilkenny": 160,
-        "shop_maynooth": 160,
+        "shop_maynooth": 0,
         "shop_mullingar": 160,
         "shop_tralee": 160,
         "shop_tullamore": 75
@@ -1616,9 +1620,11 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 60,
+          "costPrice": 0,
           "wholesalePrice": 72,
-          "sellPrice": 160
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_f58iitlu5os",
@@ -1626,9 +1632,11 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 60,
+          "costPrice": 0,
           "wholesalePrice": 72,
-          "sellPrice": 160
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_gttqkvju5os",
@@ -1636,9 +1644,11 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 60,
+          "costPrice": 0,
           "wholesalePrice": 72,
-          "sellPrice": 160
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_fbnx1zbu5os",
@@ -1646,9 +1656,11 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 60,
+          "costPrice": 0,
           "wholesalePrice": 72,
-          "sellPrice": 160
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -5768,12 +5780,12 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 160,
         "shop_thurles": 160,
         "shop_kilkenny": 160,
-        "shop_maynooth": 160,
+        "shop_maynooth": 0,
         "shop_mullingar": 160,
         "shop_tralee": 160,
         "shop_tullamore": 160
@@ -5794,9 +5806,11 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 160
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_ym9ca6nu5pl",
@@ -5804,7 +5818,7 @@
           "color": "",
           "condition": "Used",
           "location": "shop_tullamore",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
           "sellPrice": 160
         }
@@ -15019,7 +15033,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T16:37:29.196Z"
+    "lastSaved": "2026-08-28T16:38:34.148Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
