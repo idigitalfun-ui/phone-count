@@ -8948,7 +8948,8 @@
       "imei": "",
       "condition": "New",
       "colors": [
-        "awesomeOlive"
+        "awesomeOlive",
+        "Awesome Olive"
       ],
       "batteryPct": null,
       "costPrice": 1,
@@ -8975,12 +8976,13 @@
         {
           "id": "unit_5iotgvcu5p6",
           "imei": "352371197607293",
-          "color": "awesomeOlive",
+          "color": "Awesome Olive",
           "condition": "New",
           "location": "shop_tralee",
           "costPrice": 0,
-          "wholesalePrice": 12,
-          "sellPrice": 1
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         },
         {
           "id": "unit_e9pmr5tu5ph",
@@ -15507,7 +15509,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:42:59.657Z"
+    "lastSaved": "2026-08-28T14:43:14.681Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
