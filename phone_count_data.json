@@ -656,7 +656,7 @@
       "locations": {
         "warehouse": 19,
         "shop_thurles": 1,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 2,
@@ -3066,7 +3066,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 3,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -8042,23 +8042,13 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 2,
         "shop_tullamore": 2
       },
       "units": [
-        {
-          "id": "unit_hbl98uwu5o0",
-          "imei": "353578126895950",
-          "color": "Black",
-          "condition": "Used",
-          "location": "shop_kilkenny",
-          "costPrice": 1,
-          "wholesalePrice": 107,
-          "sellPrice": 190
-        },
         {
           "id": "unit_cla25rgu5p4",
           "imei": "352600229513065",
@@ -14999,7 +14989,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:40:50.311Z"
+    "lastSaved": "2026-08-28T13:41:19.247Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
