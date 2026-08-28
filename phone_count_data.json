@@ -4362,7 +4362,7 @@
         "shop_tullamore": 220
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
@@ -4372,19 +4372,7 @@
       },
       "createdAt": "2026-08-20",
       "wholesalePrice": 0,
-      "units": [
-        {
-          "id": "unit_a46x0haqam7",
-          "imei": "350753208585398",
-          "color": "Black",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "warehouse",
-          "costPrice": 0,
-          "sellPrice": 220,
-          "addedAt": "2026-08-28"
-        }
-      ]
+      "units": []
     },
     {
       "id": "item_xhnp9cgw69l",
@@ -14934,7 +14922,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T15:38:35.826Z"
+    "lastSaved": "2026-08-28T15:39:17.249Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
