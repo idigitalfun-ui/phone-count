@@ -1441,8 +1441,9 @@
           "condition": "New",
           "location": "shop_kilkenny",
           "costPrice": 135,
-          "wholesalePrice": 135,
-          "sellPrice": 210
+          "wholesalePrice": 0,
+          "sellPrice": 210,
+          "batteryPct": null
         },
         {
           "id": "unit_y35l91ju5or",
@@ -15177,7 +15178,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:54:19.559Z"
+    "lastSaved": "2026-08-28T13:54:35.799Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
