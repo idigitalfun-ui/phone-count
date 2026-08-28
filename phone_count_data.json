@@ -4841,7 +4841,7 @@
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 2,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
@@ -6616,7 +6616,7 @@
     },
     {
       "id": "item_f31wm1mw69m",
-      "name": "Lenovo Tab M10+ 32GB",
+      "name": "Lenovo Tab M10 Plus",
       "category": "cat_cgd9w36w69i",
       "memory": "32GB",
       "imei": "",
@@ -6646,11 +6646,12 @@
           "id": "unit_34jnl2ou5p9",
           "imei": "HGR2GT1J",
           "color": "",
-          "condition": "Used",
+          "condition": "New",
           "location": "shop_tralee",
-          "costPrice": 90,
-          "wholesalePrice": 90,
-          "sellPrice": 140
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15768,7 +15769,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:59:51.528Z"
+    "lastSaved": "2026-08-28T15:00:17.033Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
