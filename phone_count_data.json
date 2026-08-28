@@ -6417,7 +6417,7 @@
     },
     {
       "id": "item_7dn7oh2w69m",
-      "name": "Modio M129 512GB",
+      "name": "Modio M129",
       "category": "cat_cgd9w36w69i",
       "memory": "512GB",
       "imei": "",
@@ -6449,12 +6449,13 @@
         {
           "id": "unit_2eiw3mqu5p8",
           "imei": "353387181149265",
-          "color": "gold",
-          "condition": "Used",
+          "color": "Gold",
+          "condition": "New",
           "location": "shop_tralee",
-          "costPrice": 120,
-          "wholesalePrice": 120,
-          "sellPrice": 220
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15841,7 +15842,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T15:01:06.609Z"
+    "lastSaved": "2026-08-28T15:01:30.009Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
