@@ -3635,7 +3635,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -14781,7 +14781,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T11:51:49.177Z"
+    "lastSaved": "2026-08-28T11:52:04.680Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
