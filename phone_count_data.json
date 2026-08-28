@@ -2387,7 +2387,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 1,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 2,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -2402,16 +2402,6 @@
           "location": "shop_thurles",
           "costPrice": 850,
           "wholesalePrice": 850,
-          "sellPrice": 930
-        },
-        {
-          "id": "unit_47af66bu5nx",
-          "imei": "358334287434519",
-          "color": "",
-          "condition": "New",
-          "location": "shop_kilkenny",
-          "costPrice": 850,
-          "wholesalePrice": 100,
           "sellPrice": 930
         },
         {
@@ -14849,7 +14839,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T11:55:09.505Z"
+    "lastSaved": "2026-08-28T11:55:34.905Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
