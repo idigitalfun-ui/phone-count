@@ -3245,7 +3245,7 @@
           "condition": "New",
           "location": "shop_kilkenny",
           "costPrice": 60,
-          "wholesalePrice": 60,
+          "wholesalePrice": 0,
           "sellPrice": 100
         },
         {
@@ -3260,7 +3260,7 @@
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 60
+      "wholesalePrice": 0
     },
     {
       "id": "item_tf02n21w69l",
@@ -4292,7 +4292,7 @@
         "Carbon Gray"
       ],
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 200,
         "shop_thurles": 200,
@@ -4325,7 +4325,7 @@
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 13
+      "wholesalePrice": 0
     },
     {
       "id": "item_i3sjoqbw69l",
@@ -4338,7 +4338,7 @@
         "Graphite Gray"
       ],
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 210,
         "shop_thurles": 210,
@@ -4371,7 +4371,7 @@
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 13
+      "wholesalePrice": 0
     },
     {
       "id": "item_lfwq3dxw69l",
@@ -4540,7 +4540,7 @@
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 90
+      "wholesalePrice": 0
     },
     {
       "id": "item_lsggxg3w69l",
@@ -15273,7 +15273,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:58:24.889Z"
+    "lastSaved": "2026-08-28T13:58:43.121Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
