@@ -2069,7 +2069,7 @@
       "shopPrices": {
         "warehouse": 340,
         "shop_thurles": 340,
-        "shop_kilkenny": 340,
+        "shop_kilkenny": 380,
         "shop_maynooth": 340,
         "shop_mullingar": 340,
         "shop_tralee": 340,
@@ -2114,7 +2114,7 @@
           "location": "shop_kilkenny",
           "costPrice": 300,
           "wholesalePrice": 0,
-          "sellPrice": 340,
+          "sellPrice": 380,
           "addedAt": "2026-08-28"
         }
       ],
@@ -15259,7 +15259,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:03:15.448Z"
+    "lastSaved": "2026-08-28T14:03:30.811Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
