@@ -7530,7 +7530,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 3,
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
@@ -15837,7 +15837,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T15:04:55.089Z"
+    "lastSaved": "2026-08-28T15:07:01.453Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
