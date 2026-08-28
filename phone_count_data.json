@@ -6084,20 +6084,10 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 1
       },
       "units": [
-        {
-          "id": "unit_ixgbjf6u5p3",
-          "imei": "353043116155196",
-          "color": "Red",
-          "condition": "Used",
-          "location": "shop_tralee",
-          "costPrice": 300,
-          "wholesalePrice": 300,
-          "sellPrice": 380
-        },
         {
           "id": "unit_u04ngbqu5pe",
           "imei": "353039112970182",
@@ -11845,7 +11835,8 @@
       "condition": "Used",
       "imei": "353057116920565",
       "colors": [
-        "Black"
+        "Black",
+        "Red"
       ],
       "costPrice": 0,
       "wholesalePrice": 0,
@@ -11864,7 +11855,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 2,
         "shop_tullamore": 0
       },
       "units": [
@@ -11872,6 +11863,17 @@
           "id": "unit_r37il9ou5p3",
           "imei": "353057116920565",
           "color": "Black",
+          "condition": "Used",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        },
+        {
+          "id": "unit_ixgbjf6u5p3",
+          "imei": "353043116155196",
+          "color": "Red",
           "condition": "Used",
           "location": "shop_tralee",
           "costPrice": 0,
@@ -15456,7 +15458,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:26:00.921Z"
+    "lastSaved": "2026-08-28T14:26:13.953Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
