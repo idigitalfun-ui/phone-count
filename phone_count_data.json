@@ -6146,20 +6146,10 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 1
       },
       "units": [
-        {
-          "id": "unit_pp94jvzu5p3",
-          "imei": "353102100536165",
-          "color": "gold",
-          "condition": "Used",
-          "location": "shop_tralee",
-          "costPrice": 170,
-          "wholesalePrice": 170,
-          "sellPrice": 230
-        },
         {
           "id": "unit_l6h2si2u5pc",
           "imei": "357279097773583",
@@ -11808,6 +11798,51 @@
         }
       ],
       "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_x5y52t9mrr2",
+      "name": "iPhone XS Max",
+      "category": "cat_7qgen7vw69i",
+      "memory": "64GB",
+      "condition": "Used",
+      "imei": "353102100536165",
+      "colors": [
+        "Gold"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 230,
+        "shop_thurles": 230,
+        "shop_kilkenny": 230,
+        "shop_maynooth": 230,
+        "shop_mullingar": 230,
+        "shop_tralee": 230,
+        "shop_tullamore": 350
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_pp94jvzu5p3",
+          "imei": "353102100536165",
+          "color": "Gold",
+          "condition": "Used",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
     }
   ],
   "movements": [
@@ -15383,7 +15418,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:24:38.113Z"
+    "lastSaved": "2026-08-28T14:25:00.161Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
