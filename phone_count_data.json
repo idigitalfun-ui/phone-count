@@ -7573,7 +7573,9 @@
           "costPrice": 0,
           "wholesalePrice": 0,
           "sellPrice": 0,
-          "batteryPct": null
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -7617,7 +7619,9 @@
           "costPrice": 0,
           "wholesalePrice": 0,
           "sellPrice": 0,
-          "batteryPct": null
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -7660,7 +7664,9 @@
           "location": "shop_tralee",
           "costPrice": 0,
           "wholesalePrice": 0,
-          "sellPrice": 0
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -7678,14 +7684,14 @@
         "Pink"
       ],
       "batteryPct": 100,
-      "costPrice": 30,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 50,
         "shop_thurles": 50,
         "shop_kilkenny": 50,
         "shop_maynooth": 50,
         "shop_mullingar": 50,
-        "shop_tralee": 50,
+        "shop_tralee": 0,
         "shop_tullamore": 50
       },
       "locations": {
@@ -7704,9 +7710,11 @@
           "color": "Pink",
           "condition": "Used",
           "location": "shop_tralee",
-          "costPrice": 30,
+          "costPrice": 0,
           "wholesalePrice": 30,
-          "sellPrice": 50
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -7820,7 +7828,9 @@
           "costPrice": 15,
           "wholesalePrice": 0,
           "sellPrice": 25,
-          "batteryPct": null
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -7837,14 +7847,14 @@
         "Rose Gold"
       ],
       "batteryPct": 100,
-      "costPrice": 50,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 70,
         "shop_thurles": 70,
         "shop_kilkenny": 70,
         "shop_maynooth": 70,
         "shop_mullingar": 70,
-        "shop_tralee": 70,
+        "shop_tralee": 0,
         "shop_tullamore": 70
       },
       "locations": {
@@ -7965,7 +7975,7 @@
         "shop_tullamore": 40
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 5,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
@@ -14944,7 +14954,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T15:24:00.235Z"
+    "lastSaved": "2026-08-28T15:25:11.232Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
