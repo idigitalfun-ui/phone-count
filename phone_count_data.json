@@ -8349,23 +8349,13 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_0vuoeevu5o4",
-          "imei": "357884911524201",
-          "color": "Black",
-          "condition": "Used",
-          "location": "shop_kilkenny",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 220
-        },
         {
           "id": "unit_0x2m88ru5o4",
           "imei": "357884911524128",
@@ -11411,6 +11401,51 @@
           "wholesalePrice": 0,
           "sellPrice": 130,
           "addedAt": "2026-08-28"
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_qgui8gx30h8",
+      "name": "Samsung A17 5G",
+      "category": "cat_w56n2ktw69i",
+      "memory": "128GB",
+      "condition": "New",
+      "imei": "357884911524201",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 220,
+        "shop_thurles": 220,
+        "shop_kilkenny": 220,
+        "shop_maynooth": 220,
+        "shop_mullingar": 220,
+        "shop_tralee": 220,
+        "shop_tullamore": 220
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_0vuoeevu5o4",
+          "imei": "357884911524201",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_kilkenny",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 220,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-28"
@@ -14989,7 +15024,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:41:19.247Z"
+    "lastSaved": "2026-08-28T13:41:38.735Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
