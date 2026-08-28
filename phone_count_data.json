@@ -3658,7 +3658,7 @@
     },
     {
       "id": "item_x7g19rbw69l",
-      "name": "iPhone 11 Pro 64GB",
+      "name": "iPhone 11 Pro",
       "category": "cat_7qgen7vw69i",
       "memory": "64GB",
       "imei": "",
@@ -3690,11 +3690,11 @@
         {
           "id": "unit_mz2sbmwu5nu",
           "imei": "353835109177768",
-          "color": "",
+          "color": "Gold",
           "condition": "Used",
           "location": "shop_kilkenny",
-          "costPrice": 1,
-          "wholesalePrice": 96,
+          "costPrice": 0,
+          "wholesalePrice": 0,
           "sellPrice": 430
         }
       ],
@@ -14781,7 +14781,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T11:52:04.680Z"
+    "lastSaved": "2026-08-28T11:52:20.096Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
