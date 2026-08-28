@@ -6084,20 +6084,10 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 2,
+        "shop_tralee": 1,
         "shop_tullamore": 1
       },
       "units": [
-        {
-          "id": "unit_r37il9ou5p3",
-          "imei": "353057116920565",
-          "color": "Black",
-          "condition": "Used",
-          "location": "shop_tralee",
-          "costPrice": 300,
-          "wholesalePrice": 300,
-          "sellPrice": 380
-        },
         {
           "id": "unit_ixgbjf6u5p3",
           "imei": "353043116155196",
@@ -11846,6 +11836,51 @@
         }
       ],
       "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_oske6fso2mu",
+      "name": "iPhone 12",
+      "category": "cat_7qgen7vw69i",
+      "memory": "128GB",
+      "condition": "Used",
+      "imei": "353057116920565",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 380,
+        "shop_thurles": 380,
+        "shop_kilkenny": 380,
+        "shop_maynooth": 380,
+        "shop_mullingar": 380,
+        "shop_tralee": 380,
+        "shop_tullamore": 370
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_r37il9ou5p3",
+          "imei": "353057116920565",
+          "color": "Black",
+          "condition": "Used",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
     }
   ],
   "movements": [
@@ -15421,7 +15456,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:25:38.916Z"
+    "lastSaved": "2026-08-28T14:26:00.921Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
