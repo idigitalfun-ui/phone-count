@@ -1483,7 +1483,7 @@
       "locations": {
         "warehouse": 5,
         "shop_thurles": 0,
-        "shop_kilkenny": 3,
+        "shop_kilkenny": 0,
         "shop_maynooth": 4,
         "shop_mullingar": 0,
         "shop_tralee": 4,
@@ -4486,7 +4486,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -8380,7 +8380,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 3,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 0,
@@ -15151,7 +15151,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:52:31.071Z"
+    "lastSaved": "2026-08-28T13:52:57.079Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
