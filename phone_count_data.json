@@ -1126,10 +1126,10 @@
     },
     {
       "id": "item_imoqln3w69k",
-      "name": "Samsung A56",
+      "name": "Samsung A56 5G",
       "category": "cat_w56n2ktw69i",
-      "memory": "8GB/128GB",
-      "imei": "",
+      "memory": "128GB",
+      "imei": "352371191664787",
       "condition": "New",
       "colors": [
         "Graphite",
@@ -1139,7 +1139,7 @@
         "Awesome Lightgray",
         "Awesome Olive"
       ],
-      "batteryPct": 100,
+      "batteryPct": 0,
       "costPrice": 275,
       "shopPrices": {
         "warehouse": 305,
@@ -1199,10 +1199,22 @@
           "costPrice": 275,
           "wholesalePrice": 287,
           "sellPrice": 305
+        },
+        {
+          "id": "unit_nvcw6p99fst",
+          "imei": "352371191664787",
+          "color": "Awesome Pink",
+          "condition": "New",
+          "batteryPct": 0,
+          "location": "shop_kilkenny",
+          "costPrice": 275,
+          "wholesalePrice": 0,
+          "sellPrice": 380,
+          "addedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 287
+      "wholesalePrice": 0
     },
     {
       "id": "item_ccykxiqw69k",
@@ -15148,7 +15160,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:46:02.039Z"
+    "lastSaved": "2026-08-28T13:46:38.527Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
