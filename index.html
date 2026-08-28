@@ -2742,6 +2742,41 @@ Views.inventory = function(){
     });
   }
 
+  // Dynamic Category totals based on active shop filter
+  const catCounts = {};
+  let grandTotal = 0;
+  Store.data.categories.forEach(c => { catCounts[c.id] = 0; });
+  (Store.data.items || []).forEach(it => {
+    const q = f.shop !== 'all' ? ((it.locations && it.locations[f.shop]) || 0) : totalQty(it);
+    if(q > 0) {
+      if(catCounts[it.category] != null) catCounts[it.category] += q;
+      grandTotal += q;
+    }
+  });
+
+  const catSummaryHtml = `
+    <div class="sticky-cat-bar" style="position:sticky;top:60px;z-index:15;background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);padding:10px 14px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,0.06);border:1px solid var(--line);margin-bottom:14px;display:flex;align-items:center;gap:8px;overflow-x:auto;white-space:nowrap;">
+      <div style="font-weight:800;font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;gap:4px;flex-shrink:0;">
+        📊 Category Totals:
+      </div>
+      <button class="pill" onclick="Views._invFilter.cat='all';render();" style="cursor:pointer;flex-shrink:0;background:${f.cat==='all'?'var(--teal-dark)':'#F1F5F9'};color:${f.cat==='all'?'#fff':'var(--ink)'};font-weight:700;font-size:12px;border:1.5px solid ${f.cat==='all'?'var(--teal-dark)':'#CBD5E1'};padding:4px 12px;border-radius:20px;display:flex;align-items:center;gap:6px;">
+        <span>All</span>
+        <span style="background:${f.cat==='all'?'rgba(255,255,255,0.3)':'#E2E8F0'};padding:1px 6px;border-radius:10px;font-size:11px;">${grandTotal}</span>
+      </button>
+      ${Store.data.categories.map(c => {
+        const th = categoryTheme(c.id);
+        const count = catCounts[c.id] || 0;
+        const active = f.cat === c.id;
+        return `
+          <button class="pill" onclick="Views._invFilter.cat='${c.id}';render();" style="cursor:pointer;flex-shrink:0;background:${active ? th.pillColor : th.pillBg};color:${active ? '#fff' : th.pillColor};font-weight:700;font-size:12px;border:1.5px solid ${th.pillBorder};padding:4px 12px;border-radius:20px;display:flex;align-items:center;gap:6px;">
+            <span>${esc(c.name)}</span>
+            <span style="background:${active ? 'rgba(255,255,255,0.3)' : th.pillBorder};padding:1px 6px;border-radius:10px;font-size:11px;">${count}</span>
+          </button>
+        `;
+      }).join('')}
+    </div>
+  `;
+
   return `
     <style>
       .inv-flat th { white-space:nowrap; background:#F0F4F8; }
@@ -2752,6 +2787,8 @@ Views.inventory = function(){
       .inv-imei-scan select { padding:8px 10px;border:none;border-radius:6px;font-size:13px;background:#fff;color:var(--ink); }
       .inv-imei-scan button { white-space:nowrap; }
     </style>
+
+    ${catSummaryHtml}
 
     <div class="inv-imei-scan">
       <label>📱 Transfer by IMEI:</label>
@@ -3537,12 +3574,61 @@ Views.onCategoryChangeInModal = function(){
   }
 };
 
+Views.renderModalColorInputs = function(colors = []){
+  const cleanColors = (Array.isArray(colors) ? colors : [colors]).map(c=>String(c||'').trim()).filter(Boolean);
+  if(!cleanColors.length) cleanColors.push('Black');
+  return `
+    <div class="field" style="margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <label style="margin:0;font-weight:600;font-size:12.5px;">🎨 Product Colors</label>
+        <button type="button" class="btn sm ghost" onclick="Views.addModalColorInput('')" style="padding:2px 8px;font-size:11.5px;color:var(--teal-dark);border:1px dashed var(--teal);background:#F0FDFA;">+ Add new color</button>
+      </div>
+      <div id="modal_colors_list" style="display:flex;flex-direction:column;gap:6px;">
+        ${cleanColors.map((c)=>`
+          <div class="modal-color-row" style="display:flex;align-items:center;gap:6px;">
+            <input class="modal-color-input" value="${esc(c)}" placeholder="e.g. Rose Gold, Black, Silver, Midnight" style="flex:1;padding:6px 10px;border:1px solid var(--line);border-radius:6px;font-size:13px;">
+            <button type="button" class="btn sm danger ghost" onclick="if(document.querySelectorAll('.modal-color-row').length>1){ this.closest('.modal-color-row').remove(); } else { this.closest('.modal-color-row').querySelector('input').value=''; }" style="padding:4px 8px;" title="Remove this color">✕</button>
+          </div>
+        `).join('')}
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;align-items:center;">
+        <span style="font-size:11px;color:var(--muted);">Quick add:</span>
+        ${['Black','Silver','Gold','Rose Gold','Space Gray','Midnight','Starlight','Blue','Pink','Purple','Green'].map(col=>`
+          <button type="button" class="btn sm ghost" style="padding:1px 6px;font-size:10.5px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;cursor:pointer;" onclick="Views.addModalColorInput('${col}')">+ ${col}</button>
+        `).join('')}
+      </div>
+    </div>
+  `;
+};
+
+Views.addModalColorInput = function(val = ''){
+  const list = document.getElementById('modal_colors_list');
+  if(!list) return;
+  const inputs = list.querySelectorAll('.modal-color-input');
+  if(inputs.length === 1 && !inputs[0].value.trim() && val){
+    inputs[0].value = val;
+    inputs[0].focus();
+    return;
+  }
+  const div = document.createElement('div');
+  div.className = 'modal-color-row';
+  div.style.cssText = 'display:flex;align-items:center;gap:6px;';
+  div.innerHTML = `
+    <input class="modal-color-input" value="${esc(val)}" placeholder="e.g. Rose Gold, Black, Silver, Midnight" style="flex:1;padding:6px 10px;border:1px solid var(--line);border-radius:6px;font-size:13px;">
+    <button type="button" class="btn sm danger ghost" onclick="if(document.querySelectorAll('.modal-color-row').length>1){ this.closest('.modal-color-row').remove(); } else { this.closest('.modal-color-row').querySelector('input').value=''; }" style="padding:4px 8px;" title="Remove this color">✕</button>
+  `;
+  list.appendChild(div);
+  const inp = div.querySelector('input');
+  if(inp) inp.focus();
+};
+
 Views.openItemModal = function(itemId, shopId){
   const it = itemId ? itemById(itemId) : null;
   const shops = activeShops();
   const isGeneric = it ? (!it.imei && (it.category === 'cat_u83iatxw69i' || it.category === 'cat_qaxr5vow69i')) : false;
   const defaultLoc = shopId || (it && Object.keys(it.locations||{}).find(k=>(it.locations[k]||0)>0)) || 'warehouse';
   const currentUntracked = it ? untrackedQtyAt(it, defaultLoc) : 1;
+  const existingColors = it ? (it.colors || []) : ['Black'];
 
   const html = `
     <div class="modal">
@@ -3567,9 +3653,12 @@ Views.openItemModal = function(itemId, shopId){
           <label>${it ? `Stock Quantity at ${esc(shopName(defaultLoc))}` : 'Quantity to add'}</label>
           <input id="f_qty" type="number" min="0" value="${currentUntracked}" placeholder="e.g. 5">
         </div>
+        
+        ${Views.renderModalColorInputs(existingColors)}
+
         <div class="field-grid" style="grid-template-columns:1fr 1fr;">
-          <div class="field"><label>Color(s)</label><input id="f_color" value="${it?esc((it.colors||[]).join(', ')):''}" placeholder="e.g. Black, Gold, Silver (comma-separated for multi-color)"></div>
           <div class="field"><label>Cost Price (€)</label><input id="f_cost" type="number" step="0.01" value="${it?it.costPrice:''}" placeholder="e.g. 0.00"></div>
+          <div class="field"><label>Opening Location</label><select id="f_openloc" onchange="if(window._currentEditItemId){ const q = untrackedQtyAt(itemById(window._currentEditItemId), this.value); const qi = document.getElementById('f_qty'); if(qi) qi.value = q; const ql = document.querySelector('#f_qty_wrap label'); if(ql) ql.textContent = 'Stock Quantity at ' + this.options[this.selectedIndex].text; }">${shops.map(s=>`<option value="${s.id}" ${s.id===defaultLoc?'selected':''}>${esc(s.name)}</option>`).join('')}</select></div>
         </div>
         <div class="field-grid">
           <div class="field">
@@ -3584,7 +3673,6 @@ Views.openItemModal = function(itemId, shopId){
             <input id="f_invoice" placeholder="e.g. INV-10492 (Optional)">
           </div>
         </div>
-        <div class="field"><label>Opening Location</label><select id="f_openloc" onchange="if(window._currentEditItemId){ const q = untrackedQtyAt(itemById(window._currentEditItemId), this.value); const qi = document.getElementById('f_qty'); if(qi) qi.value = q; const ql = document.querySelector('#f_qty_wrap label'); if(ql) ql.textContent = 'Stock Quantity at ' + this.options[this.selectedIndex].text; }">${shops.map(s=>`<option value="${s.id}" ${s.id===defaultLoc?'selected':''}>${esc(s.name)}</option>`).join('')}</select></div>
       </div>
       <div class="modal-foot">
         ${it?`<button class="btn danger" onclick="Views.deleteItem('${it.id}')">Delete</button>`:''}
@@ -3595,6 +3683,7 @@ Views.openItemModal = function(itemId, shopId){
   window._currentEditItemId = it ? it.id : null;
   Modal.open(html);
 };
+
 Views.saveItem = function(itemId){
   let name = val('f_name').trim();
   if(!name){ Toast.show('Please enter a product name.','err'); return; }
@@ -3608,8 +3697,13 @@ Views.saveItem = function(itemId){
   const batt = val('f_batt');
   const isGeneric = !!document.getElementById('f_generic')?.checked || (!val('f_imei').trim() && (cat === 'cat_u83iatxw69i' || cat === 'cat_qaxr5vow69i'));
   const imei = isGeneric ? '' : val('f_imei').trim();
-  const rawColors = val('f_color').split(',').map(s=>s.trim()).filter(Boolean);
-  const color = rawColors[0] || 'Black';
+
+  // Collect all colors
+  const colorInps = Array.from(document.querySelectorAll('.modal-color-input')).map(i => i.value.trim()).filter(Boolean);
+  let rawColors = colorInps.length ? colorInps : (val('f_color')||'').split(',').map(s=>s.trim()).filter(Boolean);
+  if(!rawColors.length) rawColors = ['Black'];
+  const primaryColor = rawColors[0];
+
   const cost = parseFloat(val('f_cost'))||0;
   const openLoc = val('f_openloc') || 'warehouse';
   const qty = isGeneric ? Math.max(0, parseInt(val('f_qty')) || 0) : 1;
@@ -3629,28 +3723,24 @@ Views.saveItem = function(itemId){
       it.condition = cond;
       it.batteryPct = batt===''?null:Number(batt);
       it.costPrice = cost;
-      rawColors.forEach(c=>{ if(!it.colors.includes(c)) it.colors.push(c); });
+      it.colors = [...new Set(rawColors)];
       if(!Array.isArray(it.units)) it.units = [];
 
       if(imei){
         it.imei = imei;
-        // 1. Try to find existing unit with this exact IMEI
         let u = it.units.find(x => x.imei && x.imei.toLowerCase() === imei.toLowerCase());
-        // 2. If not found, try to find an untracked unit (no IMEI) at openLoc or anywhere in it.units
         if(!u){
           u = it.units.find(x => !x.imei && x.location === openLoc) || it.units.find(x => !x.imei);
         }
-        // 3. If still no unit found, create a new tracked unit object
         if(!u){
           u = {
             id: uid('unit'),
             imei: imei,
-            color: color,
+            color: primaryColor,
             condition: cond,
             batteryPct: batt===''?null:Number(batt),
             location: openLoc,
             costPrice: cost || it.costPrice || 0,
-            wholesalePrice: wholesale || it.wholesalePrice || 0,
             sellPrice: (it.shopPrices && it.shopPrices[openLoc]) || cost || 0,
             addedAt: todayISO()
           };
@@ -3660,10 +3750,9 @@ Views.saveItem = function(itemId){
           }
         } else {
           u.imei = imei;
-          u.color = color;
+          u.color = primaryColor;
           u.condition = cond;
           u.costPrice = cost;
-          u.wholesalePrice = wholesale;
           u.location = openLoc;
           if(batt!=='') u.batteryPct = Number(batt);
         }
@@ -3674,7 +3763,6 @@ Views.saveItem = function(itemId){
       }
     }
   } else {
-    // Check if item model already exists by Name + Category + Memory
     const canonKey = (name + '|' + cat + '|' + mem).toLowerCase();
     let it = Store.data.items.find(x => ((x.name + '|' + x.category + '|' + (x.memory||'')).toLowerCase() === canonKey));
 
@@ -3687,9 +3775,8 @@ Views.saveItem = function(itemId){
         condition: cond,
         batteryPct: batt===''?null:Number(batt),
         imei: imei || '',
-        colors: [color],
+        colors: [...new Set(rawColors)],
         costPrice: cost,
-        wholesalePrice: wholesale,
         shopPrices: {},
         locations: {},
         units: [],
@@ -3701,29 +3788,25 @@ Views.saveItem = function(itemId){
       });
       Store.data.items.push(it);
     } else {
-      if(!it.colors.includes(color)) it.colors.push(color);
+      rawColors.forEach(c => { if(!it.colors.includes(c)) it.colors.push(c); });
       if(cost > 0 && (it.costPrice <= 1 || it.costPrice == null)){
         it.costPrice = cost;
-        it.wholesalePrice = wholesale;
       } else if(cost === 0){
         it.costPrice = 0;
-        it.wholesalePrice = 0;
       }
     }
 
-    // Add quantity at opening location
     it.locations[openLoc] = (it.locations[openLoc] || 0) + qty;
 
-    for(let i = 0; i < qty; i++){
+    if(!isGeneric && imei){
       const newUnit = {
         id: uid('unit'),
-        imei: (i === 0 && !isGeneric) ? imei : '',
-        color: color,
+        imei: imei,
+        color: primaryColor,
         condition: cond,
         batteryPct: batt===''?null:Number(batt),
         location: openLoc,
         costPrice: cost,
-        wholesalePrice: wholesale,
         sellPrice: (it.shopPrices && it.shopPrices[openLoc]) || cost || 0,
         addedAt: todayISO()
       };
@@ -3734,7 +3817,7 @@ Views.saveItem = function(itemId){
 
   Store.save();
   Modal.close();
-  Toast.show(qty > 1 ? `${qty} units added to ${shopName(openLoc)}.` : 'Product added to inventory.', 'ok');
+  Toast.show(qty > 1 ? `${qty} units added to ${shopName(openLoc)}.` : 'Product saved successfully.', 'ok');
   render();
 };
 
@@ -3743,7 +3826,7 @@ Views.openDuplicateDeviceModal = function(itemId, unitId){
   const unit = unitId ? (it.units||[]).find(u=>u.id===unitId) : (it.units && it.units[0]);
   const shops = activeShops();
   const cond = (unit && unit.condition) || it.condition || 'New';
-  const color = (unit && unit.color) || (it.colors && it.colors[0]) || 'Black';
+  const existingColors = (it.colors && it.colors.length) ? it.colors : [(unit && unit.color) || 'Black'];
   const batt = (unit && unit.batteryPct != null) ? unit.batteryPct : (it.batteryPct != null ? it.batteryPct : '');
   const cost = (unit && unit.costPrice != null) ? unit.costPrice : (it.costPrice != null ? it.costPrice : '');
   const loc = (unit && unit.location) || 'warehouse';
@@ -3775,11 +3858,13 @@ Views.openDuplicateDeviceModal = function(itemId, unitId){
           <label>Quantity to add</label>
           <input id="f_qty" type="number" min="1" value="1" placeholder="e.g. 5">
         </div>
-        <div class="field-grid">
-          <div class="field"><label>Color</label><input id="f_color" value="${esc(color)}" placeholder="e.g. Midnight, Purple, Black"></div>
+        
+        ${Views.renderModalColorInputs(existingColors)}
+
+        <div class="field-grid" style="grid-template-columns:1fr 1fr;">
           <div class="field"><label>Cost Price (€)</label><input id="f_cost" type="number" step="0.01" value="${cost}" placeholder="e.g. 0.00 or 25.00"></div>
+          <div class="field"><label>Opening Location</label><select id="f_openloc">${shops.map(s=>`<option value="${s.id}" ${loc===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}</select></div>
         </div>
-        <div class="field"><label>Opening Location</label><select id="f_openloc">${shops.map(s=>`<option value="${s.id}" ${loc===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}</select></div>
       </div>
       <div class="modal-foot">
         <button class="btn" onclick="Modal.close()">Cancel</button>
@@ -5068,7 +5153,43 @@ Views.stockview = function(){
     <span><span style="display:inline-block;width:12px;height:12px;border:2px solid var(--teal);border-radius:3px;margin-right:4px;"></span>Sale Price (retail to customer)</span>
   </div>`;
 
+  // Dynamic Category totals for stock view
+  const svCatCounts = {};
+  let svGrandTotal = 0;
+  Store.data.categories.forEach(c => { svCatCounts[c.id] = 0; });
+  items.forEach(it => {
+    const q = locId==='all' ? totalQty(it) : ((it.locations&&it.locations[locId])||0);
+    if(q > 0) {
+      if(svCatCounts[it.category] != null) svCatCounts[it.category] += q;
+      svGrandTotal += q;
+    }
+  });
+
+  const svCatSummaryHtml = `
+    <div class="sticky-cat-bar no-print" style="position:sticky;top:60px;z-index:15;background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);padding:10px 14px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,0.06);border:1px solid var(--line);margin-bottom:14px;display:flex;align-items:center;gap:8px;overflow-x:auto;white-space:nowrap;">
+      <div style="font-weight:800;font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;gap:4px;flex-shrink:0;">
+        📊 Category Totals (${locId==='all'?'All Stores':esc(shopName(locId))}):
+      </div>
+      <div class="pill" style="flex-shrink:0;background:var(--teal-dark);color:#fff;font-weight:700;font-size:12px;padding:4px 12px;border-radius:20px;display:flex;align-items:center;gap:6px;">
+        <span>Total Stock</span>
+        <span style="background:rgba(255,255,255,0.3);padding:1px 6px;border-radius:10px;font-size:11px;">${svGrandTotal}</span>
+      </div>
+      ${Store.data.categories.map(c => {
+        const th = categoryTheme(c.id);
+        const count = svCatCounts[c.id] || 0;
+        return `
+          <div class="pill" style="flex-shrink:0;background:${th.pillBg};color:${th.pillColor};font-weight:700;font-size:12px;border:1.5px solid ${th.pillBorder};padding:4px 12px;border-radius:20px;display:flex;align-items:center;gap:6px;">
+            <span>${esc(c.name)}</span>
+            <span style="background:${th.pillBorder};padding:1px 6px;border-radius:10px;font-size:11px;">${count}</span>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
   return `
+    ${svCatSummaryHtml}
+
     <div class="toolbar no-print">
       <div class="chip-select">${locs.map(l=>`<button class="${locId===l.id?'active':''}" onclick="Views._svLoc='${l.id}';render()">${esc(l.name)}</button>`).join('')}</div>
       <div class="chip-select"><button class="${mode==='totals'?'active':''}" onclick="Views._svMode='totals';render()">Totals</button><button class="${mode==='imei'?'active':''}" onclick="Views._svMode='imei';render()">With IMEI</button></div>
