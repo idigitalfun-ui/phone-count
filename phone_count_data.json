@@ -1616,7 +1616,7 @@
         "shop_kilkenny": 2,
         "shop_maynooth": 3,
         "shop_mullingar": 2,
-        "shop_tralee": 3,
+        "shop_tralee": 4,
         "shop_tullamore": 0
       },
       "units": [
@@ -1768,6 +1768,18 @@
           "wholesalePrice": 26,
           "sellPrice": 45,
           "addedAt": "2026-08-25"
+        },
+        {
+          "id": "unit_h1fcw8mmu00",
+          "imei": "355282134797120",
+          "color": "Charcoal",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 30,
+          "addedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -15661,7 +15673,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:52:35.761Z"
+    "lastSaved": "2026-08-28T14:53:02.690Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
