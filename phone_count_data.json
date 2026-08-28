@@ -9052,20 +9052,10 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 4,
+        "shop_tralee": 3,
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_foavhrwu5p6",
-          "imei": "353359200196726",
-          "color": "",
-          "condition": "Used",
-          "location": "shop_tralee",
-          "costPrice": 0,
-          "wholesalePrice": 0,
-          "sellPrice": 0
-        },
         {
           "id": "unit_m2clfg5u5p6",
           "imei": "356771220266320",
@@ -11925,6 +11915,51 @@
           "id": "unit_57ab6rwu5p6",
           "imei": "355838611201959",
           "color": "Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_8ecyi8eb3q7",
+      "name": "Blackview N1000",
+      "category": "cat_lkhn0qyw69i",
+      "memory": "4GB",
+      "condition": "New",
+      "imei": "353359200196726",
+      "colors": [
+        "Phantom Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_foavhrwu5p6",
+          "imei": "353359200196726",
+          "color": "Phantom Black",
           "condition": "New",
           "location": "shop_tralee",
           "costPrice": 0,
@@ -15509,7 +15544,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:43:14.681Z"
+    "lastSaved": "2026-08-28T14:43:55.425Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
