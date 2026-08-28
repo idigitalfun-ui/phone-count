@@ -2876,7 +2876,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 1,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -4265,7 +4265,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -8204,24 +8204,13 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_7izs17xu5o3",
-          "imei": "359620571344144",
-          "color": "Awesome Lilac",
-          "condition": "Used",
-          "location": "shop_kilkenny",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 495
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-20"
     },
     {
@@ -15173,7 +15162,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:48:23.478Z"
+    "lastSaved": "2026-08-28T13:48:42.087Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
