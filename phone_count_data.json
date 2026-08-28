@@ -4789,7 +4789,7 @@
     },
     {
       "id": "item_2pgorajw69l",
-      "name": "Modio M25 5G 512GB",
+      "name": "Modio M25 5G",
       "category": "cat_cgd9w36w69i",
       "memory": "512GB",
       "imei": "",
@@ -4823,12 +4823,13 @@
         {
           "id": "unit_zbqjqctu5oa",
           "imei": "354933660382148",
-          "color": "",
+          "color": "Blue",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 1,
-          "wholesalePrice": 65,
-          "sellPrice": 170
+          "costPrice": 65,
+          "wholesalePrice": 0,
+          "sellPrice": 170,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15254,7 +15255,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:00:31.919Z"
+    "lastSaved": "2026-08-28T14:01:03.367Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
