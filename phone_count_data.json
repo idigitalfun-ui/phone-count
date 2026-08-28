@@ -9123,13 +9123,14 @@
     },
     {
       "id": "item_tsll2x3u5p8",
-      "name": "Modio M25 512GB",
+      "name": "Modio M25",
       "category": "cat_cgd9w36w69i",
       "memory": "512GB",
       "imei": "",
       "condition": "Used",
       "colors": [
-        "gold"
+        "gold",
+        "Pink"
       ],
       "batteryPct": null,
       "costPrice": 0,
@@ -9149,29 +9150,20 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 2,
+        "shop_tralee": 1,
         "shop_tullamore": 0
       },
       "units": [
         {
-          "id": "unit_vtsv4m1u5p8",
-          "imei": "353387181149273",
-          "color": "gold",
-          "condition": "Used",
-          "location": "shop_tralee",
-          "costPrice": 0,
-          "wholesalePrice": 0,
-          "sellPrice": 0
-        },
-        {
           "id": "unit_83o0llpu5p8",
           "imei": "354933660375878",
-          "color": "pink",
-          "condition": "Used",
+          "color": "Pink",
+          "condition": "New",
           "location": "shop_tralee",
           "costPrice": 0,
           "wholesalePrice": 0,
-          "sellPrice": 0
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20"
@@ -12185,6 +12177,51 @@
           "id": "unit_2l910kdu5pa",
           "imei": "R5GYB2D4HPE",
           "color": "Gray",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_a4lwk9pwi2n",
+      "name": "Modio M25",
+      "category": "cat_cgd9w36w69i",
+      "memory": "512GB",
+      "condition": "New",
+      "imei": "353387181149273",
+      "colors": [
+        "Gold"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_vtsv4m1u5p8",
+          "imei": "353387181149273",
+          "color": "Gold",
           "condition": "New",
           "location": "shop_tralee",
           "costPrice": 0,
@@ -15769,7 +15806,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T15:00:17.033Z"
+    "lastSaved": "2026-08-28T15:00:43.609Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
