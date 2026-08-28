@@ -2543,11 +2543,11 @@
         {
           "id": "unit_rhkc9cju5nu",
           "imei": "354696400504509",
-          "color": "",
+          "color": "Blue",
           "condition": "Used",
           "location": "shop_kilkenny",
-          "costPrice": 230,
-          "wholesalePrice": 87,
+          "costPrice": 330,
+          "wholesalePrice": 0,
           "sellPrice": 390
         },
         {
@@ -14781,7 +14781,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T11:52:20.096Z"
+    "lastSaved": "2026-08-28T11:52:48.384Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
