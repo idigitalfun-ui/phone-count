@@ -6965,9 +6965,9 @@
     },
     {
       "id": "item_h7s8rllw69m",
-      "name": "Sky Pad 10 Max 64GB",
+      "name": "Sky Pad 10 Max",
       "category": "cat_cgd9w36w69i",
-      "memory": "64GB",
+      "memory": "",
       "imei": "",
       "condition": "New",
       "colors": [
@@ -6997,12 +6997,13 @@
         {
           "id": "unit_rhhalnru5pa",
           "imei": "351428241420312",
-          "color": "black",
-          "condition": "Used",
+          "color": "Black",
+          "condition": "New",
           "location": "shop_tralee",
-          "costPrice": 60,
-          "wholesalePrice": 60,
-          "sellPrice": 100
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15842,7 +15843,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T15:01:55.184Z"
+    "lastSaved": "2026-08-28T15:02:34.649Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
