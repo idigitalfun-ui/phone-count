@@ -3703,7 +3703,7 @@
     },
     {
       "id": "item_jl5q2m1w69l",
-      "name": "iPhone 12 Pro Max 128GB",
+      "name": "iPhone 12 Pro Max",
       "category": "cat_7qgen7vw69i",
       "memory": "128GB",
       "imei": "",
@@ -3726,7 +3726,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -3741,16 +3741,6 @@
           "location": "shop_kilkenny",
           "costPrice": 0,
           "wholesalePrice": 0,
-          "sellPrice": 600
-        },
-        {
-          "id": "unit_hpqycevu5nv",
-          "imei": "353541322658028",
-          "color": "",
-          "condition": "Used",
-          "location": "shop_kilkenny",
-          "costPrice": 1,
-          "wholesalePrice": 88,
           "sellPrice": 600
         }
       ],
@@ -11230,6 +11220,50 @@
       ],
       "createdAt": "2026-08-26",
       "wholesalePrice": 572
+    },
+    {
+      "id": "item_j0z6e927tqv",
+      "name": "iPhone 12 Pro Max",
+      "category": "cat_7qgen7vw69i",
+      "memory": "128GB",
+      "condition": "Used",
+      "imei": "353541322658028",
+      "colors": [
+        "Graphite"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 600,
+        "shop_thurles": 600,
+        "shop_kilkenny": 600,
+        "shop_maynooth": 600,
+        "shop_mullingar": 600,
+        "shop_tralee": 600,
+        "shop_tullamore": 600
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_hpqycevu5nv",
+          "imei": "353541322658028",
+          "color": "Graphite",
+          "condition": "Used",
+          "location": "shop_kilkenny",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 600
+        }
+      ],
+      "createdAt": "2026-08-28"
     }
   ],
   "movements": [
@@ -14781,7 +14815,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T11:53:13.032Z"
+    "lastSaved": "2026-08-28T11:53:27.705Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
