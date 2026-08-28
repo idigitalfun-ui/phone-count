@@ -8765,7 +8765,7 @@
       "id": "item_xfl4psdu5p3",
       "name": "iPad 9th Gen",
       "category": "cat_cgd9w36w69i",
-      "memory": "",
+      "memory": "64GB",
       "imei": "",
       "condition": "New",
       "colors": [
@@ -8799,9 +8799,10 @@
           "color": "Space Gray",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 1
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20"
@@ -15333,7 +15334,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:16:45.584Z"
+    "lastSaved": "2026-08-28T14:17:27.704Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
