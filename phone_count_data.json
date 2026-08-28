@@ -1043,12 +1043,14 @@
           "imei": "350057712550645",
           "color": "Black",
           "condition": "New",
-          "batteryPct": 100,
+          "batteryPct": null,
           "location": "shop_maynooth",
-          "costPrice": 250,
+          "costPrice": 0,
           "wholesalePrice": 290,
           "sellPrice": 0,
-          "addedAt": "2026-08-25"
+          "addedAt": "2026-08-25",
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_bdk602tu5nd",
@@ -1240,7 +1242,9 @@
           "location": "shop_maynooth",
           "costPrice": 275,
           "wholesalePrice": 287,
-          "sellPrice": 380
+          "sellPrice": 380,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_12mgweuu5ok",
@@ -1250,7 +1254,9 @@
           "location": "shop_maynooth",
           "costPrice": 275,
           "wholesalePrice": 287,
-          "sellPrice": 380
+          "sellPrice": 380,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_nvcw6p99fst",
@@ -3004,7 +3010,8 @@
         "Awesome Lemon",
         "Awesome White",
         "Awesome Lavender",
-        "Awesome GrayGreen"
+        "Awesome GrayGreen",
+        "Awesome Graygreen"
       ],
       "batteryPct": 100,
       "costPrice": 230,
@@ -3045,7 +3052,9 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 0
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_2fu9c61u5ol",
@@ -3055,7 +3064,9 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 0
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_14ij1atu5om",
@@ -3065,17 +3076,22 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 0
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_7fa9tuuu5om",
           "imei": "353700230904797",
-          "color": "Awesome GrayGreen",
+          "color": "Awesome Graygreen",
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 0
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28",
+          "batteryPct": null
         },
         {
           "id": "unit_vh6uk72u5oy",
@@ -5710,7 +5726,7 @@
         "warehouse": 1050,
         "shop_thurles": 1050,
         "shop_kilkenny": 1050,
-        "shop_maynooth": 1050,
+        "shop_maynooth": 0,
         "shop_mullingar": 1050,
         "shop_tralee": 1050,
         "shop_tullamore": 1050
@@ -5733,7 +5749,9 @@
           "location": "shop_maynooth",
           "costPrice": 0,
           "wholesalePrice": 0,
-          "sellPrice": 1050
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -15001,7 +15019,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T16:35:56.773Z"
+    "lastSaved": "2026-08-28T16:37:18.204Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
