@@ -453,7 +453,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 2,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 1
       },
       "units": [
@@ -620,18 +620,6 @@
         {
           "id": "unit_wf0h9009ljl",
           "imei": "351388337854016",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 115,
-          "sellPrice": 115,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 107
-        },
-        {
-          "id": "unit_okc3l1l9ljn",
-          "imei": "351388337849909",
           "color": "Black",
           "condition": "New",
           "location": "shop_tralee",
@@ -7871,21 +7859,10 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_jfvctcqu5p4",
-          "imei": "350251477988047",
-          "color": "green",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 150
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-20"
     },
     {
@@ -7916,21 +7893,10 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_sla9skzu5p4",
-          "imei": "355761225317492",
-          "color": "green",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 130
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-20"
     },
     {
@@ -15471,7 +15437,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:26:45.784Z"
+    "lastSaved": "2026-08-28T14:38:55.233Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
