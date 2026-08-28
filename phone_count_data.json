@@ -1023,7 +1023,7 @@
         "warehouse": 280,
         "shop_thurles": 300,
         "shop_kilkenny": 350,
-        "shop_maynooth": 320,
+        "shop_maynooth": 0,
         "shop_mullingar": 320,
         "shop_tralee": 280,
         "shop_tullamore": 280
@@ -1047,7 +1047,7 @@
           "location": "shop_maynooth",
           "costPrice": 250,
           "wholesalePrice": 290,
-          "sellPrice": 280,
+          "sellPrice": 0,
           "addedAt": "2026-08-25"
         },
         {
@@ -1088,7 +1088,7 @@
           "location": "shop_maynooth",
           "costPrice": 250,
           "wholesalePrice": 262,
-          "sellPrice": 300
+          "sellPrice": 0
         }
       ],
       "createdAt": "2026-08-20",
@@ -3128,7 +3128,7 @@
         "warehouse": 220,
         "shop_thurles": 220,
         "shop_kilkenny": 220,
-        "shop_maynooth": 220,
+        "shop_maynooth": 0,
         "shop_mullingar": 220,
         "shop_tralee": 220,
         "shop_tullamore": 220
@@ -3150,10 +3150,12 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 160,
-          "sellPrice": 160,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 172
+          "wholesalePrice": 172,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_ghyyvlc9ljp",
@@ -3174,10 +3176,12 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 160,
-          "sellPrice": 160,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 172
+          "wholesalePrice": 172,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_x71el6d9ljs",
@@ -10389,7 +10393,7 @@
         "warehouse": 140,
         "shop_thurles": 140,
         "shop_kilkenny": 140,
-        "shop_maynooth": 140,
+        "shop_maynooth": 0,
         "shop_mullingar": 140,
         "shop_tralee": 140,
         "shop_tullamore": 140
@@ -10411,10 +10415,12 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 140,
-          "sellPrice": 140,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 152
+          "wholesalePrice": 152,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_f5zw1l39lki",
@@ -10555,10 +10561,12 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 140,
-          "sellPrice": 140,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 152
+          "wholesalePrice": 152,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_8pj3ajw9ll0",
@@ -10666,7 +10674,7 @@
         "warehouse": 220,
         "shop_thurles": 220,
         "shop_kilkenny": 220,
-        "shop_maynooth": 220,
+        "shop_maynooth": 0,
         "shop_mullingar": 220,
         "shop_tralee": 220,
         "shop_tullamore": 220
@@ -10724,7 +10732,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 220,
-          "sellPrice": 220,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 232
@@ -10796,7 +10804,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 220,
-          "sellPrice": 220,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 232
@@ -14980,7 +14988,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T16:33:35.135Z"
+    "lastSaved": "2026-08-28T16:34:17.781Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
