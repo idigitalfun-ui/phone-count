@@ -2423,7 +2423,9 @@
           "sellPrice": 240,
           "batteryPct": null,
           "dateAdded": "2026-08-25",
-          "wholesalePrice": 200
+          "wholesalePrice": 200,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_uxxi2b7nhwv",
@@ -2651,7 +2653,9 @@
           "location": "shop_thurles",
           "costPrice": 230,
           "wholesalePrice": 230,
-          "sellPrice": 290
+          "sellPrice": 290,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_rhkc9cju5nu",
@@ -14916,7 +14920,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T15:40:17.821Z"
+    "lastSaved": "2026-08-28T15:40:46.107Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
