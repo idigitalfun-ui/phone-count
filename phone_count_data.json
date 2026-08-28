@@ -7297,21 +7297,10 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 3,
+        "shop_tralee": 2,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_tnzfr04u5pb",
-          "imei": "6941991104411",
-          "color": "black",
-          "condition": "Used",
-          "location": "shop_tralee",
-          "costPrice": 15,
-          "wholesalePrice": 15,
-          "sellPrice": 25
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-20",
       "wholesalePrice": 15
     },
@@ -7326,14 +7315,14 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 15,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 25,
         "shop_thurles": 25,
         "shop_kilkenny": 25,
         "shop_maynooth": 25,
         "shop_mullingar": 25,
-        "shop_tralee": 25,
+        "shop_tralee": 0,
         "shop_tullamore": 25
       },
       "locations": {
@@ -7345,20 +7334,9 @@
         "shop_tralee": 3,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_j409zmgu5pb",
-          "imei": "6947991102592",
-          "color": "black",
-          "condition": "Used",
-          "location": "shop_tralee",
-          "costPrice": 15,
-          "wholesalePrice": 15,
-          "sellPrice": 25
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 15
+      "wholesalePrice": 0
     },
     {
       "id": "item_tns4gnsw69n",
@@ -7394,12 +7372,13 @@
         {
           "id": "unit_ws3essiu5pb",
           "imei": "6974443389838",
-          "color": "SILVER",
-          "condition": "Used",
+          "color": "Silver",
+          "condition": "New",
           "location": "shop_tralee",
-          "costPrice": 15,
-          "wholesalePrice": 15,
-          "sellPrice": 25
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15843,7 +15822,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T15:02:55.931Z"
+    "lastSaved": "2026-08-28T15:03:28.529Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
