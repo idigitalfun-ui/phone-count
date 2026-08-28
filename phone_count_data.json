@@ -337,7 +337,7 @@
         "shop_kilkenny": 130,
         "shop_maynooth": 130,
         "shop_mullingar": 95,
-        "shop_tralee": 130,
+        "shop_tralee": 0,
         "shop_tullamore": 95
       },
       "locations": {
@@ -1136,7 +1136,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 3,
+        "shop_kilkenny": 2,
         "shop_maynooth": 2,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -3800,7 +3800,7 @@
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
@@ -4637,7 +4637,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -6281,7 +6281,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 2,
+        "shop_tralee": 0,
         "shop_tullamore": 1
       },
       "units": [
@@ -6345,7 +6345,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 1
       },
       "units": [
@@ -6585,7 +6585,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
@@ -6674,7 +6674,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 2,
+        "shop_tralee": 0,
         "shop_tullamore": 1
       },
       "units": [
@@ -7993,7 +7993,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 2,
+        "shop_tralee": 0,
         "shop_tullamore": 2
       },
       "units": [
@@ -8142,7 +8142,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -8206,7 +8206,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -9046,7 +9046,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 2,
+        "shop_tralee": 1,
         "shop_tullamore": 0
       },
       "units": [
@@ -10900,6 +10900,1168 @@
           "condition": "New",
           "location": "shop_tralee",
           "costPrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_xntdldsycq4",
+      "name": "Samsung A06",
+      "category": "cat_w56n2ktw69i",
+      "memory": "4GB/64GB",
+      "condition": "New",
+      "imei": "353907427112163",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 95,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 110,
+        "shop_thurles": 110,
+        "shop_kilkenny": 110,
+        "shop_maynooth": 110,
+        "shop_mullingar": 110,
+        "shop_tralee": 110,
+        "shop_tullamore": 110
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_pwjlgmou5nz",
+          "imei": "353907427112163",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_kilkenny",
+          "costPrice": 95,
+          "wholesalePrice": 0,
+          "sellPrice": 110,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_2x1lb1iz35g",
+      "name": "Samsung A07",
+      "category": "cat_w56n2ktw69i",
+      "memory": "64GB",
+      "condition": "New",
+      "imei": "355758263776100",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 130,
+        "shop_thurles": 130,
+        "shop_kilkenny": 130,
+        "shop_maynooth": 130,
+        "shop_mullingar": 130,
+        "shop_tralee": 130,
+        "shop_tullamore": 130
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 3,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_j27nc5zu5nz",
+          "imei": "355758263776100",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_kilkenny",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 130,
+          "batteryPct": null
+        },
+        {
+          "id": "unit_egqwv580mrw",
+          "imei": "352262376794897",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_kilkenny",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 130,
+          "addedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_i4412lu1af0",
+          "imei": "352262376794830",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_kilkenny",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 130,
+          "addedAt": "2026-08-28"
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_qgui8gx30h8",
+      "name": "Samsung A17 5G",
+      "category": "cat_w56n2ktw69i",
+      "memory": "128GB",
+      "condition": "New",
+      "imei": "357884911524201",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 220,
+        "shop_thurles": 220,
+        "shop_kilkenny": 220,
+        "shop_maynooth": 220,
+        "shop_mullingar": 220,
+        "shop_tralee": 220,
+        "shop_tullamore": 220
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_0vuoeevu5o4",
+          "imei": "357884911524201",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_kilkenny",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 220,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_f75md223q19",
+      "name": "Samsung A17",
+      "category": "cat_w56n2ktw69i",
+      "memory": "128GB",
+      "condition": "New",
+      "imei": "357884911520761",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 220,
+        "shop_thurles": 220,
+        "shop_kilkenny": 220,
+        "shop_maynooth": 220,
+        "shop_mullingar": 220,
+        "shop_tralee": 220,
+        "shop_tullamore": 220
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_6ahfa44u5o3",
+          "imei": "357884911520761",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_kilkenny",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 220,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_cdnutmz61f0",
+      "name": "Samsung A36 5G",
+      "category": "cat_w56n2ktw69i",
+      "memory": "256GB",
+      "condition": "New",
+      "imei": "355838610755252",
+      "colors": [
+        "Awesome Lavender",
+        "Black"
+      ],
+      "costPrice": 260,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 300,
+        "shop_thurles": 300,
+        "shop_kilkenny": 320,
+        "shop_maynooth": 320,
+        "shop_mullingar": 320,
+        "shop_tralee": 320,
+        "shop_tullamore": 300
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_9libcd8u5o1",
+          "imei": "351384482081018",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_kilkenny",
+          "costPrice": 290,
+          "wholesalePrice": 0,
+          "sellPrice": 350,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_rihs5ml7gwk",
+      "name": "Samsung A36 5G",
+      "category": "cat_w56n2ktw69i",
+      "memory": "128GB",
+      "condition": "New",
+      "imei": "351741468679778",
+      "colors": [
+        "Black",
+        "Awesome Lavender"
+      ],
+      "costPrice": 260,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 300,
+        "shop_thurles": 300,
+        "shop_kilkenny": 320,
+        "shop_maynooth": 320,
+        "shop_mullingar": 320,
+        "shop_tralee": 320,
+        "shop_tullamore": 300
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 2,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_rhp0ttxu5o0",
+          "imei": "351741468679778",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_kilkenny",
+          "costPrice": 260,
+          "wholesalePrice": 0,
+          "sellPrice": 320,
+          "batteryPct": null
+        },
+        {
+          "id": "unit_ywrduldu5o0",
+          "imei": "355838610755252",
+          "color": "Awesome Lavender",
+          "condition": "New",
+          "location": "shop_kilkenny",
+          "costPrice": 260,
+          "wholesalePrice": 0,
+          "sellPrice": 320,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_c9909pz8nn8",
+      "name": "Samsung A37 5G",
+      "category": "cat_w56n2ktw69i",
+      "memory": "256GB",
+      "condition": "New",
+      "imei": "353700230852293",
+      "colors": [
+        "White"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 320,
+        "shop_thurles": 340,
+        "shop_kilkenny": 440,
+        "shop_maynooth": 440,
+        "shop_mullingar": 340,
+        "shop_tralee": 320,
+        "shop_tullamore": 320
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_9dtxl3ju5o5",
+          "imei": "353700230852293",
+          "color": "White",
+          "condition": "New",
+          "location": "shop_kilkenny",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 440,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_pleu6x9kf8t",
+      "name": "Nokia C1 2nd Edition",
+      "category": "cat_kzhvkkxw69i",
+      "memory": "16GB",
+      "condition": "New",
+      "batteryPct": 100,
+      "imei": "353285242539328",
+      "colors": [
+        "Blue"
+      ],
+      "costPrice": 30,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 60,
+        "shop_thurles": 60,
+        "shop_kilkenny": 60,
+        "shop_maynooth": 60,
+        "shop_mullingar": 60,
+        "shop_tralee": 60,
+        "shop_tullamore": 60
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_cgtqypkkf8t",
+          "imei": "353285242539328",
+          "color": "Blue",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_kilkenny",
+          "costPrice": 30,
+          "wholesalePrice": 0,
+          "sellPrice": 60,
+          "addedAt": "2026-08-28"
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_77lc11pme85",
+      "name": "Google Pixel 3A",
+      "category": "cat_kzhvkkxw69i",
+      "memory": "64GB",
+      "condition": "Used",
+      "batteryPct": null,
+      "imei": "",
+      "colors": [
+        "Iris"
+      ],
+      "costPrice": 80,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 110,
+        "shop_thurles": 110,
+        "shop_kilkenny": 120,
+        "shop_maynooth": 110,
+        "shop_mullingar": 110,
+        "shop_tralee": 110,
+        "shop_tullamore": 110
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_dionuv1me85",
+          "imei": "",
+          "color": "Iris",
+          "condition": "Used",
+          "batteryPct": null,
+          "location": "shop_kilkenny",
+          "costPrice": 80,
+          "wholesalePrice": 0,
+          "sellPrice": 120,
+          "addedAt": "2026-08-28"
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_tmjjjb3yr05",
+      "name": "Samsung Buds 3",
+      "category": "cat_qaxr5vow69i",
+      "memory": "-",
+      "condition": "New",
+      "batteryPct": null,
+      "imei": "",
+      "colors": [
+        "White"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 130,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_klrfcvyyr06",
+          "imei": "",
+          "color": "White",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_kilkenny",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 130,
+          "addedAt": "2026-08-28"
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_g7dky5i8rwe",
+      "name": "Samsung A36",
+      "category": "cat_w56n2ktw69i",
+      "memory": "8GB/256GB",
+      "condition": "New",
+      "imei": "350057712576640",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 300,
+        "shop_thurles": 300,
+        "shop_kilkenny": 320,
+        "shop_maynooth": 320,
+        "shop_mullingar": 320,
+        "shop_tralee": 320,
+        "shop_tullamore": 300
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 1,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_i1qi1zmu5oy",
+          "imei": "350057712576640",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_mullingar",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_uy21ia8lt8u",
+      "name": "iPhone 8 Plus",
+      "category": "cat_7qgen7vw69i",
+      "memory": "256GB",
+      "condition": "Used",
+      "imei": "359499083982885",
+      "colors": [
+        "gold",
+        "Gold"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 230
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_fha29abu5p4",
+          "imei": "359499083982885",
+          "color": "Gold",
+          "condition": "Used",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_x5y52t9mrr2",
+      "name": "iPhone XS Max",
+      "category": "cat_7qgen7vw69i",
+      "memory": "64GB",
+      "condition": "Used",
+      "imei": "353102100536165",
+      "colors": [
+        "Gold"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 230,
+        "shop_thurles": 230,
+        "shop_kilkenny": 230,
+        "shop_maynooth": 230,
+        "shop_mullingar": 230,
+        "shop_tralee": 230,
+        "shop_tullamore": 350
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_pp94jvzu5p3",
+          "imei": "353102100536165",
+          "color": "Gold",
+          "condition": "Used",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_oske6fso2mu",
+      "name": "iPhone 12",
+      "category": "cat_7qgen7vw69i",
+      "memory": "128GB",
+      "condition": "Used",
+      "imei": "353057116920565",
+      "colors": [
+        "Black",
+        "Red"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 380,
+        "shop_thurles": 380,
+        "shop_kilkenny": 380,
+        "shop_maynooth": 380,
+        "shop_mullingar": 380,
+        "shop_tralee": 380,
+        "shop_tullamore": 370
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 2,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_r37il9ou5p3",
+          "imei": "353057116920565",
+          "color": "Black",
+          "condition": "Used",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        },
+        {
+          "id": "unit_ixgbjf6u5p3",
+          "imei": "353043116155196",
+          "color": "Red",
+          "condition": "Used",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_ur3oegk6b0f",
+      "name": "Samsung A16",
+      "category": "cat_w56n2ktw69i",
+      "memory": "128GB",
+      "condition": "New",
+      "imei": "352600229516464",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 190,
+        "shop_thurles": 190,
+        "shop_kilkenny": 190,
+        "shop_maynooth": 190,
+        "shop_mullingar": 190,
+        "shop_tralee": 190,
+        "shop_tullamore": 190
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 2,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_n4jvuovu5p5",
+          "imei": "352600229516464",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        },
+        {
+          "id": "unit_qrigxj56kjb",
+          "imei": "352600229513065",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 190,
+          "addedAt": "2026-08-28"
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_alqjwwe9ivr",
+      "name": "Samsung A36",
+      "category": "cat_w56n2ktw69i",
+      "memory": "128GB",
+      "condition": "New",
+      "imei": "355838611201959",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_57ab6rwu5p6",
+          "imei": "355838611201959",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_8ecyi8eb3q7",
+      "name": "Blackview N1000",
+      "category": "cat_kzhvkkxw69i",
+      "memory": "4GB",
+      "condition": "New",
+      "imei": "353359200196726",
+      "colors": [
+        "Phantom Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_foavhrwu5p6",
+          "imei": "353359200196726",
+          "color": "Phantom Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_vtpigo2codj",
+      "name": "Black View BV 4800 SE",
+      "category": "cat_kzhvkkxw69i",
+      "memory": "64GB",
+      "condition": "New",
+      "imei": "356771220266320",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_m2clfg5u5p6",
+          "imei": "356771220266320",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_guxbtyudfcv",
+      "name": "Black View NB 4800 Pro",
+      "category": "cat_kzhvkkxw69i",
+      "memory": "128GB",
+      "condition": "New",
+      "imei": "352482910532203",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_qmgsbcju5p6",
+          "imei": "352482910532203",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_c9q1lorgym8",
+      "name": "Google Pixel",
+      "category": "cat_kzhvkkxw69i",
+      "memory": "128GB",
+      "condition": "New",
+      "batteryPct": null,
+      "imei": "352932103816742",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_8d7d8q4gym8",
+          "imei": "352932103816742",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "addedAt": "2026-08-28"
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_2bx9lihpmq6",
+      "name": "Amazon Kindle",
+      "category": "cat_cgd9w36w69i",
+      "memory": "16GB",
+      "condition": "New",
+      "imei": "G6G3KM01524701HJ",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 90,
+        "shop_thurles": 90,
+        "shop_kilkenny": 90,
+        "shop_maynooth": 90,
+        "shop_mullingar": 90,
+        "shop_tralee": 90,
+        "shop_tullamore": 90
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 2,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_70d68hfu5p8",
+          "imei": "G6G3KM01524701HJ",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        },
+        {
+          "id": "unit_s99c3f5u5p9",
+          "imei": "G6G3KM01523103PC",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_q884qeus0w6",
+      "name": "Samsung Tab A11 Plus",
+      "category": "cat_cgd9w36w69i",
+      "memory": "6GB/128GB",
+      "condition": "New",
+      "imei": "R5GYB2D4HPE",
+      "colors": [
+        "Graphite",
+        "Gray"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 150,
+        "shop_thurles": 150,
+        "shop_kilkenny": 150,
+        "shop_maynooth": 150,
+        "shop_mullingar": 150,
+        "shop_tralee": 150,
+        "shop_tullamore": 150
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_2l910kdu5pa",
+          "imei": "R5GYB2D4HPE",
+          "color": "Gray",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_a4lwk9pwi2n",
+      "name": "Modio M25",
+      "category": "cat_cgd9w36w69i",
+      "memory": "512GB",
+      "condition": "New",
+      "imei": "353387181149273",
+      "colors": [
+        "Gold"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_vtsv4m1u5p8",
+          "imei": "353387181149273",
+          "color": "Gold",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_yem83pqx7e7",
+      "name": "Modio M129",
+      "category": "cat_cgd9w36w69i",
+      "memory": "8GB/512GB",
+      "condition": "New",
+      "imei": "359401901129723",
+      "colors": [
+        "Gold"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 220,
+        "shop_thurles": 220,
+        "shop_kilkenny": 220,
+        "shop_maynooth": 220,
+        "shop_mullingar": 220,
+        "shop_tralee": 220,
+        "shop_tullamore": 220
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_vcwgvd4u5p8",
+          "imei": "359401901129723",
+          "color": "Gold",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
           "sellPrice": 0,
           "batteryPct": null
         }
