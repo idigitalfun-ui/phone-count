@@ -7527,9 +7527,9 @@
           "color": "",
           "condition": "Used",
           "location": "shop_tralee",
-          "costPrice": 0,
+          "costPrice": 25,
           "wholesalePrice": 25,
-          "sellPrice": 0,
+          "sellPrice": 40,
           "batteryPct": null,
           "verified": true,
           "verifiedAt": "2026-08-28"
@@ -14947,7 +14947,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T15:28:30.865Z"
+    "lastSaved": "2026-08-28T15:36:31.463Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
