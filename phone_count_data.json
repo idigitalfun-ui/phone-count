@@ -2536,7 +2536,7 @@
       },
       "locations": {
         "warehouse": 0,
-        "shop_thurles": 1,
+        "shop_thurles": 0,
         "shop_kilkenny": 3,
         "shop_maynooth": 1,
         "shop_mullingar": 0,
@@ -2546,18 +2546,6 @@
       "createdAt": "2026-08-20",
       "wholesalePrice": 0,
       "units": [
-        {
-          "id": "unit_5jud3xwjxvc",
-          "imei": "355701906574102",
-          "color": "Blue",
-          "condition": "Used",
-          "location": "shop_thurles",
-          "costPrice": 410,
-          "sellPrice": 340,
-          "batteryPct": null,
-          "dateAdded": "2026-08-25",
-          "wholesalePrice": 0
-        },
         {
           "id": "unit_natebo69m13",
           "imei": "357149975344668",
@@ -14913,6 +14901,30 @@
         "sellPrice": 220,
         "addedAt": "2026-08-28"
       }
+    },
+    {
+      "id": "mv_j609c71dkax",
+      "type": "sold",
+      "itemId": "item_14pcuqkw69k",
+      "itemName": "iPhone 13",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_thurles",
+      "qty": 1,
+      "date": "2026-08-25",
+      "note": "Sold from Inventory",
+      "sellPrice": 340,
+      "unitData": {
+        "id": "unit_5jud3xwjxvc",
+        "imei": "355701906574102",
+        "color": "Blue",
+        "condition": "Used",
+        "location": "shop_thurles",
+        "costPrice": 410,
+        "sellPrice": 340,
+        "batteryPct": null,
+        "dateAdded": "2026-08-25",
+        "wholesalePrice": 0
+      }
     }
   ],
   "reorderList": [],
@@ -14920,7 +14932,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T15:40:46.107Z"
+    "lastSaved": "2026-08-28T15:41:49.450Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
