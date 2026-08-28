@@ -6442,20 +6442,10 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 2,
+        "shop_tralee": 1,
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_vcwgvd4u5p8",
-          "imei": "359401901129723",
-          "color": "gold",
-          "condition": "Used",
-          "location": "shop_tralee",
-          "costPrice": 120,
-          "wholesalePrice": 120,
-          "sellPrice": 220
-        },
         {
           "id": "unit_2eiw3mqu5p8",
           "imei": "353387181149265",
@@ -12231,6 +12221,51 @@
         }
       ],
       "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_yem83pqx7e7",
+      "name": "Modio M129",
+      "category": "cat_cgd9w36w69i",
+      "memory": "8GB/512GB",
+      "condition": "New",
+      "imei": "359401901129723",
+      "colors": [
+        "Gold"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 220,
+        "shop_thurles": 220,
+        "shop_kilkenny": 220,
+        "shop_maynooth": 220,
+        "shop_mullingar": 220,
+        "shop_tralee": 220,
+        "shop_tullamore": 220
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_vcwgvd4u5p8",
+          "imei": "359401901129723",
+          "color": "Gold",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
     }
   ],
   "movements": [
@@ -15806,7 +15841,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T15:00:43.609Z"
+    "lastSaved": "2026-08-28T15:01:06.609Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
