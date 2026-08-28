@@ -6875,7 +6875,7 @@
     },
     {
       "id": "item_lqe26i4w69m",
-      "name": "Samsung A7 Lite 32GB",
+      "name": "Samsung A7 Lite",
       "category": "cat_cgd9w36w69i",
       "memory": "32GB",
       "imei": "",
@@ -6905,11 +6905,11 @@
           "id": "unit_jmtffcvu5pa",
           "imei": "357120771950271",
           "color": "",
-          "condition": "Used",
+          "condition": "New",
           "location": "shop_tralee",
-          "costPrice": 90,
-          "wholesalePrice": 90,
-          "sellPrice": 140,
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
           "batteryPct": null
         }
       ],
@@ -15842,7 +15842,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T15:01:41.417Z"
+    "lastSaved": "2026-08-28T15:01:55.184Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
