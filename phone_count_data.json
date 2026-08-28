@@ -6572,7 +6572,7 @@
     },
     {
       "id": "item_26zzzznw69m",
-      "name": "Lenovo Tab M8 32GB",
+      "name": "Lenovo Tab M8",
       "category": "cat_cgd9w36w69i",
       "memory": "32GB",
       "imei": "",
@@ -6602,11 +6602,12 @@
           "id": "unit_6ewo5a4u5p9",
           "imei": "860488040277713",
           "color": "",
-          "condition": "Used",
+          "condition": "New",
           "location": "shop_tralee",
-          "costPrice": 70,
-          "wholesalePrice": 70,
-          "sellPrice": 110
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15767,7 +15768,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:59:23.353Z"
+    "lastSaved": "2026-08-28T14:59:51.528Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
