@@ -837,14 +837,37 @@ const Store = {
       }
     });
 
+    // Global IMEI deduplication — guarantees no two units anywhere in the database share an IMEI
+    const globalSeenImeis = new Set();
+    validItems.forEach(it => {
+      if(!Array.isArray(it.units)) it.units = [];
+      const cleanUnits = [];
+      it.units.forEach(u => {
+        if(!u) return;
+        const im = (u.imei || '').trim();
+        if(im){
+          if(globalSeenImeis.has(im)){
+            return; // drop duplicate unit
+          }
+          globalSeenImeis.add(im);
+        }
+        cleanUnits.push(u);
+      });
+      it.units = cleanUnits;
+    });
+
     d.items = validItems;
 
     // backfill every item: units[] array, and a locations/shopPrices slot for every shop (incl. any newly added one)
     d.items.forEach(it=>{
       if(!Array.isArray(it.units)) it.units = [];
       if(!it.shopPrices) it.shopPrices = {};
+      if(!it.locations) it.locations = {};
       d.shops.forEach(s=>{
-        if(it.locations[s.id]==null) it.locations[s.id]=0;
+        const tracked = (it.units||[]).filter(u => u && u.location === s.id).length;
+        if(it.locations[s.id]==null || it.locations[s.id] < tracked){
+          it.locations[s.id] = tracked;
+        }
         if(it.shopPrices[s.id]==null) it.shopPrices[s.id]=it.shopPrices.warehouse||it.costPrice||0;
       });
 
@@ -1919,10 +1942,21 @@ function compareDeviceNames(a, b) {
 
   const memVal = (m) => {
     if(!m) return 0;
-    const str = String(m).toLowerCase();
-    const num = parseInt(str) || 0;
-    if(str.includes('tb')) return num * 1024;
-    return num;
+    const str = String(m).toLowerCase().trim();
+    const dual = str.match(/(\d+)\s*(?:gb|mb)?\s*\/\s*(\d+)\s*(gb|tb|mb)?/i);
+    if(dual){
+      const ram = parseInt(dual[1]) || 0;
+      let storage = parseInt(dual[2]) || 0;
+      if((dual[3]||'').includes('tb')) storage *= 1024;
+      return storage * 1000 + ram;
+    }
+    const match = str.match(/(\d+)\s*(tb|gb|mb)?/i);
+    if(match){
+      let val = parseInt(match[1]) || 0;
+      if((match[2]||'').includes('tb')) val *= 1024;
+      return val * 1000;
+    }
+    return 0;
   };
   return memVal(a?.memory) - memVal(b?.memory);
 }
@@ -2294,8 +2328,8 @@ const Stock = {
     const fromLoc = unit.location;
     if(fromLoc===toLoc){ Toast.show('That device is already at '+shopName(toLoc)+'.','err'); return false; }
     it.locations[fromLoc] = Math.max(0,(it.locations[fromLoc]||0)-1);
-    it.locations[toLoc] = (it.locations[toLoc]||0)+1;
     unit.location = toLoc;
+    it.locations[toLoc] = Math.max((it.locations[toLoc]||0)+1, (it.units||[]).filter(u=>u&&u.location===toLoc).length);
     this.addMovement({type:'transfer-out', itemId:it.id, itemName:it.name, categoryId:it.category, location:fromLoc, toLocation:toLoc, qty:1, date, note:note||('IMEI '+unit.imei)});
     this.addMovement({type:'transfer-in', itemId:it.id, itemName:it.name, categoryId:it.category, location:toLoc, fromLocation:fromLoc, qty:1, date, note:note||('IMEI '+unit.imei)});
     Store.save();
@@ -2567,7 +2601,7 @@ Views.inventory = function(){
 
   if(f.q) items = items.filter(it=>((it?.name||'')+(it?.imei||'')+(it?.memory||'')+(it?.units||[]).map(u=>u?.imei||'').join(' ')).toLowerCase().includes(f.q.toLowerCase()));
   if(f.cat!=='all') items = items.filter(it=>it?.category===f.cat);
-  if(f.shop!=='all') items = items.filter(it=>((it?.locations&&it.locations[f.shop])||0) > 0);
+  if(f.shop!=='all') items = items.filter(it=>(((it?.locations&&it.locations[f.shop])||0) > 0) || (it?.units && it.units.some(u=>u&&u.location===f.shop)));
 
   const shopChips = [
     `<button class="${f.shop==='all'?'active':''}" onclick="Views._invFilter.shop='all';render()">All Stores</button>`,
@@ -3697,6 +3731,18 @@ Views.saveItem = function(itemId){
   const batt = val('f_batt');
   const isGeneric = !!document.getElementById('f_generic')?.checked || (!val('f_imei').trim() && (cat === 'cat_u83iatxw69i' || cat === 'cat_qaxr5vow69i'));
   const imei = isGeneric ? '' : val('f_imei').trim();
+
+  if(imei){
+    const existing = findUnitByImei(imei);
+    if(existing){
+      const itTarget = itemId ? itemById(itemId) : null;
+      const isSelf = itTarget && existing.item.id === itemId && (itTarget.units||[]).some(x=>x.imei===imei);
+      if(!isSelf){
+        Toast.show(`⚠️ IMEI ${imei} already belongs to ${existing.item.name} at ${shopName(existing.unit.location)}. Cannot duplicate IMEI.`, 'err');
+        return;
+      }
+    }
+  }
 
   // Collect all colors
   const colorInps = Array.from(document.querySelectorAll('.modal-color-input')).map(i => i.value.trim()).filter(Boolean);
