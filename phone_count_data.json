@@ -3816,23 +3816,13 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 1
       },
       "units": [
-        {
-          "id": "unit_xekyjrxu5nw",
-          "imei": "355365660580729",
-          "color": "",
-          "condition": "Used",
-          "location": "shop_kilkenny",
-          "costPrice": 1,
-          "wholesalePrice": 88,
-          "sellPrice": 700
-        },
         {
           "id": "unit_ovzynu8u5pd",
           "imei": "358074295537388",
@@ -11264,6 +11254,50 @@
         }
       ],
       "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_pxnmx7p92lb",
+      "name": "iPhone 13 Pro Max",
+      "category": "cat_7qgen7vw69i",
+      "memory": "128GB",
+      "condition": "Used",
+      "imei": "355365660580729",
+      "colors": [
+        "Graphite"
+      ],
+      "costPrice": 570,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 700,
+        "shop_thurles": 700,
+        "shop_kilkenny": 700,
+        "shop_maynooth": 700,
+        "shop_mullingar": 700,
+        "shop_tralee": 700,
+        "shop_tullamore": 700
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_xekyjrxu5nw",
+          "imei": "355365660580729",
+          "color": "Graphite",
+          "condition": "Used",
+          "location": "shop_kilkenny",
+          "costPrice": 570,
+          "wholesalePrice": 0,
+          "sellPrice": 700
+        }
+      ],
+      "createdAt": "2026-08-28"
     }
   ],
   "movements": [
@@ -14815,7 +14849,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T11:54:03.960Z"
+    "lastSaved": "2026-08-28T11:54:22.946Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
