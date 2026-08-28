@@ -4645,7 +4645,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -4836,7 +4836,7 @@
     },
     {
       "id": "item_8vdypjnw69l",
-      "name": "Alcatel T310 16GB",
+      "name": "Alcatel T310",
       "category": "cat_cgd9w36w69i",
       "memory": "16GB",
       "imei": "",
@@ -4868,12 +4868,13 @@
         {
           "id": "unit_chqadc8u5ob",
           "imei": "355643101161956",
-          "color": "",
+          "color": "Black",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 230
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 230,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15252,7 +15253,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:59:40.778Z"
+    "lastSaved": "2026-08-28T14:00:18.191Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
