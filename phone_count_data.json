@@ -1722,11 +1722,11 @@
           "imei": "355282133017884",
           "color": "Charcoal",
           "condition": "New",
-          "batteryPct": 100,
+          "batteryPct": null,
           "location": "shop_mullingar",
-          "costPrice": 14,
-          "wholesalePrice": 26,
-          "sellPrice": 45,
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
           "addedAt": "2026-08-25"
         },
         {
@@ -1734,11 +1734,11 @@
           "imei": "355282133017769",
           "color": "Charcoal",
           "condition": "New",
-          "batteryPct": 100,
+          "batteryPct": null,
           "location": "shop_mullingar",
-          "costPrice": 14,
-          "wholesalePrice": 26,
-          "sellPrice": 45,
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
           "addedAt": "2026-08-25"
         },
         {
@@ -1893,11 +1893,11 @@
           "imei": "355647768271552",
           "color": "Charcoal",
           "condition": "New",
-          "batteryPct": 100,
+          "batteryPct": null,
           "location": "shop_mullingar",
-          "costPrice": 14,
-          "wholesalePrice": 26,
-          "sellPrice": 60,
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
           "addedAt": "2026-08-25"
         },
         {
@@ -1905,11 +1905,11 @@
           "imei": "355647768272055",
           "color": "Charcoal",
           "condition": "New",
-          "batteryPct": 100,
+          "batteryPct": null,
           "location": "shop_mullingar",
-          "costPrice": 14,
-          "wholesalePrice": 26,
-          "sellPrice": 60,
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
           "addedAt": "2026-08-25"
         },
         {
@@ -3165,13 +3165,13 @@
         "Blue"
       ],
       "batteryPct": 100,
-      "costPrice": 60,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 80,
         "shop_thurles": 80,
         "shop_kilkenny": 100,
         "shop_maynooth": 100,
-        "shop_mullingar": 100,
+        "shop_mullingar": 0,
         "shop_tralee": 80,
         "shop_tullamore": 80
       },
@@ -3221,9 +3221,9 @@
           "color": "Blue",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 60,
-          "wholesalePrice": 60,
-          "sellPrice": 100
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0
         }
       ],
       "createdAt": "2026-08-20",
@@ -3276,9 +3276,10 @@
           "color": "Blue",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 20,
-          "wholesalePrice": 20,
-          "sellPrice": 30
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -8348,9 +8349,9 @@
           "condition": "New",
           "batteryPct": null,
           "location": "shop_mullingar",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 160,
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
           "addedAt": "2026-08-25"
         },
         {
@@ -8728,9 +8729,10 @@
           "color": "Coral Green",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 1
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20"
@@ -15341,7 +15343,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:15:27.264Z"
+    "lastSaved": "2026-08-28T14:16:33.464Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
