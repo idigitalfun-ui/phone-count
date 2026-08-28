@@ -1596,7 +1596,7 @@
         "Charcoal"
       ],
       "batteryPct": 100,
-      "costPrice": 14,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 20,
         "shop_thurles": 20,
@@ -1662,8 +1662,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 14,
-          "wholesalePrice": 26,
+          "costPrice": 0,
+          "wholesalePrice": 0,
           "sellPrice": 45
         },
         {
@@ -1672,8 +1672,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 14,
-          "wholesalePrice": 26,
+          "costPrice": 0,
+          "wholesalePrice": 0,
           "sellPrice": 45
         },
         {
@@ -1764,7 +1764,7 @@
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 26
+      "wholesalePrice": 0
     },
     {
       "id": "item_xil44ciw69k",
@@ -1777,7 +1777,7 @@
         "Charcoal"
       ],
       "batteryPct": 100,
-      "costPrice": 15,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 22,
         "shop_thurles": 22,
@@ -1843,8 +1843,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 15,
-          "wholesalePrice": 27,
+          "costPrice": 0,
+          "wholesalePrice": 0,
           "sellPrice": 60
         },
         {
@@ -1853,8 +1853,8 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 15,
-          "wholesalePrice": 27,
+          "costPrice": 0,
+          "wholesalePrice": 0,
           "sellPrice": 60
         },
         {
@@ -1935,7 +1935,7 @@
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 27
+      "wholesalePrice": 0
     },
     {
       "id": "item_wqsfklyw69k",
@@ -15252,7 +15252,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:59:24.023Z"
+    "lastSaved": "2026-08-28T13:59:40.778Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
