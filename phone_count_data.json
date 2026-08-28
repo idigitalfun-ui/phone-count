@@ -6567,7 +6567,7 @@
           "id": "unit_kf0sp8ru5p9",
           "imei": "G8S12C060446018W",
           "color": "",
-          "condition": "Used",
+          "condition": "New",
           "location": "shop_tralee",
           "costPrice": 0,
           "wholesalePrice": 0,
@@ -6578,7 +6578,7 @@
           "id": "unit_7zft6nsu5p9",
           "imei": "G001KT0615070L6W",
           "color": "",
-          "condition": "Used",
+          "condition": "New",
           "location": "shop_tralee",
           "costPrice": 0,
           "wholesalePrice": 0,
@@ -7040,7 +7040,7 @@
     },
     {
       "id": "item_i4mgytfw69m",
-      "name": "Amazon Fire HD8 Kids Pro 32GB",
+      "name": "Amazon Fire HD8 Kids Pro",
       "category": "cat_cgd9w36w69i",
       "memory": "32GB",
       "imei": "",
@@ -7070,11 +7070,12 @@
           "id": "unit_lvmq8wsu5pa",
           "imei": "GN41XE034153028W",
           "color": "",
-          "condition": "Used",
+          "condition": "New",
           "location": "shop_tralee",
-          "costPrice": 90,
-          "wholesalePrice": 90,
-          "sellPrice": 130
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15687,7 +15688,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:54:09.320Z"
+    "lastSaved": "2026-08-28T14:54:46.800Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
