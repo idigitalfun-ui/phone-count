@@ -3055,13 +3055,13 @@
         "Dreamy Purple"
       ],
       "batteryPct": 100,
-      "costPrice": 65,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 80,
         "shop_thurles": 80,
         "shop_kilkenny": 80,
         "shop_maynooth": 80,
-        "shop_mullingar": 80,
+        "shop_mullingar": 0,
         "shop_tralee": 80,
         "shop_tullamore": 80
       },
@@ -3070,7 +3070,7 @@
         "shop_thurles": 1,
         "shop_kilkenny": 0,
         "shop_maynooth": 2,
-        "shop_mullingar": 0,
+        "shop_mullingar": 1,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
@@ -3094,10 +3094,22 @@
           "costPrice": 65,
           "wholesalePrice": 65,
           "sellPrice": 80
+        },
+        {
+          "id": "unit_e03prkheaye",
+          "imei": "LINK1KNEU002809",
+          "color": "Ocean Blue",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_mullingar",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "addedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 65
+      "wholesalePrice": 0
     },
     {
       "id": "item_jpbzz2yw69k",
@@ -4996,13 +5008,13 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 35,
         "shop_thurles": 35,
         "shop_kilkenny": 35,
         "shop_maynooth": 35,
-        "shop_mullingar": 35,
+        "shop_mullingar": 0,
         "shop_tralee": 35,
         "shop_tullamore": 35
       },
@@ -5022,13 +5034,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 1,
-          "wholesalePrice": 13,
+          "costPrice": 0,
+          "wholesalePrice": 0,
           "sellPrice": 35
         }
       ],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 13
+      "wholesalePrice": 0
     },
     {
       "id": "item_7amlbnhw69m",
@@ -5985,13 +5997,13 @@
       "imei": "",
       "condition": "New",
       "batteryPct": 100,
-      "costPrice": 45,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 65,
         "shop_thurles": 65,
         "shop_kilkenny": 65,
         "shop_maynooth": 65,
-        "shop_mullingar": 65,
+        "shop_mullingar": 0,
         "shop_tralee": 65,
         "shop_tullamore": 65
       },
@@ -6005,7 +6017,7 @@
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
-      "wholesalePrice": 45,
+      "wholesalePrice": 0,
       "units": [],
       "colors": []
     },
@@ -15335,7 +15347,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:18:00.256Z"
+    "lastSaved": "2026-08-28T14:18:42.083Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
