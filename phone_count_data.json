@@ -4049,16 +4049,16 @@
     },
     {
       "id": "item_d27dxfiw69l",
-      "name": "Samsung A04S (faulty) 64GB",
+      "name": "Samsung A04S",
       "category": "cat_w56n2ktw69i",
       "memory": "64GB",
-      "imei": "",
-      "condition": "Used",
+      "imei": "350753208585398",
+      "condition": "New",
       "colors": [
         "Black"
       ],
       "batteryPct": null,
-      "costPrice": 150,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 220,
         "shop_thurles": 220,
@@ -4079,7 +4079,20 @@
       },
       "createdAt": "2026-08-20",
       "wholesalePrice": 0,
-      "units": []
+      "units": [
+        {
+          "id": "unit_wvwyzw8wj8d",
+          "imei": "350753208585398",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_kilkenny",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 220,
+          "addedAt": "2026-08-28"
+        }
+      ]
     },
     {
       "id": "item_xhnp9cgw69l",
@@ -14930,7 +14943,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T12:25:49.705Z"
+    "lastSaved": "2026-08-28T13:36:36.448Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
