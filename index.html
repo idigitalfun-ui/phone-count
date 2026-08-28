@@ -701,12 +701,15 @@ const Store = {
       });
 
       // Standardize memory (uppercase GB)
-      // Standardize memory (uppercase GB)
-      let memory = it.memory || '';
-      const memMatch = name.match(/(\d+\s*gb\s*\/\s*\d+\s*gb|\d+\s*gb|\d+\s*\/\s*\d+\s*gb)/i);
-      if(!memory && memMatch){
-        memory = memMatch[0].replace(/\s+/g, '').replace(/gb/gi, 'GB');
+      // Extract memory pattern like 4GB/64GB, 8GB/256GB, 128GB, 256GB, 64GB, 32GB, 512GB, 1TB from name if present
+      let memory = (it.memory || '').trim();
+      const memMatch = name.match(/\b(\d+GB\/\d+GB|\d+GB|\d+TB|\d+MB)\b/i);
+      if(memMatch){
+        if(!memory) memory = memMatch[0].toUpperCase();
+        name = name.replace(memMatch[0], '').trim();
       }
+
+      // Standardize memory (uppercase GB)
       if(memory){
         memory = memory.replace(/\s+/g, '').replace(/gb/gi, 'GB');
         if(/^\d+$/.test(memory)) memory = memory + 'GB';
@@ -784,9 +787,9 @@ const Store = {
         it.category = 'cat_lkhn0qyw69i'; // Button Phones
       }
 
-      it.colors = [...new Set(it.colors.filter(Boolean))];
+      it.colors = [...new Set((it.colors||[]).filter(Boolean))];
 
-      // Merge duplicates by model (Name + Category + Memory)
+      // Merge duplicates by canonical model (Name + Category + Memory)
       const canonKey = (it.name + '|' + it.category + '|' + (it.memory||'')).toLowerCase();
       if(itemMap.has(canonKey)){
         const primary = itemMap.get(canonKey);
@@ -798,8 +801,8 @@ const Store = {
         if(!it.shopPrices) it.shopPrices = {};
 
         d.shops.forEach(s => {
-          primary.locations[s.id] = (primary.locations[s.id]||0) + (it.locations[s.id]||0);
-          if((!primary.shopPrices[s.id] || primary.shopPrices[s.id] === 0) && it.shopPrices[s.id] > 0){
+          primary.locations[s.id] = (primary.locations[s.id]||0) + ((it.locations && it.locations[s.id])||0);
+          if((!primary.shopPrices[s.id] || primary.shopPrices[s.id] === 0) && (it.shopPrices && it.shopPrices[s.id] > 0)){
             primary.shopPrices[s.id] = it.shopPrices[s.id];
           }
         });
@@ -815,9 +818,6 @@ const Store = {
         });
         if(primary.costPrice == null || primary.costPrice <= 1){
           if(it.costPrice > 1) primary.costPrice = it.costPrice;
-        }
-        if(primary.wholesalePrice == null || primary.wholesalePrice <= 1){
-          if(it.wholesalePrice > 1) primary.wholesalePrice = it.wholesalePrice;
         }
         if(primary.units.some(u => u.condition === 'Used')) primary.condition = 'Used';
         d.movements.forEach(m => {
@@ -848,23 +848,12 @@ const Store = {
         if(it.shopPrices[s.id]==null) it.shopPrices[s.id]=it.shopPrices.warehouse||it.costPrice||0;
       });
 
-      // Two-way price synchronization: harvest valid unit cost and wholesale prices into the parent item
+      // Synchronize unit cost prices into the parent item
       const validUnitCosts = (it.units||[]).map(u=>u.costPrice).filter(c=>c!=null && c>1);
       if(validUnitCosts.length > 0){
         it.costPrice = validUnitCosts[0];
       } else if(it.costPrice == null || it.costPrice <= 0){
         it.costPrice = 0;
-      }
-
-      if(it.costPrice === 0){
-        it.wholesalePrice = 0;
-      } else {
-        const validUnitWholesales = (it.units||[]).map(u=>u.wholesalePrice).filter(w=>w!=null && w>0);
-        if(validUnitWholesales.length > 0){
-          it.wholesalePrice = validUnitWholesales[0];
-        } else if(it.wholesalePrice == null){
-          it.wholesalePrice = 0;
-        }
       }
 
       // If item has an IMEI defined on it, but no unit has that IMEI, create/assign unit
@@ -885,7 +874,6 @@ const Store = {
               batteryPct: it.batteryPct!=null?it.batteryPct:null,
               location: loc,
               costPrice: it.costPrice || 0,
-              wholesalePrice: it.wholesalePrice || 0,
               sellPrice: (it.shopPrices && it.shopPrices[loc]) || it.costPrice || 0,
               addedAt: todayISO()
             });
@@ -898,10 +886,8 @@ const Store = {
       (it.units||[]).forEach(u=>{
         if(it.costPrice === 0){
           u.costPrice = 0;
-          u.wholesalePrice = 0;
         } else {
           if(u.costPrice==null || (u.costPrice<=1 && it.costPrice>1)) u.costPrice = it.costPrice;
-          if(u.wholesalePrice==null) u.wholesalePrice = it.wholesalePrice || 0;
         }
         const targetSell = it.shopPrices[u.location] || it.costPrice || 0;
         if(u.sellPrice==null || (u.sellPrice<=1 && targetSell>1) || (u.sellPrice!==targetSell && targetSell>0 && u.sellPrice<=1)) u.sellPrice = targetSell;
@@ -915,16 +901,16 @@ const Store = {
 
     // Precise pricing and memory alignment for Samsung models
     const samsungPriceMap = {
-      'samsung a06': { mem: '4GB/64GB', cost: 95, wholesale: 107 },
-      'samsung a07': { mem: '4GB/128GB', cost: 115, wholesale: 127 },
-      'samsung a16': { mem: '4GB/128GB', cost: 125, wholesale: 137 },
-      'samsung a17': { mem: '4GB/128GB', cost: 140, wholesale: 152 },
-      'samsung a17 5g': { mem: '4GB/128GB', cost: 160, wholesale: 172 },
-      'samsung a27 5g': { mem: '6GB/128GB', cost: 220, wholesale: 232 },
-      'samsung a37 5g': { mem: '6GB/128GB', cost: 230, wholesale: 242 },
-      'samsung s25': { mem: '12GB/128GB', cost: 480, wholesale: 492 },
-      'samsung s25fe': { mem: '8GB/128GB', cost: 385, wholesale: 397 },
-      'samsung s26': { mem: '12GB/256GB', cost: 560, wholesale: 572 }
+      'samsung a06': { mem: '4GB/64GB', cost: 95 },
+      'samsung a07': { mem: '4GB/128GB', cost: 115 },
+      'samsung a16': { mem: '4GB/128GB', cost: 125 },
+      'samsung a17': { mem: '4GB/128GB', cost: 140 },
+      'samsung a17 5g': { mem: '4GB/128GB', cost: 160 },
+      'samsung a27 5g': { mem: '6GB/128GB', cost: 220 },
+      'samsung a37 5g': { mem: '6GB/128GB', cost: 230 },
+      'samsung s25': { mem: '12GB/128GB', cost: 480 },
+      'samsung s25fe': { mem: '8GB/128GB', cost: 385 },
+      'samsung s26': { mem: '12GB/256GB', cost: 560 }
     };
     d.items.forEach(it => {
       const cleanName = (it.name || '').trim().toLowerCase();
@@ -933,12 +919,10 @@ const Store = {
         if(!it.memory || it.memory === '-') it.memory = match.mem;
         if(it.costPrice == null || it.costPrice <= 1 || it.costPrice !== match.cost){
           it.costPrice = match.cost;
-          it.wholesalePrice = match.wholesale;
         }
         (it.units || []).forEach(u => {
           if(u.costPrice == null || u.costPrice <= 1 || u.costPrice !== match.cost){
             u.costPrice = match.cost;
-            u.wholesalePrice = match.wholesale;
           }
         });
       }
@@ -1920,15 +1904,27 @@ function compareDeviceNames(a, b) {
   const rankA = deviceSortRank(nameA);
   const rankB = deviceSortRank(nameB);
   
+  let cmp = 0;
   if(rankA !== null && rankB !== null) {
-    if(rankA !== rankB) return rankA - rankB;
+    if(rankA !== rankB) cmp = rankA - rankB;
   } else if(rankA !== null) {
-    return -1;
+    cmp = -1;
   } else if(rankB !== null) {
-    return 1;
+    cmp = 1;
+  } else {
+    cmp = nameA.localeCompare(nameB, undefined, { numeric: true, sensitivity: 'base' });
   }
-  
-  return nameA.localeCompare(nameB, undefined, { numeric: true, sensitivity: 'base' });
+
+  if(cmp !== 0) return cmp;
+
+  const memVal = (m) => {
+    if(!m) return 0;
+    const str = String(m).toLowerCase();
+    const num = parseInt(str) || 0;
+    if(str.includes('tb')) return num * 1024;
+    return num;
+  };
+  return memVal(a?.memory) - memVal(b?.memory);
 }
 
 function sortedItems(list){
@@ -2029,16 +2025,15 @@ const CsvImport = {
     const nums = prices.filter(p=>p!=null&&p>0).sort((a,b)=>a-b);
     if(!nums.length){
       const cost = defaults?.costPrice||0;
-      return { cost, wholesale: defaults?.wholesalePrice||0, sale: defaults?.sellPrice||cost };
+      return { cost, sale: defaults?.sellPrice||cost };
     }
     // Single price in sheet — if higher than known cost, treat as sale price
     if(nums.length===1 && defaults?.costPrice && nums[0]>defaults.costPrice*1.05){
       const cost=defaults.costPrice;
-      return { cost, wholesale:defaults?.wholesalePrice||0, sale:nums[0] };
+      return { cost, sale:nums[0] };
     }
     const cost = nums[0], sale = nums[nums.length-1];
-    const wholesale = nums.length>=3 ? nums[1] : (defaults?.wholesalePrice||0);
-    return { cost, wholesale, sale: sale>cost?sale:(defaults?.sellPrice||sale) };
+    return { cost, sale: sale>cost?sale:(defaults?.sellPrice||sale) };
   },
       SEED_ROWS: [{"shopId":"warehouse","cat":"Other","model":"Availability\"","imei":"BatteryPercentage","condition":"Used","color":"","prices":[]},{"shopId":"warehouse","cat":"iPhone","model":"iPhone 14 128GB Starlight Grade \u0027A\u0027","imei":"350032738703866","condition":"Used","color":"","prices":[285]},{"shopId":"warehouse","cat":"iPhone","model":"iPhone 14 128GB Starlight Grade \u0027A\u0027","imei":"350032736737429","condition":"Used","color":"","prices":[285]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A07 4GB/64GB Black","imei":"352262376794723","condition":"New","color":"","prices":[80]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A07 4GB/64GB Black","imei":"352262376794756","condition":"New","color":"","prices":[80]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A07 4GB/64GB Black","imei":"352262376794905","condition":"New","color":"","prices":[80]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A07 4GB/64GB Black","imei":"352262376794996","condition":"New","color":"","prices":[80]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A07 4GB/64GB Black","imei":"352262376794822","condition":"New","color":"","prices":[80]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A07 4GB/64GB Black","imei":"352262376794798","condition":"New","color":"","prices":[80]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A07 4GB/128GB Black","imei":"353451828298263","condition":"New","color":"","prices":[95]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A07 4GB/128GB Black","imei":"353451828264620","condition":"New","color":"","prices":[95]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A16 4GB/128GB Black","imei":"351355310086908","condition":"New","color":"","prices":[99]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A16 4GB/128GB Black","imei":"351355310088045","condition":"New","color":"","prices":[99]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A16 4GB/128GB Black","imei":"351355310030864","condition":"New","color":"","prices":[99]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A36 5G 8GB/256GB Black","imei":"350057712578067","condition":"New","color":"","prices":[250]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A36 5G 8GB/256GB Black","imei":"350057712575980","condition":"New","color":"","prices":[250]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A36 5G 8GB/256GB Black","imei":"350057712550819","condition":"New","color":"","prices":[250]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A36 5G 8GB/256GB Black","imei":"350057712554464","condition":"New","color":"","prices":[250]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A37 5G 8GB/256GB Awesome Lavender","imei":"353700230989772","condition":"New","color":"","prices":[285]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung A56 8GB/128GB Graphite","imei":"350593649273349","condition":"New","color":"","prices":[275,305]},{"shopId":"warehouse","cat":"Samsung","model":"Black View NB 4800 Pro 128GB Black","imei":"352482910532708","condition":"New","color":"","prices":[155]},{"shopId":"warehouse","cat":"Samsung","model":"Black View NB 4800 Pro 128GB Black","imei":"352482910530348","condition":"New","color":"","prices":[155]},{"shopId":"warehouse","cat":"Samsung","model":"Black View NB 4800 Pro 128GB Black","imei":"352482910529605","condition":"New","color":"","prices":[155]},{"shopId":"warehouse","cat":"Samsung","model":"Black View NB 4800 Pro 128GB Black","imei":"352482910536808","condition":"New","color":"","prices":[155]},{"shopId":"warehouse","cat":"Samsung","model":"Black View NB 4800 Pro 128GB Black","imei":"352482910555303","condition":"New","color":"","prices":[155]},{"shopId":"warehouse","cat":"Samsung","model":"Black View NB 4800 Pro 128GB Black","imei":"352482910553142","condition":"New","color":"","prices":[155]},{"shopId":"warehouse","cat":"Samsung","model":"Black View BV 4800 SE 64GB Black","imei":"356771220265447","condition":"New","color":"","prices":[135]},{"shopId":"warehouse","cat":"Samsung","model":"Black View BV 4800 SE 64GB Black","imei":"356771220265009","condition":"New","color":"","prices":[135]},{"shopId":"warehouse","cat":"Samsung","model":"Black View BV 4800 SE 64GB Black","imei":"356771220265983","condition":"New","color":"","prices":[135]},{"shopId":"warehouse","cat":"Samsung","model":"Black View BV 4800 SE 64GB Black","imei":"356771220266023","condition":"New","color":"","prices":[135]},{"shopId":"warehouse","cat":"Samsung","model":"Black View BV 4800 SE 64GB Black","imei":"356771220266221","condition":"New","color":"","prices":[135]},{"shopId":"warehouse","cat":"Samsung","model":"Black View BV 4800 SE 64GB Black","imei":"356771220265900","condition":"New","color":"","prices":[135]},{"shopId":"warehouse","cat":"Samsung","model":"Black View BV 4800 SE 64GB Black","imei":"356771220266460","condition":"New","color":"","prices":[135]},{"shopId":"warehouse","cat":"Samsung","model":"Blackview N1000 1GB/4GB","imei":"353359200167826","condition":"New","color":"","prices":[60]},{"shopId":"warehouse","cat":"Samsung","model":"Blackview N1000 1GB/4GB","imei":"353359200159864","condition":"New","color":"","prices":[60]},{"shopId":"warehouse","cat":"Samsung","model":"Blackview N1000 1GB/4GB","imei":"353359200164682","condition":"New","color":"","prices":[60]},{"shopId":"warehouse","cat":"Samsung","model":"Blackview N1000 1GB/4GB","imei":"353359200162447","condition":"New","color":"","prices":[60]},{"shopId":"warehouse","cat":"Samsung","model":"Blackview N1000 1GB/4GB","imei":"353359200168543","condition":"New","color":"","prices":[60]},{"shopId":"warehouse","cat":"Button Phones","model":"Nokia 105 Charcoal","imei":"355282133017884","condition":"New","color":"","prices":[14]},{"shopId":"warehouse","cat":"Button Phones","model":"Nokia 105 Charcoal","imei":"355282133017769","condition":"New","color":"","prices":[14]},{"shopId":"warehouse","cat":"Button Phones","model":"Nokia 105 Charcoal","imei":"355282133048608","condition":"New","color":"","prices":[14]},{"shopId":"warehouse","cat":"Button Phones","model":"Nokia 105 Charcoal","imei":"355282133034624","condition":"New","color":"","prices":[14]},{"shopId":"warehouse","cat":"Button Phones","model":"Nokia 105 Charcoal","imei":"355282133024260","condition":"New","color":"","prices":[14]},{"shopId":"warehouse","cat":"Button Phones","model":"Nokia 105 Charcoal","imei":"355282134807747","condition":"New","color":"","prices":[14]},{"shopId":"warehouse","cat":"Button Phones","model":"Nokia 105 Charcoal","imei":"355282134816086","condition":"New","color":"","prices":[14]},{"shopId":"warehouse","cat":"Button Phones","model":"Nokia 105 Charcoal","imei":"355282134797120","condition":"New","color":"","prices":[14]},{"shopId":"warehouse","cat":"Button Phones","model":"Nokia 105 Charcoal","imei":"355282134801922","condition":"New","color":"","prices":[14]},{"shopId":"warehouse","cat":"Button Phones","model":"Nokia 106 Charcoal","imei":"355647768278136","condition":"New","color":"","prices":[15]},{"shopId":"warehouse","cat":"Button Phones","model":"Nokia 106 Charcoal","imei":"355647768273236","condition":"New","color":"","prices":[15]},{"shopId":"warehouse","cat":"Button Phones","model":"Nokia 106 Charcoal","imei":"355647768273657","condition":"New","color":"","prices":[15]},{"shopId":"warehouse","cat":"Button Phones","model":"Nokia 106 Charcoal","imei":"355647768198615","condition":"New","color":"","prices":[15]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung Tab A11 128GB Gray","imei":"350769531601421","condition":"New","color":"","prices":[140]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung Tab A11 128GB Gray","imei":"350769531601488","condition":"New","color":"","prices":[140]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung Tab A11 128GB Gray","imei":"350769531601462","condition":"New","color":"","prices":[140]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung Tab A11 128GB Gray","imei":"350769531601397","condition":"New","color":"","prices":[140]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung Tab A11 128GB Gray","imei":"350769531601298","condition":"New","color":"","prices":[140]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung Tab A11 128GB Gray","imei":"350769531601454","condition":"New","color":"","prices":[140]},{"shopId":"warehouse","cat":"Samsung","model":"Samsung Tab A11 128GB Gray","imei":"350769531601439","condition":"New","color":"","prices":[140]},{"shopId":"warehouse","cat":"iPad \u0026 Tablets","model":"iPad 11th Generation A16 128GB Blue","imei":"SDNWN2L14FL","condition":"New","color":"","prices":[300]},{"shopId":"warehouse","cat":"Gadgets","model":"AirPods (3rd Generation)","imei":"SDVV4T0VGM0","condition":"New","color":"","prices":[105]},{"shopId":"warehouse","cat":"Gadgets","model":"AirPods (3rd Generation)","imei":"SMWXQXWHC5P","condition":"New","color":"","prices":[105]},{"shopId":"warehouse","cat":"Gadgets","model":"AirPods (3rd Generation)","imei":"SDRD2LY66Q2","condition":"New","color":"","prices":[105]},{"shopId":"warehouse","cat":"Gadgets","model":"AirPods Pro 3","imei":"SGJQ4LFT70W","condition":"New","color":"","prices":[199]},{"shopId":"shop_thurles","cat":"iPhone","model":"iPhone 11 64GB Purple","imei":"356871118342017","condition":"Used","color":"","prices":[240]},{"shopId":"shop_thurles","cat":"iPhone","model":"iPhone 11 64GB Purple","imei":"351010395544525","condition":"Used","color":"","prices":[240]},{"shopId":"shop_thurles","cat":"iPhone","model":"iPhone 14 128GB purple","imei":"357504140083957","condition":"Used","color":"","prices":[]},{"shopId":"shop_thurles","cat":"iPhone","model":"iPhone 16 128GB White","imei":"355628861938255","condition":"New","color":"","prices":[]},{"shopId":"shop_thurles","cat":"iPhone","model":"iPhone 11 64GB Black","imei":"355169421208814","condition":"Used","color":"","prices":[]},{"shopId":"shop_thurles","cat":"iPhone","model":"iPhone 11 64GB Green","imei":"353980106083070","condition":"Used","color":"","prices":[]},{"shopId":"shop_thurles","cat":"iPhone","model":"iPhone 17 256GB Lavender","imei":"350085642277120","condition":"New","color":"","prices":[]},{"shopId":"shop_thurles","cat":"iPhone","model":"iPhone 13 128GB Blue Grade A","imei":"355701906574102","condition":"Used","color":"","prices":[340]},{"shopId":"shop_thurles","cat":"iPhone","model":"iPhone 12 64GB White Grade A","imei":"353045119846234","condition":"Used","color":"","prices":[]},{"shopId":"shop_thurles","cat":"Samsung","model":"Samsung A36 5G 6GB/128GB Black","imei":"355039219380259","condition":"New","color":"","prices":[300]},{"shopId":"shop_thurles","cat":"Samsung","model":"Samsung A56 5G 8GB/128GB Olive","imei":"350337178524155","condition":"New","color":"","prices":[330]},{"shopId":"shop_thurles","cat":"Samsung","model":"Samsung A56 5G 8GB/128GB Awesome Light Gray","imei":"350593640522801","condition":"New","color":"","prices":[330]},{"shopId":"shop_thurles","cat":"Samsung","model":"Samsung A06 4GB/64GB Black","imei":"354880841197053","condition":"New","color":"","prices":[]},{"shopId":"shop_thurles","cat":"Samsung","model":"Samsung A57 5G 8GB/128GB Navy","imei":"350480902038264","condition":"New","color":"","prices":[]},{"shopId":"shop_thurles","cat":"Samsung","model":"Samsung A37 5G 6GB/128GB Graygreen","imei":"351690220044955","condition":"New","color":"","prices":[]},{"shopId":"shop_thurles","cat":"Samsung","model":"Samsung A07 4GB /128G black","imei":"356354263888340","condition":"New","color":"","prices":[160]},{"shopId":"shop_thurles","cat":"Samsung","model":"Samsung A06 4GB/64GB Black","imei":"354880841192062","condition":"New","color":"","prices":[]},{"shopId":"shop_thurles","cat":"Samsung","model":"Samsung A36 5G 8GB/256GB Black","imei":"350057712554555","condition":"New","color":"","prices":[]},{"shopId":"shop_thurles","cat":"Samsung","model":"Samsung A37 5G 8GB/256GB Awesome White","imei":"353700230979369","condition":"New","color":"","prices":[]},{"shopId":"shop_thurles","cat":"Samsung","model":"Samsung A16 4GB/128GB Black","imei":"351355310077808","condition":"New","color":"","prices":[180]},{"shopId":"shop_thurles","cat":"Samsung","model":"Samsung A17 5G 4GB/128GB Black","imei":"357884911526305","condition":"New","color":"","prices":[220]},{"shopId":"shop_thurles","cat":"Samsung","model":"Samsung A07 4GB/128GB Black","imei":"353451828296556","condition":"New","color":"","prices":[160]},{"shopId":"shop_thurles","cat":"Samsung","model":"Samsung Tab A9 X115 4GB/64GB Navy","imei":"352035568042188","condition":"New","color":"","prices":[]},{"shopId":"shop_thurles","cat":"Samsung","model":"Blackview 16GB/64GB Ocean Blue","imei":"LINK1KNEU003079","condition":"New","color":"","prices":[]},{"shopId":"shop_thurles","cat":"Samsung","model":"Modio M134 8GB 512GB Gray","imei":"355886880698231","condition":"New","color":"","prices":[]},{"shopId":"shop_thurles","cat":"Button Phones","model":"Mobitel 8010 Black","imei":"355225690431618","condition":"New","color":"","prices":[]},{"shopId":"shop_thurles","cat":"Button Phones","model":"Mobitel 8010 Black","imei":"862599070147341","condition":"New","color":"","prices":[]},{"shopId":"shop_thurles","cat":"Button Phones","model":"Nokia 110 Blue","imei":"352125952248044","condition":"New","color":"","prices":[45]},{"shopId":"shop_thurles","cat":"Gadgets","model":"AirPods Pro 3","imei":"SCY4H253209","condition":"New","color":"","prices":[]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 8 64gb gold","imei":"356083096313727","condition":"Used","color":"","prices":[74,160,100,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 8 plus 64gb black","imei":"356773083472284","condition":"Used","color":"","prices":[86,210,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 8 plus 256gb Rgold","imei":"356773080348248","condition":"Used","color":"","prices":[100,250,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 11 64gb black","imei":"352672767546617","condition":"Used","color":"","prices":[78,250,215,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 11 64gb Black","imei":"352977113827383","condition":"New","color":"","prices":[100,400,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 11 64gb red","imei":"352987116887623","condition":"New","color":"","prices":[100,400,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 11 128gb black","imei":"354628702051921","condition":"New","color":"","prices":[100,470,380,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 11 pro 64gb gold","imei":"353835109177768","condition":"Used","color":"","prices":[96,430,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 12 64gb blue","imei":"354696400504509","condition":"Used","color":"","prices":[87,390,330,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 12 pro max 128gb pacific blue","imei":"356724118784409","condition":"Used","color":"","prices":[89,600,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 12 pro max 128gb Graphite","imei":"353541322658028","condition":"Used","color":"","prices":[88,600,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 12 pro max 256gb Graphite","imei":"355060584305945","condition":"Used","color":"","prices":[91,680,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 13 pro max 128gb Graphite","imei":"355365660580729","condition":"Used","color":"","prices":[88,700,570,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 14 128gb blue","imei":"358851439593355","condition":"Used","color":"","prices":[87,475,470,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 15 128gb Blue","imei":"354485255324589","condition":"Used","color":"","prices":[550,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 16 128gb teal","imei":"351614501766789","condition":"New","color":"","prices":[100,750,675,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 16 128gb pink","imei":"355628862462610","condition":"New","color":"","prices":[100,750,675,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 17 256gb Lavender","imei":"358334287434519","condition":"New","color":"","prices":[100,930,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 15 128gb green","imei":"358295599796426","condition":"Used","color":"","prices":[95,540,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 15 128gb pink","imei":"356925795464252","condition":"Used","color":"","prices":[85,500,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 13 128gb blue","imei":"359001971497693","condition":"Used","color":"","prices":[97,410,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 13 128gb midnight","imei":"354835952376326","condition":"Used","color":"","prices":[89,395,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 13 midnight 128gb","imei":"353257391154175","condition":"Used","color":"","prices":[86,380,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 14 starlight 128gb","imei":"350967683023648","condition":"Used","color":"","prices":[86,460,1]},{"shopId":"shop_kilkenny","cat":"iPhone","model":"iphone 16 ultramarine 128gb","imei":"354257908567595","condition":"New","color":"","prices":[750,1]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"samsung A06 5g 64gb black","imei":"353907427111868","condition":"Used","color":"","prices":[1,110]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"samsung A06 5g 128gb black","imei":"353205685158758","condition":"Used","color":"","prices":[1,145]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"samsung A06 64gb black","imei":"353907427112163","condition":"Used","color":"","prices":[1,110]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"samsung a07 128gb black","imei":"356354263888449","condition":"Used","color":"","prices":[1,150]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung A07 64gb black","imei":"355758263776100","condition":"Used","color":"","prices":[1,130]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung A07 64gb black","imei":"355758263807897","condition":"Used","color":"","prices":[1,130]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung A16 128gb black","imei":"353578126895950","condition":"Used","color":"","prices":[1,190,107]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"samsung A16 4gb 128gb  blk","imei":"353578126885605","condition":"Used","color":"","prices":[1,190]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung A36 5g 128gb awesome Lavender","imei":"355838610755252","condition":"Used","color":"","prices":[1,320,260]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung A36 5g 128gb black","imei":"351741468679778","condition":"Used","color":"","prices":[1,320,260]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung A36 5g 256gb black","imei":"351384482081018","condition":"Used","color":"","prices":[1,350,290]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung A56 5g 128gb Awsome Pink","imei":"352371191664787","condition":"Used","color":"","prices":[1,380,275]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung A56 5g 128gb Awsome Lightgray","imei":"350593640564811","condition":"Used","color":"","prices":[1,380,275]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung A56 5gb 128gb olive","imei":"350593642754246","condition":"Used","color":"","prices":[1]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung s22 128gb green","imei":"355066963787934","condition":"Used","color":"","prices":[1,580,505]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung S22 ultra 128gb black","imei":"359185443123803","condition":"Used","color":"","prices":[1,600,590]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung s23 128gb green","imei":"355418875304813","condition":"Used","color":"","prices":[1,630,555]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung Z Flip5 256Gb Graphite","imei":"350929877067245","condition":"Used","color":"","prices":[1,800,730]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"samsung a57 128gb icyblue","imei":"350480901655977","condition":"Used","color":"","prices":[1,455]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"samsung a57 256gb awesome lilac","imei":"359620571344144","condition":"Used","color":"","prices":[1,495]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"samsung a17 128gb blk","imei":"357884911520761","condition":"Used","color":"","prices":[1,220]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"samsung a17 5g 128gb blk","imei":"357884911524201","condition":"Used","color":"","prices":[1,220]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"samsung a17 5g 128gb blk","imei":"357884911524128","condition":"Used","color":"","prices":[1,220]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"samsung a37 5g 256gb graygreen","imei":"353700230806893","condition":"Used","color":"","prices":[1,440]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"samsung a37 5g 256gb white","imei":"353700230852293","condition":"Used","color":"","prices":[1,440]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"samsung galaxy a07 64gb blk","imei":"352262376794897","condition":"Used","color":"","prices":[1,130]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"samsung galaxy a07 64gb blk","imei":"352262376794947","condition":"Used","color":"","prices":[1,130]},{"shopId":"shop_kilkenny","cat":"Other Brands","model":"Redmi 9 32gb carbon grey","imei":"865126057619527","condition":"New","color":"","prices":[1,200]},{"shopId":"shop_kilkenny","cat":"Other Brands","model":"Redmi 10A 64gb graphite gray","imei":"867849060938943","condition":"New","color":"","prices":[1,210]},{"shopId":"shop_kilkenny","cat":"Other Brands","model":"Blackview N1000 4gb black","imei":"353359200195181","condition":"New","color":"","prices":[1,160,58]},{"shopId":"shop_kilkenny","cat":"Other Brands","model":"Blackview N1000 4gb black","imei":"353359200195140","condition":"New","color":"","prices":[1,160,58]},{"shopId":"shop_kilkenny","cat":"Other Brands","model":"Blackview N1000 4gb black","imei":"353359200195082","condition":"New","color":"","prices":[1,160,58]},{"shopId":"shop_kilkenny","cat":"Other Brands","model":"Blackview bv4800 se 64gb black","imei":"356771220265462","condition":"New","color":"","prices":[1,210,135]},{"shopId":"shop_kilkenny","cat":"Other Brands","model":"Blackview bv4800 Pro 128gb black","imei":"352482910529746","condition":"New","color":"","prices":[1,240,155]},{"shopId":"shop_kilkenny","cat":"Button Phones","model":"Nokia C1 2nd edition 16gb blue","imei":"353285242539328","condition":"New","color":"","prices":[1,60,30]},{"shopId":"shop_kilkenny","cat":"Button Phones","model":"Google Pixel 3a 64gb Iris","imei":"353285242539328","condition":"Used","color":"","prices":[1,120,80]},{"shopId":"shop_kilkenny","cat":"Button Phones","model":"Google Pixel 4 64gb Just Black","imei":"352932100553328","condition":"Used","color":"","prices":[1,140,90]},{"shopId":"shop_kilkenny","cat":"Button Phones","model":"Doro 1380","imei":"350541256397968","condition":"New","color":"","prices":[1,55,38]},{"shopId":"shop_kilkenny","cat":"Button Phones","model":"Doro 1380","imei":"350541257236140","condition":"New","color":"","prices":[1,55,38]},{"shopId":"shop_kilkenny","cat":"Button Phones","model":"Doro 6040","imei":"357507109008147","condition":"New","color":"","prices":[1,100]},{"shopId":"shop_kilkenny","cat":"Button Phones","model":"Mobitel 8010","imei":"862599070093388","condition":"New","color":"","prices":[1,100,60]},{"shopId":"shop_kilkenny","cat":"Button Phones","model":"nokia 105","imei":"355282134832687","condition":"New","color":"","prices":[1,45]},{"shopId":"shop_kilkenny","cat":"Button Phones","model":"nokia 105","imei":"355282133040324","condition":"New","color":"","prices":[1,45]},{"shopId":"shop_kilkenny","cat":"Button Phones","model":"nokia 105","imei":"355282133048202","condition":"New","color":"","prices":[1,45]},{"shopId":"shop_kilkenny","cat":"Button Phones","model":"nokia 106","imei":"355647768273558","condition":"New","color":"","prices":[1,60]},{"shopId":"shop_kilkenny","cat":"Button Phones","model":"nokia 106","imei":"355647768273756","condition":"New","color":"","prices":[1,60]},{"shopId":"shop_kilkenny","cat":"iPad \u0026 Tablets","model":"Ipad Mini 6th Generation 64gb Space Gray","imei":"194252527429","condition":"New","color":"","prices":[1,550]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung Tab A9+ 5g 128gb graphite","imei":"358256982798643","condition":"New","color":"","prices":[1,300,190]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung Tab A11 64gb Gray","imei":"357778641670575","condition":"New","color":"","prices":[1,200]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung Tab A11+ 128gb","imei":"8806097877141","condition":"New","color":"","prices":[1,260]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Modio M25 5g 512gb blue","imei":"354933660382148","condition":"New","color":"","prices":[1,170,65]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Alcatel T310 16gb black","imei":"355643101161956","condition":"New","color":"","prices":[1,230]},{"shopId":"shop_kilkenny","cat":"Smart Watches","model":"Apple pencil 2nd gen","imei":"HJML4RXYJKM9","condition":"New","color":"","prices":[1,130,95]},{"shopId":"shop_kilkenny","cat":"Smart Watches","model":"Galaxy watch 5 pro grey titanium 45mm","imei":"8806094495621","condition":"New","color":"","prices":[1,280]},{"shopId":"shop_kilkenny","cat":"Smart Watches","model":"Hoco Y22","imei":"6942007629003","condition":"New","color":"","prices":[1,85]},{"shopId":"shop_kilkenny","cat":"Smart Watches","model":"Hoco Y25","imei":"6942007641715","condition":"New","color":"","prices":[1,70]},{"shopId":"shop_kilkenny","cat":"Smart Watches","model":"smart bracelet pink","imei":"5908222206321","condition":"New","color":"","prices":[1,35]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung buds 2 white","imei":"8806094702705","condition":"Used","color":"","prices":[120]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung buds 2 white","imei":"8806094702705","condition":"Used","color":"","prices":[120]},{"shopId":"shop_kilkenny","cat":"Samsung","model":"Samsung buds 3 white","imei":"8806095645810","condition":"Used","color":"","prices":[130]},{"shopId":"shop_kilkenny","cat":"Gadgets","model":"airpods pro 3","imei":"fy4gvhg75q","condition":"Used","color":"","prices":[199]},{"shopId":"shop_kilkenny","cat":"Gadgets","model":"airpods 3rd gen","imei":"fwxp04g6gd","condition":"Used","color":"","prices":[185,105]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 11 64GB Black","imei":"356812112925555","condition":"Used","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 17 256GB Sage","imei":"350453407242152","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 17 256GB White","imei":"354630189727403","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 15 128GB Blue","imei":"357670561331736","condition":"Used","color":"","prices":[]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 14 128GB Starlight","imei":"354768881961878","condition":"Used","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 15 128GB Yellow Grade \\\u0027A\\\u0027","imei":"355663152578817","condition":"Used","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 15 128GB Green Grade \\\u0027A\\\u0027","imei":"356258484635416","condition":"Used","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 12 64GB White Grade \\\u0027A\\\u0027","imei":"350400614369773","condition":"Used","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPhone","model":"Iphone 14 Pro 128 Purple New","imei":"357442884780100","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 17 256GB White","imei":"355026426733875","condition":"New","color":"","prices":[]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 12 64GB White Grade \\\u0027A\\\u0027","imei":"353920964084414","condition":"Used","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 11 64GB Purple","imei":"353973107065261","condition":"Used","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 12 64GB White Grade \\\u0027A\\\u0027","imei":"354047643253738","condition":"Used","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 13 128GB Starlight Grade \\\u0027A\\\u0027","imei":"357149975344668","condition":"Used","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 17 Pro Max 256GB Orange","imei":"351309195135751","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 16 128GB Ultramarine","imei":"354257908095803","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 14 128GB Starlight Grade \\\u0027A\\\u0027","imei":"350032735798075","condition":"Used","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPhone","model":"iPhone 14 128GB Starlight Grade \\\u0027A\\\u0027","imei":"350967687737664","condition":"Used","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A57 5G 8GB/256GB Lilac","imei":"359620571179045","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A37 5G 8GB/256GB Lavender","imei":"358073840638527","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A56 8GB/128GB Olive","imei":"350593640585246","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A56 8GB/128GB Graphite","imei":"350593649176203","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A16 4GB/128GB Black","imei":"351981672159270","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A36 5G 8GB/256GB Awesome Lime","imei":"350057712667670","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A37 5G 8GB/256GB Awesome Lavender","imei":"353700230922112","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A37 5G 8GB/256GB Awesome White","imei":"353700230852806","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A37 5G 8GB/256GB Awesome GrayGreen","imei":"353700230904797","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A36 6GB/128GB Black","imei":"354752864646268","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A07 4GB/128GB Black","imei":"353451828297950","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A07 4GB/128GB Black","imei":"353451828297646","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A16 4GB/128GB Black","imei":"351355310027340","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A16 4GB/128GB Black","imei":"351355310024362","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A17 5G 4GB/128GB Black","imei":"357884911521058","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung Galaxy S26 Ultra 12GB/256GB Cobalt Vietnam","imei":"353885925151620","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A16 4GB/128GB Black","imei":"351355310023927","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A16 4GB/128GB Black","imei":"351355310030229","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A17 5G 4GB/128GB Black","imei":"357884911525687","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A17 5G 4GB/128GB Black","imei":"357884911526438","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A07 4GB/64GB Black","imei":"352262376794913","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A07 4GB/64GB Black","imei":"352262376794889","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung A36 5G 8GB/256GB Black","imei":"350057712568753","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Other Brands","model":"Google Pixel 3a XL 64GB Black","imei":"355115101794649","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Other Brands","model":"Black View BV 4800 SE 64GB Black","imei":"356771220265843","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Other Brands","model":"Black View NB 4800 Pro 128GB Black","imei":"352482910529761","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Other Brands","model":"Blackview N1000 1GB/4GB","imei":"353359200160235","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Other Brands","model":"Blackview N1000 1GB/4GB","imei":"353359200166968","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Other Brands","model":"Blackview N1000 1GB/4GB","imei":"353359200165929","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Other Brands","model":"Blackview N1000 1GB/4GB","imei":"353359200165697","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Button Phones","model":"Mobitel 8010 Black","imei":"862599070093610","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Button Phones","model":"Mobitel 1010 Black","imei":"355225690429026","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Button Phones","model":"Mobitel 1010 Black","imei":"355225690420991","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Button Phones","model":"Mobitel 8010 Black","imei":"862599070169725","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Button Phones","model":"nokia 105","imei":"355282133045505","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Button Phones","model":"nokia 105","imei":"355282133032966","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Button Phones","model":"nokia 106","imei":"355647768270596","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Button Phones","model":"nokia 106","imei":"355647768171950","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPad \u0026 Tablets","model":"Amazon Fire7 16GB","imei":"GCC21U042265006E","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPad \u0026 Tablets","model":"Modio M25 8GB/512GB Tablet Pink","imei":"354933660374566","condition":"New","color":"","prices":[]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung Tab A11 4GB/64GB Gray","imei":"357778641668520","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Samsung","model":"Samsung Tab A11 4GB/64GB Gray","imei":"357778641667134","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPad \u0026 Tablets","model":"iPad 11th Generation A16 128GB Blue","imei":"SK3MFL7GR4C","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPad \u0026 Tablets","model":"IPAD 10TH GEN","imei":"K33QLC9R9H","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPad \u0026 Tablets","model":"iPad Air 4 64 GB Gray Used","imei":"356762111888637","condition":"Used","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"iPad \u0026 Tablets","model":"Blackview 16GB/64GB Dreamy Purple","imei":"LINK1KNEU006611","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Smart Watches","model":"Google Pixel Watch","imei":"27141JEEJW0671","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Smart Watches","model":"HocoSmart Watch Y8","imei":"6931474766120","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Smart Watches","model":"Apple Watch Series 8 starlight Case/ Starlight Sports Band 41 mm","imei":"JCQ47243CC","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Smart Watches","model":"Apple Watch Series 10 42mm Jet Black","imei":"C09MPCGYH9","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Smart Watches","model":"Smart Bracelet watch","imei":"00HS6620D","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Smart Watches","model":"Smart Bracelet watch","imei":"00HS6620D","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Smart Watches","model":"Smart watch IP68 Y25 silver","imei":"6942007641715","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Smart Watches","model":"Hoco Y22","imei":"6942007629003","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Smart Watches","model":"Joyroom JR-FT13 Pro","imei":"6956116766870","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Smart Watches","model":"hoco Y27","imei":"6942007645447","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Smart Watches","model":"Apple Series 8 Midnight Aluminum Watch","imei":"H5QKNY4Q5W","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Smart Watches","model":"Galaxy Watch 5 Pro","imei":"RFATA0MMADL","condition":"New","color":"","prices":[1]},{"shopId":"shop_maynooth","cat":"Smart Watches","model":"Apple watch series 7","imei":"X14KDFHOGW","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"iPhone","model":"IPHONE 11 64GB PURPLE","imei":"356801114837900","condition":"Used","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"iPhone","model":"IPHONE 13 128GB Starlight","imei":"358425458927404","condition":"Used","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"iPhone","model":"IPHONE 14 128GB Starlight","imei":"350542608935141","condition":"Used","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"iPhone","model":"IPHONE 14 128GB Purple","imei":"355232484711874","condition":"Used","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"iPhone","model":"IPHONE 15 128GB Yellow","imei":"354004399337751","condition":"Used","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"iPhone","model":"IPHONE 15 128GB Blue","imei":"359987258671127","condition":"Used","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Samsung","model":"Samsung A16 4GB/128GB Black","imei":"351355310134567","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Samsung","model":"Samsung A36 6GB/128GB Black","imei":"354752864056351","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Samsung","model":"Samsung A36 6GB/128GB Black","imei":"354752864661531","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Samsung","model":"Samsung A36 5G 8GB/256GB Black","imei":"350057712576640","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Samsung","model":"Samsung A37 5G 8GB/256GB Awesome Lavender","imei":"353700230921007","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Samsung","model":"Samsung A37 5G 8GB/256GB Graygreen","imei":"352049250664886","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Samsung","model":"Samsung A56 8GB/128GB Graphite","imei":"350593649181013","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Samsung","model":"Samsung A57 5G 8GB/256GB Lilac","imei":"359620571179193","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Samsung","model":"Samsung S20FE 5G 128GB Black","imei":"355679529177935","condition":"Used","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Other Brands","model":"Blackview N1000 4GB Phantom Black","imei":"353359200195231","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Other Brands","model":"Poco C40 4/64GB Coral Green","imei":"862699060112998","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Button Phones","model":"Mobitel 8010 Black","imei":"862599070110133","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Button Phones","model":"Mobitel 1010 Black","imei":"355225690431717","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Button Phones","model":"Mobitel 1010 Black","imei":"355225690427798","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Button Phones","model":"Nokia 105 Charcoal","imei":"355282134825061","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Button Phones","model":"Nokia 105 Charcoal","imei":"355282134834584","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Button Phones","model":"Nokia 106 Charcoal","imei":"355647768271552","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Button Phones","model":"Nokia 106 Charcoal","imei":"355647768272055","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Button Phones","model":"NOKIA 110 Blue","imei":"352125952245867","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Samsung","model":"Samsung Tab A11 4GB/64GB Gray","imei":"357778641668447","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Samsung","model":"Blackview 16GB/64GB Ocean Blue","imei":"LINK1KNEU002809","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"iPad \u0026 Tablets","model":"Apple IPAD 10TH GEN. 64GB Pink","imei":"SLFKXDV27L0","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"iPad \u0026 Tablets","model":"Apple IPAD 9TH GEN. Space Gray","imei":"SYR5JJRXDV6","condition":"New","color":"","prices":[1]},{"shopId":"shop_mullingar","cat":"Gadgets","model":"Apple Airpods 3 White EU MPNY3","imei":"194253324140","condition":"New","color":"","prices":[1]},{"shopId":"shop_tralee","cat":"iPhone","model":"iphone 14 128gb","imei":"356879772357379","condition":"Used","color":"Yellow","prices":[]},{"shopId":"shop_tralee","cat":"iPhone","model":"Iphone 12 128gb","imei":"353057116920565","condition":"Used","color":"Black","prices":[]},{"shopId":"shop_tralee","cat":"iPhone","model":"Iphone 12 128gb","imei":"353043116155196","condition":"Used","color":"Red","prices":[]},{"shopId":"shop_tralee","cat":"iPhone","model":"iphone11 64gb","imei":"35291810002950","condition":"Used","color":"blue","prices":[]},{"shopId":"shop_tralee","cat":"iPhone","model":"iphone11 64gb","imei":"353989107678598","condition":"Used","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"iPhone","model":"iphone xs max 64gb","imei":"353102100536165","condition":"Used","color":"gold","prices":[]},{"shopId":"shop_tralee","cat":"iPhone","model":"iPhone 8+ 256GB","imei":"359499083982885","condition":"Used","color":"gold","prices":[]},{"shopId":"shop_tralee","cat":"Samsung","model":"samsung A07 128gb","imei":"350251477988047","condition":"New","color":"green","prices":[]},{"shopId":"shop_tralee","cat":"Samsung","model":"samsung A07 64gb","imei":"355761225317492","condition":"New","color":"green","prices":[]},{"shopId":"shop_tralee","cat":"Samsung","model":"Samsung A16 128gb","imei":"352600229513065","condition":"New","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"Samsung","model":"Samsung A16 128gb","imei":"352600229516464","condition":"New","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"Samsung","model":"Samsung A54 128GB","imei":"351285622506279","condition":"New","color":"Purple","prices":[]},{"shopId":"shop_tralee","cat":"Samsung","model":"Samsung a54 128GB","imei":"356080129578169","condition":"New","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"Samsung","model":"samsung a37 128gb","imei":"350290815194769","condition":"New","color":"awe lomen","prices":[]},{"shopId":"shop_tralee","cat":"Samsung","model":"samsung a36 128gb","imei":"350290815117711","condition":"New","color":"AwesomeNavy","prices":[]},{"shopId":"shop_tralee","cat":"Samsung","model":"samsung a36 128gb","imei":"355838611201959","condition":"New","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"Samsung","model":"samsung a36 128gb","imei":"355838610731790","condition":"New","color":"lavender","prices":[]},{"shopId":"shop_tralee","cat":"Samsung","model":"Samsung a56 128gb","imei":"352371197607293","condition":"New","color":"awesomeOlive","prices":[]},{"shopId":"shop_tralee","cat":"Button Phones","model":"blackview 4GB","imei":"353359200196726","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"Button Phones","model":"blackview 4gb","imei":"356771220266320","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"Button Phones","model":"blackview 4gb","imei":"352482910532203","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"Button Phones","model":"blackview 4GB","imei":"353359200194960","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"Button Phones","model":"google pixel 128","imei":"352932103816742","condition":"Used","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"Button Phones","model":"Nokia C1","imei":"353285242691566","condition":"Used","color":"blue","prices":[]},{"shopId":"shop_tralee","cat":"Button Phones","model":"nokia 1110 64","imei":"355225690428911","condition":"Used","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"Button Phones","model":"nokia 1110 64","imei":"355225690420892","condition":"Used","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"Button Phones","model":"nokia 8010 64","imei":"862599070156391","condition":"Used","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"Button Phones","model":"nokia 105","imei":"352157453759039","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"Button Phones","model":"nokia 105","imei":"35215753900195","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"Button Phones","model":"nokia 105","imei":"352157453384218","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"iPad \u0026 Tablets","model":"Modio M129 512gb","imei":"359401901129723","condition":"Used","color":"gold","prices":[]},{"shopId":"shop_tralee","cat":"iPad \u0026 Tablets","model":"Modio M129 512gb","imei":"353387181149265","condition":"Used","color":"gold","prices":[]},{"shopId":"shop_tralee","cat":"iPad \u0026 Tablets","model":"modio m25 512gb","imei":"353387181149273","condition":"Used","color":"gold","prices":[]},{"shopId":"shop_tralee","cat":"iPad \u0026 Tablets","model":"Modio M25 512gb","imei":"354933660375878","condition":"Used","color":"pink","prices":[]},{"shopId":"shop_tralee","cat":"iPad \u0026 Tablets","model":"Amazon kindle 16","imei":"G6G3KM01524701HJ","condition":"Used","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"iPad \u0026 Tablets","model":"Amazon kindle 16","imei":"G6G3KM01523103PC","condition":"Used","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"iPad \u0026 Tablets","model":"Amazon fire 10Hd 32Gb","imei":"G8S12C060446018W","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"iPad \u0026 Tablets","model":"Amazon Fire 10Hd 32Gb","imei":"G001KT0615070L6W","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"iPad \u0026 Tablets","model":"Lenovo Tab M8 32Gb","imei":"860488040277713","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"iPad \u0026 Tablets","model":"Lenovo Tab M10+ 32Gb","imei":"HGR2GT1J","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"iPad \u0026 Tablets","model":"Huawei MediaPadT3 32GB","imei":"4LCNU21106105608","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"iPad \u0026 Tablets","model":"Huawei MediaPadT3 32GB","imei":"4LCNU20C22114106","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"iPad \u0026 Tablets","model":"Archos t101Hd 16Gb","imei":"CH221400772","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"iPad \u0026 Tablets","model":"Galaxy Tab A9 64GB","imei":"R83XB0PR63W","condition":"Used","color":"Navy","prices":[]},{"shopId":"shop_tralee","cat":"iPad \u0026 Tablets","model":"galaxy a11 64","imei":"357778641670187","condition":"Used","color":"graphite","prices":[]},{"shopId":"shop_tralee","cat":"iPad \u0026 Tablets","model":"galaxy a11 + 64","imei":"R5GYB2D4HPE","condition":"Used","color":"Graphite","prices":[]},{"shopId":"shop_tralee","cat":"Samsung","model":"samsung A7 LITE 32GB","imei":"357120771950271","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"Samsung","model":"blackview 64gb","imei":"413387181144784","condition":"Used","color":"Silver","prices":[]},{"shopId":"shop_tralee","cat":"Samsung","model":"Sky Pad 10 Max 64gb","imei":"351428241420312","condition":"Used","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"Samsung","model":"Amazon Fire HD8 Kids Pro 32gb","imei":"GN41XE034153028W","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"Smart Band 7 Pro","imei":"CRAG502X600169/40235","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"Haylou RS3","imei":"6971664930993","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"Haylou GS","imei":"6971664931310","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"Amazfit BIP 3","imei":"2172F225021488","condition":"Used","color":"","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"Kieselect L11","imei":"6974377570128","condition":"Used","color":"Pink","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"BOROFONE BD5","imei":"6941991104411","condition":"Used","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"BOROFONE BD5","imei":"6941991104411","condition":"Used","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"BOROFONE BD5","imei":"6941991104411","condition":"Used","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"BOROFONE BD4","imei":"6947991102592","condition":"Used","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"BOROFONE BD4","imei":"6947991102592","condition":"Used","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"BOROFONE BD4","imei":"6947991102592","condition":"Used","color":"black","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"BOROFONE BD2","imei":"6974443389838","condition":"Used","color":"SILVER","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"HOCO Y8","imei":"6931474766120","condition":"Used","color":"ROSE GOLD","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"XO-H100","imei":"6920680830428","condition":"Used","color":"BLUE","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"XO-H100","imei":"6920680830428","condition":"Used","color":"pink","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"XO-H100","imei":"6920680830428","condition":"Used","color":"pink","prices":[]},{"shopId":"shop_tralee","cat":"Smart Watches","model":"XO-H100","imei":"6920680830428","condition":"Used","color":"pink","prices":[]},{"shopId":"shop_tullamore","cat":"iPhone","model":"iphone SE 2nd gen  64gb red","imei":"356474105485624","condition":"Used","color":"","prices":[1,230]},{"shopId":"shop_tullamore","cat":"iPhone","model":"iPhone 8+ 256 GB Rose Gold","imei":"356773089691903","condition":"Used","color":"","prices":[1,230]},{"shopId":"shop_tullamore","cat":"iPhone","model":"iphone xs max 64 gb white","imei":"357279097773583","condition":"Used","color":"","prices":[1,350]},{"shopId":"shop_tullamore","cat":"iPhone","model":"iPhone Xr 64 GB peach","imei":"353071102829771","condition":"Used","color":"","prices":[1,250]},{"shopId":"shop_tullamore","cat":"iPhone","model":"iPhone Xr 64 GB peach","imei":"353053106617700","condition":"Used","color":"","prices":[1,250]},{"shopId":"shop_tullamore","cat":"iPhone","model":"iphone 12 64GB red Used","imei":"353042112703819","condition":"Used","color":"","prices":[1,340]},{"shopId":"shop_tullamore","cat":"iPhone","model":"iPhone 14 128GB Starlight","imei":"354248588708542","condition":"Used","color":"","prices":[1,740]},{"shopId":"shop_tullamore","cat":"iPhone","model":"iPhone 13 Pro Max 128GB Gold \\\u0027Grade A\\\u0027","imei":"358074295537388","condition":"Used","color":"","prices":[1,700]},{"shopId":"shop_tullamore","cat":"iPhone","model":"iphone 11 64gb black used","imei":"352989116737014","condition":"Used","color":"","prices":[1,270]},{"shopId":"shop_tullamore","cat":"iPhone","model":"iphone 11 64gb black used","imei":"356559105580943","condition":"Used","color":"","prices":[1,270]},{"shopId":"shop_tullamore","cat":"iPhone","model":"iphone 12 128gb red used","imei":"353039112970182","condition":"Used","color":"","prices":[1,370]},{"shopId":"shop_tullamore","cat":"iPhone","model":"iphone 11 64gb red used used","imei":"356544104704355","condition":"Used","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"iPhone","model":"iPhone 14 128GB Purple Grade \\\u0027A\\\u0027","imei":"354768889669440","condition":"Used","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"iPhone","model":"iphone 16 128gb pink new","imei":"357884596308680","condition":"Used","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"iPhone","model":"iPhone 14 128GB Starlight Grade \\\u0027A\\\u0027","imei":"350542609987828","condition":"Used","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Samsung","model":"Samsung Galaxy M33 5G blue 128gb","imei":"353647613566935","condition":"New","color":"","prices":[1,260]},{"shopId":"shop_tullamore","cat":"Samsung","model":"Samsung Galaxy a42 5g 128gb white","imei":"352308822957768","condition":"Used","color":"","prices":[1,250]},{"shopId":"shop_tullamore","cat":"Samsung","model":"Samsung S23 ultra 256GB Forest Green","imei":"354685326118031","condition":"Used","color":"","prices":[1,780]},{"shopId":"shop_tullamore","cat":"Samsung","model":"Samsung A54 128gb GREEN","imei":"351285623867514","condition":"New","color":"","prices":[1,350]},{"shopId":"shop_tullamore","cat":"Samsung","model":"samusng A55 128gb awesome navy","imei":"350100284709163","condition":"New","color":"","prices":[1,380]},{"shopId":"shop_tullamore","cat":"Samsung","model":"Samsung A56 128GB Awesome graphite","imei":"352371190244821","condition":"New","color":"","prices":[1,400]},{"shopId":"shop_tullamore","cat":"Samsung","model":"SAMSUNG A55 128GB AWESOME NAVY","imei":"350100284830357","condition":"New","color":"","prices":[1,380]},{"shopId":"shop_tullamore","cat":"Samsung","model":"SAMSUNG A56 128GB AWESOME LIGHTGRAY","imei":"352371193239158","condition":"New","color":"","prices":[1,400]},{"shopId":"shop_tullamore","cat":"Samsung","model":"SAMSUNG S24FE BLUE 128GB","imei":"351273092482320","condition":"New","color":"","prices":[1,500]},{"shopId":"shop_tullamore","cat":"Samsung","model":"Samsung A56 128gb light gray","imei":"352371198991548","condition":"New","color":"","prices":[1,400]},{"shopId":"shop_tullamore","cat":"Samsung","model":"Samsung A56 128gb light gray","imei":"352371198991514","condition":"New","color":"","prices":[1,400]},{"shopId":"shop_tullamore","cat":"Samsung","model":"samsung a16 128gb black","imei":"353578127007084","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Samsung","model":"Samsung A16 128GB black","imei":"352861492790141","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Samsung","model":"Samsung A07 4GB/128GB Black","imei":"356354263888803","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Samsung","model":"Samsung a06 64gb","imei":"354880841191908","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Samsung","model":"Samsung A37 256gb awesome white","imei":"353700230967810","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Samsung","model":"Samsung A36 256gb black","imei":"350057712577051","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Samsung","model":"Samsung A17 128gb black","imei":"357884911523864","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Samsung","model":"Samsung A17 128gb black","imei":"357884911523328","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Other Brands","model":"Blackview A90","imei":"356900410019245","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Other Brands","model":"redmi 12 128gb","imei":"862219065037544","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Other Brands","model":"blackview phone","imei":"353359200196700","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Other Brands","model":"google pixel 3a xl 64gb","imei":"355115101796628","condition":"Used","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Other Brands","model":"google pixel 4 64gb","imei":"352932101038964","condition":"Used","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Button Phones","model":"Nokia 106 Charcoal","imei":"355647768278219","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Button Phones","model":"Nokia 106 Charcoal","imei":"355647768272337","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Button Phones","model":"mobitel 1010 black","imei":"355225690429158","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"iPad \u0026 Tablets","model":"amazon fire hd 10 green","imei":"g8s1l905136202m","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"iPad \u0026 Tablets","model":"amazon kindle 16gb 11 gen","imei":"G6G3KM015256003E","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Samsung","model":"Samsung Tab A11+ 6GB/128GB Gray","imei":"R5GYB2D4HSL","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"iPad \u0026 Tablets","model":"tablet blackview","imei":"LINK1KNEU003078","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"iPad \u0026 Tablets","model":"tablet blackview","imei":"LINK1KNEU002817","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Smart Watches","model":"smart watch","imei":"5908222223762","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Smart Watches","model":"Galaxy Watch 5 Sapphire","imei":"RFAT72G3YBP","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Smart Watches","model":"Galaxy watch 5 silver","imei":"RFAT81104GF","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Smart Watches","model":"Apple Watch Series 8 41mm Midnight","imei":"SFHF6PQCWWG","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Smart Watches","model":"BD4 Watch","imei":"6941991102592","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Smart Watches","model":"Blackviwe R30 PRO Pink","imei":"6931548317425","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Smart Watches","model":"Blackviwe R30 pro white","imei":"6931548317432","condition":"New","color":"","prices":[1]},{"shopId":"shop_tullamore","cat":"Smart Watches","model":"Zeblaze Btalk 3 plus","imei":"6946639813168","condition":"New","color":"","prices":[1]}]
 ,
@@ -2135,20 +2130,20 @@ const CsvImport = {
       const loc=row.shopId||shopId;
       const existed=this.findItem(row.model, row.cat);
       let it=existed;
-      const defaults = it ? { costPrice:it.costPrice, wholesalePrice:it.wholesalePrice, sellPrice:it.shopPrices[loc] } : null;
-      const {cost,wholesale,sale}=this.classifyPrices(row.prices, defaults);
+      const defaults = it ? { costPrice:it.costPrice, sellPrice:it.shopPrices[loc] } : null;
+      const {cost,sale}=this.classifyPrices(row.prices, defaults);
       if(!it){
         it={ id:uid('item'), name:row.model, category:this.catNameToId(row.cat), memory:'', imei:'', condition:this.normCondition(row.condition),
-          colors:row.color?[row.color]:[], batteryPct:null, costPrice:cost, wholesalePrice:wholesale,
+          colors:row.color?[row.color]:[], batteryPct:null, costPrice:cost,
           shopPrices:{}, locations:{}, units:[], createdAt:todayISO() };
         activeShops().forEach(s=>{ it.locations[s.id]=0; it.shopPrices[s.id]=sale; });
         Store.data.items.push(it);
       } else {
-        if(cost>0){ it.costPrice=cost; it.wholesalePrice=wholesale; }
+        if(cost>0){ it.costPrice=cost; }
         if(sale>0) it.shopPrices[loc]=sale;
       }
       const unit={ id:uid('unit'), imei:row.imei, color:row.color||'', condition:this.normCondition(row.condition),
-        location:loc, costPrice:cost||it.costPrice, wholesalePrice:wholesale||it.wholesalePrice||it.costPrice+12,
+        location:loc, costPrice:cost||it.costPrice,
         sellPrice:sale||it.shopPrices[loc]||it.costPrice };
       if(!Array.isArray(it.units)) it.units=[];
       it.units.push(unit);
@@ -2588,50 +2583,49 @@ Views.inventory = function(){
       if(!it) return;
       const th = categoryTheme(it.category);
       const units = (it.units||[]).filter(Boolean);
-      const filterShop = f.shop !== 'all' ? f.shop : null;
-      const relevantUnits = filterShop ? units.filter(u=>u && u.location===filterShop) : units;
-
-      relevantUnits.forEach(u=>{
+      const filter      relevantUnits.forEach(u=>{
         const otherShops = shops.filter(s=>s.id!==u.location);
         const hasImei = !!(u.imei && String(u.imei).trim());
         const cost = u.costPrice!=null?u.costPrice:(it.costPrice||0);
-        const wholesale = u.wholesalePrice!=null?u.wholesalePrice:(it.wholesalePrice||0);
         const sale = u.sellPrice!=null?u.sellPrice:((it.shopPrices&&it.shopPrices[u.location])||it.costPrice||0);
-        const battDisplay = (u.batteryPct!=null) ? `${u.batteryPct}%` : (u.condition==='Used' ? '—' : '');
-        rows += `<tr style="border-left:5px solid ${th.border};background:${hasImei?th.bg:'#FFFBF2'};">
+        const hasBattery = u.batteryPct != null && u.batteryPct !== '' && !isNaN(u.batteryPct) && Number(u.batteryPct) > 0;
+        const isVerified = !!u.verified;
+        rows += `<tr style="border-left:5px solid ${isVerified?'#22C55E':th.border};background:${isVerified?'#F0FDF4':(hasImei?th.bg:'#FFFBF2')};">
           <td>
             <a href="javascript:void(0)" onclick="Views.openEditUnitModal('${it.id}','${u.id}')" style="color:var(--ink);text-decoration:none;font-weight:700;cursor:pointer;" title="Click to edit">${esc(it.name)}</a>
-            <br><span style="font-size:11px;color:var(--muted);">${esc(it.memory||'')} · ${esc(u.color||'')} · ${u.condition==='New'?'<span style="color:var(--green)">New</span>':'<span style="color:var(--muted)">Used</span>'}${Views._showBattery!==false && battDisplay ? ` · <span style="color:#7C3AED;font-weight:700;">🔋 ${esc(battDisplay)}</span>` : ''}</span>
+            <br><span style="font-size:11px;color:var(--muted);">${esc(it.memory||'')} · ${esc(u.color||'')} · ${u.condition==='New'?'<span style="color:var(--green)">New</span>':'<span style="color:var(--muted)">Used</span>'}${Views._showBattery!==false && hasBattery ? ` · <span style="color:#7C3AED;font-weight:700;">🔋 ${u.batteryPct}%</span>` : ''}</span>
           </td>
           <td>
-            <input
-              class="mono"
-              id="imei_inp_${u.id}"
-              value="${esc(u.imei||'')}"
-              placeholder="Paste IMEI here…"
-              autocomplete="off"
-              spellcheck="false"
-              style="width:160px;padding:4px 8px;border:1px solid ${hasImei?th.border:'#F0B429'};border-radius:6px;font-size:13px;font-weight:700;color:var(--teal-dark);background:${hasImei?'#fff':'#FFFBF2'};"
-              onchange="Views.saveInlineImei('${it.id}','${u.id}',this.value)"
-              onkeydown="if(event.key==='Enter'){this.blur();}"
-              title="${hasImei?'IMEI: '+esc(u.imei)+' — edit directly':'No IMEI yet — paste it here'}"
-            >
+            <div style="display:flex;align-items:center;gap:4px;">
+              <input
+                class="mono"
+                id="imei_inp_${u.id}"
+                value="${esc(u.imei||'')}"
+                placeholder="Paste IMEI here…"
+                autocomplete="off"
+                spellcheck="false"
+                style="width:145px;padding:4px 8px;border:1.5px solid ${isVerified?'#22C55E':(hasImei?th.border:'#F0B429')};border-radius:6px;font-size:13px;font-weight:700;color:${isVerified?'#15803D':'var(--teal-dark)'};background:${isVerified?'#F0FDF4':(hasImei?'#fff':'#FFFBF2')};"
+                onchange="Views.saveInlineImei('${it.id}','${u.id}',this.value)"
+                onkeydown="if(event.key==='Enter'){this.blur();}"
+                title="${hasImei?'IMEI: '+esc(u.imei)+' — edit directly':'No IMEI yet — paste it here'}"
+              >
+              <button class="btn sm ${isVerified?'green':'ghost'}" onclick="Views.toggleUnitVerified('${it.id}','${u.id}')" title="${isVerified?'IMEI Checked & Verified OK (Click to uncheck)':'Click to mark IMEI as Checked / OK'}" style="padding:3px 6px;font-size:11px;${isVerified?'font-weight:bold;':'border:1px dashed #94A3B8;color:#64748B;'}">
+                ${isVerified ? '✓ OK' : '🔍 Check'}
+              </button>
+            </div>
           </td>
           <td><span class="pill" style="background:${th.pillBg};color:${th.pillColor};border:1px solid ${th.pillBorder};font-weight:600;">${esc(catName(it.category))}</span></td>
           <td class="mono">${esc(it.memory||'-')}</td>
           <td>
             ${u.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}
-            ${Views._showBattery!==false && u.batteryPct!=null ? `<div style="margin-top:3px;"><span class="pill purple" style="font-size:10px;font-weight:700;padding:1px 5px;background:#EDE9FE;color:#6D28D9;border:1px solid #DDD6FE;">🔋 ${u.batteryPct}%</span></div>` : ''}
+            ${Views._showBattery!==false && hasBattery ? `<div style="margin-top:3px;"><span class="pill purple" style="font-size:10px;font-weight:700;padding:1px 5px;background:#EDE9FE;color:#6D28D9;border:1px solid #DDD6FE;">🔋 ${u.batteryPct}%</span></div>` : ''}
           </td>
-          ${Views._showBattery!==false ? `<td><span class="mono" style="font-weight:700;color:${u.batteryPct!=null?'#6D28D9':'var(--muted)'};">${battDisplay || '—'}</span></td>` : ''}
+          ${Views._showBattery!==false ? `<td><span class="mono" style="font-weight:700;color:${hasBattery?'#6D28D9':'var(--muted)'};">${hasBattery ? `${u.batteryPct}%` : '—'}</span></td>` : ''}
           <td>
-            <input type="number" step="0.01" value="${cost||0}" style="width:72px;padding:3px 6px;border:1px solid var(--line);border-radius:5px;font-size:12px;" title="Cost Price" onchange="Views.invSetCostPrice('${it.id}','${u.id}',this.value)">
-          </td>
-          <td>
-            <input type="number" step="0.01" value="${wholesale||0}" style="width:72px;padding:3px 6px;border:1px solid #F0B429;border-radius:5px;font-size:12px;color:#8A5A16;font-weight:600;" title="Wholesale Price" onchange="Views.invSetWholesalePrice('${it.id}','${u.id}',this.value)">
+            <input type="number" step="0.01" value="${cost||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;font-weight:600;" title="Cost Price" onchange="Views.invSetCostPrice('${it.id}','${u.id}',this.value)">
           </td>
           <td>
-            <input type="number" step="0.01" value="${sale||0}" style="width:72px;padding:3px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12px;color:var(--teal-dark);font-weight:700;" title="Sale Price" onchange="Views.invSetSalePrice('${it.id}','${u.id}','${u.location}',this.value)">
+            <input type="number" step="0.01" value="${sale||0}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12.5px;color:var(--teal-dark);font-weight:700;" title="Sale Price" onchange="Views.invSetSalePrice('${it.id}','${u.id}','${u.location}',this.value)">
           </td>
           <td>1</td>
           <td><b style="color:var(--teal-dark);">${esc(shopName(u.location))}</b></td>
@@ -2655,37 +2649,26 @@ Views.inventory = function(){
         const untracked = untrackedQtyAt(it, filterShop);
         if(untracked > 0){
           const otherShops = shops.filter(s=>s.id!==filterShop);
-          const wholesaleVal = it.wholesalePrice || 0;
           rows += `<tr style="border-left:5px solid ${th.border};background:${th.bg};">
             <td>
               <a href="javascript:void(0)" onclick="Views.openItemModal('${it.id}','${filterShop}')" style="color:var(--ink);text-decoration:none;font-weight:700;cursor:pointer;" title="Click to edit product">${esc(it.name)}</a>
               <br><span style="font-size:11px;color:var(--muted);">${esc(it.memory||'')} · ${it.condition==='New'?'<span style="color:var(--green)">New</span>':'<span style="color:var(--muted)">Used</span>'}</span>
             </td>
             <td>
-              <input
-                class="mono"
-                id="untracked_imei_${it.id}_${filterShop}"
-                placeholder="+ Add IMEI…"
-                autocomplete="off"
-                spellcheck="false"
-                style="width:160px;padding:4px 8px;border:1px dashed ${th.border};border-radius:6px;font-size:13px;font-weight:700;color:var(--teal-dark);background:#fff;"
-                onchange="Views.saveInlineUntrackedImei('${it.id}','${filterShop}',this.value)"
-                onkeydown="if(event.key==='Enter'){this.blur();}"
-                title="Type or paste IMEI to assign to this unit"
-              >
+              <div style="display:flex;align-items:center;gap:4px;">
+                <span style="color:var(--muted);font-size:11.5px;font-style:italic;">No IMEI (Bulk / Watch)</span>
+                <button class="btn sm ghost" style="padding:2px 6px;font-size:10.5px;border:1px dashed var(--line);color:var(--teal-dark);" onclick="Views.openAddUnitModal('${it.id}','${filterShop}')" title="Assign a specific IMEI to a unit">+ IMEI</button>
+              </div>
             </td>
             <td><span class="pill" style="background:${th.pillBg};color:${th.pillColor};border:1px solid ${th.pillBorder};font-weight:600;">${esc(catName(it.category))}</span></td>
             <td class="mono">${esc(it.memory||'-')}</td>
             <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
             ${Views._showBattery!==false ? `<td><span style="color:var(--muted);font-size:11px;">—</span></td>` : ''}
             <td>
-              <input type="number" step="0.01" value="${it.costPrice||0}" style="width:72px;padding:3px 6px;border:1px solid var(--line);border-radius:5px;font-size:12px;" title="Cost Price" onchange="Views.invSetUntrackedCost('${it.id}',this.value)">
+              <input type="number" step="0.01" value="${it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;font-weight:600;" title="Cost Price" onchange="Views.invSetUntrackedCost('${it.id}',this.value)">
             </td>
             <td>
-              <input type="number" step="0.01" value="${wholesaleVal}" style="width:72px;padding:3px 6px;border:1px solid #F0B429;border-radius:5px;font-size:12px;color:#8A5A16;font-weight:600;" title="Wholesale Price" onchange="Views.invSetUntrackedWholesale('${it.id}',this.value)">
-            </td>
-            <td>
-              <input type="number" step="0.01" value="${(it.shopPrices&&it.shopPrices[filterShop])||it.costPrice||0}" style="width:72px;padding:3px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12px;color:var(--teal-dark);font-weight:700;" title="Sale Price" onchange="Views.invSetUntrackedSale('${it.id}','${filterShop}',this.value)">
+              <input type="number" step="0.01" value="${(it.shopPrices&&it.shopPrices[filterShop])||it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12.5px;color:var(--teal-dark);font-weight:700;" title="Sale Price" onchange="Views.invSetUntrackedSale('${it.id}','${filterShop}',this.value)">
             </td>
             <td>
               <input type="number" min="0" value="${untracked}" style="width:58px;padding:3px 6px;border:1px solid var(--teal);border-radius:5px;font-size:13px;font-weight:700;text-align:center;color:var(--teal-dark);background:#F0FDFA;" title="Change stock quantity directly" onchange="Views.invSetUntrackedQty('${it.id}','${filterShop}',this.value)">
@@ -2694,7 +2677,7 @@ Views.inventory = function(){
             <td style="white-space:nowrap;">
               <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;">
                 <select id="inv_untracked_to_${it.id}_${filterShop}" style="padding:4px 8px;border:1px solid var(--line);border-radius:6px;font-size:12px;">
-                  ${otherShops.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}
+                  ${otherShops.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join('')}
                 </select>
                 <button class="btn sm primary" onclick="Views.doUntrackedTransfer('${it.id}','${filterShop}')" title="Transfer 1 unit to selected store">⇄ Transfer</button>
                 <button class="btn sm green" onclick="Views.invUntrackedAction('${it.id}','${filterShop}','sold')" title="Mark 1 as sold">✓ Sold</button>
@@ -2711,37 +2694,26 @@ Views.inventory = function(){
           const untracked = untrackedQtyAt(it, s.id);
           if(untracked > 0){
             const otherShops = shops.filter(x=>x.id!==s.id);
-            const wholesaleVal = it.wholesalePrice || 0;
             rows += `<tr style="border-left:5px solid ${th.border};background:${th.bg};">
               <td>
                 <a href="javascript:void(0)" onclick="Views.openItemModal('${it.id}','${s.id}')" style="color:var(--ink);text-decoration:none;font-weight:700;cursor:pointer;" title="Click to edit product">${esc(it.name)}</a>
                 <br><span style="font-size:11px;color:var(--muted);">${esc(it.memory||'')} · ${it.condition==='New'?'<span style="color:var(--green)">New</span>':'<span style="color:var(--muted)">Used</span>'}</span>
               </td>
               <td>
-                <input
-                  class="mono"
-                  id="untracked_imei_${it.id}_${s.id}"
-                  placeholder="+ Add IMEI…"
-                  autocomplete="off"
-                  spellcheck="false"
-                  style="width:160px;padding:4px 8px;border:1px dashed ${th.border};border-radius:6px;font-size:13px;font-weight:700;color:var(--teal-dark);background:#fff;"
-                  onchange="Views.saveInlineUntrackedImei('${it.id}','${s.id}',this.value)"
-                  onkeydown="if(event.key==='Enter'){this.blur();}"
-                  title="Type or paste IMEI to assign to this unit"
-                >
+                <div style="display:flex;align-items:center;gap:4px;">
+                  <span style="color:var(--muted);font-size:11.5px;font-style:italic;">No IMEI (Bulk / Watch)</span>
+                  <button class="btn sm ghost" style="padding:2px 6px;font-size:10.5px;border:1px dashed var(--line);color:var(--teal-dark);" onclick="Views.openAddUnitModal('${it.id}','${s.id}')" title="Assign a specific IMEI to a unit">+ IMEI</button>
+                </div>
               </td>
               <td><span class="pill" style="background:${th.pillBg};color:${th.pillColor};border:1px solid ${th.pillBorder};font-weight:600;">${esc(catName(it.category))}</span></td>
               <td class="mono">${esc(it.memory||'-')}</td>
               <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
               ${Views._showBattery!==false ? `<td><span style="color:var(--muted);font-size:11px;">—</span></td>` : ''}
               <td>
-                <input type="number" step="0.01" value="${it.costPrice||0}" style="width:72px;padding:3px 6px;border:1px solid var(--line);border-radius:5px;font-size:12px;" title="Cost Price" onchange="Views.invSetUntrackedCost('${it.id}',this.value)">
+                <input type="number" step="0.01" value="${it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;font-weight:600;" title="Cost Price" onchange="Views.invSetUntrackedCost('${it.id}',this.value)">
               </td>
               <td>
-                <input type="number" step="0.01" value="${wholesaleVal}" style="width:72px;padding:3px 6px;border:1px solid #F0B429;border-radius:5px;font-size:12px;color:#8A5A16;font-weight:600;" title="Wholesale Price" onchange="Views.invSetUntrackedWholesale('${it.id}',this.value)">
-              </td>
-              <td>
-                <input type="number" step="0.01" value="${(it.shopPrices&&it.shopPrices[s.id])||it.costPrice||0}" style="width:72px;padding:3px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12px;color:var(--teal-dark);font-weight:700;" title="Sale Price" onchange="Views.invSetUntrackedSale('${it.id}','${s.id}',this.value)">
+                <input type="number" step="0.01" value="${(it.shopPrices&&it.shopPrices[s.id])||it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12.5px;color:var(--teal-dark);font-weight:700;" title="Sale Price" onchange="Views.invSetUntrackedSale('${it.id}','${s.id}',this.value)">
               </td>
               <td>
                 <input type="number" min="0" value="${untracked}" style="width:58px;padding:3px 6px;border:1px solid var(--teal);border-radius:5px;font-size:13px;font-weight:700;text-align:center;color:var(--teal-dark);background:#F0FDFA;" title="Change stock quantity directly" onchange="Views.invSetUntrackedQty('${it.id}','${s.id}',this.value)">
@@ -2802,13 +2774,13 @@ Views.inventory = function(){
       <button class="btn primary" onclick="Views.openItemModal()">+ Add device</button>
     </div>
 
-    <div class="helpbox">Each phone is its own row with its <b>IMEI</b> (click to copy). Transfer one device at a time using the dropdown per row, or use the IMEI scan bar above.</div>
+    <div class="helpbox">Each phone is its own row with its <b>IMEI</b> (click to copy or verify). Transfer one device at a time using the dropdown per row, or use the IMEI scan bar above.</div>
     <div class="card">
       <div class="table-wrap"><table class="inv-flat">
         <thead><tr>
-          <th>Device Name</th><th>IMEI</th><th>Category</th><th>Memory</th><th>Condition</th>
+          <th>Device Name</th><th>IMEI & Verification</th><th>Category</th><th>Memory</th><th>Condition</th>
           ${Views._showBattery!==false ? '<th>Battery %</th>' : ''}
-          <th>Cost Price</th><th>Wholesale Price</th><th>Sale Price</th><th>Qty</th><th>Store</th><th>Quick Actions</th>
+          <th>Cost Price</th><th>Sale Price</th><th>Qty</th><th>Store</th><th>Quick Actions</th>
         </tr></thead>
         <tbody>${rows}</tbody>
       </table></div>
@@ -2817,6 +2789,16 @@ Views.inventory = function(){
       <button class="btn" onclick="Views.openItemModal()">+ Add new device to inventory</button>
     </div>
   `;
+};
+
+Views.toggleUnitVerified = function(itemId, unitId){
+  const it = itemById(itemId); if(!it) return;
+  const u = (it.units||[]).find(x=>x.id===unitId); if(!u) return;
+  u.verified = !u.verified;
+  u.verifiedAt = u.verified ? todayISO() : null;
+  Store.save();
+  Toast.show(u.verified ? `IMEI ${u.imei||''} marked as Checked OK.` : 'IMEI verification cleared.', 'ok');
+  render();
 };
 
 // Transfer by scanning/typing IMEI directly from the top bar
@@ -2869,17 +2851,6 @@ Views.invSetCostPrice = function(itemId, unitId, v){
   Store.save();
   Toast.show('Cost price saved.','ok');
 };
-Views.invSetWholesalePrice = function(itemId, unitId, v){
-  const p = Number(v);
-  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
-  const it = itemById(itemId); if(!it) return;
-  it.wholesalePrice = p;
-  const u = (it.units||[]).find(x=>x.id===unitId);
-  if(u) u.wholesalePrice = p;
-  (it.units||[]).forEach(x=>{ if(x.wholesalePrice == null || x.wholesalePrice === 0) x.wholesalePrice = p; });
-  Store.save();
-  Toast.show('Wholesale price saved.','ok');
-};
 Views.invSetSalePrice = function(itemId, unitId, locId, v){
   const p = Number(v);
   if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
@@ -2901,15 +2872,6 @@ Views.invSetUntrackedCost = function(itemId, v){
   (it.units||[]).forEach(u => { u.costPrice = p; });
   Store.save();
   Toast.show('Cost price saved.','ok');
-};
-Views.invSetUntrackedWholesale = function(itemId, v){
-  const p = Number(v);
-  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
-  const it = itemById(itemId); if(!it) return;
-  it.wholesalePrice = p;
-  (it.units||[]).forEach(u => { u.wholesalePrice = p; });
-  Store.save();
-  Toast.show('Wholesale price saved.','ok');
 };
 Views.invSetUntrackedSale = function(itemId, locId, v){
   const p = Number(v);
@@ -3120,17 +3082,17 @@ Views.doBulkInlineTransfer = function(itemId, fromLoc){
 };
 
 Views.exportInventoryCsv = function(){
-  const rows = [['Name','Category','Memory','IMEI','Colour','Condition','Location','Cost Price','Wholesale Price','Sale Price']];
+  const rows = [['Name','Category','Memory','IMEI','Verified','Colour','Condition','Location','Cost Price','Sale Price']];
   Store.data.items.forEach(it=>{
     const units = (it.units||[]).filter(u=>u.imei);
     if(units.length){
       units.forEach(u=>{
-        rows.push([it.name, catName(it.category), it.memory, u.imei, u.color||'', u.condition||'',
-          shopName(u.location), u.costPrice||it.costPrice, u.wholesalePrice||it.wholesalePrice, u.sellPrice||'']);
+        rows.push([it.name, catName(it.category), it.memory, u.imei, u.verified ? 'Yes' : 'No', u.color||'', u.condition||'',
+          shopName(u.location), u.costPrice||it.costPrice, u.sellPrice||'']);
       });
     } else if(totalQty(it)>0){
-      rows.push([it.name, catName(it.category), it.memory, '', '', it.condition, '',
-        it.costPrice, it.wholesalePrice||0, it.shopPrices.warehouse||'']);
+      rows.push([it.name, catName(it.category), it.memory, '', 'No', '', it.condition, '',
+        it.costPrice, it.shopPrices.warehouse||'']);
     }
   });
   csvDownload('inventory_export.csv', rows);
@@ -3242,7 +3204,6 @@ Views.openEditUnitModal = function(itemId, unitId){
   const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
   const shops = activeShops();
   const cost = unit.costPrice != null ? unit.costPrice : (it.costPrice || 0);
-  const wholesale = unit.wholesalePrice != null ? unit.wholesalePrice : (it.wholesalePrice || 0);
   const sale = unit.sellPrice != null ? unit.sellPrice : (it.shopPrices[unit.location] || it.costPrice || 0);
 
   const html = `
@@ -3273,8 +3234,13 @@ Views.openEditUnitModal = function(itemId, unitId){
         </div>
 
         <div class="field">
-          <label>IMEI Number</label>
-          <input id="eu_imei" class="mono" value="${esc(unit.imei||'')}" placeholder="15-digit IMEI number" style="font-weight:700;font-size:14px;color:var(--teal-dark);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <label style="margin:0;">IMEI Number</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;margin:0;color:var(--green);font-weight:700;">
+              <input type="checkbox" id="eu_verified" ${unit.verified?'checked':''}> ✓ IMEI Checked / OK
+            </label>
+          </div>
+          <input id="eu_imei" class="mono" value="${esc(unit.imei||'')}" placeholder="15-digit IMEI number" style="font-weight:700;font-size:14px;color:${unit.verified?'#15803D':'var(--teal-dark)'};background:${unit.verified?'#F0FDF4':'#fff'};border:1.5px solid ${unit.verified?'#22C55E':'var(--line)'};">
         </div>
 
         <div class="field-grid" style="grid-template-columns:1fr 1fr 1fr 1.2fr;">
@@ -3291,7 +3257,7 @@ Views.openEditUnitModal = function(itemId, unitId){
           </div>
           <div class="field">
             <label>Battery %</label>
-            <input id="eu_batt" type="number" min="0" max="100" value="${unit.batteryPct!=null?unit.batteryPct:''}" placeholder="e.g. 86">
+            <input id="eu_batt" type="number" min="0" max="100" value="${unit.batteryPct!=null?unit.batteryPct:''}" placeholder="e.g. 86 (or leave blank)">
           </div>
           <div class="field">
             <label>Location</label>
@@ -3301,14 +3267,10 @@ Views.openEditUnitModal = function(itemId, unitId){
           </div>
         </div>
 
-        <div class="field-grid" style="grid-template-columns:1fr 1fr 1fr;">
+        <div class="field-grid" style="grid-template-columns:1fr 1fr;">
           <div class="field">
             <label>Cost Price (€)</label>
             <input id="eu_cost" type="number" step="0.01" value="${cost}">
-          </div>
-          <div class="field">
-            <label>Wholesale (€)</label>
-            <input id="eu_wholesale" type="number" step="0.01" value="${wholesale}">
           </div>
           <div class="field">
             <label>Sale Price (€)</label>
@@ -3342,9 +3304,9 @@ Views.saveEditedUnit = function(itemId, unitId){
   const newColor = val('eu_color').trim();
   const newCond = val('eu_cond');
   const newBatt = val('eu_batt').trim() !== '' ? Number(val('eu_batt')) : null;
+  const newVerified = !!document.getElementById('eu_verified')?.checked;
   const newLoc = val('eu_loc');
   const newCost = Math.max(0, parseFloat(val('eu_cost'))||0);
-  const newWholesale = Math.max(0, parseFloat(val('eu_wholesale'))||0);
   const newSale = Math.max(0, parseFloat(val('eu_sale'))||0);
 
   // Check duplicate IMEI if changed
@@ -3375,8 +3337,9 @@ Views.saveEditedUnit = function(itemId, unitId){
   unit.color = newColor;
   unit.condition = newCond;
   unit.batteryPct = newBatt;
+  unit.verified = newVerified;
+  unit.verifiedAt = newVerified ? (unit.verifiedAt || todayISO()) : null;
   unit.costPrice = newCost;
-  unit.wholesalePrice = newWholesale;
   unit.sellPrice = newSale;
 
   const canonOld = (it.name + '|' + it.category + '|' + (it.memory||'')).toLowerCase();
@@ -3460,12 +3423,13 @@ Views.openDeviceDrawer = function(itemId){
               <span>${esc(s.name)}</span><span style="color:var(--muted);font-weight:500;">${it.locations[s.id]||0} total</span>
             </div>
             ${units.map(u=>`
-              <div class="unit-row">
+              <div class="unit-row" style="${u.verified?'background:#F0FDF4;border-color:#86EFAC;':''}">
                 <div class="meta">
-                  <b>${esc(u.imei||'No IMEI')}</b><br>
+                  <b style="color:${u.verified?'#15803D':'var(--ink)'};">${esc(u.imei||'No IMEI')}</b> ${u.verified ? '<span class="pill green" style="font-size:10px;font-weight:700;margin-left:4px;">✓ OK</span>' : ''}<br>
                   ${esc(u.color||'-')} · ${esc(u.condition||'-')} · ${euro(u.sellPrice)}
                 </div>
-                <div style="display:flex;gap:6px;">
+                <div style="display:flex;gap:4px;align-items:center;">
+                  <button class="btn sm ${u.verified?'green':'ghost'}" onclick="Views.toggleUnitVerified('${it.id}','${u.id}');Views.openDeviceDrawer('${it.id}');" title="${u.verified?'IMEI Checked & Verified OK':'Mark IMEI as Checked OK'}">${u.verified?'✓ OK':'🔍 Check'}</button>
                   <button class="btn sm" onclick="Views.openEditUnitModal('${it.id}','${u.id}')" title="Edit IMEI, price, colour, etc.">✏️ Edit</button>
                   <button class="btn sm" onclick="Views.drawerTransferUnit('${it.id}','${u.id}')">Transfer</button>
                   <button class="btn sm danger" onclick="Views.drawerRemoveUnit('${it.id}','${u.id}')">Remove</button>
@@ -3600,10 +3564,9 @@ Views.openItemModal = function(itemId, shopId){
           <label>${it ? `Stock Quantity at ${esc(shopName(defaultLoc))}` : 'Quantity to add'}</label>
           <input id="f_qty" type="number" min="0" value="${currentUntracked}" placeholder="e.g. 5">
         </div>
-        <div class="field-grid" style="grid-template-columns:1fr 1fr 1fr;">
-          <div class="field"><label>Color</label><input id="f_color" value="${it?esc((it.colors||[])[0]||''):''}" placeholder="e.g. Black, Silver, Midnight"></div>
+        <div class="field-grid" style="grid-template-columns:1fr 1fr;">
+          <div class="field"><label>Color(s)</label><input id="f_color" value="${it?esc((it.colors||[]).join(', ')):''}" placeholder="e.g. Black, Gold, Silver (comma-separated for multi-color)"></div>
           <div class="field"><label>Cost Price (€)</label><input id="f_cost" type="number" step="0.01" value="${it?it.costPrice:''}" placeholder="e.g. 0.00"></div>
-          <div class="field"><label>Wholesale (€)</label><input id="f_wholesale" type="number" step="0.01" value="${it&&it.wholesalePrice!=null?it.wholesalePrice:0}" placeholder="0.00"></div>
         </div>
         <div class="field-grid">
           <div class="field">
@@ -3642,9 +3605,9 @@ Views.saveItem = function(itemId){
   const batt = val('f_batt');
   const isGeneric = !!document.getElementById('f_generic')?.checked || (!val('f_imei').trim() && (cat === 'cat_u83iatxw69i' || cat === 'cat_qaxr5vow69i'));
   const imei = isGeneric ? '' : val('f_imei').trim();
-  const color = val('f_color').trim() || 'Black';
+  const rawColors = val('f_color').split(',').map(s=>s.trim()).filter(Boolean);
+  const color = rawColors[0] || 'Black';
   const cost = parseFloat(val('f_cost'))||0;
-  const wholesale = val('f_wholesale')!=='' ? (parseFloat(val('f_wholesale'))||0) : 0;
   const openLoc = val('f_openloc') || 'warehouse';
   const qty = isGeneric ? Math.max(0, parseInt(val('f_qty')) || 0) : 1;
   const supplier = val('f_supplier').trim();
@@ -3663,8 +3626,7 @@ Views.saveItem = function(itemId){
       it.condition = cond;
       it.batteryPct = batt===''?null:Number(batt);
       it.costPrice = cost;
-      it.wholesalePrice = wholesale;
-      if(!it.colors.includes(color)) it.colors.push(color);
+      rawColors.forEach(c=>{ if(!it.colors.includes(c)) it.colors.push(c); });
       if(!Array.isArray(it.units)) it.units = [];
 
       if(imei){
@@ -4440,17 +4402,15 @@ Views.transfer = function(){
 
   const unitRows = units.length ? units.map(({it,u})=>{
     const cost = u.costPrice!=null?u.costPrice:it.costPrice;
-    const wholesale = u.wholesalePrice!=null?u.wholesalePrice:(it.wholesalePrice||cost+12);
     const sale = u.sellPrice!=null?u.sellPrice:(it.shopPrices[from]||it.costPrice);
     return `<tr>
       <td><b>${esc(it.name)}</b><br><span style="font-size:11px;color:var(--muted);">${esc(u.color||'')} · ${esc(u.condition||'-')}</span></td>
       <td><span class="mono" style="font-weight:700;color:var(--teal-dark);letter-spacing:.03em;">${esc(u.imei)}</span></td>
       <td>${euro(cost)}</td>
-      <td style="color:#8A5A16;">${euro(wholesale)}</td>
       <td style="color:var(--teal-dark);font-weight:600;">${euro(sale)}</td>
       <td><button class="btn sm primary" onclick="Views.doTransferOneImei('${u.id}')">⇄ Transfer</button></td>
     </tr>`;
-  }).join('') : `<tr><td colspan="6"><div class="empty">No IMEI-tracked devices at ${esc(shopName(from))}. Import shop CSV files under Settings, or add devices with IMEI in Stock In.</div></td></tr>`;
+  }).join('') : `<tr><td colspan="5"><div class="empty">No IMEI-tracked devices at ${esc(shopName(from))}. Import shop CSV files under Settings, or add devices with IMEI in Stock In.</div></td></tr>`;
 
   return `
     <div class="helpbox">Transfer <b>one phone at a time</b> by IMEI. Pick the source store, then transfer each device individually — or scan/type an IMEI below.</div>
@@ -4458,7 +4418,7 @@ Views.transfer = function(){
     <div class="card card-pad" style="margin-bottom:16px;">
       <div class="field-grid">
         <div class="field"><label>From</label><select id="tr_from" onchange="Views._trFrom=this.value;render()">${locs.map(s=>`<option value="${s.id}" ${from===s.id?'selected':''}>${esc(s.name)}${s.isWarehouse?' (warehouse)':''}</option>`).join('')}</select></div>
-        <div class="field"><label>To</label><select id="tr_to" onchange="Views._trTo=this.value">${locs.map(s=>`<option value="${s.id}" ${to===s.id?'selected':''}>${esc(s.name)}${s.isWarehouse?' (warehouse)':''}</option>`).join('')}</select></div>
+        <div class="field"><label>To</label><select id="tr_to" onchange="Views._trTo=this.value">${locs.map(s=>`<option value="${to===s.id?'selected':''}>${esc(s.name)}${s.isWarehouse?' (warehouse)':''}</option>`).join('')}</select></div>
       </div>
       <div class="field-grid" style="margin-top:8px;">
         <div class="field"><label>Scan / type IMEI</label><input id="tri_imei" class="mono" placeholder="Type or paste IMEI…" autocomplete="off"></div>
@@ -4471,7 +4431,7 @@ Views.transfer = function(){
         <div class="card">
           <div class="table-section-title">${esc(shopName(from))} — ${units.length} device(s) with IMEI</div>
           <div class="table-wrap"><table>
-            <thead><tr><th>Device</th><th>IMEI</th><th>Cost</th><th>Wholesale</th><th>Sale</th><th></th></tr></thead>
+            <thead><tr><th>Device</th><th>IMEI</th><th>Cost</th><th>Sale</th><th></th></tr></thead>
             <tbody>${unitRows}</tbody>
           </table></div>
         </div>
@@ -4960,11 +4920,6 @@ Views.svSetCostPrice = function(itemId, v){
   const it = itemById(itemId); if(!it) return;
   it.costPrice = p; (it.units||[]).forEach(u=>{ u.costPrice = p; }); Store.save(); Toast.show('Cost price updated.','ok'); render();
 };
-Views.svSetWholesalePrice = function(itemId, v){
-  const p = Number(v); if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
-  const it = itemById(itemId); if(!it) return;
-  it.wholesalePrice = p; (it.units||[]).forEach(u=>{ u.wholesalePrice = p; }); Store.save(); Toast.show('Wholesale price updated.','ok'); render();
-};
 Views.svSetPrice = function(itemId, shopId, v){
   const p = Number(v); if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
   const it = itemById(itemId); if(!it) return;
@@ -4978,12 +4933,6 @@ Views.svSetUnitCost = function(itemId, unitId, v){
   const it = itemById(itemId); if(!it) return;
   const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
   unit.costPrice = p; Store.save(); Toast.show('Unit cost updated.','ok'); render();
-};
-Views.svSetUnitWholesale = function(itemId, unitId, v){
-  const p = Number(v); if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
-  const it = itemById(itemId); if(!it) return;
-  const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
-  unit.wholesalePrice = p; Store.save(); Toast.show('Unit wholesale updated.','ok'); render();
 };
 Views.svSetUnitPrice = function(itemId, unitId, v){
   const p = Number(v); if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
@@ -5017,7 +4966,6 @@ Views.stockview = function(){
     const colorsToShow = unitCols.length > 0 ? unitCols : (it.colors||[]);
 
     const rowCost = (relUnits.find(u=>u.costPrice!=null && u.costPrice>1)?.costPrice) || (it.units?.find(u=>u.costPrice!=null && u.costPrice>1)?.costPrice) || it.costPrice || 0;
-    const rowWholesale = (relUnits.find(u=>u.wholesalePrice!=null && u.wholesalePrice>0)?.wholesalePrice) || (it.units?.find(u=>u.wholesalePrice!=null && u.wholesalePrice>0)?.wholesalePrice) || it.wholesalePrice || 0;
 
     let mainRow = `<tr>
       <td>
@@ -5032,13 +4980,10 @@ Views.stockview = function(){
       </td>
       <td><b style="font-size:14px;color:var(--teal-dark);">${qty}</b></td>
       <td>
-        <input type="number" step="0.01" value="${rowCost}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;font-size:12px;" title="Cost Price" onchange="Views.svSetCostPrice('${it.id}',this.value)">
+        <input type="number" step="0.01" value="${rowCost}" style="width:85px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;font-size:12.5px;font-weight:600;" title="Cost Price" onchange="Views.svSetCostPrice('${it.id}',this.value)">
       </td>
       <td>
-        <input type="number" step="0.01" value="${rowWholesale}" style="width:80px;padding:4px 6px;border:1px solid #F0B429;border-radius:6px;font-size:12px;" title="Wholesale Price" onchange="Views.svSetWholesalePrice('${it.id}',this.value)">
-      </td>
-      <td>
-        <input type="number" step="0.01" value="${salePrice}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:6px;font-size:12px;font-weight:700;color:var(--teal-dark);" title="Sale Price" onchange="Views.svSetPrice('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value)">
+        <input type="number" step="0.01" value="${salePrice}" style="width:85px;padding:4px 6px;border:1px solid var(--teal);border-radius:6px;font-size:12.5px;font-weight:700;color:var(--teal-dark);" title="Sale Price" onchange="Views.svSetPrice('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value)">
       </td>
       <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
       <td><button class="btn sm ghost" onclick="Views.toggleSvExpand('${it.id}')">${expanded?'▴ Collapse':'▾ Expand'}</button></td>
@@ -5047,17 +4992,16 @@ Views.stockview = function(){
     if(!expanded) return mainRow;
 
     // Expanded: per-store stock & sale prices + individual IMEI prices
-    let subRows = `<tr style="background:#F0F4F8;"><td colspan="9" style="padding:6px 14px;"><small style="color:var(--teal-dark);font-weight:700;">▸ Per-store stock & sale prices (editable):</small></td></tr>`;
+    let subRows = `<tr style="background:#F0F4F8;"><td colspan="8" style="padding:6px 14px;"><small style="color:var(--teal-dark);font-weight:700;">▸ Per-store stock & sale prices (editable):</small></td></tr>`;
     activeShops().forEach(s=>{
       const shopStock = (it.locations && it.locations[s.id]) || 0;
       subRows += `<tr style="background:#F6F8FA;">
         <td colspan="3" style="padding-left:28px;font-size:12px;"><b>${esc(s.name)}</b></td>
         <td><b>${shopStock}</b> in stock</td>
         <td><span style="font-size:11px;color:var(--muted);">Cost:</span> ${euro(it.costPrice)}</td>
-        <td><span style="font-size:11px;color:var(--muted);">Wholesale:</span> ${euro(it.wholesalePrice||0)}</td>
         <td>
           <span style="font-size:11px;color:var(--teal-dark);font-weight:600;">Sale: </span>
-          <input type="number" step="0.01" value="${it.shopPrices ? (it.shopPrices[s.id]||0) : 0}" style="width:80px;padding:3px 6px;border:1px solid var(--teal);border-radius:6px;font-weight:700;color:var(--teal-dark);" onchange="Views.svSetPrice('${it.id}','${s.id}',this.value)">
+          <input type="number" step="0.01" value="${it.shopPrices ? (it.shopPrices[s.id]||0) : 0}" style="width:85px;padding:3px 6px;border:1px solid var(--teal);border-radius:6px;font-weight:700;color:var(--teal-dark);" onchange="Views.svSetPrice('${it.id}','${s.id}',this.value)">
         </td>
         <td colspan="2" style="font-size:11px;color:var(--muted);">Margin: ${euro((it.shopPrices ? (it.shopPrices[s.id]||0) : 0)-(it.costPrice||0))}</td>
       </tr>`;
@@ -5065,19 +5009,20 @@ Views.stockview = function(){
 
     const activeUnits = locId==='all' ? (it.units||[]) : unitsAt(it, locId);
     if(activeUnits.length > 0){
-      subRows += `<tr style="background:#F0F4F8;"><td colspan="9" style="padding:6px 14px;"><small style="color:var(--teal-dark);font-weight:700;">▸ Individual IMEI units & quick actions:</small></td></tr>`;
+      subRows += `<tr style="background:#F0F4F8;"><td colspan="8" style="padding:6px 14px;"><small style="color:var(--teal-dark);font-weight:700;">▸ Individual IMEI units & quick actions:</small></td></tr>`;
       activeUnits.forEach(u=>{
         subRows += `<tr style="background:#FAFBFC;">
           <td colspan="3" style="padding-left:28px;font-size:12.5px;">
             <span class="mono" style="color:var(--teal-dark);font-weight:700;">${esc(u.imei||'No IMEI')}</span>
+            ${u.verified ? '<span class="pill green" style="font-size:10px;font-weight:700;margin-left:4px;">✓ OK</span>' : ''}
             <span style="color:var(--muted);font-size:11px;"> — ${esc(u.color||'-')} · ${esc(u.condition||'-')} @ ${esc(shopName(u.location))}</span>
           </td>
           <td><b>1</b></td>
-          <td><span style="font-size:11px;color:var(--muted);">Cost:</span> <input type="number" step="0.01" value="${u.costPrice||0}" style="width:74px;padding:3px 5px;border:1px solid var(--line);border-radius:5px;font-size:12px;" onchange="Views.svSetUnitCost('${it.id}','${u.id}',this.value)"></td>
-          <td><span style="font-size:11px;color:var(--muted);">Whl:</span> <input type="number" step="0.01" value="${u.wholesalePrice||0}" style="width:74px;padding:3px 5px;border:1px solid #F0B429;border-radius:5px;font-size:12px;" onchange="Views.svSetUnitWholesale('${it.id}','${u.id}',this.value)"></td>
-          <td><span style="font-size:11px;color:var(--teal-dark);font-weight:600;">Sale:</span> <input type="number" step="0.01" value="${u.sellPrice||0}" style="width:74px;padding:3px 5px;border:1px solid var(--teal);border-radius:5px;font-size:12px;font-weight:700;color:var(--teal-dark);" onchange="Views.svSetUnitPrice('${it.id}','${u.id}',this.value)"></td>
+          <td><span style="font-size:11px;color:var(--muted);">Cost:</span> <input type="number" step="0.01" value="${u.costPrice||0}" style="width:78px;padding:3px 5px;border:1px solid var(--line);border-radius:5px;font-size:12px;" onchange="Views.svSetUnitCost('${it.id}','${u.id}',this.value)"></td>
+          <td><span style="font-size:11px;color:var(--teal-dark);font-weight:600;">Sale:</span> <input type="number" step="0.01" value="${u.sellPrice||0}" style="width:78px;padding:3px 5px;border:1px solid var(--teal);border-radius:5px;font-size:12px;font-weight:700;color:var(--teal-dark);" onchange="Views.svSetUnitPrice('${it.id}','${u.id}',this.value)"></td>
           <td colspan="2" style="text-align:right;white-space:nowrap;">
             <div style="display:flex;gap:4px;justify-content:flex-end;align-items:center;">
+              <button class="btn sm ${u.verified?'green':'ghost'}" onclick="Views.toggleUnitVerified('${it.id}','${u.id}')" title="${u.verified?'IMEI Verified (Click to uncheck)':'Mark IMEI Verified'}">${u.verified?'✓ OK':'🔍 Check'}</button>
               <button class="btn sm green" onclick="Views.unitAction('${it.id}','${u.id}','sold')" title="Sell this device">✓ Sold</button>
               <button class="btn sm amber" onclick="Views.unitAction('${it.id}','${u.id}','faulty')" title="Mark as faulty">⚠ Faulty</button>
               <button class="btn sm" onclick="Views.unitAction('${it.id}','${u.id}','deposit')" style="background:#E8F0FE;color:#1967D2;border:1px solid #BDD0F7;" title="Mark deposit">🔒</button>
@@ -5095,15 +5040,15 @@ Views.stockview = function(){
     const relevantUnits = locId==='all' ? (it.units||[]) : unitsAt(it, locId);
     const rows = relevantUnits.map(u=>`<tr>
       <td><a href="javascript:void(0)" onclick="Views.openEditUnitModal('${it.id}','${u.id}')" style="color:var(--ink);text-decoration:none;font-weight:700;cursor:pointer;" title="Click to edit">${esc(it.name)}${it.memory?` <span class="mono" style="font-size:11.5px;color:var(--teal-dark);font-weight:600;">${esc(it.memory)}</span>`:''}</a></td>
-      <td class="mono" style="color:var(--teal-dark);font-weight:700;">${esc(u.imei||'—')}</td>
+      <td class="mono" style="color:${u.verified?'#15803D':'var(--teal-dark)'};font-weight:700;">${esc(u.imei||'—')} ${u.verified ? '<span class="pill green" style="font-size:10px;font-weight:700;margin-left:4px;">✓ OK</span>' : ''}</td>
       <td>${esc(u.color||'-')}</td>
       <td><b>1</b></td>
-      <td><input type="number" step="0.01" value="${u.costPrice||0}" style="width:74px;padding:3px 5px;border:1px solid var(--line);border-radius:5px;font-size:12px;" title="Cost" onchange="Views.svSetUnitCost('${it.id}','${u.id}',this.value)"></td>
-      <td><input type="number" step="0.01" value="${u.wholesalePrice||0}" style="width:74px;padding:3px 5px;border:1px solid #F0B429;border-radius:5px;font-size:12px;" title="Wholesale" onchange="Views.svSetUnitWholesale('${it.id}','${u.id}',this.value)"></td>
-      <td><input type="number" step="0.01" value="${u.sellPrice||0}" style="width:74px;padding:3px 5px;border:1px solid var(--teal);border-radius:5px;font-size:12px;font-weight:700;color:var(--teal-dark);" title="Sale Price" onchange="Views.svSetUnitPrice('${it.id}','${u.id}',this.value)"></td>
+      <td><input type="number" step="0.01" value="${u.costPrice||0}" style="width:78px;padding:3px 5px;border:1px solid var(--line);border-radius:5px;font-size:12px;" title="Cost" onchange="Views.svSetUnitCost('${it.id}','${u.id}',this.value)"></td>
+      <td><input type="number" step="0.01" value="${u.sellPrice||0}" style="width:78px;padding:3px 5px;border:1px solid var(--teal);border-radius:5px;font-size:12px;font-weight:700;color:var(--teal-dark);" title="Sale Price" onchange="Views.svSetUnitPrice('${it.id}','${u.id}',this.value)"></td>
       <td><b>${esc(shopName(u.location))}</b></td>
       <td class="no-print" style="white-space:nowrap;">
         <div style="display:flex;gap:4px;align-items:center;">
+          <button class="btn sm ${u.verified?'green':'ghost'}" onclick="Views.toggleUnitVerified('${it.id}','${u.id}')" title="${u.verified?'IMEI Verified':'Mark IMEI Verified'}">${u.verified?'✓ OK':'🔍 Check'}</button>
           <button class="btn sm green" onclick="Views.unitAction('${it.id}','${u.id}','sold')" title="Sell this device">✓ Sold</button>
           <button class="btn sm amber" onclick="Views.unitAction('${it.id}','${u.id}','faulty')" title="Mark as faulty">⚠ Faulty</button>
           <button class="btn sm primary" onclick="Views.openEditUnitModal('${it.id}','${u.id}')" title="Edit / Transfer">✏️ Edit</button>
@@ -5111,13 +5056,12 @@ Views.stockview = function(){
       </td>
     </tr>`).join('');
     const bulk = locId==='all' ? Store.data.shops.reduce((a,s)=>a+untrackedQtyAt(it,s.id),0) : untrackedQtyAt(it, locId);
-    const bulkRow = bulk>0 ? `<tr style="background:#FAFBFC;"><td colspan="9" style="color:var(--muted);">${esc(it.name)} — ${bulk} more unit(s) with no IMEI on file</td></tr>` : '';
+    const bulkRow = bulk>0 ? `<tr style="background:#FAFBFC;"><td colspan="8" style="color:var(--muted);">${esc(it.name)} — ${bulk} more unit(s) with no IMEI on file</td></tr>` : '';
     return rows + bulkRow;
   }
 
   const legend = `<div style="display:flex;gap:14px;align-items:center;margin-bottom:10px;font-size:12px;">
     <span><span style="display:inline-block;width:12px;height:12px;border:2px solid var(--line);border-radius:3px;margin-right:4px;"></span>Cost Price (what you paid)</span>
-    <span><span style="display:inline-block;width:12px;height:12px;border:2px solid #F0B429;border-radius:3px;margin-right:4px;"></span>Wholesale Price (trade/bulk)</span>
     <span><span style="display:inline-block;width:12px;height:12px;border:2px solid var(--teal);border-radius:3px;margin-right:4px;"></span>Sale Price (retail to customer)</span>
   </div>`;
 
@@ -5135,7 +5079,7 @@ Views.stockview = function(){
         <div class="table-section-title">${esc(g.cat.name)} (${g.items.reduce((a,it)=>a+(locId==='all'?totalQty(it):(it.locations[locId]||0)),0)} units)</div>
         <div class="table-wrap"><table>
           <thead><tr>
-            ${mode==='totals' ? `<th>Device</th><th>Memory</th><th>Colours</th><th>Qty</th><th>Cost Price</th><th>Wholesale Price</th><th>Sale Price</th><th>Condition</th><th></th>` : `<th>Device</th><th>IMEI</th><th>Colour</th><th>Qty</th><th>Cost</th><th>Wholesale</th><th>Sale</th><th>Location</th><th class="no-print"></th>`}
+            ${mode==='totals' ? `<th>Device</th><th>Memory</th><th>Colours</th><th>Qty</th><th>Cost Price</th><th>Sale Price</th><th>Condition</th><th></th>` : `<th>Device</th><th>IMEI</th><th>Colour</th><th>Qty</th><th>Cost</th><th>Sale</th><th>Location</th><th class="no-print"></th>`}
           </tr></thead>
           <tbody>
             ${g.items.map(mode==='totals' ? renderRow : renderImeiRows).join('')}
@@ -5153,23 +5097,22 @@ Views.exportStockviewCsv = function(){
 
   let rows = [];
   if(mode === 'imei'){
-    rows.push(['Device', 'IMEI', 'Category', 'Memory', 'Colour', 'Condition', 'Cost Price', 'Wholesale Price', 'Sale Price', 'Location']);
+    rows.push(['Device', 'IMEI', 'Category', 'Memory', 'Colour', 'Condition', 'Cost Price', 'Sale Price', 'Location', 'Verified']);
     items.forEach(it=>{
       const units = isAll ? (it.units||[]) : unitsAt(it, locId);
       units.forEach(u=>{
         const cost = u.costPrice != null ? u.costPrice : (it.costPrice || 0);
-        const wholesale = u.wholesalePrice != null ? u.wholesalePrice : (it.wholesalePrice || 0);
         const sale = u.sellPrice != null ? u.sellPrice : (it.shopPrices[u.location] || it.costPrice || 0);
-        rows.push([it.name, u.imei||'—', catName(it.category), it.memory||'', u.color||'', u.condition||it.condition, cost, wholesale, sale, shopName(u.location)]);
+        rows.push([it.name, u.imei||'—', catName(it.category), it.memory||'', u.color||'', u.condition||it.condition, cost, sale, shopName(u.location), u.verified ? 'Yes' : 'No']);
       });
     });
   } else {
-    rows.push(['Device', 'Category', 'Memory', 'Colours', 'Condition', 'Cost Price', 'Wholesale Price', 'Sale Price', 'Qty In Stock', 'Location']);
+    rows.push(['Device', 'Category', 'Memory', 'Colours', 'Condition', 'Cost Price', 'Sale Price', 'Qty In Stock', 'Location']);
     items.forEach(it=>{
       const qty = isAll ? totalQty(it) : (it.locations[locId]||0);
       const defaultShopId = activeShops()[0]?.id || 'warehouse';
       const sale = isAll ? ((it.shopPrices && it.shopPrices[defaultShopId])||it.costPrice||0) : ((it.shopPrices && it.shopPrices[locId])||it.costPrice||0);
-      rows.push([it.name, catName(it.category), it.memory||'', (it.colors||[]).join(', '), it.condition, it.costPrice||0, it.wholesalePrice||0, sale, qty, isAll ? 'All locations' : shopName(locId)]);
+      rows.push([it.name, catName(it.category), it.memory||'', (it.colors||[]).join(', '), it.condition, it.costPrice||0, sale, qty, isAll ? 'All locations' : shopName(locId)]);
     });
   }
 
@@ -5633,8 +5576,7 @@ Views.backup = function(){
         <div class="card card-pad" style="margin-top:16px;">
           <h3 style="margin-top:0;">Import IMEIs from shop CSV files</h3>
           <p style="color:var(--muted);font-size:13px;line-height:1.6;">
-            Loads every phone with its <b>IMEI</b>, <b>cost</b>, <b>wholesale</b>, and <b>sale</b> price from your shop count spreadsheets.
-            Prices are sorted per model: lowest = cost, middle = wholesale (~€12 above cost), highest = sale.
+            Loads every phone with its <b>IMEI</b>, <b>cost price</b>, and <b>sale price</b> from your shop count spreadsheets.
           </p>
           <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
             <button class="btn primary" onclick="Views.fetchShopCsvs()">↻ Auto-load CSVs from this folder</button>
