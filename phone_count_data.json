@@ -8848,13 +8848,14 @@
     },
     {
       "id": "item_vppdhg4u5p5",
-      "name": "Samsung A37 128GB",
+      "name": "Samsung A37",
       "category": "cat_w56n2ktw69i",
-      "memory": "128GB",
+      "memory": "6GB/128GB",
       "imei": "",
       "condition": "New",
       "colors": [
-        "awe lomen"
+        "awe lomen",
+        "Awesome Lemon"
       ],
       "batteryPct": null,
       "costPrice": 0,
@@ -8881,12 +8882,13 @@
         {
           "id": "unit_z2gb320u5p5",
           "imei": "350290815194769",
-          "color": "awe lomen",
+          "color": "Awesome Lemon",
           "condition": "New",
           "location": "shop_tralee",
           "costPrice": 0,
           "wholesalePrice": 0,
-          "sellPrice": 0
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20"
@@ -15478,7 +15480,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:40:57.865Z"
+    "lastSaved": "2026-08-28T14:42:18.865Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
