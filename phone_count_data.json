@@ -3531,7 +3531,7 @@
     },
     {
       "id": "item_1smvg9gw69l",
-      "name": "iPhone 8 Plus 64GB",
+      "name": "iPhone 8 Plus",
       "category": "cat_7qgen7vw69i",
       "memory": "64GB",
       "imei": "",
@@ -3563,11 +3563,11 @@
         {
           "id": "unit_3in4cqcu5nt",
           "imei": "356773083472284",
-          "color": "",
+          "color": "Black",
           "condition": "Used",
           "location": "shop_kilkenny",
-          "costPrice": 1,
-          "wholesalePrice": 86,
+          "costPrice": 0,
+          "wholesalePrice": 0,
           "sellPrice": 210
         }
       ],
@@ -14790,7 +14790,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T11:48:51.809Z"
+    "lastSaved": "2026-08-28T11:49:38.400Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
