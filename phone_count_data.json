@@ -11765,13 +11765,14 @@
     },
     {
       "id": "item_uy21ia8lt8u",
-      "name": "iPhone 8+",
+      "name": "iPhone 8 Plus",
       "category": "cat_7qgen7vw69i",
       "memory": "256GB",
       "condition": "Used",
       "imei": "359499083982885",
       "colors": [
-        "gold"
+        "gold",
+        "Gold"
       ],
       "costPrice": 0,
       "wholesalePrice": 12,
@@ -11797,12 +11798,12 @@
         {
           "id": "unit_fha29abu5p4",
           "imei": "359499083982885",
-          "color": "gold",
+          "color": "Gold",
           "condition": "Used",
           "location": "shop_tralee",
           "costPrice": 0,
-          "wholesalePrice": 12,
-          "sellPrice": 1,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
           "batteryPct": null
         }
       ],
@@ -15382,7 +15383,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:24:15.441Z"
+    "lastSaved": "2026-08-28T14:24:38.113Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
