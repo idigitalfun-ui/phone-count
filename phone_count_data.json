@@ -4154,7 +4154,7 @@
     },
     {
       "id": "item_i7gegxsw69l",
-      "name": "Samsung S23 128GB",
+      "name": "Samsung S23",
       "category": "cat_w56n2ktw69i",
       "memory": "128GB",
       "imei": "",
@@ -4186,12 +4186,13 @@
         {
           "id": "unit_j3pzioyu5o2",
           "imei": "355418875304813",
-          "color": "",
-          "condition": "Used",
+          "color": "Green",
+          "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 1,
-          "wholesalePrice": 555,
-          "sellPrice": 630
+          "costPrice": 555,
+          "wholesalePrice": 0,
+          "sellPrice": 630,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15146,7 +15147,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:50:21.470Z"
+    "lastSaved": "2026-08-28T13:50:52.895Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
