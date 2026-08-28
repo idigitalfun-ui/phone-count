@@ -4281,13 +4281,14 @@
     },
     {
       "id": "item_fkz63aow69l",
-      "name": "Redmi 9 32GB",
+      "name": "Redmi 9",
       "category": "cat_kzhvkkxw69i",
       "memory": "32GB",
       "imei": "",
       "condition": "New",
       "colors": [
-        "Carbon Grey"
+        "Carbon Grey",
+        "Carbon Gray"
       ],
       "batteryPct": 100,
       "costPrice": 1,
@@ -4313,12 +4314,13 @@
         {
           "id": "unit_y896kbyu5o5",
           "imei": "865126057619527",
-          "color": "",
+          "color": "Carbon Gray",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 200
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 200,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15148,7 +15150,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:51:35.391Z"
+    "lastSaved": "2026-08-28T13:52:09.919Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
