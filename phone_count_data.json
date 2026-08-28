@@ -10735,7 +10735,9 @@
           "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 232
+          "wholesalePrice": 232,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_epcsz5o9lma",
@@ -10807,7 +10809,9 @@
           "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 232
+          "wholesalePrice": 232,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-26",
@@ -14988,7 +14992,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T16:34:17.781Z"
+    "lastSaved": "2026-08-28T16:34:48.836Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
