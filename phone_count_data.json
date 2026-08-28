@@ -2964,9 +2964,10 @@
           "color": "Awesome Lavender",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 230,
-          "wholesalePrice": 242,
-          "sellPrice": 240
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         },
         {
           "id": "unit_18w4c8ku5oz",
@@ -2974,9 +2975,10 @@
           "color": "Graygreen",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 230,
-          "wholesalePrice": 242,
-          "sellPrice": 240
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15336,7 +15338,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:14:24.864Z"
+    "lastSaved": "2026-08-28T14:14:48.800Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
