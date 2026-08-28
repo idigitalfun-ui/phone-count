@@ -4108,7 +4108,7 @@
     },
     {
       "id": "item_uirzvkyw69l",
-      "name": "Samsung S22 Ultra 128GB",
+      "name": "Samsung S22 Ultra",
       "category": "cat_w56n2ktw69i",
       "memory": "128GB",
       "imei": "",
@@ -4140,12 +4140,13 @@
         {
           "id": "unit_ydo8rzyu5o2",
           "imei": "359185443123803",
-          "color": "",
+          "color": "Black",
           "condition": "Used",
           "location": "shop_kilkenny",
-          "costPrice": 1,
-          "wholesalePrice": 590,
-          "sellPrice": 600
+          "costPrice": 590,
+          "wholesalePrice": 0,
+          "sellPrice": 600,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15145,7 +15146,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:49:49.534Z"
+    "lastSaved": "2026-08-28T13:50:21.470Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
