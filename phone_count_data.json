@@ -7514,28 +7514,41 @@
         "Green"
       ],
       "batteryPct": 100,
-      "costPrice": 25,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 40,
         "shop_thurles": 40,
         "shop_kilkenny": 40,
         "shop_maynooth": 40,
         "shop_mullingar": 40,
-        "shop_tralee": 40,
+        "shop_tralee": 0,
         "shop_tullamore": 40
       },
       "locations": {
-        "warehouse": 0,
+        "warehouse": 1,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 3,
+        "shop_tralee": 1,
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
-      "wholesalePrice": 25,
-      "units": []
+      "wholesalePrice": 0,
+      "units": [
+        {
+          "id": "unit_qcbalka23ov",
+          "imei": "",
+          "color": "Orange",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "warehouse",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 40,
+          "addedAt": "2026-08-28"
+        }
+      ]
     },
     {
       "id": "item_ll6sox5w69n",
@@ -15824,7 +15837,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T15:04:09.425Z"
+    "lastSaved": "2026-08-28T15:04:55.089Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
