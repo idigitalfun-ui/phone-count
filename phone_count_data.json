@@ -9018,7 +9018,7 @@
     },
     {
       "id": "item_yhmdvyeu5p6",
-      "name": "Blackview 4GB",
+      "name": "Blackview N1000",
       "category": "cat_lkhn0qyw69i",
       "memory": "4GB",
       "imei": "",
@@ -9048,16 +9048,19 @@
         {
           "id": "unit_lb6nzyou5p7",
           "imei": "353359200194960",
-          "color": "",
-          "condition": "Used",
+          "color": "Phantom Black",
+          "condition": "New",
           "location": "shop_tralee",
           "costPrice": 0,
           "wholesalePrice": 0,
-          "sellPrice": 0
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
-      "colors": []
+      "colors": [
+        "Phantom Black"
+      ]
     },
     {
       "id": "item_zg33hetu5p8",
@@ -15603,7 +15606,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:45:43.810Z"
+    "lastSaved": "2026-08-28T14:46:12.201Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
