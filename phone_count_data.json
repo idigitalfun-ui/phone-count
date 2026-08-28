@@ -2745,7 +2745,7 @@
       "locations": {
         "warehouse": 10,
         "shop_thurles": 2,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -4071,7 +4071,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -4079,20 +4079,7 @@
       },
       "createdAt": "2026-08-20",
       "wholesalePrice": 0,
-      "units": [
-        {
-          "id": "unit_wvwyzw8wj8d",
-          "imei": "350753208585398",
-          "color": "Black",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 0,
-          "wholesalePrice": 0,
-          "sellPrice": 220,
-          "addedAt": "2026-08-28"
-        }
-      ]
+      "units": []
     },
     {
       "id": "item_xhnp9cgw69l",
@@ -4118,7 +4105,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -14936,6 +14923,30 @@
         "battery": "87%"
       },
       "note": "Transferred from Warehouse (Battery: 87%)"
+    },
+    {
+      "id": "mv_x6wm6vawu9o",
+      "type": "faulty",
+      "itemId": "item_d27dxfiw69l",
+      "itemName": "Samsung A04S",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_kilkenny",
+      "qty": 1,
+      "date": "2026-08-28",
+      "note": "Faulty, out the back of shop",
+      "sellPrice": 220,
+      "unitData": {
+        "id": "unit_wvwyzw8wj8d",
+        "imei": "350753208585398",
+        "color": "Black",
+        "condition": "New",
+        "batteryPct": null,
+        "location": "shop_kilkenny",
+        "costPrice": 0,
+        "wholesalePrice": 0,
+        "sellPrice": 220,
+        "addedAt": "2026-08-28"
+      }
     }
   ],
   "reorderList": [],
@@ -14943,7 +14954,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:36:36.448Z"
+    "lastSaved": "2026-08-28T13:37:01.286Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
