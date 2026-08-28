@@ -6688,21 +6688,23 @@
           "id": "unit_2z0os7ru5p9",
           "imei": "4LCNU21106105608",
           "color": "",
-          "condition": "Used",
+          "condition": "New",
           "location": "shop_tralee",
-          "costPrice": 60,
-          "wholesalePrice": 60,
-          "sellPrice": 100
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         },
         {
           "id": "unit_vd5khlgu5p9",
           "imei": "4LCNU20C22114106",
           "color": "",
-          "condition": "Used",
+          "condition": "New",
           "location": "shop_tralee",
-          "costPrice": 60,
-          "wholesalePrice": 60,
-          "sellPrice": 100
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15763,7 +15765,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:57:49.369Z"
+    "lastSaved": "2026-08-28T14:58:15.337Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
