@@ -7857,7 +7857,7 @@
     },
     {
       "id": "item_dl461vxu5nz",
-      "name": "Samsung A06 5G 128GB",
+      "name": "Samsung A06 5G",
       "category": "cat_w56n2ktw69i",
       "memory": "128GB",
       "imei": "",
@@ -7891,11 +7891,12 @@
           "id": "unit_d53w8mdu5nz",
           "imei": "353205685158758",
           "color": "Black",
-          "condition": "Used",
+          "condition": "New",
           "location": "shop_kilkenny",
           "costPrice": 0,
           "wholesalePrice": 0,
-          "sellPrice": 145
+          "sellPrice": 145,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20"
@@ -14943,7 +14944,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:37:23.078Z"
+    "lastSaved": "2026-08-28T13:37:45.431Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
