@@ -11527,6 +11527,62 @@
       },
       "units": [],
       "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_fjh8pxkrhqs",
+      "name": "AirPods (3rd Generation)",
+      "category": "cat_qaxr5vow69i",
+      "memory": "",
+      "condition": "New",
+      "batteryPct": null,
+      "imei": "SDVV4T0VGM0",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 105,
+      "shopPrices": {
+        "warehouse": 135,
+        "shop_thurles": 135,
+        "shop_kilkenny": 135,
+        "shop_maynooth": 0,
+        "shop_mullingar": 135,
+        "shop_tralee": 135,
+        "shop_tullamore": 135
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 2,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_jxljre9rhqs",
+          "imei": "SDVV4T0VGM0",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_maynooth",
+          "costPrice": 105,
+          "sellPrice": 0,
+          "addedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_nsmeomlrmxg",
+          "imei": "SDRD2LY66Q2",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_maynooth",
+          "costPrice": 105,
+          "sellPrice": 0,
+          "addedAt": "2026-08-28"
+        }
+      ],
+      "createdAt": "2026-08-28"
     }
   ],
   "movements": [
@@ -15126,7 +15182,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T16:48:17.030Z"
+    "lastSaved": "2026-08-28T16:48:48.169Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
