@@ -7527,9 +7527,12 @@
           "color": "",
           "condition": "Used",
           "location": "shop_tralee",
-          "costPrice": 25,
+          "costPrice": 0,
           "wholesalePrice": 25,
-          "sellPrice": 40
+          "sellPrice": 0,
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -8008,17 +8011,18 @@
       "imei": "",
       "condition": "New",
       "colors": [
-        "Black"
+        "Black",
+        "Silver"
       ],
       "batteryPct": 100,
-      "costPrice": 25,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 40,
         "shop_thurles": 40,
         "shop_kilkenny": 40,
         "shop_maynooth": 40,
         "shop_mullingar": 40,
-        "shop_tralee": 40,
+        "shop_tralee": 0,
         "shop_tullamore": 40
       },
       "locations": {
@@ -8027,7 +8031,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 2,
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
@@ -14954,7 +14958,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T15:25:44.513Z"
+    "lastSaved": "2026-08-28T15:26:17.866Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
