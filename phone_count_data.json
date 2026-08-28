@@ -503,7 +503,7 @@
         "warehouse": 115,
         "shop_thurles": 160,
         "shop_kilkenny": 150,
-        "shop_maynooth": 150,
+        "shop_maynooth": 0,
         "shop_mullingar": 115,
         "shop_tralee": 150,
         "shop_tullamore": 115
@@ -661,7 +661,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 115,
-          "sellPrice": 115,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 107
@@ -673,7 +673,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 115,
-          "sellPrice": 115,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 107
@@ -698,7 +698,7 @@
           "batteryPct": null,
           "location": "shop_maynooth",
           "costPrice": 115,
-          "sellPrice": 150,
+          "sellPrice": 0,
           "addedAt": "2026-08-28"
         }
       ],
@@ -14973,7 +14973,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T15:47:32.819Z"
+    "lastSaved": "2026-08-28T15:49:40.382Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
