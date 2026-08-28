@@ -1088,7 +1088,9 @@
           "location": "shop_maynooth",
           "costPrice": 250,
           "wholesalePrice": 262,
-          "sellPrice": 0
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -1238,7 +1240,9 @@
           "location": "shop_maynooth",
           "costPrice": 275,
           "wholesalePrice": 287,
-          "sellPrice": 305
+          "sellPrice": 305,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_ksgzfbgu5ok",
@@ -14996,7 +15000,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T16:35:05.683Z"
+    "lastSaved": "2026-08-28T16:35:32.024Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
