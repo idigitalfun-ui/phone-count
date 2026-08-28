@@ -2675,7 +2675,7 @@ Views.inventory = function(){
               <button class="btn sm green" onclick="Views.invUnitAction('${it.id}','${u.id}','sold')" title="Mark as sold">✓ Sold</button>
               <button class="btn sm amber" onclick="Views.invUnitAction('${it.id}','${u.id}','faulty')" title="Mark as faulty">⚠ Faulty</button>
               <button class="btn sm" onclick="Views.invUnitAction('${it.id}','${u.id}','deposit')" title="Mark as deposit" style="background:#E8F0FE;color:#1967D2;border:1px solid #BDD0F7;">🔒 Deposit</button>
-              <button class="btn sm" onclick="Views.openDuplicateDeviceModal('${it.id}','${u.id}')" title="Duplicate device (prefills all details with empty IMEI)" style="background:#F3F4F6;color:var(--ink);border:1px solid var(--line);">📋 Copy</button>
+              <button class="btn sm" onclick="Views.openDuplicateDeviceModal('${it.id}','${u.id}','${u.location}')" title="Duplicate device (prefills all details with empty IMEI)" style="background:#F3F4F6;color:var(--ink);border:1px solid var(--line);">📋 Copy</button>
               <button class="btn sm ghost" onclick="Views.drawerRemoveUnit('${it.id}','${u.id}')" title="Delete record silently (no movement logged)" style="border:1px solid var(--line);color:var(--muted);">🗑</button>
             </div>
           </td>
@@ -2720,7 +2720,7 @@ Views.inventory = function(){
                 <button class="btn sm green" onclick="Views.invUntrackedAction('${it.id}','${filterShop}','sold')" title="Mark 1 as sold">✓ Sold</button>
                 <button class="btn sm amber" onclick="Views.invUntrackedAction('${it.id}','${filterShop}','faulty')" title="Mark 1 as faulty">⚠ Faulty</button>
                 <button class="btn sm" onclick="Views.invUntrackedAction('${it.id}','${filterShop}','deposit')" title="Mark 1 as deposit" style="background:#E8F0FE;color:#1967D2;border:1px solid #BDD0F7;">🔒 Deposit</button>
-                <button class="btn sm" onclick="Views.openDuplicateDeviceModal('${it.id}')" title="Duplicate product details" style="background:#F3F4F6;color:var(--ink);border:1px solid var(--line);">📋 Copy</button>
+                <button class="btn sm" onclick="Views.openDuplicateDeviceModal('${it.id}', null, '${filterShop}')" title="Duplicate product details" style="background:#F3F4F6;color:var(--ink);border:1px solid var(--line);">📋 Copy</button>
                 <button class="btn sm ghost" onclick="Views.removeUntrackedStock('${it.id}','${filterShop}')" title="Clear generic stock balance" style="border:1px solid var(--line);color:var(--muted);">🗑</button>
               </div>
             </td>
@@ -2765,7 +2765,7 @@ Views.inventory = function(){
                   <button class="btn sm green" onclick="Views.invUntrackedAction('${it.id}','${s.id}','sold')" title="Mark 1 as sold">✓ Sold</button>
                   <button class="btn sm amber" onclick="Views.invUntrackedAction('${it.id}','${s.id}','faulty')" title="Mark 1 as faulty">⚠ Faulty</button>
                   <button class="btn sm" onclick="Views.invUntrackedAction('${it.id}','${s.id}','deposit')" title="Mark 1 as deposit" style="background:#E8F0FE;color:#1967D2;border:1px solid #BDD0F7;">🔒 Deposit</button>
-                  <button class="btn sm" onclick="Views.openDuplicateDeviceModal('${it.id}')" title="Duplicate product details" style="background:#F3F4F6;color:var(--ink);border:1px solid var(--line);">📋 Copy</button>
+                  <button class="btn sm" onclick="Views.openDuplicateDeviceModal('${it.id}', null, '${s.id}')" title="Duplicate product details" style="background:#F3F4F6;color:var(--ink);border:1px solid var(--line);">📋 Copy</button>
                   <button class="btn sm ghost" onclick="Views.removeUntrackedStock('${it.id}','${s.id}')" title="Clear generic stock balance" style="border:1px solid var(--line);color:var(--muted);">🗑</button>
                 </div>
               </td>
@@ -2845,7 +2845,7 @@ Views.inventory = function(){
       <button class="btn sm ${Views._showBattery!==false?'teal':'ghost'}" onclick="Views._showBattery=!(Views._showBattery!==false);render();" title="Toggle Battery % display">🔋 Battery %: <b>${Views._showBattery!==false?'ON':'OFF'}</b></button>
       <button class="btn ghost sm" onclick="Views.cleanAllUntracked()" title="Remove all non-IMEI placeholder balances">🧹 Clean untracked</button>
       <button class="btn" onclick="Views.exportInventoryCsv()">⬇ Export CSV</button>
-      <button class="btn primary" onclick="Views.openItemModal()">+ Add device</button>
+      <button class="btn primary" onclick="Views.openItemModal(null, '${filterShop||'warehouse'}')">+ Add device</button>
     </div>
 
     <div class="helpbox">Each phone is its own row with its <b>IMEI</b> (click to copy or verify). Transfer one device at a time using the dropdown per row, or use the IMEI scan bar above.</div>
@@ -2860,7 +2860,7 @@ Views.inventory = function(){
       </table></div>
     </div>
     <div style="margin-top:12px;text-align:right;">
-      <button class="btn" onclick="Views.openItemModal()">+ Add new device to inventory</button>
+      <button class="btn" onclick="Views.openItemModal(null, '${filterShop||'warehouse'}')">+ Add new device to inventory</button>
     </div>
   `;
 };
@@ -3354,7 +3354,7 @@ Views.openEditUnitModal = function(itemId, unitId){
       </div>
       <div class="modal-foot">
         <button class="btn danger" onclick="Views.drawerRemoveUnit('${it.id}','${unit.id}');Modal.close();">Delete Device</button>
-        <button class="btn" onclick="Views.openDuplicateDeviceModal('${it.id}','${unit.id}')" title="Duplicate this phone with a new IMEI">📋 Duplicate</button>
+        <button class="btn" onclick="Views.openDuplicateDeviceModal('${it.id}','${unit.id}','${unit.location}')" title="Duplicate this phone with a new IMEI">📋 Duplicate</button>
         <button class="btn" onclick="Modal.close()">Cancel</button>
         <button class="btn primary" onclick="Views.saveEditedUnit('${it.id}','${unit.id}')">💾 Save Changes</button>
       </div>
@@ -3867,7 +3867,7 @@ Views.saveItem = function(itemId){
   render();
 };
 
-Views.openDuplicateDeviceModal = function(itemId, unitId){
+Views.openDuplicateDeviceModal = function(itemId, unitId, shopId){
   const it = itemById(itemId); if(!it) return;
   const unit = unitId ? (it.units||[]).find(u=>u.id===unitId) : (it.units && it.units[0]);
   const shops = activeShops();
@@ -3875,7 +3875,8 @@ Views.openDuplicateDeviceModal = function(itemId, unitId){
   const existingColors = (it.colors && it.colors.length) ? it.colors : [(unit && unit.color) || 'Black'];
   const batt = (unit && unit.batteryPct != null) ? unit.batteryPct : (it.batteryPct != null ? it.batteryPct : '');
   const cost = (unit && unit.costPrice != null) ? unit.costPrice : (it.costPrice != null ? it.costPrice : '');
-  const loc = (unit && unit.location) || 'warehouse';
+  // Priority: explicit shopId passed in (current filter) > unit's actual location > first shop with stock > warehouse
+  const loc = shopId || (unit && unit.location) || Object.keys(it.locations||{}).find(k=>(it.locations[k]||0)>0) || 'warehouse';
   const isGeneric = !unit?.imei && (it.category === 'cat_u83iatxw69i' || it.category === 'cat_qaxr5vow69i');
 
   const html = `
