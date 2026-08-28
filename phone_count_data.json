@@ -4328,7 +4328,7 @@
     },
     {
       "id": "item_i3sjoqbw69l",
-      "name": "Redmi 10A 64GB",
+      "name": "Redmi 10A",
       "category": "cat_kzhvkkxw69i",
       "memory": "64GB",
       "imei": "",
@@ -4360,12 +4360,13 @@
         {
           "id": "unit_sy0exipu5o6",
           "imei": "867849060938943",
-          "color": "",
+          "color": "Graphite Gray",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 210
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 210,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15150,7 +15151,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:52:09.919Z"
+    "lastSaved": "2026-08-28T13:52:31.071Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
