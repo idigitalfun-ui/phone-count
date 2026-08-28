@@ -3588,7 +3588,7 @@
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
@@ -8893,20 +8893,10 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 1
       },
       "units": [
-        {
-          "id": "unit_fha29abu5p4",
-          "imei": "359499083982885",
-          "color": "gold",
-          "condition": "Used",
-          "location": "shop_tralee",
-          "costPrice": 0,
-          "wholesalePrice": 12,
-          "sellPrice": 1
-        },
         {
           "id": "unit_q5x5h9ou5pc",
           "imei": "356773089691903",
@@ -11768,6 +11758,51 @@
           "costPrice": 0,
           "wholesalePrice": 0,
           "sellPrice": 0,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_uy21ia8lt8u",
+      "name": "iPhone 8+",
+      "category": "cat_7qgen7vw69i",
+      "memory": "256GB",
+      "condition": "Used",
+      "imei": "359499083982885",
+      "colors": [
+        "gold"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 12,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 230
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_fha29abu5p4",
+          "imei": "359499083982885",
+          "color": "gold",
+          "condition": "Used",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 12,
+          "sellPrice": 1,
           "batteryPct": null
         }
       ],
@@ -15347,7 +15382,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:18:42.083Z"
+    "lastSaved": "2026-08-28T14:24:15.441Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
