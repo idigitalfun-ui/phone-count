@@ -2280,12 +2280,13 @@
         {
           "id": "unit_erq6nzhu5ow",
           "imei": "356801114837900",
-          "color": "",
+          "color": "Purple",
           "condition": "Used",
           "location": "shop_mullingar",
-          "costPrice": 190,
-          "wholesalePrice": 200,
-          "sellPrice": 240
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         },
         {
           "id": "unit_9rwvtg7u5p3",
@@ -15298,7 +15299,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:07:48.711Z"
+    "lastSaved": "2026-08-28T14:10:52.056Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
