@@ -10364,41 +10364,18 @@
         "warehouse": 1,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
-        "shop_maynooth": 2,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
         {
-          "id": "unit_t75c8p5u5nm",
-          "imei": "",
-          "color": "White",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 0,
-          "wholesalePrice": 117,
-          "sellPrice": 0,
-          "batteryPct": null,
-          "verified": false,
-          "verifiedAt": null
-        },
-        {
           "id": "unit_3lnnw1tu5nm",
           "imei": "SMWXQXWHC5P",
           "color": "",
           "condition": "New",
           "location": "warehouse",
-          "costPrice": 105,
-          "wholesalePrice": 117,
-          "sellPrice": 120
-        },
-        {
-          "id": "unit_uby0329u5nm",
-          "imei": "SDRD2LY66Q2",
-          "color": "White",
-          "condition": "New",
-          "location": "shop_maynooth",
           "costPrice": 105,
           "wholesalePrice": 117,
           "sellPrice": 120
@@ -11483,6 +11460,39 @@
           "batteryPct": null
         }
       ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_iybvu5gpqkc",
+      "name": "Samsung Buds 3 Pro",
+      "category": "cat_qaxr5vow69i",
+      "memory": "",
+      "condition": "New",
+      "batteryPct": null,
+      "imei": "",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 1,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [],
       "createdAt": "2026-08-28"
     }
   ],
@@ -15083,7 +15093,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T16:46:17.454Z"
+    "lastSaved": "2026-08-28T16:47:21.046Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
