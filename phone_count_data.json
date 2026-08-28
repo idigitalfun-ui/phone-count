@@ -7846,24 +7846,13 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_jkyqk78u5ny",
-          "imei": "353907427111868",
-          "color": "Black",
-          "condition": "Used",
-          "location": "shop_kilkenny",
-          "costPrice": 0,
-          "wholesalePrice": 0,
-          "sellPrice": 110
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-20"
     },
     {
@@ -14954,7 +14943,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:37:01.286Z"
+    "lastSaved": "2026-08-28T13:37:23.078Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
