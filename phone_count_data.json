@@ -2237,7 +2237,9 @@
           "location": "shop_maynooth",
           "costPrice": 0,
           "wholesalePrice": 312,
-          "sellPrice": 0
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_1rrhlffut12",
@@ -5215,7 +5217,9 @@
           "location": "shop_maynooth",
           "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 0
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_7n4fj75u5ou",
@@ -5225,7 +5229,9 @@
           "location": "shop_maynooth",
           "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 0
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_8r2jahnu5pa",
@@ -6005,7 +6011,9 @@
           "location": "shop_maynooth",
           "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 0
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -15065,7 +15073,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T16:40:56.973Z"
+    "lastSaved": "2026-08-28T16:41:44.759Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
