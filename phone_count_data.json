@@ -2640,7 +2640,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 3,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
@@ -6188,7 +6188,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 2,
+        "shop_tralee": 1,
         "shop_tullamore": 1
       },
       "units": [
@@ -6198,19 +6198,10 @@
           "color": "Purple",
           "condition": "New",
           "location": "shop_tralee",
-          "costPrice": 220,
-          "wholesalePrice": 220,
-          "sellPrice": 300
-        },
-        {
-          "id": "unit_4f8sbvhu5p5",
-          "imei": "356080129578169",
-          "color": "black",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 220,
-          "wholesalePrice": 220,
-          "sellPrice": 300
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null
         },
         {
           "id": "unit_o6kttf8u5pg",
@@ -15487,7 +15478,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:40:23.929Z"
+    "lastSaved": "2026-08-28T14:40:57.865Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
