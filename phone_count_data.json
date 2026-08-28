@@ -11481,24 +11481,13 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_ywrduldu5o0",
-          "imei": "355838610755252",
-          "color": "Awesome Lavender",
-          "condition": "New",
-          "location": "shop_kilkenny",
-          "costPrice": 260,
-          "wholesalePrice": 0,
-          "sellPrice": 320,
-          "batteryPct": null
-        },
         {
           "id": "unit_9libcd8u5o1",
           "imei": "351384482081018",
@@ -11521,7 +11510,8 @@
       "condition": "New",
       "imei": "351741468679778",
       "colors": [
-        "Black"
+        "Black",
+        "Awesome Lavender"
       ],
       "costPrice": 260,
       "wholesalePrice": 0,
@@ -11537,7 +11527,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 2,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -11548,6 +11538,17 @@
           "id": "unit_rhp0ttxu5o0",
           "imei": "351741468679778",
           "color": "Black",
+          "condition": "New",
+          "location": "shop_kilkenny",
+          "costPrice": 260,
+          "wholesalePrice": 0,
+          "sellPrice": 320,
+          "batteryPct": null
+        },
+        {
+          "id": "unit_ywrduldu5o0",
+          "imei": "355838610755252",
+          "color": "Awesome Lavender",
           "condition": "New",
           "location": "shop_kilkenny",
           "costPrice": 260,
@@ -15132,7 +15133,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T13:45:06.647Z"
+    "lastSaved": "2026-08-28T13:45:17.975Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
