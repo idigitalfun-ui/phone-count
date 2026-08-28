@@ -1717,7 +1717,7 @@ const Router = {
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.1.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.2.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -2608,6 +2608,9 @@ Views.inventory = function(){
     ...shops.map(s=>`<button class="${f.shop===s.id?'active':''}" onclick="Views._invFilter.shop='${s.id}';render()">${esc(s.name)}</button>`)
   ].join('');
 
+  // filterShop: null = "all stores" view, string = specific shop filter
+  const filterShop = f.shop !== 'all' ? f.shop : null;
+
   // Build flat rows — one per IMEI unit (each phone on its own line)
   let rows = '';
   if(items.length === 0){
@@ -2617,7 +2620,6 @@ Views.inventory = function(){
       if(!it) return;
       const th = categoryTheme(it.category);
       const units = (it.units||[]).filter(Boolean);
-      const filterShop = f.shop !== 'all' ? f.shop : null;
       const relevantUnits = filterShop ? units.filter(u=>u && u.location===filterShop) : units;
 
       relevantUnits.forEach(u=>{
@@ -3751,10 +3753,11 @@ Views.saveItem = function(itemId){
   const primaryColor = rawColors[0];
 
   const cost = parseFloat(val('f_cost'))||0;
+  const salePriceOverride = val('f_saleprice') !== null ? (parseFloat(val('f_saleprice'))||0) : null;
   const openLoc = val('f_openloc') || 'warehouse';
   const qty = isGeneric ? Math.max(0, parseInt(val('f_qty')) || 0) : 1;
-  const supplier = val('f_supplier').trim();
-  const invoice = val('f_invoice').trim();
+  const supplier = (val('f_supplier')||'').trim();
+  const invoice = (val('f_invoice')||'').trim();
 
   if(supplier && Array.isArray(Store.data.suppliers) && !Store.data.suppliers.includes(supplier)){
     Store.data.suppliers.push(supplier);
@@ -3787,7 +3790,7 @@ Views.saveItem = function(itemId){
             batteryPct: batt===''?null:Number(batt),
             location: openLoc,
             costPrice: cost || it.costPrice || 0,
-            sellPrice: (it.shopPrices && it.shopPrices[openLoc]) || cost || 0,
+            sellPrice: (salePriceOverride !== null && salePriceOverride > 0) ? salePriceOverride : ((it.shopPrices && it.shopPrices[openLoc]) || cost || 0),
             addedAt: todayISO()
           };
           it.units.push(u);
@@ -3853,7 +3856,7 @@ Views.saveItem = function(itemId){
         batteryPct: batt===''?null:Number(batt),
         location: openLoc,
         costPrice: cost,
-        sellPrice: (it.shopPrices && it.shopPrices[openLoc]) || cost || 0,
+        sellPrice: (salePriceOverride !== null && salePriceOverride > 0) ? salePriceOverride : ((it.shopPrices && it.shopPrices[openLoc]) || cost || 0),
         addedAt: todayISO()
       };
       if(!Array.isArray(it.units)) it.units = [];
@@ -3908,14 +3911,15 @@ Views.openDuplicateDeviceModal = function(itemId, unitId, shopId){
         
         ${Views.renderModalColorInputs(existingColors)}
 
-        <div class="field-grid" style="grid-template-columns:1fr 1fr;">
-          <div class="field"><label>Cost Price (€)</label><input id="f_cost" type="number" step="0.01" value="${cost}" placeholder="e.g. 0.00 or 25.00"></div>
+        <div class="field-grid" style="grid-template-columns:1fr 1fr 1fr;">
+          <div class="field"><label>Cost Price (€)</label><input id="f_cost" type="number" step="0.01" value="${cost}" placeholder="e.g. 0.00"></div>
+          <div class="field"><label>Sale Price (€)</label><input id="f_saleprice" type="number" step="0.01" value="${(unit&&unit.sellPrice&&unit.sellPrice>1)?unit.sellPrice:((it.shopPrices&&it.shopPrices[loc]&&it.shopPrices[loc]>1)?it.shopPrices[loc]:cost)}" placeholder="e.g. 150.00"></div>
           <div class="field"><label>Opening Location</label><select id="f_openloc">${shops.map(s=>`<option value="${s.id}" ${loc===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}</select></div>
         </div>
       </div>
       <div class="modal-foot">
         <button class="btn" onclick="Modal.close()">Cancel</button>
-        <button class="btn primary" onclick="Views.saveItem(null)">+ Add Product</button>
+        <button class="btn primary" onclick="Views.saveItem(null)">💾 Save & Add</button>
       </div>
     </div>`;
   Modal.open(html);
