@@ -273,9 +273,9 @@
           "condition": "New",
           "batteryPct": null,
           "location": "shop_mullingar",
-          "costPrice": 675,
-          "wholesalePrice": 687.02,
-          "sellPrice": 679,
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
           "addedAt": "2026-08-25"
         },
         {
@@ -15299,7 +15299,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T14:11:51.591Z"
+    "lastSaved": "2026-08-28T14:12:05.872Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
