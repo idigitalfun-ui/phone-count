@@ -2583,7 +2583,10 @@ Views.inventory = function(){
       if(!it) return;
       const th = categoryTheme(it.category);
       const units = (it.units||[]).filter(Boolean);
-      const filter      relevantUnits.forEach(u=>{
+      const filterShop = f.shop !== 'all' ? f.shop : null;
+      const relevantUnits = filterShop ? units.filter(u=>u && u.location===filterShop) : units;
+
+      relevantUnits.forEach(u=>{
         const otherShops = shops.filter(s=>s.id!==u.location);
         const hasImei = !!(u.imei && String(u.imei).trim());
         const cost = u.costPrice!=null?u.costPrice:(it.costPrice||0);
