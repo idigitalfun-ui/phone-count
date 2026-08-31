@@ -2279,7 +2279,7 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 2,
+        "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
@@ -2318,17 +2318,6 @@
           "wholesalePrice": 0,
           "sellPrice": 250,
           "batteryPct": null
-        },
-        {
-          "id": "unit_v21h7rslplt",
-          "imei": "SCK2RWJGFCJ",
-          "color": "White",
-          "condition": "Used",
-          "batteryPct": 100,
-          "location": "warehouse",
-          "costPrice": 199,
-          "sellPrice": 120,
-          "addedAt": "2026-08-31"
         }
       ],
       "createdAt": "2026-08-20",
@@ -10356,7 +10345,7 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 2,
+        "warehouse": 1,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
@@ -10385,17 +10374,6 @@
           "wholesalePrice": 0,
           "sellPrice": 185,
           "batteryPct": null
-        },
-        {
-          "id": "unit_6xb8q46lplu",
-          "imei": "SDVV4T0VGM0",
-          "color": "White",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "warehouse",
-          "costPrice": 105,
-          "sellPrice": 120,
-          "addedAt": "2026-08-31"
         }
       ],
       "createdAt": "2026-08-25"
@@ -15188,7 +15166,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-31T17:50:41.045Z"
+    "lastSaved": "2026-08-31T17:50:54.693Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
