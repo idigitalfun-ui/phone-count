@@ -1429,6 +1429,10 @@ const GitHubStore = {
   },
 
   async saveRemote(manual = false){
+    // Commit any active in-progress input field before pushing to GitHub
+    if(document.activeElement && typeof document.activeElement.blur === 'function'){
+      document.activeElement.blur();
+    }
     const cfg = this.getConfig();
     if(!cfg.token || !cfg.token.trim() || !cfg.owner || !cfg.repo) return;
     if(this._syncing) return;
@@ -2661,10 +2665,10 @@ Views.inventory = function(){
           </td>
           ${Views._showBattery!==false ? `<td><span class="mono" style="font-weight:700;color:${hasBattery?'#6D28D9':'var(--muted)'};">${hasBattery ? `${u.batteryPct}%` : '—'}</span></td>` : ''}
           <td>
-            <input type="number" step="0.01" value="${cost||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;font-weight:600;" title="Cost Price" onchange="Views.invSetCostPrice('${it.id}','${u.id}',this.value)">
+            <input type="number" step="0.01" value="${cost||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;font-weight:600;" title="Cost Price" oninput="Views.invSetCostPrice('${it.id}','${u.id}',this.value,false)" onchange="Views.invSetCostPrice('${it.id}','${u.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
           </td>
           <td>
-            <input type="number" step="0.01" value="${sale||0}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12.5px;color:var(--teal-dark);font-weight:700;" title="Sale Price" onchange="Views.invSetSalePrice('${it.id}','${u.id}','${u.location}',this.value)">
+            <input type="number" step="0.01" value="${sale||0}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12.5px;color:var(--teal-dark);font-weight:700;" title="Sale Price" oninput="Views.invSetSalePrice('${it.id}','${u.id}','${u.location}',this.value,false)" onchange="Views.invSetSalePrice('${it.id}','${u.id}','${u.location}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
           </td>
           <td>1</td>
           <td><b style="color:var(--teal-dark);">${esc(shopName(u.location))}</b></td>
@@ -2704,13 +2708,13 @@ Views.inventory = function(){
             <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
             ${Views._showBattery!==false ? `<td><span style="color:var(--muted);font-size:11px;">—</span></td>` : ''}
             <td>
-              <input type="number" step="0.01" value="${it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;font-weight:600;" title="Cost Price" onchange="Views.invSetUntrackedCost('${it.id}',this.value)">
+              <input type="number" step="0.01" value="${it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;font-weight:600;" title="Cost Price" oninput="Views.invSetUntrackedCost('${it.id}',this.value,false)" onchange="Views.invSetUntrackedCost('${it.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
             </td>
             <td>
-              <input type="number" step="0.01" value="${(it.shopPrices&&it.shopPrices[filterShop])||it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12.5px;color:var(--teal-dark);font-weight:700;" title="Sale Price" onchange="Views.invSetUntrackedSale('${it.id}','${filterShop}',this.value)">
+              <input type="number" step="0.01" value="${(it.shopPrices&&it.shopPrices[filterShop])||it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12.5px;color:var(--teal-dark);font-weight:700;" title="Sale Price" oninput="Views.invSetUntrackedSale('${it.id}','${filterShop}',this.value,false)" onchange="Views.invSetUntrackedSale('${it.id}','${filterShop}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
             </td>
             <td>
-              <input type="number" min="0" value="${untracked}" style="width:58px;padding:3px 6px;border:1px solid var(--teal);border-radius:5px;font-size:13px;font-weight:700;text-align:center;color:var(--teal-dark);background:#F0FDFA;" title="Change stock quantity directly" onchange="Views.invSetUntrackedQty('${it.id}','${filterShop}',this.value)">
+              <input type="number" min="0" value="${untracked}" style="width:58px;padding:3px 6px;border:1px solid var(--teal);border-radius:5px;font-size:13px;font-weight:700;text-align:center;color:var(--teal-dark);background:#F0FDFA;" title="Change stock quantity directly" oninput="Views.invSetUntrackedQty('${it.id}','${filterShop}',this.value,false)" onchange="Views.invSetUntrackedQty('${it.id}','${filterShop}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
             </td>
             <td><b style="color:var(--teal-dark);">${esc(shopName(filterShop))}</b></td>
             <td style="white-space:nowrap;">
@@ -2749,17 +2753,17 @@ Views.inventory = function(){
               <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
               ${Views._showBattery!==false ? `<td><span style="color:var(--muted);font-size:11px;">—</span></td>` : ''}
               <td>
-                <input type="number" step="0.01" value="${it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;font-weight:600;" title="Cost Price" onchange="Views.invSetUntrackedCost('${it.id}',this.value)">
+                <input type="number" step="0.01" value="${it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;font-weight:600;" title="Cost Price" oninput="Views.invSetUntrackedCost('${it.id}',this.value,false)" onchange="Views.invSetUntrackedCost('${it.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
               </td>
               <td>
-                <input type="number" step="0.01" value="${(it.shopPrices&&it.shopPrices[s.id])||it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12.5px;color:var(--teal-dark);font-weight:700;" title="Sale Price" onchange="Views.invSetUntrackedSale('${it.id}','${s.id}',this.value)">
+                <input type="number" step="0.01" value="${(it.shopPrices&&it.shopPrices[s.id])||it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12.5px;color:var(--teal-dark);font-weight:700;" title="Sale Price" oninput="Views.invSetUntrackedSale('${it.id}','${s.id}',this.value,false)" onchange="Views.invSetUntrackedSale('${it.id}','${s.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
               </td>
               <td>
-                <input type="number" min="0" value="${untracked}" style="width:58px;padding:3px 6px;border:1px solid var(--teal);border-radius:5px;font-size:13px;font-weight:700;text-align:center;color:var(--teal-dark);background:#F0FDFA;" title="Change stock quantity directly" onchange="Views.invSetUntrackedQty('${it.id}','${s.id}',this.value)">
+                <input type="number" min="0" value="${untracked}" style="width:58px;padding:3px 6px;border:1px solid var(--teal);border-radius:5px;font-size:13px;font-weight:700;text-align:center;color:var(--teal-dark);background:#F0FDFA;" title="Change stock quantity directly" oninput="Views.invSetUntrackedQty('${it.id}','${s.id}',this.value,false)" onchange="Views.invSetUntrackedQty('${it.id}','${s.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
               </td>
               <td><b style="color:var(--teal-dark);">${esc(s.name)}</b></td>
               <td style="white-space:nowrap;">
-                <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;">
+                <div style="display:flex;flex-wrap:gap:4px;align-items:center;">
                   <select id="inv_untracked_to_${it.id}_${s.id}" style="padding:4px 8px;border:1px solid var(--line);border-radius:6px;font-size:12px;">
                     ${otherShops.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join('')}
                   </select>
@@ -2915,9 +2919,9 @@ Views.saveInlineImei = function(itemId, unitId, rawVal){
 };
 
 // Inline price setters from Inventory
-Views.invSetCostPrice = function(itemId, unitId, v){
+Views.invSetCostPrice = function(itemId, unitId, v, showToast = true){
   const p = Number(v);
-  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+  if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
   it.costPrice = p;
   const u = (it.units||[]).find(x=>x.id===unitId);
@@ -2925,11 +2929,11 @@ Views.invSetCostPrice = function(itemId, unitId, v){
   // Sync to sibling units of this exact model with dummy/default cost
   (it.units||[]).forEach(x=>{ if(x.costPrice == null || x.costPrice <= 1) x.costPrice = p; });
   Store.save();
-  Toast.show('Cost price saved.','ok');
+  if(showToast) Toast.show(`Cost price for ${it.name} saved (€${p.toFixed(2)}).`,'ok');
 };
-Views.invSetSalePrice = function(itemId, unitId, locId, v){
+Views.invSetSalePrice = function(itemId, unitId, locId, v, showToast = true){
   const p = Number(v);
-  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+  if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
   if(!it.shopPrices) it.shopPrices = {};
   it.shopPrices[locId] = p;
@@ -2938,26 +2942,26 @@ Views.invSetSalePrice = function(itemId, unitId, locId, v){
   // Sync to sibling units at this exact location
   (it.units||[]).filter(x=>x.location===locId).forEach(x=>{ x.sellPrice = p; });
   Store.save();
-  Toast.show('Sale price saved.','ok');
+  if(showToast) Toast.show(`Sale price for ${it.name} saved (€${p.toFixed(2)} at ${shopName(locId)}).`,'ok');
 };
-Views.invSetUntrackedCost = function(itemId, v){
+Views.invSetUntrackedCost = function(itemId, v, showToast = true){
   const p = Number(v);
-  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+  if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
   it.costPrice = p;
   (it.units||[]).forEach(u => { u.costPrice = p; });
   Store.save();
-  Toast.show('Cost price saved.','ok');
+  if(showToast) Toast.show(`Cost price for ${it.name} saved (€${p.toFixed(2)}).`,'ok');
 };
-Views.invSetUntrackedSale = function(itemId, locId, v){
+Views.invSetUntrackedSale = function(itemId, locId, v, showToast = true){
   const p = Number(v);
-  if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+  if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
   if(!it.shopPrices) it.shopPrices = {};
   it.shopPrices[locId] = p;
   (it.units||[]).filter(u=>u.location===locId).forEach(u => { u.sellPrice = p; });
   Store.save();
-  Toast.show('Sale price saved.','ok');
+  if(showToast) Toast.show(`Sale price for ${it.name} saved (€${p.toFixed(2)} at ${shopName(locId)}).`,'ok');
 };
 
 Views.saveInlineUntrackedImei = function(itemId, shopId, rawVal){
@@ -5054,36 +5058,41 @@ Views._svLoc = 'warehouse';
 Views._svMode = 'totals';
 Views._svExpanded = {};
 Views.toggleSvExpand = function(itemId){ Views._svExpanded[itemId] = !Views._svExpanded[itemId]; render(); };
-Views.svSetCostPrice = function(itemId, v){
-  const p = Number(v); if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+Views.svSetCostPrice = function(itemId, v, shouldRender = true){
+  const p = Number(v); if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
-  it.costPrice = p; (it.units||[]).forEach(u=>{ u.costPrice = p; }); Store.save(); Toast.show('Cost price updated.','ok'); render();
+  it.costPrice = p; (it.units||[]).forEach(u=>{ u.costPrice = p; }); Store.save();
+  if(shouldRender){ Toast.show('Cost price updated.','ok'); render(); }
 };
-Views.svSetPrice = function(itemId, shopId, v){
-  const p = Number(v); if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+Views.svSetPrice = function(itemId, shopId, v, shouldRender = true){
+  const p = Number(v); if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
   if(!it.shopPrices) it.shopPrices = {};
   it.shopPrices[shopId] = p;
   (it.units||[]).filter(u=>u.location===shopId).forEach(u=>{ u.sellPrice = p; });
-  Store.save(); Toast.show('Sale price updated.','ok'); render();
+  Store.save();
+  if(shouldRender){ Toast.show('Sale price updated.','ok'); render(); }
 };
-Views.svSetUnitCost = function(itemId, unitId, v){
-  const p = Number(v); if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+Views.svSetUnitCost = function(itemId, unitId, v, shouldRender = true){
+  const p = Number(v); if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
   const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
-  unit.costPrice = p; Store.save(); Toast.show('Unit cost updated.','ok'); render();
+  unit.costPrice = p; Store.save();
+  if(shouldRender){ Toast.show('Unit cost updated.','ok'); render(); }
 };
-Views.svSetUnitPrice = function(itemId, unitId, v){
-  const p = Number(v); if(isNaN(p)||p<0){ Toast.show('Enter a valid price.','err'); return; }
+Views.svSetUnitPrice = function(itemId, unitId, v, shouldRender = true){
+  const p = Number(v); if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
   const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
-  unit.sellPrice = p; Store.save(); Toast.show('Unit price updated.','ok'); render();
+  unit.sellPrice = p; Store.save();
+  if(shouldRender){ Toast.show('Unit price updated.','ok'); render(); }
 };
-Views.svSetQty = function(itemId, shopId, v){
-  const q = Number(v); if(isNaN(q)||q<0){ Toast.show('Enter a valid quantity.','err'); return; }
+Views.svSetQty = function(itemId, shopId, v, shouldRender = true){
+  const q = Number(v); if(isNaN(q)||q<0) return;
   const it = itemById(itemId); if(!it) return;
   if(!it.locations) it.locations = {};
-  it.locations[shopId] = q; Store.save(); Toast.show('Quantity updated.','ok'); render();
+  it.locations[shopId] = q; Store.save();
+  if(shouldRender){ Toast.show('Quantity updated.','ok'); render(); }
 };
 Views.stockview = function(){
   const locs = [{id:'all',name:'All locations (Total)'}, ...activeShops()];
@@ -5119,10 +5128,10 @@ Views.stockview = function(){
       </td>
       <td><b style="font-size:14px;color:var(--teal-dark);">${qty}</b></td>
       <td>
-        <input type="number" step="0.01" value="${rowCost}" style="width:85px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;font-size:12.5px;font-weight:600;" title="Cost Price" onchange="Views.svSetCostPrice('${it.id}',this.value)">
+        <input type="number" step="0.01" value="${rowCost}" style="width:85px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;font-size:12.5px;font-weight:600;" title="Cost Price" oninput="Views.svSetCostPrice('${it.id}',this.value,false)" onchange="Views.svSetCostPrice('${it.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
       </td>
       <td>
-        <input type="number" step="0.01" value="${salePrice}" style="width:85px;padding:4px 6px;border:1px solid var(--teal);border-radius:6px;font-size:12.5px;font-weight:700;color:var(--teal-dark);" title="Sale Price" onchange="Views.svSetPrice('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value)">
+        <input type="number" step="0.01" value="${salePrice}" style="width:85px;padding:4px 6px;border:1px solid var(--teal);border-radius:6px;font-size:12.5px;font-weight:700;color:var(--teal-dark);" title="Sale Price" oninput="Views.svSetPrice('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value,false)" onchange="Views.svSetPrice('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
       </td>
       <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
       <td><button class="btn sm ghost" onclick="Views.toggleSvExpand('${it.id}')">${expanded?'▴ Collapse':'▾ Expand'}</button></td>
@@ -5140,7 +5149,7 @@ Views.stockview = function(){
         <td><span style="font-size:11px;color:var(--muted);">Cost:</span> ${euro(it.costPrice)}</td>
         <td>
           <span style="font-size:11px;color:var(--teal-dark);font-weight:600;">Sale: </span>
-          <input type="number" step="0.01" value="${it.shopPrices ? (it.shopPrices[s.id]||0) : 0}" style="width:85px;padding:3px 6px;border:1px solid var(--teal);border-radius:6px;font-weight:700;color:var(--teal-dark);" onchange="Views.svSetPrice('${it.id}','${s.id}',this.value)">
+          <input type="number" step="0.01" value="${it.shopPrices ? (it.shopPrices[s.id]||0) : 0}" style="width:85px;padding:3px 6px;border:1px solid var(--teal);border-radius:6px;font-weight:700;color:var(--teal-dark);" oninput="Views.svSetPrice('${it.id}','${s.id}',this.value,false)" onchange="Views.svSetPrice('${it.id}','${s.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
         </td>
         <td colspan="2" style="font-size:11px;color:var(--muted);">Margin: ${euro((it.shopPrices ? (it.shopPrices[s.id]||0) : 0)-(it.costPrice||0))}</td>
       </tr>`;
@@ -5157,8 +5166,8 @@ Views.stockview = function(){
             <span style="color:var(--muted);font-size:11px;"> — ${esc(u.color||'-')} · ${esc(u.condition||'-')} @ ${esc(shopName(u.location))}</span>
           </td>
           <td><b>1</b></td>
-          <td><span style="font-size:11px;color:var(--muted);">Cost:</span> <input type="number" step="0.01" value="${u.costPrice||0}" style="width:78px;padding:3px 5px;border:1px solid var(--line);border-radius:5px;font-size:12px;" onchange="Views.svSetUnitCost('${it.id}','${u.id}',this.value)"></td>
-          <td><span style="font-size:11px;color:var(--teal-dark);font-weight:600;">Sale:</span> <input type="number" step="0.01" value="${u.sellPrice||0}" style="width:78px;padding:3px 5px;border:1px solid var(--teal);border-radius:5px;font-size:12px;font-weight:700;color:var(--teal-dark);" onchange="Views.svSetUnitPrice('${it.id}','${u.id}',this.value)"></td>
+          <td><span style="font-size:11px;color:var(--muted);">Cost:</span> <input type="number" step="0.01" value="${u.costPrice||0}" style="width:78px;padding:3px 5px;border:1px solid var(--line);border-radius:5px;font-size:12px;" oninput="Views.svSetUnitCost('${it.id}','${u.id}',this.value,false)" onchange="Views.svSetUnitCost('${it.id}','${u.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}"></td>
+          <td><span style="font-size:11px;color:var(--teal-dark);font-weight:600;">Sale:</span> <input type="number" step="0.01" value="${u.sellPrice||0}" style="width:78px;padding:3px 5px;border:1px solid var(--teal);border-radius:5px;font-size:12px;font-weight:700;color:var(--teal-dark);" oninput="Views.svSetUnitPrice('${it.id}','${u.id}',this.value,false)" onchange="Views.svSetUnitPrice('${it.id}','${u.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}"></td>
           <td colspan="2" style="text-align:right;white-space:nowrap;">
             <div style="display:flex;gap:4px;justify-content:flex-end;align-items:center;">
               <button class="btn sm ${u.verified?'green':'ghost'}" onclick="Views.toggleUnitVerified('${it.id}','${u.id}')" title="${u.verified?'IMEI Verified (Click to uncheck)':'Mark IMEI Verified'}">${u.verified?'✓ OK':'🔍 Check'}</button>
