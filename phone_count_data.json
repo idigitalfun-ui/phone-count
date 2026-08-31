@@ -4453,7 +4453,7 @@
         "shop_tullamore": 220
       },
       "locations": {
-        "warehouse": 0,
+        "warehouse": 1,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
@@ -4463,7 +4463,19 @@
       },
       "createdAt": "2026-08-20",
       "wholesalePrice": 0,
-      "units": []
+      "units": [
+        {
+          "id": "unit_ddrw7cwk811",
+          "imei": "350753208585398",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "warehouse",
+          "costPrice": 0,
+          "sellPrice": 220,
+          "addedAt": "2026-08-31"
+        }
+      ]
     },
     {
       "id": "item_xhnp9cgw69l",
@@ -10433,7 +10445,7 @@
       },
       "units": [
         {
-          "id": "unit_m7nvt1kjxbn",
+          "id": "unit_723b2xak812",
           "imei": "SCK2RWJGFCJ",
           "color": "Black",
           "condition": "New",
@@ -11577,7 +11589,7 @@
           "addedAt": "2026-08-28"
         },
         {
-          "id": "unit_ixysc88jxbo",
+          "id": "unit_gu12ck3k812",
           "imei": "SDVV4T0VGM0",
           "color": "White",
           "condition": "New",
@@ -15188,7 +15200,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-31T17:57:52.116Z"
+    "lastSaved": "2026-08-31T17:57:59.087Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
