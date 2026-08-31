@@ -2274,7 +2274,7 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 2,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
@@ -2313,6 +2313,17 @@
           "wholesalePrice": 0,
           "sellPrice": 250,
           "batteryPct": null
+        },
+        {
+          "id": "unit_se2rfvybb2a",
+          "imei": "SCK2RWJGFCJ",
+          "color": "White",
+          "condition": "Used",
+          "batteryPct": 100,
+          "location": "warehouse",
+          "costPrice": 199,
+          "sellPrice": 120,
+          "addedAt": "2026-08-31"
         }
       ],
       "createdAt": "2026-08-20",
@@ -4434,7 +4445,7 @@
         "shop_tullamore": 220
       },
       "locations": {
-        "warehouse": 0,
+        "warehouse": 1,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
@@ -4444,7 +4455,19 @@
       },
       "createdAt": "2026-08-20",
       "wholesalePrice": 0,
-      "units": []
+      "units": [
+        {
+          "id": "unit_ddrw7cwk811",
+          "imei": "350753208585398",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "warehouse",
+          "costPrice": 0,
+          "sellPrice": 220,
+          "addedAt": "2026-08-31"
+        }
+      ]
     },
     {
       "id": "item_xhnp9cgw69l",
@@ -10410,7 +10433,7 @@
       },
       "units": [
         {
-          "id": "unit_z9a6wkbxkmt",
+          "id": "unit_723b2xak812",
           "imei": "SCK2RWJGFCJ",
           "color": "Black",
           "condition": "New",
@@ -11545,7 +11568,7 @@
           "addedAt": "2026-08-28"
         },
         {
-          "id": "unit_uan6gppxkmt",
+          "id": "unit_gu12ck3k812",
           "imei": "SDVV4T0VGM0",
           "color": "White",
           "condition": "New",
