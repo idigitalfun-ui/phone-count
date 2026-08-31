@@ -383,7 +383,7 @@
           "location": "shop_maynooth",
           "costPrice": 80,
           "wholesalePrice": 0,
-          "sellPrice": 0,
+          "sellPrice": 80,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -395,7 +395,7 @@
           "location": "shop_maynooth",
           "costPrice": 80,
           "wholesalePrice": 0,
-          "sellPrice": 0,
+          "sellPrice": 80,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -407,7 +407,7 @@
           "location": "shop_maynooth",
           "costPrice": 115,
           "wholesalePrice": 0,
-          "sellPrice": 0,
+          "sellPrice": 80,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -661,7 +661,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 115,
-          "sellPrice": 0,
+          "sellPrice": 115,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 107,
@@ -688,7 +688,7 @@
           "batteryPct": null,
           "location": "shop_maynooth",
           "costPrice": 115,
-          "sellPrice": 0,
+          "sellPrice": 115,
           "addedAt": "2026-08-28",
           "verified": true,
           "verifiedAt": "2026-08-28"
@@ -851,7 +851,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 125,
-          "sellPrice": 0,
+          "sellPrice": 190,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 111,
@@ -1045,9 +1045,9 @@
           "condition": "New",
           "batteryPct": null,
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 250,
           "wholesalePrice": 290,
-          "sellPrice": 0,
+          "sellPrice": 250,
           "addedAt": "2026-08-25",
           "verified": true,
           "verifiedAt": "2026-08-28"
@@ -1090,7 +1090,7 @@
           "location": "shop_maynooth",
           "costPrice": 250,
           "wholesalePrice": 262,
-          "sellPrice": 0,
+          "sellPrice": 250,
           "verified": true,
           "verifiedAt": "2026-08-28"
         }
@@ -1187,7 +1187,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 230,
-          "sellPrice": 0,
+          "sellPrice": 230,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 242,
@@ -1242,7 +1242,7 @@
           "location": "shop_maynooth",
           "costPrice": 275,
           "wholesalePrice": 287,
-          "sellPrice": 0,
+          "sellPrice": 275,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -1254,7 +1254,7 @@
           "location": "shop_maynooth",
           "costPrice": 275,
           "wholesalePrice": 287,
-          "sellPrice": 0,
+          "sellPrice": 275,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -1308,7 +1308,7 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 0,
+      "costPrice": 155,
       "shopPrices": {
         "warehouse": 180,
         "shop_thurles": 180,
@@ -1394,9 +1394,9 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 155,
           "wholesalePrice": 167,
-          "sellPrice": 0,
+          "sellPrice": 155,
           "verified": true,
           "verifiedAt": "2026-08-28"
         }
@@ -1415,7 +1415,7 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 0,
+      "costPrice": 135,
       "shopPrices": {
         "warehouse": 155,
         "shop_thurles": 155,
@@ -1522,9 +1522,9 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 135,
           "wholesalePrice": 147,
-          "sellPrice": 0,
+          "sellPrice": 135,
           "verified": true,
           "verifiedAt": "2026-08-28"
         }
@@ -1544,7 +1544,7 @@
         "Phantom Black"
       ],
       "batteryPct": 100,
-      "costPrice": 0,
+      "costPrice": 60,
       "shopPrices": {
         "warehouse": 75,
         "shop_thurles": 75,
@@ -1620,9 +1620,9 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 60,
           "wholesalePrice": 72,
-          "sellPrice": 0,
+          "sellPrice": 60,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -1632,9 +1632,9 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 60,
           "wholesalePrice": 72,
-          "sellPrice": 0,
+          "sellPrice": 60,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -1644,9 +1644,9 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 60,
           "wholesalePrice": 72,
-          "sellPrice": 0,
+          "sellPrice": 60,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -1656,9 +1656,9 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 60,
           "wholesalePrice": 72,
-          "sellPrice": 0,
+          "sellPrice": 60,
           "verified": true,
           "verifiedAt": "2026-08-28"
         }
@@ -1677,7 +1677,7 @@
         "Charcoal"
       ],
       "batteryPct": 100,
-      "costPrice": 0,
+      "costPrice": 14,
       "shopPrices": {
         "warehouse": 20,
         "shop_thurles": 20,
@@ -1763,9 +1763,9 @@
           "color": "Charcoal",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 14,
           "wholesalePrice": 26,
-          "sellPrice": 0,
+          "sellPrice": 14,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -1775,9 +1775,9 @@
           "color": "Charcoal",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 14,
           "wholesalePrice": 26,
-          "sellPrice": 0,
+          "sellPrice": 14,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -1845,9 +1845,9 @@
           "condition": "New",
           "batteryPct": null,
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 14,
           "wholesalePrice": 26,
-          "sellPrice": 0,
+          "sellPrice": 14,
           "addedAt": "2026-08-25",
           "verified": true,
           "verifiedAt": "2026-08-28"
@@ -1883,8 +1883,8 @@
           "condition": "New",
           "batteryPct": null,
           "location": "shop_maynooth",
-          "costPrice": 0,
-          "sellPrice": 0,
+          "costPrice": 14,
+          "sellPrice": 14,
           "addedAt": "2026-08-28",
           "verified": true,
           "verifiedAt": "2026-08-28"
@@ -1904,7 +1904,7 @@
         "Charcoal"
       ],
       "batteryPct": 100,
-      "costPrice": 0,
+      "costPrice": 15,
       "shopPrices": {
         "warehouse": 22,
         "shop_thurles": 22,
@@ -1990,9 +1990,9 @@
           "color": "Charcoal",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 15,
           "wholesalePrice": 27,
-          "sellPrice": 0,
+          "sellPrice": 15,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -2002,9 +2002,9 @@
           "color": "Charcoal",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 15,
           "wholesalePrice": 27,
-          "sellPrice": 0,
+          "sellPrice": 15,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -2059,9 +2059,9 @@
           "condition": "New",
           "batteryPct": null,
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 15,
           "wholesalePrice": 27,
-          "sellPrice": 0,
+          "sellPrice": 15,
           "addedAt": "2026-08-25",
           "verified": true,
           "verifiedAt": "2026-08-28"
@@ -2199,7 +2199,7 @@
         "Blue"
       ],
       "batteryPct": 100,
-      "costPrice": 0,
+      "costPrice": 300,
       "shopPrices": {
         "warehouse": 340,
         "shop_thurles": 340,
@@ -2235,9 +2235,9 @@
           "color": "Blue",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 300,
           "wholesalePrice": 312,
-          "sellPrice": 0,
+          "sellPrice": 300,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -3091,7 +3091,7 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 0,
+          "sellPrice": 230,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -3103,7 +3103,7 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 0,
+          "sellPrice": 230,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -3115,7 +3115,7 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 0,
+          "sellPrice": 230,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -3127,7 +3127,7 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 0,
+          "sellPrice": 230,
           "verified": true,
           "verifiedAt": "2026-08-28",
           "batteryPct": null
@@ -3197,7 +3197,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 160,
-          "sellPrice": 0,
+          "sellPrice": 160,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 172,
@@ -3223,7 +3223,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 160,
-          "sellPrice": 0,
+          "sellPrice": 160,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 172,
@@ -5199,7 +5199,7 @@
         "Graphite"
       ],
       "batteryPct": 100,
-      "costPrice": 0,
+      "costPrice": 100,
       "shopPrices": {
         "warehouse": 200,
         "shop_thurles": 200,
@@ -5225,9 +5225,9 @@
           "color": "Gray",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 100,
           "wholesalePrice": 13,
-          "sellPrice": 0,
+          "sellPrice": 100,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -5237,9 +5237,9 @@
           "color": "Gray",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 100,
           "wholesalePrice": 13,
-          "sellPrice": 0,
+          "sellPrice": 100,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -8203,7 +8203,7 @@
           "location": "shop_maynooth",
           "costPrice": 275,
           "wholesalePrice": 287,
-          "sellPrice": 0,
+          "sellPrice": 330,
           "verified": true,
           "verifiedAt": "2026-08-28",
           "batteryPct": null
@@ -10368,7 +10368,7 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 2,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
@@ -10397,6 +10397,17 @@
           "wholesalePrice": 0,
           "sellPrice": 185,
           "batteryPct": null
+        },
+        {
+          "id": "unit_l8dm0zujs66",
+          "imei": "SDVV4T0VGM0",
+          "color": "White",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "warehouse",
+          "costPrice": 105,
+          "sellPrice": 120,
+          "addedAt": "2026-08-31"
         }
       ],
       "createdAt": "2026-08-25"
@@ -10434,7 +10445,7 @@
       },
       "units": [
         {
-          "id": "unit_1px5riq5pcc",
+          "id": "unit_gnom176js67",
           "imei": "SCK2RWJGFCJ",
           "color": "Black",
           "condition": "New",
@@ -10442,7 +10453,7 @@
           "location": "shop_mullingar",
           "costPrice": 0,
           "sellPrice": 0,
-          "addedAt": "2026-08-28"
+          "addedAt": "2026-08-31"
         }
       ],
       "createdAt": "2026-08-25"
@@ -10486,7 +10497,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 140,
-          "sellPrice": 0,
+          "sellPrice": 140,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 152,
@@ -10632,7 +10643,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 140,
-          "sellPrice": 0,
+          "sellPrice": 140,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 152,
@@ -10803,7 +10814,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 220,
-          "sellPrice": 0,
+          "sellPrice": 220,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 232,
@@ -10877,7 +10888,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 220,
-          "sellPrice": 0,
+          "sellPrice": 220,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 232,
@@ -10939,7 +10950,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 480,
-          "sellPrice": 0,
+          "sellPrice": 480,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 492,
@@ -10989,7 +11000,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 385,
-          "sellPrice": 0,
+          "sellPrice": 385,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 397,
@@ -11472,7 +11483,7 @@
     {
       "id": "item_iybvu5gpqkc",
       "name": "Samsung Buds 3 Pro",
-      "category": "cat_qaxr5vow69i",
+      "category": "cat_w56n2ktw69i",
       "memory": "",
       "condition": "New",
       "batteryPct": null,
@@ -11504,7 +11515,7 @@
     },
     {
       "id": "item_qm8p487r150",
-      "name": "Airpods Pro",
+      "name": "AirPods Pro",
       "category": "cat_qaxr5vow69i",
       "memory": "",
       "condition": "New",
@@ -11569,23 +11580,23 @@
         {
           "id": "unit_jxljre9rhqs",
           "imei": "SDVV4T0VGM0",
-          "color": "Black",
+          "color": "White",
           "condition": "New",
           "batteryPct": null,
           "location": "shop_maynooth",
           "costPrice": 105,
-          "sellPrice": 0,
+          "sellPrice": 105,
           "addedAt": "2026-08-28"
         },
         {
           "id": "unit_nsmeomlrmxg",
           "imei": "SDRD2LY66Q2",
-          "color": "Black",
+          "color": "White",
           "condition": "New",
           "batteryPct": null,
           "location": "shop_maynooth",
           "costPrice": 105,
-          "sellPrice": 0,
+          "sellPrice": 105,
           "addedAt": "2026-08-28"
         }
       ],
@@ -15189,7 +15200,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T16:51:14.213Z"
+    "lastSaved": "2026-08-31T09:05:45.834Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
