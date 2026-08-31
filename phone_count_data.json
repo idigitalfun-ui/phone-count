@@ -10445,7 +10445,7 @@
       },
       "units": [
         {
-          "id": "unit_gnom176js67",
+          "id": "unit_z9a6wkbxkmt",
           "imei": "SCK2RWJGFCJ",
           "color": "Black",
           "condition": "New",
@@ -11578,17 +11578,6 @@
       },
       "units": [
         {
-          "id": "unit_jxljre9rhqs",
-          "imei": "SDVV4T0VGM0",
-          "color": "White",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_maynooth",
-          "costPrice": 105,
-          "sellPrice": 105,
-          "addedAt": "2026-08-28"
-        },
-        {
           "id": "unit_nsmeomlrmxg",
           "imei": "SDRD2LY66Q2",
           "color": "White",
@@ -11598,6 +11587,17 @@
           "costPrice": 105,
           "sellPrice": 105,
           "addedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_uan6gppxkmt",
+          "imei": "SDVV4T0VGM0",
+          "color": "White",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_maynooth",
+          "costPrice": 105,
+          "sellPrice": 105,
+          "addedAt": "2026-08-31"
         }
       ],
       "createdAt": "2026-08-28"
@@ -15200,7 +15200,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-31T09:05:45.834Z"
+    "lastSaved": "2026-08-31T12:32:26.559Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
