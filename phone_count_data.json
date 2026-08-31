@@ -10345,7 +10345,7 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 2,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
@@ -10374,6 +10374,17 @@
           "wholesalePrice": 0,
           "sellPrice": 185,
           "batteryPct": null
+        },
+        {
+          "id": "unit_hkrmb6wbb2b",
+          "imei": "SDVV4T0VGM0",
+          "color": "White",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "warehouse",
+          "costPrice": 105,
+          "sellPrice": 120,
+          "addedAt": "2026-08-31"
         }
       ],
       "createdAt": "2026-08-25"
