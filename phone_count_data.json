@@ -2262,7 +2262,6 @@
       "name": "AirPods Pro 3",
       "category": "cat_qaxr5vow69i",
       "memory": "-",
-      "imei": "SCK2RWJGFCJ",
       "condition": "Used",
       "colors": [
         "White"
@@ -2279,7 +2278,7 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 2,
+        "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
@@ -2318,17 +2317,6 @@
           "wholesalePrice": 0,
           "sellPrice": 250,
           "batteryPct": null
-        },
-        {
-          "id": "unit_se2rfvybb2a",
-          "imei": "SCK2RWJGFCJ",
-          "color": "White",
-          "condition": "Used",
-          "batteryPct": 100,
-          "location": "warehouse",
-          "costPrice": 199,
-          "sellPrice": 120,
-          "addedAt": "2026-08-31"
         }
       ],
       "createdAt": "2026-08-20",
@@ -10355,7 +10343,7 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 2,
+        "warehouse": 1,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
         "shop_maynooth": 1,
@@ -15164,7 +15152,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-31T18:03:15.055Z",
+    "lastSaved": "2026-08-31T18:03:40.829Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
