@@ -664,7 +664,9 @@
           "sellPrice": 115,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 107
+          "wholesalePrice": 107,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_wf0h9009ljl",
@@ -687,7 +689,9 @@
           "location": "shop_maynooth",
           "costPrice": 115,
           "sellPrice": 115,
-          "addedAt": "2026-08-28"
+          "addedAt": "2026-08-28",
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -847,10 +851,12 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 125,
-          "sellPrice": 120,
+          "sellPrice": 190,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 111
+          "wholesalePrice": 111,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_mjhtw459lls",
@@ -1017,7 +1023,7 @@
         "warehouse": 280,
         "shop_thurles": 300,
         "shop_kilkenny": 350,
-        "shop_maynooth": 320,
+        "shop_maynooth": 0,
         "shop_mullingar": 320,
         "shop_tralee": 280,
         "shop_tullamore": 280
@@ -1037,12 +1043,14 @@
           "imei": "350057712550645",
           "color": "Black",
           "condition": "New",
-          "batteryPct": 100,
+          "batteryPct": null,
           "location": "shop_maynooth",
           "costPrice": 250,
           "wholesalePrice": 290,
-          "sellPrice": 280,
-          "addedAt": "2026-08-25"
+          "sellPrice": 250,
+          "addedAt": "2026-08-25",
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_bdk602tu5nd",
@@ -1082,7 +1090,9 @@
           "location": "shop_maynooth",
           "costPrice": 250,
           "wholesalePrice": 262,
-          "sellPrice": 300
+          "sellPrice": 250,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -1109,7 +1119,7 @@
         "warehouse": 320,
         "shop_thurles": 340,
         "shop_kilkenny": 440,
-        "shop_maynooth": 440,
+        "shop_maynooth": 0,
         "shop_mullingar": 340,
         "shop_tralee": 320,
         "shop_tullamore": 320
@@ -1177,10 +1187,12 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 230,
-          "sellPrice": 220,
+          "sellPrice": 230,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 242
+          "wholesalePrice": 242,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -1207,7 +1219,7 @@
         "warehouse": 305,
         "shop_thurles": 330,
         "shop_kilkenny": 380,
-        "shop_maynooth": 380,
+        "shop_maynooth": 0,
         "shop_mullingar": 305,
         "shop_tralee": 380,
         "shop_tullamore": 305
@@ -1216,22 +1228,12 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 3,
-        "shop_maynooth": 3,
+        "shop_maynooth": 2,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_ouhazfnu5nf",
-          "imei": "350593649273349",
-          "color": "Graphite",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 275,
-          "wholesalePrice": 287,
-          "sellPrice": 305
-        },
         {
           "id": "unit_ksgzfbgu5ok",
           "imei": "350593640585246",
@@ -1240,7 +1242,9 @@
           "location": "shop_maynooth",
           "costPrice": 275,
           "wholesalePrice": 287,
-          "sellPrice": 380
+          "sellPrice": 275,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_12mgweuu5ok",
@@ -1250,7 +1254,9 @@
           "location": "shop_maynooth",
           "costPrice": 275,
           "wholesalePrice": 287,
-          "sellPrice": 380
+          "sellPrice": 275,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_nvcw6p99fst",
@@ -1307,7 +1313,7 @@
         "warehouse": 180,
         "shop_thurles": 180,
         "shop_kilkenny": 180,
-        "shop_maynooth": 240,
+        "shop_maynooth": 0,
         "shop_mullingar": 180,
         "shop_tralee": 180,
         "shop_tullamore": 180
@@ -1390,7 +1396,9 @@
           "location": "shop_maynooth",
           "costPrice": 155,
           "wholesalePrice": 167,
-          "sellPrice": 240
+          "sellPrice": 155,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -1412,7 +1420,7 @@
         "warehouse": 155,
         "shop_thurles": 155,
         "shop_kilkenny": 210,
-        "shop_maynooth": 210,
+        "shop_maynooth": 0,
         "shop_mullingar": 155,
         "shop_tralee": 155,
         "shop_tullamore": 155
@@ -1516,7 +1524,9 @@
           "location": "shop_maynooth",
           "costPrice": 135,
           "wholesalePrice": 147,
-          "sellPrice": 210
+          "sellPrice": 135,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -1539,7 +1549,7 @@
         "warehouse": 75,
         "shop_thurles": 75,
         "shop_kilkenny": 160,
-        "shop_maynooth": 160,
+        "shop_maynooth": 0,
         "shop_mullingar": 160,
         "shop_tralee": 160,
         "shop_tullamore": 75
@@ -1612,7 +1622,9 @@
           "location": "shop_maynooth",
           "costPrice": 60,
           "wholesalePrice": 72,
-          "sellPrice": 160
+          "sellPrice": 60,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_f58iitlu5os",
@@ -1622,7 +1634,9 @@
           "location": "shop_maynooth",
           "costPrice": 60,
           "wholesalePrice": 72,
-          "sellPrice": 160
+          "sellPrice": 60,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_gttqkvju5os",
@@ -1632,7 +1646,9 @@
           "location": "shop_maynooth",
           "costPrice": 60,
           "wholesalePrice": 72,
-          "sellPrice": 160
+          "sellPrice": 60,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_fbnx1zbu5os",
@@ -1642,7 +1658,9 @@
           "location": "shop_maynooth",
           "costPrice": 60,
           "wholesalePrice": 72,
-          "sellPrice": 160
+          "sellPrice": 60,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -1664,7 +1682,7 @@
         "warehouse": 20,
         "shop_thurles": 20,
         "shop_kilkenny": 45,
-        "shop_maynooth": 45,
+        "shop_maynooth": 0,
         "shop_mullingar": 45,
         "shop_tralee": 30,
         "shop_tullamore": 20
@@ -1673,7 +1691,7 @@
         "warehouse": 4,
         "shop_thurles": 0,
         "shop_kilkenny": 2,
-        "shop_maynooth": 3,
+        "shop_maynooth": 4,
         "shop_mullingar": 2,
         "shop_tralee": 5,
         "shop_tullamore": 0
@@ -1747,7 +1765,9 @@
           "location": "shop_maynooth",
           "costPrice": 14,
           "wholesalePrice": 26,
-          "sellPrice": 45
+          "sellPrice": 14,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_nib1ntsu5ot",
@@ -1757,7 +1777,9 @@
           "location": "shop_maynooth",
           "costPrice": 14,
           "wholesalePrice": 26,
-          "sellPrice": 45
+          "sellPrice": 14,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_0cpj2k3u5p8",
@@ -1821,12 +1843,14 @@
           "imei": "355282133015086",
           "color": "Charcoal",
           "condition": "New",
-          "batteryPct": 100,
+          "batteryPct": null,
           "location": "shop_maynooth",
           "costPrice": 14,
           "wholesalePrice": 26,
-          "sellPrice": 45,
-          "addedAt": "2026-08-25"
+          "sellPrice": 14,
+          "addedAt": "2026-08-25",
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_h1fcw8mmu00",
@@ -1851,6 +1875,19 @@
           "wholesalePrice": 0,
           "sellPrice": 30,
           "addedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_odjsqfyg1ks",
+          "imei": "355282133045505",
+          "color": "Charcoal",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_maynooth",
+          "costPrice": 14,
+          "sellPrice": 14,
+          "addedAt": "2026-08-28",
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -1872,7 +1909,7 @@
         "warehouse": 22,
         "shop_thurles": 22,
         "shop_kilkenny": 60,
-        "shop_maynooth": 60,
+        "shop_maynooth": 0,
         "shop_mullingar": 60,
         "shop_tralee": 22,
         "shop_tullamore": 22
@@ -1955,7 +1992,9 @@
           "location": "shop_maynooth",
           "costPrice": 15,
           "wholesalePrice": 27,
-          "sellPrice": 60
+          "sellPrice": 15,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_mvjfh6vu5ot",
@@ -1965,7 +2004,9 @@
           "location": "shop_maynooth",
           "costPrice": 15,
           "wholesalePrice": 27,
-          "sellPrice": 60
+          "sellPrice": 15,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_av104ygu5pl",
@@ -2016,12 +2057,14 @@
           "imei": "355647768273798",
           "color": "Charcoal",
           "condition": "New",
-          "batteryPct": 100,
+          "batteryPct": null,
           "location": "shop_maynooth",
           "costPrice": 15,
           "wholesalePrice": 27,
-          "sellPrice": 60,
-          "addedAt": "2026-08-25"
+          "sellPrice": 15,
+          "addedAt": "2026-08-25",
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -2161,7 +2204,7 @@
         "warehouse": 340,
         "shop_thurles": 340,
         "shop_kilkenny": 380,
-        "shop_maynooth": 340,
+        "shop_maynooth": 0,
         "shop_mullingar": 340,
         "shop_tralee": 340,
         "shop_tullamore": 340
@@ -2194,7 +2237,9 @@
           "location": "shop_maynooth",
           "costPrice": 300,
           "wholesalePrice": 312,
-          "sellPrice": 340
+          "sellPrice": 300,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_1rrhlffut12",
@@ -2234,7 +2279,7 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 2,
+        "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
@@ -2273,17 +2318,6 @@
           "wholesalePrice": 0,
           "sellPrice": 250,
           "batteryPct": null
-        },
-        {
-          "id": "unit_xz9y2pp281r",
-          "imei": "SCK2RWJGFCJ",
-          "color": "White",
-          "condition": "Used",
-          "batteryPct": 100,
-          "location": "warehouse",
-          "costPrice": 199,
-          "sellPrice": 120,
-          "addedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -3004,7 +3038,8 @@
         "Awesome Lemon",
         "Awesome White",
         "Awesome Lavender",
-        "Awesome GrayGreen"
+        "Awesome GrayGreen",
+        "Awesome Graygreen"
       ],
       "batteryPct": 100,
       "costPrice": 230,
@@ -3012,7 +3047,7 @@
         "warehouse": 285,
         "shop_thurles": 240,
         "shop_kilkenny": 240,
-        "shop_maynooth": 240,
+        "shop_maynooth": 0,
         "shop_mullingar": 240,
         "shop_tralee": 320,
         "shop_tullamore": 240
@@ -3045,7 +3080,9 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 240
+          "sellPrice": 230,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_2fu9c61u5ol",
@@ -3055,7 +3092,9 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 240
+          "sellPrice": 230,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_14ij1atu5om",
@@ -3065,17 +3104,22 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 240
+          "sellPrice": 230,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_7fa9tuuu5om",
           "imei": "353700230904797",
-          "color": "Awesome GrayGreen",
+          "color": "Awesome Graygreen",
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 240
+          "sellPrice": 230,
+          "verified": true,
+          "verifiedAt": "2026-08-28",
+          "batteryPct": null
         },
         {
           "id": "unit_vh6uk72u5oy",
@@ -3120,7 +3164,7 @@
         "warehouse": 220,
         "shop_thurles": 220,
         "shop_kilkenny": 220,
-        "shop_maynooth": 220,
+        "shop_maynooth": 0,
         "shop_mullingar": 220,
         "shop_tralee": 220,
         "shop_tullamore": 220
@@ -3145,7 +3189,9 @@
           "sellPrice": 160,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 172
+          "wholesalePrice": 172,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_ghyyvlc9ljp",
@@ -3169,7 +3215,9 @@
           "sellPrice": 160,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 172
+          "wholesalePrice": 172,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_x71el6d9ljs",
@@ -3425,12 +3473,12 @@
         "Dreamy Purple"
       ],
       "batteryPct": 100,
-      "costPrice": 65,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 80,
         "shop_thurles": 80,
         "shop_kilkenny": 80,
-        "shop_maynooth": 80,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 80,
         "shop_tullamore": 80
@@ -3451,19 +3499,22 @@
           "color": "Ocean Blue",
           "condition": "New",
           "location": "shop_thurles",
-          "costPrice": 65,
+          "costPrice": 0,
           "wholesalePrice": 65,
           "sellPrice": 80
         },
         {
           "id": "unit_ay54o0iu5ov",
           "imei": "LINK1KNEU006611",
-          "color": "",
+          "color": "Dreamy Purple",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 65,
+          "costPrice": 0,
           "wholesalePrice": 65,
-          "sellPrice": 80
+          "sellPrice": 0,
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_e03prkheaye",
@@ -3472,7 +3523,7 @@
           "condition": "New",
           "batteryPct": null,
           "location": "shop_mullingar",
-          "costPrice": 65,
+          "costPrice": 0,
           "wholesalePrice": 0,
           "sellPrice": 65,
           "addedAt": "2026-08-28"
@@ -3778,7 +3829,7 @@
         "warehouse": 75,
         "shop_thurles": 75,
         "shop_kilkenny": 75,
-        "shop_maynooth": 75,
+        "shop_maynooth": 0,
         "shop_mullingar": 75,
         "shop_tralee": 75,
         "shop_tullamore": 75
@@ -3801,7 +3852,7 @@
           "location": "shop_maynooth",
           "costPrice": 0,
           "wholesalePrice": 0,
-          "sellPrice": 75
+          "sellPrice": 0
         }
       ],
       "createdAt": "2026-08-20",
@@ -3881,7 +3932,8 @@
           "wholesalePrice": 110,
           "sellPrice": 160,
           "verified": true,
-          "verifiedAt": "2026-08-28"
+          "verifiedAt": "2026-08-28",
+          "batteryPct": 74
         }
       ],
       "createdAt": "2026-08-20",
@@ -3926,7 +3978,10 @@
           "location": "shop_kilkenny",
           "costPrice": 0,
           "wholesalePrice": 0,
-          "sellPrice": 210
+          "sellPrice": 210,
+          "batteryPct": 86,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -3973,7 +4028,10 @@
           "location": "shop_kilkenny",
           "costPrice": 0,
           "wholesalePrice": 0,
-          "sellPrice": 250
+          "sellPrice": 250,
+          "batteryPct": 100,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_fha29abu5p4",
@@ -4384,7 +4442,7 @@
         "shop_tullamore": 220
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
@@ -4394,19 +4452,7 @@
       },
       "createdAt": "2026-08-20",
       "wholesalePrice": 0,
-      "units": [
-        {
-          "id": "unit_2ica22m281r",
-          "imei": "350753208585398",
-          "color": "Black",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "warehouse",
-          "costPrice": 0,
-          "sellPrice": 220,
-          "addedAt": "2026-08-28"
-        }
-      ]
+      "units": []
     },
     {
       "id": "item_xhnp9cgw69l",
@@ -5135,7 +5181,7 @@
         "warehouse": 200,
         "shop_thurles": 200,
         "shop_kilkenny": 200,
-        "shop_maynooth": 200,
+        "shop_maynooth": 0,
         "shop_mullingar": 200,
         "shop_tralee": 200,
         "shop_tullamore": 200
@@ -5158,7 +5204,9 @@
           "location": "shop_maynooth",
           "costPrice": 100,
           "wholesalePrice": 13,
-          "sellPrice": 200
+          "sellPrice": 100,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_7n4fj75u5ou",
@@ -5168,7 +5216,9 @@
           "location": "shop_maynooth",
           "costPrice": 100,
           "wholesalePrice": 13,
-          "sellPrice": 200
+          "sellPrice": 100,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_8r2jahnu5pa",
@@ -5354,12 +5404,12 @@
         "Grey Titanium"
       ],
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 280,
         "shop_thurles": 280,
         "shop_kilkenny": 280,
-        "shop_maynooth": 280,
+        "shop_maynooth": 0,
         "shop_mullingar": 280,
         "shop_tralee": 280,
         "shop_tullamore": 280
@@ -5380,7 +5430,7 @@
           "color": "",
           "condition": "New",
           "location": "shop_kilkenny",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
           "sellPrice": 280
         },
@@ -5390,9 +5440,9 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 280
+          "sellPrice": 0
         }
       ],
       "createdAt": "2026-08-20",
@@ -5406,12 +5456,12 @@
       "imei": "6942007629003",
       "condition": "New",
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 85,
         "shop_thurles": 85,
         "shop_kilkenny": 85,
-        "shop_maynooth": 85,
+        "shop_maynooth": 0,
         "shop_mullingar": 85,
         "shop_tralee": 85,
         "shop_tullamore": 85
@@ -5432,10 +5482,12 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 85,
-          "batteryPct": 100
+          "sellPrice": 0,
+          "batteryPct": null,
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -5706,7 +5758,7 @@
         "warehouse": 1050,
         "shop_thurles": 1050,
         "shop_kilkenny": 1050,
-        "shop_maynooth": 1050,
+        "shop_maynooth": 0,
         "shop_mullingar": 1050,
         "shop_tralee": 1050,
         "shop_tullamore": 1050
@@ -5729,7 +5781,9 @@
           "location": "shop_maynooth",
           "costPrice": 0,
           "wholesalePrice": 0,
-          "sellPrice": 1050
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -5737,7 +5791,7 @@
     },
     {
       "id": "item_bgbmop6w69m",
-      "name": "Google Pixel 3a XL",
+      "name": "Google Pixel 3A XL",
       "category": "cat_kzhvkkxw69i",
       "memory": "64GB",
       "imei": "",
@@ -5746,12 +5800,12 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 160,
         "shop_thurles": 160,
         "shop_kilkenny": 160,
-        "shop_maynooth": 160,
+        "shop_maynooth": 0,
         "shop_mullingar": 160,
         "shop_tralee": 160,
         "shop_tullamore": 160
@@ -5772,9 +5826,12 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 160
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28",
+          "batteryPct": null
         },
         {
           "id": "unit_ym9ca6nu5pl",
@@ -5782,7 +5839,7 @@
           "color": "",
           "condition": "Used",
           "location": "shop_tullamore",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
           "sellPrice": 160
         }
@@ -5801,12 +5858,12 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 90,
         "shop_thurles": 90,
         "shop_kilkenny": 90,
-        "shop_maynooth": 90,
+        "shop_maynooth": 0,
         "shop_mullingar": 90,
         "shop_tralee": 90,
         "shop_tullamore": 90
@@ -5827,9 +5884,11 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 90
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_1lqzjknu5ot",
@@ -5837,9 +5896,11 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 90
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_ogt5rs1u5pm",
@@ -5847,7 +5908,7 @@
           "color": "",
           "condition": "New",
           "location": "shop_tullamore",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
           "sellPrice": 90
         }
@@ -5863,12 +5924,12 @@
       "imei": "",
       "condition": "New",
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 90,
         "shop_thurles": 90,
         "shop_kilkenny": 90,
-        "shop_maynooth": 90,
+        "shop_maynooth": 0,
         "shop_mullingar": 90,
         "shop_tralee": 90,
         "shop_tullamore": 90
@@ -5889,9 +5950,11 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 90
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -5909,12 +5972,12 @@
         "Pink"
       ],
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 330,
         "shop_thurles": 330,
         "shop_kilkenny": 330,
-        "shop_maynooth": 330,
+        "shop_maynooth": 0,
         "shop_mullingar": 330,
         "shop_tralee": 330,
         "shop_tullamore": 330
@@ -5935,9 +5998,11 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 330
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -5954,12 +6019,12 @@
         "Gray"
       ],
       "batteryPct": null,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 380,
         "shop_thurles": 380,
         "shop_kilkenny": 380,
-        "shop_maynooth": 380,
+        "shop_maynooth": 0,
         "shop_mullingar": 380,
         "shop_tralee": 380,
         "shop_tullamore": 380
@@ -5980,9 +6045,11 @@
           "color": "Gray",
           "condition": "Used",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 380
+          "sellPrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -5996,12 +6063,12 @@
       "imei": "",
       "condition": "New",
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 180,
         "shop_thurles": 180,
         "shop_kilkenny": 180,
-        "shop_maynooth": 180,
+        "shop_maynooth": 0,
         "shop_mullingar": 180,
         "shop_tralee": 180,
         "shop_tullamore": 180
@@ -6022,9 +6089,9 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 180
+          "sellPrice": 0
         }
       ],
       "createdAt": "2026-08-20",
@@ -6039,12 +6106,12 @@
       "imei": "",
       "condition": "New",
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 70,
         "shop_thurles": 70,
         "shop_kilkenny": 70,
-        "shop_maynooth": 70,
+        "shop_maynooth": 0,
         "shop_mullingar": 70,
         "shop_tralee": 70,
         "shop_tullamore": 70
@@ -6065,9 +6132,9 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 70
+          "sellPrice": 0
         },
         {
           "id": "unit_dfbtyi0u5po",
@@ -6075,7 +6142,7 @@
           "color": "",
           "condition": "New",
           "location": "shop_tullamore",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
           "sellPrice": 70
         }
@@ -6140,12 +6207,12 @@
         "Jet Black"
       ],
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 420,
         "shop_thurles": 420,
         "shop_kilkenny": 420,
-        "shop_maynooth": 420,
+        "shop_maynooth": 0,
         "shop_mullingar": 420,
         "shop_tralee": 420,
         "shop_tullamore": 420
@@ -6166,9 +6233,9 @@
           "color": "Jet Black",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 420
+          "sellPrice": 0
         }
       ],
       "createdAt": "2026-08-20",
@@ -6182,12 +6249,12 @@
       "imei": "",
       "condition": "New",
       "batteryPct": 100,
-      "costPrice": 50,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 35,
         "shop_thurles": 35,
         "shop_kilkenny": 35,
-        "shop_maynooth": 35,
+        "shop_maynooth": 0,
         "shop_mullingar": 35,
         "shop_tralee": 35,
         "shop_tullamore": 35
@@ -6217,12 +6284,12 @@
       "imei": "",
       "condition": "New",
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 80,
         "shop_thurles": 80,
         "shop_kilkenny": 80,
-        "shop_maynooth": 80,
+        "shop_maynooth": 0,
         "shop_mullingar": 80,
         "shop_tralee": 80,
         "shop_tullamore": 80
@@ -6243,9 +6310,9 @@
           "color": "",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 80
+          "sellPrice": 0
         }
       ],
       "createdAt": "2026-08-20",
@@ -8068,7 +8135,7 @@
         "warehouse": 0,
         "shop_thurles": 2,
         "shop_kilkenny": 0,
-        "shop_maynooth": 0,
+        "shop_maynooth": 1,
         "shop_mullingar": 1,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -8103,6 +8170,19 @@
           "costPrice": 330,
           "wholesalePrice": 0,
           "sellPrice": 330,
+          "batteryPct": null
+        },
+        {
+          "id": "unit_ouhazfnu5nf",
+          "imei": "350593649273349",
+          "color": "Graphite",
+          "condition": "New",
+          "location": "shop_maynooth",
+          "costPrice": 275,
+          "wholesalePrice": 287,
+          "sellPrice": 330,
+          "verified": true,
+          "verifiedAt": "2026-08-28",
           "batteryPct": null
         }
       ],
@@ -8916,13 +8996,13 @@
         "Starlight"
       ],
       "batteryPct": null,
-      "costPrice": 1,
+      "costPrice": 0,
       "wholesalePrice": 13,
       "shopPrices": {
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -8943,9 +9023,9 @@
           "color": "Starlight",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 1
+          "sellPrice": 0
         }
       ],
       "createdAt": "2026-08-20"
@@ -8961,13 +9041,13 @@
         "Midnight"
       ],
       "batteryPct": null,
-      "costPrice": 1,
+      "costPrice": 0,
       "wholesalePrice": 13,
       "shopPrices": {
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -8988,9 +9068,9 @@
           "color": "Midnight",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 1,
+          "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 1
+          "sellPrice": 0
         }
       ],
       "createdAt": "2026-08-20"
@@ -10268,38 +10348,18 @@
         "warehouse": 1,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
-        "shop_maynooth": 2,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
         {
-          "id": "unit_t75c8p5u5nm",
-          "imei": "SDVV4T0VGM0",
-          "color": "White",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 105,
-          "wholesalePrice": 117,
-          "sellPrice": 120
-        },
-        {
           "id": "unit_3lnnw1tu5nm",
           "imei": "SMWXQXWHC5P",
           "color": "",
           "condition": "New",
           "location": "warehouse",
-          "costPrice": 105,
-          "wholesalePrice": 117,
-          "sellPrice": 120
-        },
-        {
-          "id": "unit_uby0329u5nm",
-          "imei": "SDRD2LY66Q2",
-          "color": "White",
-          "condition": "New",
-          "location": "shop_maynooth",
           "costPrice": 105,
           "wholesalePrice": 117,
           "sellPrice": 120
@@ -10351,7 +10411,7 @@
       },
       "units": [
         {
-          "id": "unit_8j192i8ystb",
+          "id": "unit_z9a6wkbxkmt",
           "imei": "SCK2RWJGFCJ",
           "color": "Black",
           "condition": "New",
@@ -10359,7 +10419,7 @@
           "location": "shop_mullingar",
           "costPrice": 0,
           "sellPrice": 0,
-          "addedAt": "2026-08-28"
+          "addedAt": "2026-08-31"
         }
       ],
       "createdAt": "2026-08-25"
@@ -10381,7 +10441,7 @@
         "warehouse": 140,
         "shop_thurles": 140,
         "shop_kilkenny": 140,
-        "shop_maynooth": 140,
+        "shop_maynooth": 0,
         "shop_mullingar": 140,
         "shop_tralee": 140,
         "shop_tullamore": 140
@@ -10406,7 +10466,9 @@
           "sellPrice": 140,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 152
+          "wholesalePrice": 152,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_f5zw1l39lki",
@@ -10550,7 +10612,9 @@
           "sellPrice": 140,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 152
+          "wholesalePrice": 152,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_8pj3ajw9ll0",
@@ -10658,7 +10722,7 @@
         "warehouse": 220,
         "shop_thurles": 220,
         "shop_kilkenny": 220,
-        "shop_maynooth": 220,
+        "shop_maynooth": 0,
         "shop_mullingar": 220,
         "shop_tralee": 220,
         "shop_tullamore": 220
@@ -10719,7 +10783,9 @@
           "sellPrice": 220,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 232
+          "wholesalePrice": 232,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_epcsz5o9lma",
@@ -10791,7 +10857,9 @@
           "sellPrice": 220,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 232
+          "wholesalePrice": 232,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-26",
@@ -10814,7 +10882,7 @@
         "warehouse": 480,
         "shop_thurles": 480,
         "shop_kilkenny": 480,
-        "shop_maynooth": 480,
+        "shop_maynooth": 0,
         "shop_mullingar": 480,
         "shop_tralee": 480,
         "shop_tullamore": 480
@@ -10851,7 +10919,9 @@
           "sellPrice": 480,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 492
+          "wholesalePrice": 492,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-26",
@@ -10874,7 +10944,7 @@
         "warehouse": 385,
         "shop_thurles": 385,
         "shop_kilkenny": 385,
-        "shop_maynooth": 385,
+        "shop_maynooth": 0,
         "shop_mullingar": 385,
         "shop_tralee": 385,
         "shop_tullamore": 385
@@ -10899,7 +10969,9 @@
           "sellPrice": 385,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 397
+          "wholesalePrice": 397,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_o76ce8r9lmx",
@@ -11370,6 +11442,128 @@
           "wholesalePrice": 0,
           "sellPrice": 220,
           "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_iybvu5gpqkc",
+      "name": "Samsung Buds 3 Pro",
+      "category": "cat_w56n2ktw69i",
+      "memory": "",
+      "condition": "New",
+      "batteryPct": null,
+      "imei": "",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 1,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_qm8p487r150",
+      "name": "AirPods Pro",
+      "category": "cat_qaxr5vow69i",
+      "memory": "",
+      "condition": "New",
+      "batteryPct": null,
+      "imei": "",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 1,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [],
+      "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_fjh8pxkrhqs",
+      "name": "AirPods (3rd Generation)",
+      "category": "cat_qaxr5vow69i",
+      "memory": "",
+      "condition": "New",
+      "batteryPct": null,
+      "imei": "SDVV4T0VGM0",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 105,
+      "shopPrices": {
+        "warehouse": 135,
+        "shop_thurles": 135,
+        "shop_kilkenny": 135,
+        "shop_maynooth": 0,
+        "shop_mullingar": 135,
+        "shop_tralee": 135,
+        "shop_tullamore": 135
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 2,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_nsmeomlrmxg",
+          "imei": "SDRD2LY66Q2",
+          "color": "White",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_maynooth",
+          "costPrice": 105,
+          "sellPrice": 105,
+          "addedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_uan6gppxkmt",
+          "imei": "SDVV4T0VGM0",
+          "color": "White",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_maynooth",
+          "costPrice": 105,
+          "sellPrice": 105,
+          "addedAt": "2026-08-31"
         }
       ],
       "createdAt": "2026-08-28"
@@ -14972,7 +15166,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-28T16:26:19.885Z"
+    "lastSaved": "2026-08-31T12:33:08.755Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
