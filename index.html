@@ -879,32 +879,6 @@ const Store = {
         it.costPrice = 0;
       }
 
-      // If item has an IMEI defined on it, but no unit has that IMEI, create/assign unit
-      if(it.imei && String(it.imei).trim()){
-        const cleanImei = String(it.imei).trim();
-        const hasUnit = (it.units||[]).some(u => u && u.imei && u.imei.toLowerCase() === cleanImei.toLowerCase());
-        if(!hasUnit){
-          const unassigned = (it.units||[]).find(u => !u.imei);
-          if(unassigned){
-            unassigned.imei = cleanImei;
-          } else {
-            const loc = Object.keys(it.locations||{}).find(k => (it.locations[k]||0) > 0) || 'warehouse';
-            it.units.push({
-              id: uid('unit'),
-              imei: cleanImei,
-              color: (it.colors&&it.colors[0]) || 'White',
-              condition: it.condition || 'Used',
-              batteryPct: it.batteryPct!=null?it.batteryPct:null,
-              location: loc,
-              costPrice: it.costPrice || 0,
-              sellPrice: (it.shopPrices && it.shopPrices[loc]) || it.costPrice || 0,
-              addedAt: todayISO()
-            });
-            it.locations[loc] = Math.max((it.locations[loc]||0), unitsAt(it, loc).length);
-          }
-        }
-      }
-
       // Sync down to any unit with missing or default prices
       (it.units||[]).forEach(u=>{
         if(it.costPrice === 0){
@@ -922,41 +896,43 @@ const Store = {
       d.suppliers = ['B2B Wholesaler', 'Swappie', 'BackMarket', 'Foxway', 'Direct Trade-In', 'Customer Buyback', 'Distributor'];
     }
 
-    // Precise pricing and memory alignment for Samsung models
-    const samsungPriceMap = {
-      'samsung a06': { mem: '4GB/64GB', cost: 95 },
-      'samsung a07': { mem: '4GB/128GB', cost: 115 },
-      'samsung a16': { mem: '4GB/128GB', cost: 125 },
-      'samsung a17': { mem: '4GB/128GB', cost: 140 },
-      'samsung a17 5g': { mem: '4GB/128GB', cost: 160 },
-      'samsung a27 5g': { mem: '6GB/128GB', cost: 220 },
-      'samsung a37 5g': { mem: '6GB/128GB', cost: 230 },
-      'samsung s25': { mem: '12GB/128GB', cost: 480 },
-      'samsung s25fe': { mem: '8GB/128GB', cost: 385 },
-      'samsung s26': { mem: '12GB/256GB', cost: 560 }
-    };
-    d.items.forEach(it => {
-      const cleanName = (it.name || '').trim().toLowerCase();
-      const match = samsungPriceMap[cleanName];
-      if(match){
-        if(!it.memory || it.memory === '-') it.memory = match.mem;
-        if(it.costPrice == null || it.costPrice <= 1 || it.costPrice !== match.cost){
-          it.costPrice = match.cost;
-        }
-        (it.units || []).forEach(u => {
-          if(u.costPrice == null || u.costPrice <= 1 || u.costPrice !== match.cost){
-            u.costPrice = match.cost;
+    // One-time initial Samsung migration (guarded so user edits / deletions are never overwritten)
+    if(!d.meta.migratedSamsungPrices){
+      d.meta.migratedSamsungPrices = true;
+      const samsungPriceMap = {
+        'samsung a06': { mem: '4GB/64GB', cost: 95 },
+        'samsung a07': { mem: '4GB/128GB', cost: 115 },
+        'samsung a16': { mem: '4GB/128GB', cost: 125 },
+        'samsung a17': { mem: '4GB/128GB', cost: 140 },
+        'samsung a17 5g': { mem: '4GB/128GB', cost: 160 },
+        'samsung a27 5g': { mem: '6GB/128GB', cost: 220 },
+        'samsung a37 5g': { mem: '6GB/128GB', cost: 230 },
+        'samsung s25': { mem: '12GB/128GB', cost: 480 },
+        'samsung s25fe': { mem: '8GB/128GB', cost: 385 },
+        'samsung s26': { mem: '12GB/256GB', cost: 560 }
+      };
+      d.items.forEach(it => {
+        const cleanName = (it.name || '').trim().toLowerCase();
+        const match = samsungPriceMap[cleanName];
+        if(match){
+          if(!it.memory || it.memory === '-') it.memory = match.mem;
+          if(it.costPrice == null || it.costPrice <= 1 || it.costPrice !== match.cost){
+            it.costPrice = match.cost;
           }
-        });
-      }
-    });
+          (it.units || []).forEach(u => {
+            if(u.costPrice == null || u.costPrice <= 1 || u.costPrice !== match.cost){
+              u.costPrice = match.cost;
+            }
+          });
+        }
+      });
+    }
 
     // Clean up and strictly deduplicate 2026-08-26 stock-in movements
     if(Array.isArray(d.movements)){
       const seenStockInImeis = new Set();
       d.movements = d.movements.filter(m => {
         if(m.date === '2026-08-26' && m.type === 'stock-in'){
-          if(!samsungPriceMap[(m.itemName||'').trim().toLowerCase()]) return false;
           const imei = (m.unitData?.imei || m.note || '').trim().toLowerCase();
           if(!imei || seenStockInImeis.has(imei)) return false;
           seenStockInImeis.add(imei);
@@ -968,17 +944,6 @@ const Store = {
       d.movements = [];
     }
 
-    // Ensure movement costs are synchronized
-    d.movements.forEach(m => {
-      if(m.date >= '2026-08-26' && m.type === 'stock-in' && m.unitData){
-        const cleanName = (m.itemName || '').trim().toLowerCase();
-        const match = samsungPriceMap[cleanName];
-        if(match){
-          m.unitData.costPrice = match.cost;
-        }
-      }
-    });
-
     // Remove all legacy untracked transfer movements
     d.movements = d.movements.filter(m => {
       if(m.type === 'transfer-out' || m.type === 'transfer-in'){
@@ -988,102 +953,105 @@ const Store = {
       return true;
     });
 
-    // 37 Real Warehouse Transfers on 2026-08-26
-    const transfers26 = [
-      {model:"Samsung A37 5G 8GB/256GB Awesome Lavender", imei:"353700230989772", cond:"New", shop:"shop_kilkenny", cost:285.00, color:"Awesome Lavender", batt:""},
-      {model:"Samsung A16 4GB/128GB Black", imei:"351355310086908", cond:"New", shop:"shop_kilkenny", cost:99.00, color:"Black", batt:""},
-      {model:"Samsung A07 4GB/128GB Black", imei:"353451828264620", cond:"New", shop:"shop_kilkenny", cost:95.00, color:"Black", batt:""},
-      {model:"iPhone 14 128GB Starlight Grade 'A'", imei:"350032736737429", cond:"Used", shop:"shop_kilkenny", cost:285.00, color:"Starlight", batt:"86%"},
+    // One-time 2026-08-26 transfers migration (guarded so user deletions/moves are never reverted)
+    if(!d.meta.migratedTransfers26){
+      d.meta.migratedTransfers26 = true;
+      const transfers26 = [
+        {model:"Samsung A37 5G 8GB/256GB Awesome Lavender", imei:"353700230989772", cond:"New", shop:"shop_kilkenny", cost:285.00, color:"Awesome Lavender", batt:""},
+        {model:"Samsung A16 4GB/128GB Black", imei:"351355310086908", cond:"New", shop:"shop_kilkenny", cost:99.00, color:"Black", batt:""},
+        {model:"Samsung A07 4GB/128GB Black", imei:"353451828264620", cond:"New", shop:"shop_kilkenny", cost:95.00, color:"Black", batt:""},
+        {model:"iPhone 14 128GB Starlight Grade 'A'", imei:"350032736737429", cond:"Used", shop:"shop_kilkenny", cost:285.00, color:"Starlight", batt:"86%"},
 
-      {model:"AirPods (3rd Generation)", imei:"SDVV4T0VGM0", cond:"New", shop:"shop_maynooth", cost:105.00, color:"White", batt:""},
-      {model:"AirPods (3rd Generation)", imei:"SDRD2LY66Q2", cond:"New", shop:"shop_maynooth", cost:105.00, color:"White", batt:""},
-      {model:"Samsung A56 8GB/128GB Graphite", imei:"350593649273349", cond:"New", shop:"shop_maynooth", cost:275.00, color:"Graphite", batt:""},
-      {model:"Samsung A36 5G 8GB/256GB Black", imei:"350057712554464", cond:"New", shop:"shop_maynooth", cost:250.00, color:"Black", batt:""},
-      {model:"Samsung A07 4GB/64GB Black", imei:"352262376794723", cond:"New", shop:"shop_maynooth", cost:80.00, color:"Black", batt:""},
-      {model:"Samsung A07 4GB/64GB Black", imei:"352262376794822", cond:"New", shop:"shop_maynooth", cost:80.00, color:"Black", batt:""},
-      {model:"Samsung A07 4GB/128GB Black", imei:"351388337853992", cond:"New", shop:"shop_maynooth", cost:115.00, color:"Black", batt:""},
-      {model:"Samsung A07 4GB/128GB Black", imei:"351388337858306", cond:"New", shop:"shop_maynooth", cost:115.00, color:"Black", batt:""},
-      {model:"Samsung A16 4GB/128GB Black", imei:"351355313872528", cond:"New", shop:"shop_maynooth", cost:125.00, color:"Black", batt:""},
-      {model:"Samsung A37 5G 6GB/128GB Awesome Graygreen", imei:"354380322908714", cond:"New", shop:"shop_maynooth", cost:230.00, color:"Awesome Graygreen", batt:""},
-      {model:"Samsung A17 4GB/128GB Gray", imei:"350276231205313", cond:"New", shop:"shop_maynooth", cost:140.00, color:"Gray", batt:""},
-      {model:"Samsung A17 4GB/128GB Light Blue", imei:"350276232016271", cond:"New", shop:"shop_maynooth", cost:140.00, color:"Light Blue", batt:""},
-      {model:"Samsung A17 5G 4GB/128GB Black", imei:"351158945531433", cond:"New", shop:"shop_maynooth", cost:160.00, color:"Black", batt:""},
-      {model:"Samsung A17 5G 4GB/128GB Gray", imei:"351158945155241", cond:"New", shop:"shop_maynooth", cost:160.00, color:"Gray", batt:""},
-      {model:"Samsung A27 5G 6GB/128GB Light Pink", imei:"350983933500475", cond:"New", shop:"shop_maynooth", cost:220.00, color:"Light Pink", batt:""},
-      {model:"Samsung A27 5G 6GB/128GB Blue", imei:"350983933959754", cond:"New", shop:"shop_maynooth", cost:220.00, color:"Blue", batt:""},
-      {model:"Samsung S25 12GB/128GB Icyblue", imei:"350890902089382", cond:"New", shop:"shop_maynooth", cost:480.00, color:"Icyblue", batt:""},
-      {model:"Samsung S25fe 8GB/128GB Navy", imei:"351060965617458", cond:"New", shop:"shop_maynooth", cost:385.00, color:"Navy", batt:""},
+        {model:"AirPods (3rd Generation)", imei:"SDVV4T0VGM0", cond:"New", shop:"shop_maynooth", cost:105.00, color:"White", batt:""},
+        {model:"AirPods (3rd Generation)", imei:"SDRD2LY66Q2", cond:"New", shop:"shop_maynooth", cost:105.00, color:"White", batt:""},
+        {model:"Samsung A56 8GB/128GB Graphite", imei:"350593649273349", cond:"New", shop:"shop_maynooth", cost:275.00, color:"Graphite", batt:""},
+        {model:"Samsung A36 5G 8GB/256GB Black", imei:"350057712554464", cond:"New", shop:"shop_maynooth", cost:250.00, color:"Black", batt:""},
+        {model:"Samsung A07 4GB/64GB Black", imei:"352262376794723", cond:"New", shop:"shop_maynooth", cost:80.00, color:"Black", batt:""},
+        {model:"Samsung A07 4GB/64GB Black", imei:"352262376794822", cond:"New", shop:"shop_maynooth", cost:80.00, color:"Black", batt:""},
+        {model:"Samsung A07 4GB/128GB Black", imei:"351388337853992", cond:"New", shop:"shop_maynooth", cost:115.00, color:"Black", batt:""},
+        {model:"Samsung A07 4GB/128GB Black", imei:"351388337858306", cond:"New", shop:"shop_maynooth", cost:115.00, color:"Black", batt:""},
+        {model:"Samsung A16 4GB/128GB Black", imei:"351355313872528", cond:"New", shop:"shop_maynooth", cost:125.00, color:"Black", batt:""},
+        {model:"Samsung A37 5G 6GB/128GB Awesome Graygreen", imei:"354380322908714", cond:"New", shop:"shop_maynooth", cost:230.00, color:"Awesome Graygreen", batt:""},
+        {model:"Samsung A17 4GB/128GB Gray", imei:"350276231205313", cond:"New", shop:"shop_maynooth", cost:140.00, color:"Gray", batt:""},
+        {model:"Samsung A17 4GB/128GB Light Blue", imei:"350276232016271", cond:"New", shop:"shop_maynooth", cost:140.00, color:"Light Blue", batt:""},
+        {model:"Samsung A17 5G 4GB/128GB Black", imei:"351158945531433", cond:"New", shop:"shop_maynooth", cost:160.00, color:"Black", batt:""},
+        {model:"Samsung A17 5G 4GB/128GB Gray", imei:"351158945155241", cond:"New", shop:"shop_maynooth", cost:160.00, color:"Gray", batt:""},
+        {model:"Samsung A27 5G 6GB/128GB Light Pink", imei:"350983933500475", cond:"New", shop:"shop_maynooth", cost:220.00, color:"Light Pink", batt:""},
+        {model:"Samsung A27 5G 6GB/128GB Blue", imei:"350983933959754", cond:"New", shop:"shop_maynooth", cost:220.00, color:"Blue", batt:""},
+        {model:"Samsung S25 12GB/128GB Icyblue", imei:"350890902089382", cond:"New", shop:"shop_maynooth", cost:480.00, color:"Icyblue", batt:""},
+        {model:"Samsung S25fe 8GB/128GB Navy", imei:"351060965617458", cond:"New", shop:"shop_maynooth", cost:385.00, color:"Navy", batt:""},
 
-      {model:"Samsung A17 4GB/128GB Light Blue", imei:"350276232016339", cond:"New", shop:"shop_mullingar", cost:140.00, color:"Light Blue", batt:""},
-      {model:"Samsung A27 5G 6GB/128GB Light Pink", imei:"350983933499744", cond:"New", shop:"shop_mullingar", cost:220.00, color:"Light Pink", batt:""},
-      {model:"Samsung A27 5G 6GB/128GB Blue", imei:"350983933957303", cond:"New", shop:"shop_mullingar", cost:220.00, color:"Blue", batt:""},
-      {model:"Samsung S25fe 8GB/128GB Jetblack", imei:"351060965623373", cond:"New", shop:"shop_mullingar", cost:385.00, color:"Jetblack", batt:""},
-      {model:"Samsung S26 12GB/256GB Black", imei:"359555175198209", cond:"New", shop:"shop_mullingar", cost:560.00, color:"Black", batt:""},
-      {model:"Samsung A17 5G 4GB/128GB Black", imei:"351158945531466", cond:"New", shop:"shop_mullingar", cost:160.00, color:"Black", batt:""},
-      {model:"Samsung A17 5G 4GB/128GB Black", imei:"351158945536655", cond:"New", shop:"shop_mullingar", cost:160.00, color:"Black", batt:""},
-      {model:"iPad 11th Generation A16 128GB Blue", imei:"SDNWN2L14FL", cond:"New", shop:"shop_mullingar", cost:300.00, color:"Blue", batt:""},
+        {model:"Samsung A17 4GB/128GB Light Blue", imei:"350276232016339", cond:"New", shop:"shop_mullingar", cost:140.00, color:"Light Blue", batt:""},
+        {model:"Samsung A27 5G 6GB/128GB Light Pink", imei:"350983933499744", cond:"New", shop:"shop_mullingar", cost:220.00, color:"Light Pink", batt:""},
+        {model:"Samsung A27 5G 6GB/128GB Blue", imei:"350983933957303", cond:"New", shop:"shop_mullingar", cost:220.00, color:"Blue", batt:""},
+        {model:"Samsung S25fe 8GB/128GB Jetblack", imei:"351060965623373", cond:"New", shop:"shop_mullingar", cost:385.00, color:"Jetblack", batt:""},
+        {model:"Samsung S26 12GB/256GB Black", imei:"359555175198209", cond:"New", shop:"shop_mullingar", cost:560.00, color:"Black", batt:""},
+        {model:"Samsung A17 5G 4GB/128GB Black", imei:"351158945531466", cond:"New", shop:"shop_mullingar", cost:160.00, color:"Black", batt:""},
+        {model:"Samsung A17 5G 4GB/128GB Black", imei:"351158945536655", cond:"New", shop:"shop_mullingar", cost:160.00, color:"Black", batt:""},
+        {model:"iPad 11th Generation A16 128GB Blue", imei:"SDNWN2L14FL", cond:"New", shop:"shop_mullingar", cost:300.00, color:"Blue", batt:""},
 
-      {model:"Samsung A27 5G 6GB/128GB Light Pink", imei:"350983933500434", cond:"New", shop:"shop_tralee", cost:220.00, color:"Light Pink", batt:""},
-      {model:"Samsung A07 4GB/128GB Black", imei:"351388337854016", cond:"New", shop:"shop_tralee", cost:115.00, color:"Black", batt:""},
-      {model:"Samsung A07 4GB/128GB Black", imei:"351388337849909", cond:"New", shop:"shop_tralee", cost:115.00, color:"Black", batt:""},
+        {model:"Samsung A27 5G 6GB/128GB Light Pink", imei:"350983933500434", cond:"New", shop:"shop_tralee", cost:220.00, color:"Light Pink", batt:""},
+        {model:"Samsung A07 4GB/128GB Black", imei:"351388337854016", cond:"New", shop:"shop_tralee", cost:115.00, color:"Black", batt:""},
+        {model:"Samsung A07 4GB/128GB Black", imei:"351388337849909", cond:"New", shop:"shop_tralee", cost:115.00, color:"Black", batt:""},
 
-      {model:"Samsung A17 4GB/128GB Light Blue", imei:"350276231678089", cond:"New", shop:"shop_thurles", cost:140.00, color:"Light Blue", batt:""},
-      {model:"Samsung A17 5G 4GB/128GB Black", imei:"351158945536341", cond:"New", shop:"shop_thurles", cost:160.00, color:"Black", batt:""},
-      {model:"Samsung A27 5G 6GB/128GB Light Pink", imei:"350983933499793", cond:"New", shop:"shop_thurles", cost:220.00, color:"Light Pink", batt:""},
-      {model:"iPhone 14 128GB Starlight Grade 'A'", imei:"350032738703866", cond:"Used", shop:"shop_thurles", cost:285.00, color:"Starlight", batt:"87%"}
-    ];
+        {model:"Samsung A17 4GB/128GB Light Blue", imei:"350276231678089", cond:"New", shop:"shop_thurles", cost:140.00, color:"Light Blue", batt:""},
+        {model:"Samsung A17 5G 4GB/128GB Black", imei:"351158945536341", cond:"New", shop:"shop_thurles", cost:160.00, color:"Black", batt:""},
+        {model:"Samsung A27 5G 6GB/128GB Light Pink", imei:"350983933499793", cond:"New", shop:"shop_thurles", cost:220.00, color:"Light Pink", batt:""},
+        {model:"iPhone 14 128GB Starlight Grade 'A'", imei:"350032738703866", cond:"Used", shop:"shop_thurles", cost:285.00, color:"Starlight", batt:"87%"}
+      ];
 
-    transfers26.forEach(t => {
-      let matchedItem = null, matchedUnit = null;
-      d.items.forEach(it => {
-        if(it.units){
-          const u = it.units.find(un => (un.imei || '').trim().toLowerCase() === t.imei.toLowerCase());
-          if(u){ matchedItem = it; matchedUnit = u; }
+      transfers26.forEach(t => {
+        let matchedItem = null, matchedUnit = null;
+        d.items.forEach(it => {
+          if(it.units){
+            const u = it.units.find(un => (un.imei || '').trim().toLowerCase() === t.imei.toLowerCase());
+            if(u){ matchedItem = it; matchedUnit = u; }
+          }
+        });
+        if(matchedItem && matchedUnit){
+          matchedUnit.location = t.shop;
+          matchedUnit.color = t.color;
+          matchedUnit.condition = t.cond;
+          matchedUnit.costPrice = t.cost;
+          if(t.batt) matchedUnit.batteryPct = parseInt(t.batt)||null;
+
+          const hasOutMv = d.movements.some(m => m.type === 'transfer-out' && m.unitData?.imei === t.imei && m.date === '2026-08-26');
+          if(!hasOutMv){
+            d.movements.push({
+              id: 'mv_tout_' + t.imei,
+              type: 'transfer-out',
+              itemId: matchedItem.id,
+              itemName: matchedItem.name,
+              categoryId: matchedItem.category,
+              location: 'warehouse',
+              fromLocation: 'warehouse',
+              toLocation: t.shop,
+              qty: 1,
+              date: '2026-08-26',
+              unitData: { imei: t.imei, color: t.color, condition: t.cond, costPrice: t.cost, battery: t.batt },
+              note: 'Transferred to ' + shopName(t.shop) + (t.batt ? ` (Battery: ${t.batt})` : '')
+            });
+          }
+          const hasInMv = d.movements.some(m => m.type === 'transfer-in' && m.unitData?.imei === t.imei && m.date === '2026-08-26');
+          if(!hasInMv){
+            d.movements.push({
+              id: 'mv_tin_' + t.imei,
+              type: 'transfer-in',
+              itemId: matchedItem.id,
+              itemName: matchedItem.name,
+              categoryId: matchedItem.category,
+              location: t.shop,
+              fromLocation: 'warehouse',
+              toLocation: t.shop,
+              qty: 1,
+              date: '2026-08-26',
+              unitData: { imei: t.imei, color: t.color, condition: t.cond, costPrice: t.cost, battery: t.batt },
+              note: 'Transferred from Warehouse' + (t.batt ? ` (Battery: ${t.batt})` : '')
+            });
+          }
         }
       });
-      if(matchedItem && matchedUnit){
-        matchedUnit.location = t.shop;
-        matchedUnit.color = t.color;
-        matchedUnit.condition = t.cond;
-        matchedUnit.costPrice = t.cost;
-        if(t.batt) matchedUnit.batteryPct = parseInt(t.batt)||null;
-
-        const hasOutMv = d.movements.some(m => m.type === 'transfer-out' && m.unitData?.imei === t.imei && m.date === '2026-08-26');
-        if(!hasOutMv){
-          d.movements.push({
-            id: 'mv_tout_' + t.imei,
-            type: 'transfer-out',
-            itemId: matchedItem.id,
-            itemName: matchedItem.name,
-            categoryId: matchedItem.category,
-            location: 'warehouse',
-            fromLocation: 'warehouse',
-            toLocation: t.shop,
-            qty: 1,
-            date: '2026-08-26',
-            unitData: { imei: t.imei, color: t.color, condition: t.cond, costPrice: t.cost, battery: t.batt },
-            note: 'Transferred to ' + shopName(t.shop) + (t.batt ? ` (Battery: ${t.batt})` : '')
-          });
-        }
-        const hasInMv = d.movements.some(m => m.type === 'transfer-in' && m.unitData?.imei === t.imei && m.date === '2026-08-26');
-        if(!hasInMv){
-          d.movements.push({
-            id: 'mv_tin_' + t.imei,
-            type: 'transfer-in',
-            itemId: matchedItem.id,
-            itemName: matchedItem.name,
-            categoryId: matchedItem.category,
-            location: t.shop,
-            fromLocation: 'warehouse',
-            toLocation: t.shop,
-            qty: 1,
-            date: '2026-08-26',
-            unitData: { imei: t.imei, color: t.color, condition: t.cond, costPrice: t.cost, battery: t.batt },
-            note: 'Transferred from Warehouse' + (t.batt ? ` (Battery: ${t.batt})` : '')
-          });
-        }
-      }
-    });
+    }
 
     this.save();
   },
@@ -3554,8 +3522,17 @@ Views.drawerRemoveUnit = function(itemId, unitId){
       const idx = (it.units||[]).findIndex(u=>u.id===unitId);
       if(idx >= 0){
         const loc = it.units[idx].location;
+        const uImei = (it.units[idx].imei || '').trim().toLowerCase();
         it.units.splice(idx, 1);
         it.locations[loc] = Math.max(0, (it.locations[loc]||0) - 1);
+        if(it.imei && uImei && String(it.imei).trim().toLowerCase() === uImei){
+          delete it.imei;
+        }
+        if(it.units.length === 0){
+          activeShops().forEach(s => {
+            if((it.locations[s.id]||0) <= 0) it.locations[s.id] = 0;
+          });
+        }
         Store.save();
       }
       Toast.show('Device record deleted (no movement logged).','ok');
@@ -3687,7 +3664,7 @@ Views.openItemModal = function(itemId, shopId){
         </div>
         <div class="field" id="f_imei_wrap" style="${isGeneric?'display:none;':''}">
           <label>IMEI</label>
-          <input id="f_imei" class="mono" value="${it?esc(it.imei||''):''}" placeholder="Scan or type 15-digit IMEI">
+          <input id="f_imei" class="mono" value="${it ? esc((it.units && it.units[0] && it.units[0].imei) || it.imei || '') : ''}" placeholder="Scan or type 15-digit IMEI">
         </div>
         <div class="field" id="f_qty_wrap" style="${isGeneric?'':'display:none;'}">
           <label>${it ? `Stock Quantity at ${esc(shopName(defaultLoc))}` : 'Quantity to add'}</label>
@@ -3780,7 +3757,6 @@ Views.saveItem = function(itemId){
       if(!Array.isArray(it.units)) it.units = [];
 
       if(imei){
-        it.imei = imei;
         let u = it.units.find(x => x.imei && x.imei.toLowerCase() === imei.toLowerCase());
         if(!u){
           u = it.units.find(x => !x.imei && x.location === openLoc) || it.units.find(x => !x.imei);
@@ -3810,6 +3786,7 @@ Views.saveItem = function(itemId){
           if(batt!=='') u.batteryPct = Number(batt);
         }
       } else if(isGeneric || !imei){
+        delete it.imei;
         const trackedAtLoc = unitsAt(it, openLoc).length;
         if(!it.locations) it.locations = {};
         it.locations[openLoc] = trackedAtLoc + qty;
