@@ -84,6 +84,7 @@
       "name": "iPhone 14",
       "category": "cat_7qgen7vw69i",
       "memory": "128GB",
+      "imei": "354768881961878",
       "condition": "Used",
       "batteryPct": null,
       "costPrice": 285,
@@ -347,13 +348,14 @@
       "name": "Samsung A07",
       "category": "cat_w56n2ktw69i",
       "memory": "64GB",
+      "imei": "352262376794756",
       "condition": "New",
       "colors": [
         "Black",
         "Green"
       ],
       "batteryPct": null,
-      "costPrice": 115,
+      "costPrice": 80,
       "shopPrices": {
         "warehouse": 95,
         "shop_thurles": 95,
@@ -1009,6 +1011,7 @@
       "name": "Samsung A36 5G",
       "category": "cat_w56n2ktw69i",
       "memory": "8GB/256GB",
+      "imei": "350057712550645",
       "condition": "Used",
       "colors": [
         "Black",
@@ -1200,6 +1203,7 @@
       "name": "Samsung A56 5G",
       "category": "cat_w56n2ktw69i",
       "memory": "128GB",
+      "imei": "352371191664787",
       "condition": "New",
       "colors": [
         "Graphite",
@@ -2258,6 +2262,7 @@
       "name": "AirPods Pro 3",
       "category": "cat_qaxr5vow69i",
       "memory": "-",
+      "imei": "SCK2RWJGFCJ",
       "condition": "Used",
       "colors": [
         "White"
@@ -2591,6 +2596,7 @@
       "name": "iPhone 13",
       "category": "cat_7qgen7vw69i",
       "memory": "128GB",
+      "imei": "357149975344668",
       "condition": "Used",
       "batteryPct": null,
       "costPrice": 410,
@@ -4304,6 +4310,7 @@
       "name": "iPhone 15",
       "category": "cat_7qgen7vw69i",
       "memory": "128GB",
+      "imei": "355663152578817",
       "condition": "Used",
       "batteryPct": null,
       "costPrice": 440,
@@ -4445,7 +4452,7 @@
         "shop_tullamore": 220
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
@@ -4455,19 +4462,7 @@
       },
       "createdAt": "2026-08-20",
       "wholesalePrice": 0,
-      "units": [
-        {
-          "id": "unit_ddrw7cwk811",
-          "imei": "350753208585398",
-          "color": "Black",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "warehouse",
-          "costPrice": 0,
-          "sellPrice": 220,
-          "addedAt": "2026-08-31"
-        }
-      ]
+      "units": []
     },
     {
       "id": "item_xhnp9cgw69l",
@@ -5468,6 +5463,7 @@
       "name": "Hoco Y22",
       "category": "cat_u83iatxw69i",
       "memory": "-",
+      "imei": "6942007629003",
       "condition": "New",
       "batteryPct": 100,
       "costPrice": 0,
@@ -8726,6 +8722,7 @@
       "name": "Blackview N1000",
       "category": "cat_kzhvkkxw69i",
       "memory": "4GB",
+      "imei": "353359200195231",
       "condition": "New",
       "batteryPct": null,
       "costPrice": 58,
@@ -10342,6 +10339,7 @@
       "category": "cat_qaxr5vow69i",
       "memory": "-",
       "condition": "New",
+      "imei": "SDVV4T0VGM0",
       "colors": [
         "White"
       ],
@@ -10360,7 +10358,7 @@
         "warehouse": 2,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
-        "shop_maynooth": 0,
+        "shop_maynooth": 1,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -10393,7 +10391,7 @@
           "color": "White",
           "condition": "New",
           "batteryPct": null,
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 105,
           "sellPrice": 120,
           "addedAt": "2026-08-31"
@@ -10408,6 +10406,7 @@
       "memory": "",
       "condition": "New",
       "batteryPct": null,
+      "imei": "SCK2RWJGFCJ",
       "colors": [
         "Black"
       ],
@@ -10431,19 +10430,7 @@
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_723b2xak812",
-          "imei": "SCK2RWJGFCJ",
-          "color": "Black",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_mullingar",
-          "costPrice": 0,
-          "sellPrice": 0,
-          "addedAt": "2026-08-31"
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-25"
     },
     {
@@ -11100,6 +11087,7 @@
       "category": "cat_w56n2ktw69i",
       "memory": "256GB",
       "condition": "New",
+      "imei": "355838610755252",
       "colors": [
         "Awesome Lavender",
         "Black"
@@ -11156,6 +11144,7 @@
       "category": "cat_w56n2ktw69i",
       "memory": "128GB",
       "condition": "New",
+      "imei": "351741468679778",
       "colors": [
         "Black",
         "Awesome Lavender"
@@ -11201,6 +11190,7 @@
       "category": "cat_w56n2ktw69i",
       "memory": "256GB",
       "condition": "New",
+      "imei": "353700230852293",
       "colors": [
         "White"
       ],
@@ -11245,6 +11235,7 @@
       "category": "cat_w56n2ktw69i",
       "memory": "8GB/256GB",
       "condition": "New",
+      "imei": "350057712576640",
       "colors": [
         "Black"
       ],
@@ -11289,6 +11280,7 @@
       "category": "cat_kzhvkkxw69i",
       "memory": "64GB",
       "condition": "New",
+      "imei": "356771220266320",
       "colors": [
         "Black"
       ],
@@ -11333,6 +11325,7 @@
       "category": "cat_kzhvkkxw69i",
       "memory": "128GB",
       "condition": "New",
+      "imei": "352482910532203",
       "colors": [
         "Black"
       ],
@@ -11377,6 +11370,7 @@
       "category": "cat_cgd9w36w69i",
       "memory": "6GB/128GB",
       "condition": "New",
+      "imei": "R5GYB2D4HPE",
       "colors": [
         "Graphite",
         "Gray"
@@ -11422,6 +11416,7 @@
       "category": "cat_cgd9w36w69i",
       "memory": "8GB/512GB",
       "condition": "New",
+      "imei": "359401901129723",
       "colors": [
         "Gold"
       ],
@@ -11533,6 +11528,7 @@
       "memory": "",
       "condition": "New",
       "batteryPct": null,
+      "imei": "SDVV4T0VGM0",
       "colors": [
         "Black"
       ],
@@ -11566,17 +11562,6 @@
           "costPrice": 105,
           "sellPrice": 105,
           "addedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_gu12ck3k812",
-          "imei": "SDVV4T0VGM0",
-          "color": "White",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_maynooth",
-          "costPrice": 105,
-          "sellPrice": 105,
-          "addedAt": "2026-08-31"
         }
       ],
       "createdAt": "2026-08-28"
@@ -15179,10 +15164,9 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-08-31T12:33:08.755Z",
-    "migratedTransfers26": true,
+    "lastSaved": "2026-08-31T18:03:06.373Z",
     "migratedSamsungPrices": true,
-    "migratedLegacyImeis": true
+    "migratedTransfers26": true
   },
   "reorderMeta": {
     "lastOrderDate": null
