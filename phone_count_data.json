@@ -7394,7 +7394,7 @@
     },
     {
       "id": "item_x014icsw69m",
-      "name": "Nokia 1110",
+      "name": "Mobitel 1010",
       "category": "cat_lkhn0qyw69i",
       "memory": "-",
       "imei": "",
@@ -7432,7 +7432,9 @@
           "costPrice": 38,
           "wholesalePrice": 0,
           "sellPrice": 30,
-          "batteryPct": null
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -15954,7 +15956,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T13:10:09.463Z",
+    "lastSaved": "2026-09-01T13:10:50.682Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
