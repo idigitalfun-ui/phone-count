@@ -537,7 +537,7 @@
         "shop_thurles": 0,
         "shop_kilkenny": 2,
         "shop_maynooth": 3,
-        "shop_mullingar": 1,
+        "shop_mullingar": 0,
         "shop_tralee": 1,
         "shop_tullamore": 0
       },
@@ -577,18 +577,6 @@
           "sellPrice": 80,
           "verified": true,
           "verifiedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_kt2gfe0thw6",
-          "imei": "352262376794905",
-          "color": "Black",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_mullingar",
-          "costPrice": 115,
-          "wholesalePrice": 0,
-          "sellPrice": 95,
-          "addedAt": "2026-08-25"
         },
         {
           "id": "unit_aahrl0b54hs",
@@ -656,7 +644,7 @@
         "shop_thurles": 2,
         "shop_kilkenny": 0,
         "shop_maynooth": 2,
-        "shop_mullingar": 2,
+        "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
       },
@@ -700,18 +688,6 @@
           "costPrice": 115,
           "wholesalePrice": 127,
           "sellPrice": 115
-        },
-        {
-          "id": "unit_6z21wcgttae",
-          "imei": "353451828263754",
-          "color": "Black",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_mullingar",
-          "costPrice": 115,
-          "wholesalePrice": 0,
-          "sellPrice": 115,
-          "addedAt": "2026-08-25"
         },
         {
           "id": "unit_35bi3shtyce",
@@ -11649,24 +11625,11 @@
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
-        "shop_mullingar": 1,
+        "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_lhg63kr9ln3",
-          "imei": "359555175198209",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_mullingar",
-          "costPrice": 560,
-          "sellPrice": 560,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 572
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-26",
       "wholesalePrice": 572
     },
@@ -15903,7 +15866,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:35:22.065Z",
+    "lastSaved": "2026-09-01T12:35:48.569Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
