@@ -1917,14 +1917,16 @@
         },
         {
           "id": "unit_bpevt75u5p8",
-          "imei": "35215753900195",
+          "imei": "355282134876528",
           "color": "Charcoal",
           "condition": "New",
           "location": "shop_tralee",
           "costPrice": 14,
           "wholesalePrice": 0,
           "sellPrice": 35,
-          "batteryPct": null
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         },
         {
           "id": "unit_uhkwreku5p8",
@@ -1973,7 +1975,9 @@
           "costPrice": 14,
           "wholesalePrice": 0,
           "sellPrice": 35,
-          "addedAt": "2026-08-28"
+          "addedAt": "2026-08-28",
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         },
         {
           "id": "unit_k515zayndfy",
@@ -15970,7 +15974,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T13:08:34.484Z",
+    "lastSaved": "2026-09-01T13:09:15.562Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
