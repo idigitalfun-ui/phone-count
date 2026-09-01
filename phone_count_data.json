@@ -11860,7 +11860,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -15861,7 +15861,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T11:40:00.431Z",
+    "lastSaved": "2026-09-01T11:40:16.728Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
