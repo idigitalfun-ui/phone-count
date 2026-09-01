@@ -1816,7 +1816,7 @@
         "shop_kilkenny": 2,
         "shop_maynooth": 3,
         "shop_mullingar": 1,
-        "shop_tralee": 5,
+        "shop_tralee": 3,
         "shop_tullamore": 0
       },
       "units": [
@@ -1905,17 +1905,6 @@
           "verifiedAt": "2026-08-28"
         },
         {
-          "id": "unit_0cpj2k3u5p8",
-          "imei": "352157453759039",
-          "color": "Charcoal",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 14,
-          "wholesalePrice": 0,
-          "sellPrice": 35,
-          "batteryPct": null
-        },
-        {
           "id": "unit_bpevt75u5p8",
           "imei": "355282134876528",
           "color": "Charcoal",
@@ -1927,17 +1916,6 @@
           "batteryPct": null,
           "verified": true,
           "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_uhkwreku5p8",
-          "imei": "352157453384218",
-          "color": "Charcoal",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 14,
-          "wholesalePrice": 0,
-          "sellPrice": 35,
-          "batteryPct": null
         },
         {
           "id": "unit_uvpo2ph02qf",
@@ -15974,7 +15952,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T13:09:15.562Z",
+    "lastSaved": "2026-09-01T13:09:33.209Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
