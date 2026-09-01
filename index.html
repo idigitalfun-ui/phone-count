@@ -640,6 +640,12 @@ const Store = {
       d.shops = keep;
     }
     // 1. Normalize all device names, categories, conditions, colors, and memories
+    d.items.forEach(it => {
+      if(!it || !it.name) return;
+      if(it.name.toLowerCase().includes('a7 lite') && it.category !== 'cat_cgd9w36w69i'){
+        it.category = 'cat_cgd9w36w69i';
+      }
+    });
     const validItems = [];
     const itemMap = new Map(); // key -> surviving item
 
