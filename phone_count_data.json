@@ -6296,25 +6296,13 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_qffvc5zxs7i",
-          "imei": "",
-          "color": "White",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 80,
-          "wholesalePrice": 0,
-          "sellPrice": 120,
-          "addedAt": "2026-08-28"
-        },
         {
           "id": "unit_hnx53ecxs7i",
           "imei": "",
