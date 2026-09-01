@@ -818,7 +818,7 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 0,
+      "costPrice": 125,
       "shopPrices": {
         "warehouse": 120,
         "shop_thurles": 180,
@@ -1119,7 +1119,7 @@
           "condition": "New",
           "batteryPct": null,
           "location": "shop_kilkenny",
-          "costPrice": 0,
+          "costPrice": 125,
           "sellPrice": 180,
           "addedAt": "2026-09-01",
           "verified": false,
@@ -1554,7 +1554,7 @@
         "shop_kilkenny": 1,
         "shop_maynooth": 1,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 1,
         "shop_tullamore": 0
       },
       "units": [
@@ -1650,6 +1650,19 @@
           "sellPrice": 135,
           "verified": true,
           "verifiedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_m2clfg5u5p6",
+          "imei": "356771220266320",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 135,
+          "wholesalePrice": 0,
+          "sellPrice": 210,
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -5456,7 +5469,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 2,
         "shop_tullamore": 0
       },
       "units": [
@@ -5472,6 +5485,19 @@
           "addedAt": "2026-09-01",
           "verified": true,
           "verifiedAt": "2026-09-01"
+        },
+        {
+          "id": "unit_qmgsbcju5p6",
+          "imei": "352482910533565",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 240,
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -5480,7 +5506,7 @@
     {
       "id": "item_y1rs6jnw69l",
       "name": "Nokia C1 2nd Edition",
-      "category": "cat_kzhvkkxw69i",
+      "category": "cat_lkhn0qyw69i",
       "memory": "16GB",
       "imei": "",
       "condition": "New",
@@ -5534,7 +5560,8 @@
       "imei": "",
       "condition": "Used",
       "colors": [
-        "Iris"
+        "Iris",
+        "Black"
       ],
       "batteryPct": null,
       "costPrice": 80,
@@ -5551,10 +5578,10 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
-        "shop_maynooth": 0,
+        "shop_maynooth": 1,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 1
       },
       "createdAt": "2026-08-20",
       "wholesalePrice": 80,
@@ -5572,6 +5599,29 @@
           "addedAt": "2026-08-28",
           "verified": false,
           "verifiedAt": null
+        },
+        {
+          "id": "unit_3c1w93tu5or",
+          "imei": "355115101794649",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_maynooth",
+          "costPrice": 80,
+          "wholesalePrice": 13,
+          "sellPrice": 120,
+          "verified": true,
+          "verifiedAt": "2026-08-28",
+          "batteryPct": null
+        },
+        {
+          "id": "unit_ym9ca6nu5pl",
+          "imei": "355115101796628",
+          "color": "",
+          "condition": "Used",
+          "location": "shop_tullamore",
+          "costPrice": 80,
+          "wholesalePrice": 13,
+          "sellPrice": 160
         }
       ]
     },
@@ -6149,7 +6199,7 @@
     {
       "id": "item_7amlbnhw69m",
       "name": "Samsung Buds 2",
-      "category": "cat_qaxr5vow69i",
+      "category": "cat_w56n2ktw69i",
       "memory": "-",
       "imei": "",
       "condition": "New",
@@ -6170,7 +6220,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 2,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -6190,6 +6240,20 @@
           "addedAt": "2026-08-28",
           "verified": false,
           "verifiedAt": null
+        },
+        {
+          "id": "unit_qffvc5zxs7i",
+          "imei": "",
+          "color": "White",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_kilkenny",
+          "costPrice": 80,
+          "wholesalePrice": 0,
+          "sellPrice": 120,
+          "addedAt": "2026-08-28",
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -6198,7 +6262,7 @@
     {
       "id": "item_xpj7c2aw69m",
       "name": "Samsung Buds 3",
-      "category": "cat_qaxr5vow69i",
+      "category": "cat_w56n2ktw69i",
       "memory": "-",
       "imei": "",
       "condition": "New",
@@ -6386,64 +6450,6 @@
       "wholesalePrice": 0
     },
     {
-      "id": "item_bgbmop6w69m",
-      "name": "Google Pixel 3A XL",
-      "category": "cat_kzhvkkxw69i",
-      "memory": "64GB",
-      "imei": "",
-      "condition": "New",
-      "colors": [
-        "Black"
-      ],
-      "batteryPct": 100,
-      "costPrice": 0,
-      "shopPrices": {
-        "warehouse": 160,
-        "shop_thurles": 160,
-        "shop_kilkenny": 160,
-        "shop_maynooth": 0,
-        "shop_mullingar": 160,
-        "shop_tralee": 160,
-        "shop_tullamore": 160
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 1,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 1
-      },
-      "units": [
-        {
-          "id": "unit_3c1w93tu5or",
-          "imei": "355115101794649",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 0,
-          "wholesalePrice": 13,
-          "sellPrice": 0,
-          "verified": true,
-          "verifiedAt": "2026-08-28",
-          "batteryPct": null
-        },
-        {
-          "id": "unit_ym9ca6nu5pl",
-          "imei": "355115101796628",
-          "color": "",
-          "condition": "Used",
-          "location": "shop_tullamore",
-          "costPrice": 0,
-          "wholesalePrice": 13,
-          "sellPrice": 160
-        }
-      ],
-      "createdAt": "2026-08-20",
-      "wholesalePrice": 13
-    },
-    {
       "id": "item_bwk09raw69m",
       "name": "Mobitel 1010",
       "category": "cat_lkhn0qyw69i",
@@ -6454,12 +6460,12 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 0,
+      "costPrice": 38,
       "shopPrices": {
         "warehouse": 90,
         "shop_thurles": 90,
         "shop_kilkenny": 90,
-        "shop_maynooth": 0,
+        "shop_maynooth": 30,
         "shop_mullingar": 90,
         "shop_tralee": 90,
         "shop_tullamore": 90
@@ -6470,7 +6476,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 2,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 1,
         "shop_tullamore": 1
       },
       "units": [
@@ -6480,9 +6486,9 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 38,
           "wholesalePrice": 13,
-          "sellPrice": 0,
+          "sellPrice": 30,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -6492,9 +6498,9 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 38,
           "wholesalePrice": 13,
-          "sellPrice": 0,
+          "sellPrice": 30,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -6504,9 +6510,22 @@
           "color": "",
           "condition": "New",
           "location": "shop_tullamore",
-          "costPrice": 0,
+          "costPrice": 38,
           "wholesalePrice": 13,
           "sellPrice": 90
+        },
+        {
+          "id": "unit_r9najlgu5p7",
+          "imei": "355225690420892",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 38,
+          "wholesalePrice": 0,
+          "sellPrice": 70,
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -7395,54 +7414,6 @@
       "wholesalePrice": 220
     },
     {
-      "id": "item_x014icsw69m",
-      "name": "Mobitel 1010",
-      "category": "cat_lkhn0qyw69i",
-      "memory": "-",
-      "imei": "",
-      "condition": "New",
-      "colors": [
-        "Black"
-      ],
-      "batteryPct": 100,
-      "costPrice": 38,
-      "shopPrices": {
-        "warehouse": 30,
-        "shop_thurles": 30,
-        "shop_kilkenny": 30,
-        "shop_maynooth": 30,
-        "shop_mullingar": 30,
-        "shop_tralee": 70,
-        "shop_tullamore": 30
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 1,
-        "shop_tullamore": 0
-      },
-      "units": [
-        {
-          "id": "unit_r9najlgu5p7",
-          "imei": "355225690420892",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 38,
-          "wholesalePrice": 0,
-          "sellPrice": 70,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        }
-      ],
-      "createdAt": "2026-08-20",
-      "wholesalePrice": 20
-    },
-    {
       "id": "item_oyp67k5w69m",
       "name": "Nokia 1010",
       "category": "cat_lkhn0qyw69i",
@@ -7479,7 +7450,7 @@
     {
       "id": "item_6iqajsow69m",
       "name": "Nokia C1",
-      "category": "cat_kzhvkkxw69i",
+      "category": "cat_lkhn0qyw69i",
       "memory": "-",
       "imei": "",
       "condition": "New",
@@ -8018,7 +7989,7 @@
     {
       "id": "item_lqe26i4w69m",
       "name": "Samsung A7 Lite",
-      "category": "cat_cgd9w36w69i",
+      "category": "cat_w56n2ktw69i",
       "memory": "32GB",
       "imei": "",
       "condition": "New",
@@ -9815,7 +9786,7 @@
         "Awesome White"
       ],
       "batteryPct": null,
-      "costPrice": 0,
+      "costPrice": 285,
       "wholesalePrice": 0,
       "shopPrices": {
         "warehouse": 0,
@@ -9866,7 +9837,7 @@
         "Awesome Navy"
       ],
       "batteryPct": null,
-      "costPrice": 0,
+      "costPrice": 250,
       "wholesalePrice": 0,
       "shopPrices": {
         "warehouse": 0,
@@ -9906,7 +9877,7 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_tralee",
-          "costPrice": 0,
+          "costPrice": 250,
           "wholesalePrice": 0,
           "sellPrice": 350,
           "batteryPct": null,
@@ -9920,7 +9891,7 @@
           "condition": "New",
           "batteryPct": null,
           "location": "shop_tralee",
-          "costPrice": 0,
+          "costPrice": 250,
           "sellPrice": 350,
           "addedAt": "2026-09-01",
           "verified": true,
@@ -11847,100 +11818,6 @@
       "createdAt": "2026-08-28"
     },
     {
-      "id": "item_vtpigo2codj",
-      "name": "Blackview BV 4800 SE",
-      "category": "cat_kzhvkkxw69i",
-      "memory": "64GB",
-      "condition": "New",
-      "imei": "356771220266320",
-      "colors": [
-        "Black"
-      ],
-      "costPrice": 0,
-      "wholesalePrice": 0,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 210,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 1,
-        "shop_tullamore": 0
-      },
-      "units": [
-        {
-          "id": "unit_m2clfg5u5p6",
-          "imei": "356771220266320",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 0,
-          "wholesalePrice": 0,
-          "sellPrice": 210,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        }
-      ],
-      "createdAt": "2026-08-28"
-    },
-    {
-      "id": "item_guxbtyudfcv",
-      "name": "Blackview BV 4800 Pro",
-      "category": "cat_kzhvkkxw69i",
-      "memory": "128GB",
-      "condition": "New",
-      "imei": "352482910532203",
-      "colors": [
-        "Black"
-      ],
-      "costPrice": 0,
-      "wholesalePrice": 0,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 240,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 1,
-        "shop_tullamore": 0
-      },
-      "units": [
-        {
-          "id": "unit_qmgsbcju5p6",
-          "imei": "352482910533565",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 0,
-          "wholesalePrice": 0,
-          "sellPrice": 240,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        }
-      ],
-      "createdAt": "2026-08-28"
-    },
-    {
       "id": "item_q884qeus0w6",
       "name": "Samsung Tab A11 Plus",
       "category": "cat_cgd9w36w69i",
@@ -12036,7 +11913,7 @@
     {
       "id": "item_iybvu5gpqkc",
       "name": "Samsung Buds 3 Pro",
-      "category": "cat_qaxr5vow69i",
+      "category": "cat_w56n2ktw69i",
       "memory": "",
       "condition": "New",
       "batteryPct": null,
@@ -12108,7 +11985,7 @@
       "colors": [
         "Black"
       ],
-      "costPrice": 0,
+      "costPrice": 105,
       "shopPrices": {
         "warehouse": 135,
         "shop_thurles": 135,
@@ -12141,52 +12018,6 @@
         }
       ],
       "createdAt": "2026-08-28"
-    },
-    {
-      "id": "item_rjsspg4uxr4",
-      "name": "Samsung Buds 2",
-      "category": "cat_qaxr5vow69i",
-      "memory": "-",
-      "condition": "New",
-      "colors": [
-        "White"
-      ],
-      "costPrice": 80,
-      "shopPrices": {
-        "warehouse": 120,
-        "shop_thurles": 120,
-        "shop_kilkenny": 120,
-        "shop_maynooth": 120,
-        "shop_mullingar": 120,
-        "shop_tralee": 120,
-        "shop_tullamore": 120
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 1,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "units": [
-        {
-          "id": "unit_qffvc5zxs7i",
-          "imei": "",
-          "color": "White",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 80,
-          "wholesalePrice": 0,
-          "sellPrice": 120,
-          "addedAt": "2026-08-28",
-          "verified": false,
-          "verifiedAt": null
-        }
-      ],
-      "createdAt": "2026-09-01"
     },
     {
       "id": "item_a6uajqi4ypz",
@@ -15971,7 +15802,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T13:19:52.617Z",
+    "lastSaved": "2026-09-01T13:32:41.470Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
