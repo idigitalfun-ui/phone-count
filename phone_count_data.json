@@ -7978,7 +7978,7 @@
         "shop_kilkenny": 180,
         "shop_maynooth": 180,
         "shop_mullingar": 180,
-        "shop_tralee": 180,
+        "shop_tralee": 200,
         "shop_tullamore": 180
       },
       "locations": {
@@ -7995,12 +7995,14 @@
           "id": "unit_ssficryu5p9",
           "imei": "R83XB0PR63W",
           "color": "Navy",
-          "condition": "Used",
+          "condition": "New",
           "location": "shop_tralee",
           "costPrice": 120,
           "wholesalePrice": 0,
-          "sellPrice": 180,
-          "batteryPct": null
+          "sellPrice": 200,
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -8021,7 +8023,7 @@
         "shop_kilkenny": 140,
         "shop_maynooth": 140,
         "shop_mullingar": 140,
-        "shop_tralee": 140,
+        "shop_tralee": 180,
         "shop_tullamore": 140
       },
       "locations": {
@@ -8042,10 +8044,10 @@
           "location": "shop_tralee",
           "costPrice": 90,
           "wholesalePrice": 0,
-          "sellPrice": 140,
+          "sellPrice": 180,
           "batteryPct": null,
-          "verified": false,
-          "verifiedAt": null
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -15960,7 +15962,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T13:12:47.698Z",
+    "lastSaved": "2026-09-01T13:13:53.282Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
