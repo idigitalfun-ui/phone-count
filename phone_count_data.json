@@ -11314,7 +11314,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 2,
         "shop_mullingar": 2,
-        "shop_tralee": 0,
+        "shop_tralee": 1,
         "shop_tullamore": 0
       },
       "units": [
@@ -11429,6 +11429,17 @@
           "wholesalePrice": 232,
           "verified": true,
           "verifiedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_2ai732r4rnk",
+          "imei": "350983933500434",
+          "color": "Light Pink",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_tralee",
+          "costPrice": 220,
+          "sellPrice": 220,
+          "addedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-26",
@@ -15907,7 +15918,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:52:42.609Z",
+    "lastSaved": "2026-09-01T12:53:42.274Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
