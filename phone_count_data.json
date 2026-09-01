@@ -9359,24 +9359,13 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_0x2m88ru5o4",
-          "imei": "357884911524128",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_kilkenny",
-          "costPrice": 160,
-          "wholesalePrice": 0,
-          "sellPrice": 220,
-          "batteryPct": null
-        },
         {
           "id": "unit_0vuoeevu5o4",
           "imei": "357884911524201",
@@ -15872,7 +15861,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T11:39:24.287Z",
+    "lastSaved": "2026-09-01T11:40:00.431Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
