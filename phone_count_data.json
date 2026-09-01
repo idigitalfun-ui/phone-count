@@ -98,7 +98,7 @@
         "shop_tullamore": 740
       },
       "locations": {
-        "warehouse": 0,
+        "warehouse": 15,
         "shop_thurles": 2,
         "shop_kilkenny": 1,
         "shop_maynooth": 4,
@@ -237,12 +237,179 @@
           "wholesalePrice": 0,
           "sellPrice": 285,
           "addedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_55lwzsb22k4",
+          "imei": "351952295992595",
+          "color": "Blue",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_bq6na1522k6",
+          "imei": "350542600990516",
+          "color": "Yellow",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_zcocy2522k8",
+          "imei": "359203508677272",
+          "color": "Purple",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_tx0bjf122ka",
+          "imei": "356663510627701",
+          "color": "Purple",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_17ooc8322kc",
+          "imei": "359203501087933",
+          "color": "Midnight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_1lvbblr22ke",
+          "imei": "359203508146427",
+          "color": "Midnight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_nsyv0bv22kg",
+          "imei": "350596481059841",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_ryqouul22ki",
+          "imei": "359708629760799",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_wesjk4r22kk",
+          "imei": "357181332324240",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_zrbns6y22km",
+          "imei": "351454480824790",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_ytxsev222ko",
+          "imei": "354827388627232",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_nbwtrh422kq",
+          "imei": "350596482288977",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_53p1wve22kr",
+          "imei": "350596481722075",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_q4j05eo22kt",
+          "imei": "354870280368091",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_kinkwlx22kv",
+          "imei": "350967687530622",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         }
       ],
       "colors": [
         "Starlight",
         "Purple",
-        "Yellow"
+        "Yellow",
+        "Blue",
+        "Midnight"
       ]
     },
     {
@@ -2341,7 +2508,7 @@
         "shop_tullamore": 270
       },
       "locations": {
-        "warehouse": 0,
+        "warehouse": 10,
         "shop_thurles": 4,
         "shop_kilkenny": 2,
         "shop_maynooth": 1,
@@ -2497,6 +2664,116 @@
           "wholesalePrice": 0,
           "sellPrice": 190,
           "addedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_v7j3k3j22is",
+          "imei": "359051888001567",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 155,
+          "sellPrice": 240,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_99fklui22iu",
+          "imei": "354628707131736",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 155,
+          "sellPrice": 240,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_kw1avlj22iw",
+          "imei": "356861112421610",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 155,
+          "sellPrice": 240,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_6wbxfg922iy",
+          "imei": "351461186873344",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 155,
+          "sellPrice": 240,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_ktsamft22j0",
+          "imei": "356869112429699",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 155,
+          "sellPrice": 240,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_pdeol4z22j2",
+          "imei": "356801112481941",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 155,
+          "sellPrice": 240,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_c03th1w22j4",
+          "imei": "358845630178032",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 155,
+          "sellPrice": 240,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_ni5mj6922j6",
+          "imei": "356864117670819",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 155,
+          "sellPrice": 240,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_kzugwlg22j8",
+          "imei": "356867118516238",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 155,
+          "sellPrice": 240,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_9zrm33p22ja",
+          "imei": "356863113295118",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 155,
+          "sellPrice": 240,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -2598,7 +2875,7 @@
         "shop_tullamore": 340
       },
       "locations": {
-        "warehouse": 0,
+        "warehouse": 15,
         "shop_thurles": 0,
         "shop_kilkenny": 3,
         "shop_maynooth": 1,
@@ -2658,12 +2935,178 @@
           "wholesalePrice": 0,
           "sellPrice": 395,
           "addedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_g9xjtyd22h5",
+          "imei": "358824780696960",
+          "color": "Midnight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 255,
+          "sellPrice": 340,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_1xla22222h8",
+          "imei": "355402935188499",
+          "color": "Midnight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 255,
+          "sellPrice": 340,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_s1c65uh22h9",
+          "imei": "352991736314687",
+          "color": "Midnight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 255,
+          "sellPrice": 340,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_kx6u3h022hb",
+          "imei": "357500966074765",
+          "color": "Midnight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 255,
+          "sellPrice": 340,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_sarzg2t22he",
+          "imei": "352408238803323",
+          "color": "Midnight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 255,
+          "sellPrice": 340,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_0n77shb22hg",
+          "imei": "352941886853463",
+          "color": "Midnight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 255,
+          "sellPrice": 340,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_vac97jm22hi",
+          "imei": "356815608003274",
+          "color": "Midnight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 255,
+          "sellPrice": 340,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_g431gzh22hk",
+          "imei": "352408234335635",
+          "color": "Midnight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 255,
+          "sellPrice": 340,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_o48nesd22hm",
+          "imei": "358824780655834",
+          "color": "Midnight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 255,
+          "sellPrice": 340,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_ghaj1tv22ho",
+          "imei": "355178166968318",
+          "color": "Midnight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 255,
+          "sellPrice": 340,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_hvu80rt22hq",
+          "imei": "350225646713767",
+          "color": "Blue",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 255,
+          "sellPrice": 340,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_xyn7snm22hs",
+          "imei": "352472592505841",
+          "color": "Blue",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 255,
+          "sellPrice": 340,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_yj02pox22hu",
+          "imei": "352678431099610",
+          "color": "Blue",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 255,
+          "sellPrice": 340,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_3i4bdlz22hw",
+          "imei": "357492900676816",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 255,
+          "sellPrice": 340,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_a7qf02u22hy",
+          "imei": "352184999102359",
+          "color": "Pink",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 255,
+          "sellPrice": 340,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         }
       ],
       "colors": [
         "Blue",
         "Starlight",
-        "Midnight"
+        "Midnight",
+        "Pink"
       ]
     },
     {
@@ -2675,7 +3118,8 @@
       "condition": "Used",
       "colors": [
         "White",
-        "Blue"
+        "Blue",
+        "Black"
       ],
       "batteryPct": null,
       "costPrice": 230,
@@ -2689,7 +3133,7 @@
         "shop_tullamore": 340
       },
       "locations": {
-        "warehouse": 0,
+        "warehouse": 15,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
@@ -2729,6 +3173,171 @@
           "costPrice": 230,
           "wholesalePrice": 230,
           "sellPrice": 340
+        },
+        {
+          "id": "unit_k8jk9oq22i0",
+          "imei": "351365221495890",
+          "color": "Blue",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 170,
+          "sellPrice": 290,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_nkyhdck22i2",
+          "imei": "353050114748534",
+          "color": "Blue",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 170,
+          "sellPrice": 290,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_rz8ylcp22i3",
+          "imei": "353653125073998",
+          "color": "White",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 170,
+          "sellPrice": 290,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_8weajtd22i5",
+          "imei": "352380202140760",
+          "color": "White",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 170,
+          "sellPrice": 290,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_mjzh4r922i7",
+          "imei": "353050110532999",
+          "color": "White",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 170,
+          "sellPrice": 290,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_alal9k822i8",
+          "imei": "355984576140152",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 170,
+          "sellPrice": 290,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_t99266922ib",
+          "imei": "358503117668385",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 170,
+          "sellPrice": 290,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_2367lni22id",
+          "imei": "353046114150242",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 170,
+          "sellPrice": 290,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_8hvrv8r22ie",
+          "imei": "358503116031924",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 170,
+          "sellPrice": 290,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_n4xvy6k22ig",
+          "imei": "351365225404484",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 170,
+          "sellPrice": 290,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_5j2w08622ii",
+          "imei": "353049112302518",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 170,
+          "sellPrice": 290,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_mcia3yd22ik",
+          "imei": "358503115710916",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 170,
+          "sellPrice": 290,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_g1hkv2w22im",
+          "imei": "350400610875401",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 170,
+          "sellPrice": 290,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_9dl11y522io",
+          "imei": "351109224112734",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 170,
+          "sellPrice": 290,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_5w98ykk22iq",
+          "imei": "353049110269842",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 170,
+          "sellPrice": 290,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -4312,7 +4921,7 @@
         "shop_tullamore": 550
       },
       "locations": {
-        "warehouse": 0,
+        "warehouse": 15,
         "shop_thurles": 0,
         "shop_kilkenny": 3,
         "shop_maynooth": 2,
@@ -4410,13 +5019,179 @@
           "wholesalePrice": 0,
           "sellPrice": 550,
           "addedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_vw8sf3u22jb",
+          "imei": "355241440813179",
+          "color": "Pink",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 410,
+          "sellPrice": 550,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_lq3rrav22je",
+          "imei": "356559535680156",
+          "color": "Green",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 410,
+          "sellPrice": 550,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_qnoxmf622jg",
+          "imei": "350319233373208",
+          "color": "Yellow",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 410,
+          "sellPrice": 550,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_1y6vlqw22ji",
+          "imei": "355663151740814",
+          "color": "Blue",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 410,
+          "sellPrice": 550,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_8z7p4jr22jj",
+          "imei": "351947259052899",
+          "color": "Blue",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 410,
+          "sellPrice": 550,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_6b9gtqq22jl",
+          "imei": "351522600765935",
+          "color": "Blue",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 410,
+          "sellPrice": 550,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_jrrmmb722jn",
+          "imei": "351522600826588",
+          "color": "Blue",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 410,
+          "sellPrice": 550,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_yi2td3z22jp",
+          "imei": "354004395087384",
+          "color": "Blue",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 410,
+          "sellPrice": 550,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_cuqxcnq22jr",
+          "imei": "359929761440475",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 410,
+          "sellPrice": 550,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_o4g29uo22jt",
+          "imei": "356758349003510",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 410,
+          "sellPrice": 550,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_qm8c5mp22jv",
+          "imei": "353418637795086",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 410,
+          "sellPrice": 550,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_v16ab0022jw",
+          "imei": "353927424379789",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 410,
+          "sellPrice": 550,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_yxeul9y22jz",
+          "imei": "352481290930060",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 410,
+          "sellPrice": 550,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_o8gp25722k1",
+          "imei": "355700851379970",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 410,
+          "sellPrice": 550,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_lor9f0722k2",
+          "imei": "359987254456010",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 410,
+          "sellPrice": 550,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         }
       ],
       "colors": [
         "Yellow",
         "Blue",
         "Green",
-        "Pink"
+        "Pink",
+        "Black"
       ]
     },
     {
@@ -15152,7 +15927,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T11:10:56.779Z",
+    "lastSaved": "2026-09-01T11:27:37.618Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
