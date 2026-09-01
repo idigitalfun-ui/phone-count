@@ -12250,6 +12250,52 @@
         }
       ],
       "createdAt": "2026-08-28"
+    },
+    {
+      "id": "item_rjsspg4uxr4",
+      "name": "Samsung Buds 2",
+      "category": "cat_qaxr5vow69i",
+      "memory": "-",
+      "condition": "New",
+      "colors": [
+        "White"
+      ],
+      "costPrice": 80,
+      "shopPrices": {
+        "warehouse": 120,
+        "shop_thurles": 120,
+        "shop_kilkenny": 120,
+        "shop_maynooth": 120,
+        "shop_mullingar": 120,
+        "shop_tralee": 120,
+        "shop_tullamore": 120
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_qffvc5zxs7i",
+          "imei": "",
+          "color": "White",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_kilkenny",
+          "costPrice": 80,
+          "wholesalePrice": 0,
+          "sellPrice": 120,
+          "addedAt": "2026-08-28",
+          "verified": false,
+          "verifiedAt": null
+        }
+      ],
+      "createdAt": "2026-09-01"
     }
   ],
   "movements": [
@@ -15849,7 +15895,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T11:42:55.708Z",
+    "lastSaved": "2026-09-01T12:18:04.001Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
