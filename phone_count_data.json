@@ -2526,7 +2526,9 @@
           "costPrice": 190,
           "wholesalePrice": 0,
           "sellPrice": 270,
-          "batteryPct": null
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         },
         {
           "id": "unit_uuy9nr3u5pd",
@@ -2596,7 +2598,9 @@
           "costPrice": 190,
           "wholesalePrice": 0,
           "sellPrice": 270,
-          "addedAt": "2026-08-28"
+          "addedAt": "2026-08-28",
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         },
         {
           "id": "unit_v7j3k3j22is",
@@ -4540,7 +4544,9 @@
           "costPrice": 0,
           "wholesalePrice": 0,
           "sellPrice": 280,
-          "batteryPct": null
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -7327,7 +7333,9 @@
           "costPrice": 170,
           "wholesalePrice": 0,
           "sellPrice": 450,
-          "batteryPct": null
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -15912,7 +15920,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:48:18.905Z",
+    "lastSaved": "2026-09-01T12:49:15.041Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
