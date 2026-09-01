@@ -2825,7 +2825,8 @@ Views.inventory = function(){
       </select>
       <button class="btn sm ${Views._showBattery!==false?'teal':'ghost'}" onclick="Views._showBattery=!(Views._showBattery!==false);render();" title="Toggle Battery % display">🔋 Battery %: <b>${Views._showBattery!==false?'ON':'OFF'}</b></button>
       <button class="btn ghost sm" onclick="Views.cleanAllUntracked()" title="Remove all non-IMEI placeholder balances">🧹 Clean untracked</button>
-      <button class="btn" onclick="Views.exportInventoryCsv()">⬇ Export CSV</button>
+      <button class="btn primary" style="background:#0F766E;color:#fff;" onclick="Views.openPdfExportModal()"><span class="ic">📄</span> Export PDF / Audit Sheet</button>
+      <button class="btn ghost" onclick="Views.exportInventoryCsv()" title="Quick Export CSV">⬇ CSV</button>
       <button class="btn primary" onclick="Views.openItemModal(null, '${filterShop||'warehouse'}')">+ Add device</button>
     </div>
 
@@ -3128,22 +3129,420 @@ Views.doBulkInlineTransfer = function(itemId, fromLoc){
   render();
 };
 
-Views.exportInventoryCsv = function(){
-  const rows = [['Name','Category','Memory','IMEI','Verified','Colour','Condition','Location','Cost Price','Sale Price']];
-  Store.data.items.forEach(it=>{
-    const units = (it.units||[]).filter(u=>u.imei);
-    if(units.length){
-      units.forEach(u=>{
-        rows.push([it.name, catName(it.category), it.memory, u.imei, u.verified ? 'Yes' : 'No', u.color||'', u.condition||'',
-          shopName(u.location), u.costPrice||it.costPrice, u.sellPrice||'']);
+/* =========================================================================
+   PDF EXPORT & AUDIT SHEET GENERATOR
+   ========================================================================= */
+
+Views.openPdfExportModal = function(){
+  const currentLoc = Views._invFilter?.shop || 'all';
+  const shops = activeShops();
+  const categories = Store.data.categories || [];
+
+  const html = `
+    <div class="modal" style="max-width:700px;">
+      <div class="modal-head">
+        <h3 style="display:flex;align-items:center;gap:8px;">📄 Export Inventory PDF / Audit Sheet</h3>
+        <button class="btn ghost sm" onclick="Modal.close()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="color:var(--muted);font-size:13px;margin-top:0;margin-bottom:14px;">
+          Generate a clean, printable stock audit sheet or PDF report for your shops to verify physical inventory counts.
+        </p>
+
+        <!-- 1. Store Location -->
+        <div class="field">
+          <label style="font-weight:700;">1. Store Location to Export</label>
+          <select id="exp_shop" onchange="Views.updateExportCountPreview()">
+            <option value="all" ${currentLoc==='all'?'selected':''}>🌐 All Stores & Warehouse (Combined)</option>
+            ${shops.map(s => `<option value="${s.id}" ${s.id===currentLoc?'selected':''}>${esc(s.name)}${s.isWarehouse?' (Warehouse)':''}</option>`).join('')}
+          </select>
+        </div>
+
+        <!-- 2. Categories to Include -->
+        <div class="field" style="margin-top:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <label style="font-weight:700;margin:0;">2. Categories to Include</label>
+            <div style="font-size:12px;">
+              <a href="javascript:void(0)" onclick="Views.toggleAllExportCats(true)" style="color:var(--teal-dark);font-weight:600;text-decoration:underline;margin-right:12px;">✓ Select All</a>
+              <a href="javascript:void(0)" onclick="Views.toggleAllExportCats(false)" style="color:var(--muted);text-decoration:underline;">✕ Deselect All</a>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(190px, 1fr));gap:6px;background:#F8FAFC;padding:10px 12px;border-radius:6px;border:1px solid #E2E8F0;">
+            ${categories.map(c => `
+              <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;">
+                <input type="checkbox" class="exp-cat-cb" value="${c.id}" checked onchange="Views.updateExportCountPreview()">
+                <span>${esc(c.name)}</span>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- 3. Columns to Include / Remove -->
+        <div class="field" style="margin-top:14px;">
+          <label style="font-weight:700;margin-bottom:6px;display:block;">3. Customize Columns & Features</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#F8FAFC;padding:10px 12px;border-radius:6px;border:1px solid #E2E8F0;">
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;">
+              <input type="checkbox" id="exp_col_name" checked disabled>
+              <span><b>Device Model & Spec</b> (Required)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;">
+              <input type="checkbox" id="exp_col_imei" checked>
+              <span><b>IMEI / Serial Number</b></span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;">
+              <input type="checkbox" id="exp_col_color" checked>
+              <span>Colour</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;">
+              <input type="checkbox" id="exp_col_cond" checked>
+              <span>Condition (New / Used)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;">
+              <input type="checkbox" id="exp_col_batt" checked>
+              <span>Battery % (if added)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;">
+              <input type="checkbox" id="exp_col_sale" checked>
+              <span>Sale Price (€)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;color:#B91C1C;font-weight:600;">
+              <input type="checkbox" id="exp_col_cost">
+              <span>Cost Price (€) <span style="font-weight:normal;color:var(--muted);font-size:11px;">(Hide for shops)</span></span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;color:#15803D;font-weight:600;">
+              <input type="checkbox" id="exp_col_checkbox" checked>
+              <span>Physical Audit Box <span style="font-weight:normal;color:var(--muted);font-size:11px;">([  ] OK)</span></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 4. Layout & Sign-off Options -->
+        <div class="field" style="margin-top:14px;">
+          <label style="font-weight:700;margin-bottom:6px;display:block;">4. Layout & Sign-off Options</label>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;">
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+              <input type="checkbox" id="exp_group_cats" checked>
+              <span>Group by Category with Section Headers & Subtotals</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+              <input type="checkbox" id="exp_signoff" checked>
+              <span>Include Staff Audit Confirmation & Signature box at bottom</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Dynamic Preview Count -->
+        <div id="exp_preview_count" style="margin-top:14px;padding:9px 14px;background:#ECFDF5;color:#065F46;border-radius:6px;font-size:13px;font-weight:600;border:1px solid #A7F3D0;">
+        </div>
+      </div>
+      <div class="modal-foot" style="display:flex;justify-content:space-between;align-items:center;">
+        <button class="btn" onclick="Modal.close()">Cancel</button>
+        <div style="display:flex;gap:8px;">
+          <button class="btn" onclick="Views.exportFilteredCsv()" title="Export CSV with selected columns"><span class="ic">📊</span> Export CSV</button>
+          <button class="btn primary" style="background:#0F766E;color:#fff;" onclick="Views.generateInventoryPdf()"><span class="ic">🖨️</span> Generate & Print PDF</button>
+        </div>
+      </div>
+    </div>`;
+
+  Modal.open(html);
+  Views.updateExportCountPreview();
+};
+
+Views.toggleAllExportCats = function(checked){
+  document.querySelectorAll('.exp-cat-cb').forEach(cb => cb.checked = checked);
+  Views.updateExportCountPreview();
+};
+
+Views.updateExportCountPreview = function(){
+  const previewEl = document.getElementById('exp_preview_count');
+  if(!previewEl) return;
+  const shopId = document.getElementById('exp_shop')?.value || 'all';
+  const checkedCats = Array.from(document.querySelectorAll('.exp-cat-cb:checked')).map(cb => cb.value);
+  
+  let count = 0;
+  const catsWithItems = new Set();
+
+  (Store.data.items || []).forEach(it => {
+    if(!checkedCats.includes(it.category)) return;
+    (it.units || []).forEach(u => {
+      if(shopId === 'all' || u.location === shopId){
+        count++;
+        catsWithItems.add(it.category);
+      }
+    });
+  });
+
+  const shopNameStr = shopId === 'all' ? 'All Stores & Warehouse' : shopName(shopId);
+  previewEl.innerHTML = `📋 <b>${count} device(s)</b> ready to export for <b>${esc(shopNameStr)}</b> across <b>${catsWithItems.size}</b> category section(s).`;
+};
+
+Views.generateInventoryPdf = function(){
+  const shopId = document.getElementById('exp_shop')?.value || 'all';
+  const checkedCats = Array.from(document.querySelectorAll('.exp-cat-cb:checked')).map(cb => cb.value);
+  
+  const incImei = !!document.getElementById('exp_col_imei')?.checked;
+  const incColor = !!document.getElementById('exp_col_color')?.checked;
+  const incCond = !!document.getElementById('exp_col_cond')?.checked;
+  const incBatt = !!document.getElementById('exp_col_batt')?.checked;
+  const incSale = !!document.getElementById('exp_col_sale')?.checked;
+  const incCost = !!document.getElementById('exp_col_cost')?.checked;
+  const incCheckbox = !!document.getElementById('exp_col_checkbox')?.checked;
+  const groupCats = !!document.getElementById('exp_group_cats')?.checked;
+  const incSignoff = !!document.getElementById('exp_signoff')?.checked;
+
+  const shopNameStr = shopId === 'all' ? 'All Stores & Warehouse' : shopName(shopId);
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) + ' ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+
+  // Gather devices grouped by category
+  const categories = (Store.data.categories || []).filter(c => checkedCats.includes(c.id));
+  const categoryData = [];
+  let totalDevicesCount = 0;
+
+  categories.forEach(c => {
+    const list = [];
+    (Store.data.items || []).forEach(it => {
+      if(it.category !== c.id) return;
+      (it.units || []).forEach(u => {
+        if(shopId === 'all' || u.location === shopId){
+          list.push({ item: it, unit: u });
+          totalDevicesCount++;
+        }
       });
-    } else if(totalQty(it)>0){
-      rows.push([it.name, catName(it.category), it.memory, '', 'No', '', it.condition, '',
-        it.costPrice, it.shopPrices.warehouse||'']);
+    });
+    if(list.length > 0){
+      list.sort((a, b) => (a.item.name + (a.item.memory||'')).localeCompare(b.item.name + (b.item.memory||'')));
+      categoryData.push({ category: c, devices: list });
     }
   });
-  csvDownload('inventory_export.csv', rows);
-  Toast.show('Inventory exported as CSV.','ok');
+
+  if(totalDevicesCount === 0){
+    Toast.show('No devices found matching the selected store and categories.', 'err');
+    return;
+  }
+
+  // Build table columns
+  let headersHtml = '<th>#</th><th>Device Model & Spec</th>';
+  if(incImei) headersHtml += '<th>IMEI / Serial</th>';
+  if(incColor) headersHtml += '<th>Colour</th>';
+  if(incCond) headersHtml += '<th>Condition</th>';
+  if(incBatt) headersHtml += '<th>Battery</th>';
+  if(shopId === 'all') headersHtml += '<th>Store</th>';
+  if(incCost) headersHtml += '<th>Cost Price</th>';
+  if(incSale) headersHtml += '<th>Sale Price</th>';
+  if(incCheckbox) headersHtml += '<th style="width:70px;text-align:center;">Checked</th>';
+
+  let tablesHtml = '';
+
+  if(groupCats){
+    categoryData.forEach(cd => {
+      let rowIdx = 1;
+      let rowsHtml = cd.devices.map(({item: it, unit: u}) => {
+        let r = `<tr>
+          <td style="text-align:center;color:#64748B;font-size:11px;">${rowIdx++}</td>
+          <td><b>${esc(it.name)}</b> ${it.memory ? `<span style="color:#475569;font-size:11px;">${esc(it.memory)}</span>` : ''}</td>`;
+        if(incImei) r += `<td class="mono font-bold">${esc(u.imei || '(No IMEI)')}</td>`;
+        if(incColor) r += `<td>${esc(u.color || '-')}</td>`;
+        if(incCond) r += `<td>${esc(u.condition || 'Used')}</td>`;
+        if(incBatt) r += `<td>${u.batteryPct != null ? u.batteryPct + '%' : '-'}</td>`;
+        if(shopId === 'all') r += `<td>${esc(shopName(u.location))}</td>`;
+        if(incCost) r += `<td style="text-align:right;">${euro(u.costPrice != null ? u.costPrice : it.costPrice)}</td>`;
+        if(incSale) r += `<td style="text-align:right;font-weight:600;">${euro(u.sellPrice != null ? u.sellPrice : (it.shopPrices && it.shopPrices[u.location]) || 0)}</td>`;
+        if(incCheckbox) r += `<td style="text-align:center;font-size:16px;">☐</td>`;
+        r += `</tr>`;
+        return r;
+      }).join('');
+
+      tablesHtml += `
+        <div class="cat-section">
+          <div class="cat-header">
+            <span>📁 ${esc(cd.category.name)}</span>
+            <span class="cat-count">${cd.devices.length} Unit${cd.devices.length===1?'':'s'}</span>
+          </div>
+          <table>
+            <thead><tr>${headersHtml}</tr></thead>
+            <tbody>${rowsHtml}</tbody>
+          </table>
+        </div>
+      `;
+    });
+  } else {
+    let rowIdx = 1;
+    let rowsHtml = '';
+    categoryData.forEach(cd => {
+      cd.devices.forEach(({item: it, unit: u}) => {
+        let r = `<tr>
+          <td style="text-align:center;color:#64748B;font-size:11px;">${rowIdx++}</td>
+          <td><b>${esc(it.name)}</b> ${it.memory ? `<span style="color:#475569;font-size:11px;">${esc(it.memory)}</span>` : ''}</td>`;
+        if(incImei) r += `<td class="mono font-bold">${esc(u.imei || '(No IMEI)')}</td>`;
+        if(incColor) r += `<td>${esc(u.color || '-')}</td>`;
+        if(incCond) r += `<td>${esc(u.condition || 'Used')}</td>`;
+        if(incBatt) r += `<td>${u.batteryPct != null ? u.batteryPct + '%' : '-'}</td>`;
+        if(shopId === 'all') r += `<td>${esc(shopName(u.location))}</td>`;
+        if(incCost) r += `<td style="text-align:right;">${euro(u.costPrice != null ? u.costPrice : it.costPrice)}</td>`;
+        if(incSale) r += `<td style="text-align:right;font-weight:600;">${euro(u.sellPrice != null ? u.sellPrice : (it.shopPrices && it.shopPrices[u.location]) || 0)}</td>`;
+        if(incCheckbox) r += `<td style="text-align:center;font-size:16px;">☐</td>`;
+        r += `</tr>`;
+        rowsHtml += r;
+      });
+    });
+
+    tablesHtml += `
+      <div class="cat-section">
+        <table>
+          <thead><tr>${headersHtml}</tr></thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  const signoffHtml = incSignoff ? `
+    <div class="signoff-box">
+      <div style="font-weight:700;font-size:12px;margin-bottom:8px;color:#1E293B;text-transform:uppercase;letter-spacing:0.5px;">Physical Count & Stock Audit Confirmation</div>
+      <div class="signoff-grid">
+        <div><b>Audited by:</b> ___________________________</div>
+        <div><b>Date:</b> ______________</div>
+        <div><b>Manager Signature:</b> ___________________________</div>
+      </div>
+    </div>
+  ` : '';
+
+  const docHtml = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>StockLine Audit - ${esc(shopNameStr)} (${dateStr})</title>
+  <style>
+    @page { size: A4 portrait; margin: 10mm 10mm 12mm 10mm; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #0F172A; margin: 0; padding: 0; font-size: 11.5px; line-height: 1.35; }
+    .header { border-bottom: 2px solid #0F766E; padding-bottom: 10px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: flex-end; }
+    .header h1 { font-size: 20px; font-weight: 800; color: #0F766E; margin: 0 0 4px 0; letter-spacing: -0.3px; }
+    .header .subtitle { font-size: 12px; color: #475569; font-weight: 500; }
+    .meta-box { text-align: right; font-size: 11px; color: #334155; }
+    .meta-box b { font-size: 13px; color: #0F172A; }
+    .summary-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .badge { background: #F1F5F9; border: 1px solid #CBD5E1; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; color: #1E293B; }
+    .badge b { color: #0F766E; }
+    .cat-section { margin-bottom: 16px; page-break-inside: avoid; break-inside: avoid; }
+    .cat-header { background: #F0FDF4; border: 1px solid #BBF7D0; color: #166534; font-weight: 700; font-size: 12px; padding: 6px 10px; border-radius: 5px 5px 0 0; display: flex; justify-content: space-between; align-items: center; }
+    .cat-count { background: #DCFCE7; color: #15803D; padding: 1px 6px; border-radius: 10px; font-size: 10.5px; border: 1px solid #86EFAC; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 0; font-size: 11px; }
+    th { background: #F8FAFC; color: #334155; font-weight: 700; text-align: left; padding: 5px 6px; border: 1px solid #CBD5E1; font-size: 10.5px; }
+    td { padding: 4.5px 6px; border: 1px solid #E2E8F0; vertical-align: middle; }
+    tr:nth-child(even) td { background: #FAFBFC; }
+    .mono { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; font-size: 11px; }
+    .font-bold { font-weight: 700; color: #0F172A; }
+    .signoff-box { border: 1px solid #94A3B8; border-radius: 6px; padding: 12px 14px; margin-top: 18px; page-break-inside: avoid; break-inside: avoid; background: #F8FAFC; }
+    .signoff-grid { display: grid; grid-template-columns: 1.5fr 1fr 1.5fr; gap: 12px; font-size: 11px; margin-top: 10px; }
+    .grand-total { text-align: right; font-size: 12.5px; font-weight: 700; margin-top: 12px; padding: 6px 10px; background: #E0F2FE; color: #0369A1; border-radius: 4px; border: 1px solid #BAE6FD; }
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="no-print" style="background:#1E293B;color:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-radius:6px;">
+    <div style="font-weight:600;font-size:13px;">🖨️ Ready to Print / Save to PDF</div>
+    <div>
+      <button onclick="window.print()" style="background:#0F766E;color:#fff;border:none;padding:6px 14px;border-radius:4px;font-weight:700;cursor:pointer;margin-right:8px;">Print / Save PDF</button>
+      <button onclick="window.close()" style="background:#475569;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;">Close</button>
+    </div>
+  </div>
+
+  <div class="header">
+    <div>
+      <h1>StockLine · Stock Count & Audit Sheet</h1>
+      <div class="subtitle">Location: <b>${esc(shopNameStr)}</b> · Physical Inventory Verification</div>
+    </div>
+    <div class="meta-box">
+      <div>Date: <b>${dateStr}</b></div>
+      <div>Total Stock: <b>${totalDevicesCount} Device${totalDevicesCount===1?'':'s'}</b></div>
+    </div>
+  </div>
+
+  <div class="summary-badges">
+    ${categoryData.map(cd => `<div class="badge">${esc(cd.category.name)}: <b>${cd.devices.length}</b></div>`).join('')}
+  </div>
+
+  ${tablesHtml}
+
+  <div class="grand-total">
+    Grand Total: <b>${totalDevicesCount} Device${totalDevicesCount===1?'':'s'}</b> across ${categoryData.length} Category Section${categoryData.length===1?'':'s'}
+  </div>
+
+  ${signoffHtml}
+
+  <script>
+    window.onload = function(){
+      setTimeout(function(){ window.print(); }, 400);
+    };
+  <\/script>
+</body>
+</html>`;
+
+  const printWindow = window.open('', '_blank');
+  if(!printWindow){
+    Toast.show('Pop-up was blocked. Please allow pop-ups for this site to generate the PDF.', 'err');
+    return;
+  }
+  printWindow.document.open();
+  printWindow.document.write(docHtml);
+  printWindow.document.close();
+  Modal.close();
+  Toast.show(`Generating PDF for ${totalDevicesCount} device(s)...`, 'ok');
+};
+
+Views.exportFilteredCsv = function(){
+  const shopId = document.getElementById('exp_shop')?.value || 'all';
+  const checkedCats = Array.from(document.querySelectorAll('.exp-cat-cb:checked')).map(cb => cb.value);
+  const incImei = !!document.getElementById('exp_col_imei')?.checked;
+  const incColor = !!document.getElementById('exp_col_color')?.checked;
+  const incCond = !!document.getElementById('exp_col_cond')?.checked;
+  const incBatt = !!document.getElementById('exp_col_batt')?.checked;
+  const incSale = !!document.getElementById('exp_col_sale')?.checked;
+  const incCost = !!document.getElementById('exp_col_cost')?.checked;
+
+  const headers = ['Category', 'Device Name', 'Memory'];
+  if(incImei) headers.push('IMEI / Serial');
+  if(incColor) headers.push('Colour');
+  if(incCond) headers.push('Condition');
+  if(incBatt) headers.push('Battery %');
+  if(shopId === 'all') headers.push('Store Location');
+  if(incCost) headers.push('Cost Price');
+  if(incSale) headers.push('Sale Price');
+
+  const rows = [headers];
+
+  (Store.data.categories || []).forEach(c => {
+    if(!checkedCats.includes(c.id)) return;
+    (Store.data.items || []).forEach(it => {
+      if(it.category !== c.id) return;
+      (it.units || []).forEach(u => {
+        if(shopId === 'all' || u.location === shopId){
+          const row = [c.name, it.name, it.memory || ''];
+          if(incImei) row.push(u.imei || '');
+          if(incColor) row.push(u.color || '');
+          if(incCond) row.push(u.condition || 'Used');
+          if(incBatt) row.push(u.batteryPct != null ? u.batteryPct + '%' : '');
+          if(shopId === 'all') row.push(shopName(u.location));
+          if(incCost) row.push(u.costPrice != null ? u.costPrice : it.costPrice || 0);
+          if(incSale) row.push(u.sellPrice != null ? u.sellPrice : (it.shopPrices && it.shopPrices[u.location]) || 0);
+          rows.push(row);
+        }
+      });
+    });
+  });
+
+  const filename = `stock_audit_${shopId}_${todayISO()}.csv`;
+  csvDownload(filename, rows);
+  Modal.close();
+  Toast.show(`Exported ${rows.length - 1} records to ${filename}.`, 'ok');
+};
+
+Views.exportInventoryCsv = function(){
+  Views.openPdfExportModal();
 };
 
 /* ---- UNTRACKED / NO-IMEI STOCK HANDLERS ---- */
