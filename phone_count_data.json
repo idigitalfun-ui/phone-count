@@ -11851,7 +11851,7 @@
     },
     {
       "id": "item_vtpigo2codj",
-      "name": "View BV 4800 SE",
+      "name": "Blackview BV 4800 SE",
       "category": "cat_kzhvkkxw69i",
       "memory": "64GB",
       "condition": "New",
@@ -11889,14 +11889,16 @@
           "costPrice": 0,
           "wholesalePrice": 0,
           "sellPrice": 0,
-          "batteryPct": null
+          "batteryPct": null,
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-28"
     },
     {
       "id": "item_guxbtyudfcv",
-      "name": "View NB 4800 Pro",
+      "name": "Blackview NB 4800 Pro",
       "category": "cat_kzhvkkxw69i",
       "memory": "128GB",
       "condition": "New",
@@ -11934,7 +11936,9 @@
           "costPrice": 0,
           "wholesalePrice": 0,
           "sellPrice": 0,
-          "batteryPct": null
+          "batteryPct": null,
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-28"
@@ -15923,7 +15927,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T13:01:12.497Z",
+    "lastSaved": "2026-09-01T13:01:50.202Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
