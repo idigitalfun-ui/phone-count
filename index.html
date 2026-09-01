@@ -594,6 +594,20 @@ const Store = {
     if(!d.reorderList) d.reorderList=[];
     if(!d.reorderMeta) d.reorderMeta = { lastOrderDate: null };
     if(!d.meta) d.meta = { createdAt: todayISO() };
+    if(!d.meta.shopPortals) d.meta.shopPortals = {};
+    (d.shops||[]).forEach(s => {
+      if(!d.meta.shopPortals[s.id]){
+        d.meta.shopPortals[s.id] = {
+          enabled: true,
+          allowCostPrice: false,
+          allowSalePrice: true,
+          allowEditImei: true,
+          allowEditDetails: true,
+          allowVerify: true,
+          allowAddDevice: true
+        };
+      }
+    });
     // ensure Tullamore exists as a shop
     if(!d.shops.find(s=>s.id==='shop_tullamore')){
       d.shops.push({id:'shop_tullamore', name:'Tullamore', isWarehouse:false, active:true});
@@ -1664,6 +1678,7 @@ const NAV = [
   ]},
   {group:'Manage', items:[
     {id:'shops', label:'Shops', icon:'🏬'},
+    {id:'portals', label:'Live Shop Links', icon:'🔗'},
     {id:'categories', label:'Categories', icon:'▧'},
     {id:'backup', label:'Backup & Settings', icon:'⚙'},
   ]},
@@ -1678,18 +1693,40 @@ const TITLES = {
   bestsellers:['Best Sellers','What is moving fastest, so you know what to reorder'],
   reorder:['Reorder List','Build and export an order to send your supplier'],
   shops:['Shops','Add or remove shop locations — safe to undo'],
+  portals:['Live Shop Links','Manage shareable live links and permissions for each store'],
+  portal:['Store Portal','Live store inventory verification and physical count session'],
   categories:['Categories','Organise your product types — safe to add or remove'],
   backup:['Backup & Settings','Backups, restore, and full data export'],
 };
 
 const Router = {
   current:'dashboard',
+  getPortalShopId(){
+    const p = new URLSearchParams(window.location.search);
+    return p.get('portal') || (p.get('mode') === 'shop' ? p.get('shop') : null);
+  },
   go(id){ this.current=id; render(); }
 };
 
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.3.0</span></div>`;
+  const portalShopId = Router.getPortalShopId();
+  if(portalShopId){
+    const sName = shopName(portalShopId);
+    nav.innerHTML = `
+      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.5.0</span></div>
+      <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
+        <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
+        <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:4px;">Stock Audit Session</div>
+      </div>
+      <div style="margin-top:auto;padding:12px;">
+        <a href="${window.location.origin}${window.location.pathname}" style="display:block;padding:8px 10px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.8);border-radius:6px;font-size:12px;text-decoration:none;text-align:center;">⚙ Head Office Mode</a>
+      </div>
+    `;
+    return;
+  }
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.5.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -1703,7 +1740,13 @@ function renderSidebar(){
 function render(){
   try{
     renderSidebar();
-    const [title,sub] = TITLES[Router.current] || ['',''];
+    const portalShopId = Router.getPortalShopId();
+    if(portalShopId){
+      Router.current = 'portal';
+    }
+    const [title,sub] = portalShopId 
+      ? [`📍 ${shopName(portalShopId)} Store Portal`, 'Live store inventory verification and physical count session']
+      : (TITLES[Router.current] || ['','']);
     const titleEl = document.getElementById('pageTitle');
     const subEl = document.getElementById('pageSub');
     if(titleEl) titleEl.textContent = title;
@@ -1731,7 +1774,8 @@ function render(){
       dashboard: Views.dashboard, inventory: Views.inventory, stockin: Views.stockin,
       transfer: Views.stockview, sales: Views.stockview, weekly: Views.weekly,
       history: Views.history, stockview: Views.stockview, bestsellers: Views.bestsellers,
-      reorder: Views.reorder, shops: Views.shops, categories: Views.categories, backup: Views.backup,
+      reorder: Views.reorder, shops: Views.shops, categories: Views.categories,
+      portals: Views.portals, portal: () => Views.shopPortal(portalShopId), backup: Views.backup,
     };
     c.innerHTML = (fns[Router.current]||(()=>'<p>Not found</p>'))();
     if(Views.after && Views.after[Router.current]) Views.after[Router.current]();
@@ -2826,6 +2870,7 @@ Views.inventory = function(){
       <button class="btn sm ${Views._showBattery!==false?'teal':'ghost'}" onclick="Views._showBattery=!(Views._showBattery!==false);render();" title="Toggle Battery % display">🔋 Battery %: <b>${Views._showBattery!==false?'ON':'OFF'}</b></button>
       <button class="btn ghost sm" onclick="Views.cleanAllUntracked()" title="Remove all non-IMEI placeholder balances">🧹 Clean untracked</button>
       <button class="btn primary" style="background:#0F766E;color:#fff;" onclick="Views.openPdfExportModal()"><span class="ic">📄</span> Export PDF / Audit Sheet</button>
+      <button class="btn" style="background:#1E293B;color:#fff;" onclick="Views.openShopPortalManagerModal()"><span class="ic">🔗</span> Live Shop Links</button>
       <button class="btn ghost" onclick="Views.exportInventoryCsv()" title="Quick Export CSV">⬇ CSV</button>
       <button class="btn primary" onclick="Views.openItemModal(null, '${filterShop||'warehouse'}')">+ Add device</button>
     </div>
@@ -3543,6 +3588,285 @@ Views.exportFilteredCsv = function(){
 
 Views.exportInventoryCsv = function(){
   Views.openPdfExportModal();
+};
+
+/* =========================================================================
+   LIVE SHOP PORTALS & SHAREABLE LINKS
+   ========================================================================= */
+
+Views._portalFilter = { q: '', cat: 'all' };
+
+Views.openShopPortalManagerModal = function(){
+  Router.go('portals');
+};
+
+Views.toggleShopPortalStatus = function(shopId){
+  if(!Store.data.meta) Store.data.meta = {};
+  if(!Store.data.meta.shopPortals) Store.data.meta.shopPortals = {};
+  if(!Store.data.meta.shopPortals[shopId]){
+    Store.data.meta.shopPortals[shopId] = {
+      enabled: true, allowCostPrice: false, allowSalePrice: true,
+      allowEditImei: true, allowEditDetails: true, allowVerify: true, allowAddDevice: true
+    };
+  }
+  const curr = Store.data.meta.shopPortals[shopId].enabled;
+  Store.data.meta.shopPortals[shopId].enabled = !curr;
+  Store.save();
+  Toast.show(`${shopName(shopId)} live link is now ${!curr ? '🟢 LIVE (Open for edits)' : '🔴 UNALIVE (Locked/Closed)'}.`, 'ok');
+  render();
+};
+
+Views.updateShopPortalPerm = function(shopId, permKey, val){
+  if(!Store.data.meta) Store.data.meta = {};
+  if(!Store.data.meta.shopPortals) Store.data.meta.shopPortals = {};
+  if(!Store.data.meta.shopPortals[shopId]){
+    Store.data.meta.shopPortals[shopId] = {
+      enabled: true, allowCostPrice: false, allowSalePrice: true,
+      allowEditImei: true, allowEditDetails: true, allowVerify: true, allowAddDevice: true
+    };
+  }
+  Store.data.meta.shopPortals[shopId][permKey] = val;
+  Store.save();
+  Toast.show(`Updated permission for ${shopName(shopId)}.`, 'ok');
+};
+
+Views.savePortalBattery = function(itemId, unitId, rawVal){
+  const it = itemById(itemId); if(!it) return;
+  const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
+  const val = (rawVal||'').trim() === '' ? null : Math.max(0, Math.min(100, parseInt(rawVal)||0));
+  unit.batteryPct = val;
+  Store.save();
+  Toast.show(val != null ? `Battery ${val}% saved.` : 'Battery cleared.', 'ok');
+};
+
+Views.portals = function(){
+  const portals = (Store.data.meta && Store.data.meta.shopPortals) || {};
+  const shops = activeShops();
+  const currentBase = window.location.origin + window.location.pathname;
+
+  const cardsHtml = shops.map(s => {
+    const cfg = portals[s.id] || { enabled: true, allowCostPrice: false, allowSalePrice: true, allowEditImei: true, allowVerify: true, allowAddDevice: true };
+    const linkUrl = `${currentBase}?portal=${s.id}`;
+    const deviceCount = (Store.data.items || []).reduce((sum, it) => sum + unitsAt(it, s.id).length, 0);
+
+    return `
+      <div class="card card-pad" style="margin-bottom:16px;border-left:5px solid ${cfg.enabled?'var(--green)':'#DC2626'};background:#fff;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <h3 style="margin:0;font-size:16.5px;font-weight:800;color:#0F172A;">📍 ${esc(s.name)}${s.isWarehouse?' (Warehouse)':''}</h3>
+              <span class="pill ${cfg.enabled?'green':'red'}" style="font-weight:700;font-size:11px;">${cfg.enabled?'🟢 LIVE':'🔴 UNALIVE / LOCKED'}</span>
+              <span style="color:var(--muted);font-size:12.5px;font-weight:600;">(${deviceCount} Device${deviceCount===1?'':'s'} in store)</span>
+            </div>
+            <p style="color:var(--muted);font-size:12.5px;margin:4px 0 0 0;">
+              ${cfg.enabled ? 'Store staff can open this live link to verify stock and update IMEIs in real time.' : 'Portal is locked. Staff cannot make any edits until you enable it.'}
+            </p>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <button class="btn sm ${cfg.enabled?'danger':'primary'}" onclick="Views.toggleShopPortalStatus('${s.id}')">
+              ${cfg.enabled ? '🔒 Make Unalive (Lock)' : '🟢 Make Live (Open)'}
+            </button>
+            <a class="btn sm ghost" href="${esc(linkUrl)}" target="_blank" title="Test / Open Live Portal">↗ Test Portal</a>
+          </div>
+        </div>
+
+        <!-- Shareable Link Box -->
+        <div style="margin-top:12px;background:#F8FAFC;padding:8px 12px;border-radius:6px;border:1px solid #E2E8F0;display:flex;align-items:center;gap:8px;">
+          <span style="font-size:12px;color:#475569;font-weight:700;">Live Link:</span>
+          <input type="text" readonly value="${esc(linkUrl)}" style="flex:1;background:#fff;padding:6px 10px;font-size:12px;font-family:monospace;border:1px solid #CBD5E1;border-radius:4px;color:#0F172A;" onclick="this.select()">
+          <button class="btn sm primary" style="background:#0F766E;" onclick="navigator.clipboard.writeText('${esc(linkUrl)}');Toast.show('✓ Copied ${esc(s.name)} live portal link to clipboard.','ok');">📋 Copy Link</button>
+        </div>
+
+        <!-- Permissions toggles -->
+        <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink);background:#FAFBFC;padding:8px 12px;border-radius:6px;border:1px solid #F1F5F9;">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:${cfg.allowCostPrice?'#B91C1C':'var(--muted)'};font-weight:${cfg.allowCostPrice?'700':'normal'};">
+            <input type="checkbox" ${cfg.allowCostPrice?'checked':''} onchange="Views.updateShopPortalPerm('${s.id}','allowCostPrice',this.checked)">
+            <span>👁️ Show Cost Price (€)</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+            <input type="checkbox" ${cfg.allowSalePrice!==false?'checked':''} onchange="Views.updateShopPortalPerm('${s.id}','allowSalePrice',this.checked)">
+            <span>💰 Show Sale Price (€)</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+            <input type="checkbox" ${cfg.allowEditImei!==false?'checked':''} onchange="Views.updateShopPortalPerm('${s.id}','allowEditImei',this.checked)">
+            <span>✏️ Allow Editing IMEIs</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+            <input type="checkbox" ${cfg.allowVerify!==false?'checked':''} onchange="Views.updateShopPortalPerm('${s.id}','allowVerify',this.checked)">
+            <span>✓ Allow Checking (✓ OK)</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+            <input type="checkbox" ${cfg.allowAddDevice!==false?'checked':''} onchange="Views.updateShopPortalPerm('${s.id}','allowAddDevice',this.checked)">
+            <span>➕ Allow Adding New Devices</span>
+          </label>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <div style="max-width:960px;">
+      <div class="helpbox" style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:24px;">🔗</span>
+        <div>
+          <b>Live Shop Portals & Shareable Links:</b> Send each store staff member their unique live link. Staff only see their own store's inventory. You can toggle links <b>Live</b> during audit counts or <b>Unalive</b> when finished so no further changes can be made. Cost Price is hidden by default.
+        </div>
+      </div>
+      ${cardsHtml}
+    </div>
+  `;
+};
+
+Views.shopPortal = function(shopId){
+  const shop = Store.data.shops.find(s => s.id === shopId) || { id: shopId, name: shopName(shopId) };
+  const portals = (Store.data.meta && Store.data.meta.shopPortals) || {};
+  const cfg = portals[shopId] || { enabled: true, allowCostPrice: false, allowSalePrice: true, allowEditImei: true, allowVerify: true, allowAddDevice: true };
+
+  // If unalive / locked
+  if(!cfg.enabled){
+    return `
+      <div style="max-width:560px;margin:40px auto;padding:36px 28px;background:#fff;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,.06);text-align:center;border:1px solid #E2E8F0;">
+        <div style="width:64px;height:64px;border-radius:50%;background:#FEF2F2;color:#DC2626;font-size:32px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">🔒</div>
+        <h2 style="color:#0F172A;font-size:22px;margin:0 0 8px 0;font-weight:800;">Stock Audit Closed</h2>
+        <p style="color:#64748B;font-size:14px;line-height:1.5;margin:0 0 20px 0;">
+          The inventory verification portal for <b>${esc(shop.name)}</b> is currently <b>locked / closed</b> by Head Office.
+        </p>
+        <div style="background:#F8FAFC;padding:12px 16px;border-radius:8px;font-size:13px;color:#334155;border:1px solid #E2E8F0;">
+          If you need to perform a stock audit, please contact your manager to open this session.
+        </div>
+      </div>
+    `;
+  }
+
+  const f = Views._portalFilter;
+  const categories = Store.data.categories || [];
+  
+  // Gather devices only at this location
+  let totalUnitsCount = 0;
+  let verifiedCount = 0;
+  const itemsWithUnits = [];
+
+  (Store.data.items || []).forEach(it => {
+    const units = (it.units || []).filter(u => u && u.location === shopId);
+    if(units.length > 0){
+      totalUnitsCount += units.length;
+      units.forEach(u => { if(u.verified) verifiedCount++; });
+      itemsWithUnits.push({ item: it, units });
+    }
+  });
+
+  // Filter items
+  const filtered = itemsWithUnits.filter(({item: it, units}) => {
+    if(f.cat !== 'all' && it.category !== f.cat) return false;
+    if(f.q){
+      const q = f.q.toLowerCase().trim();
+      const matchName = it.name.toLowerCase().includes(q) || (it.memory||'').toLowerCase().includes(q);
+      const matchImei = units.some(u => (u.imei||'').toLowerCase().includes(q) || (u.color||'').toLowerCase().includes(q));
+      if(!matchName && !matchImei) return false;
+    }
+    return true;
+  });
+
+  const catPills = categories.map(c => {
+    const count = itemsWithUnits.filter(({item: it}) => it.category === c.id).reduce((sum, x) => sum + x.units.length, 0);
+    if(count === 0) return '';
+    return `<button class="chip ${f.cat===c.id?'active':''}" onclick="Views._portalFilter.cat='${c.id}';render();">${esc(c.name)} <span class="badge">${count}</span></button>`;
+  }).filter(Boolean).join('');
+
+  let tableRows = '';
+  let rowIdx = 1;
+
+  filtered.forEach(({item: it, units}) => {
+    units.forEach(u => {
+      const isVerified = !!u.verified;
+      const imeiInput = cfg.allowEditImei !== false 
+        ? `<input class="mono" id="imei_inp_${u.id}" value="${esc(u.imei||'')}" placeholder="Scan / enter IMEI" onchange="Views.saveInlineImei('${it.id}','${u.id}',this.value)" style="width:170px;font-weight:700;padding:4px 8px;border-radius:4px;border:1.5px solid ${isVerified?'#86EFAC':'#CBD5E1'};background:${isVerified?'#F0FDF4':'#fff'};font-size:12px;">`
+        : `<span class="mono" style="font-weight:700;font-size:12px;">${esc(u.imei||'(No IMEI)')}</span>`;
+
+      const verifyBtn = cfg.allowVerify !== false
+        ? `<button class="btn sm ${isVerified?'green':'ghost'}" onclick="Views.toggleUnitVerified('${it.id}','${u.id}');render();" title="${isVerified?'Verified OK':'Click to Mark Checked & Verified OK'}">${isVerified?'✓ OK':'🔍 Check'}</button>`
+        : (isVerified ? `<span class="pill green" style="font-size:11px;font-weight:700;">✓ OK</span>` : `<span style="color:#94A3B8;font-size:11px;">Pending</span>`);
+
+      const battInput = `<input type="number" min="0" max="100" value="${u.batteryPct!=null?u.batteryPct:''}" placeholder="—" onchange="Views.savePortalBattery('${it.id}','${u.id}',this.value)" style="width:48px;text-align:center;padding:3px 4px;font-size:11.5px;border:1px solid #CBD5E1;border-radius:4px;">`;
+
+      const costCol = cfg.allowCostPrice ? `<td style="text-align:right;">${euro(u.costPrice!=null?u.costPrice:it.costPrice)}</td>` : '';
+      const saleCol = cfg.allowSalePrice !== false ? `<td style="text-align:right;font-weight:600;">${euro(u.sellPrice!=null?u.sellPrice:((it.shopPrices&&it.shopPrices[shopId])||0))}</td>` : '';
+
+      tableRows += `
+        <tr style="${isVerified?'background:#F0FDF4;':''}">
+          <td style="text-align:center;color:#64748B;font-size:11px;">${rowIdx++}</td>
+          <td>
+            <div style="font-weight:700;color:var(--ink);">${esc(it.name)}</div>
+            <div style="font-size:11px;color:var(--muted);">${esc(catName(it.category))} · ${esc(it.memory||'')}</div>
+          </td>
+          <td>
+            <div style="display:flex;align-items:center;gap:6px;">
+              ${imeiInput}
+              ${verifyBtn}
+            </div>
+          </td>
+          <td>${esc(u.color||'-')}</td>
+          <td><span class="pill sm ${u.condition==='New'?'green':'blue'}">${esc(u.condition||'Used')}</span></td>
+          <td style="text-align:center;">${battInput}</td>
+          ${costCol}
+          ${saleCol}
+        </tr>
+      `;
+    });
+  });
+
+  return `
+    <div style="margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;background:#fff;padding:14px 18px;border-radius:10px;border:1px solid #E2E8F0;box-shadow:0 1px 3px rgba(0,0,0,.04);flex-wrap:wrap;gap:12px;">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:22px;">📍</span>
+          <h2 style="margin:0;font-size:18px;font-weight:800;color:#0F172A;">${esc(shop.name)} — Store Inventory Portal</h2>
+          <span class="pill green" style="font-weight:700;font-size:11px;">🟢 LIVE SESSION</span>
+        </div>
+        <div style="color:#64748B;font-size:12.5px;margin-top:3px;">
+          Audited: <b>${verifiedCount} / ${totalUnitsCount}</b> devices checked (${totalUnitsCount>0?Math.round((verifiedCount/totalUnitsCount)*100):0}%) · Cloud Auto-Sync active
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn sm" onclick="Views.openPdfExportModal()"><span class="ic">📄</span> Print / PDF Sheet</button>
+        ${cfg.allowAddDevice!==false ? `<button class="btn sm primary" style="background:#0F766E;" onclick="Views.openItemModal(null, '${shopId}')">+ Add Device</button>` : ''}
+      </div>
+    </div>
+
+    <div class="toolbar" style="flex-wrap:wrap;gap:8px;margin-bottom:14px;">
+      <div class="chip-select" style="flex-wrap:wrap;">
+        <button class="chip ${f.cat==='all'?'active':''}" onclick="Views._portalFilter.cat='all';render();">All Categories <span class="badge">${totalUnitsCount}</span></button>
+        ${catPills}
+      </div>
+      <div class="spacer"></div>
+      <div class="search-input">
+        <span class="ic">🔎</span>
+        <input placeholder="Search device or scan IMEI…" value="${esc(f.q)}" oninput="Views._portalFilter.q=this.value;render();">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="table-wrap">
+        <table class="inv-flat">
+          <thead>
+            <tr>
+              <th style="width:40px;text-align:center;">#</th>
+              <th>Device Model & Spec</th>
+              <th>IMEI & Verification</th>
+              <th>Colour</th>
+              <th>Condition</th>
+              <th style="width:65px;text-align:center;">Battery %</th>
+              ${cfg.allowCostPrice ? '<th style="text-align:right;">Cost Price</th>' : ''}
+              ${cfg.allowSalePrice !== false ? '<th style="text-align:right;">Sale Price</th>' : ''}
+            </tr>
+          </thead>
+          <tbody>
+            ${tableRows || `<tr><td colspan="8" style="text-align:center;padding:30px;color:#64748B;">No devices found matching this filter at ${esc(shop.name)}.</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
 };
 
 /* ---- UNTRACKED / NO-IMEI STOCK HANDLERS ---- */
