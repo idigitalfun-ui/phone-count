@@ -600,13 +600,17 @@ const Store = {
       if(!d.meta.shopPortals[s.id]){
         d.meta.shopPortals[s.id] = {
           enabled: true,
+          allowEditName: true,
           allowCostPrice: false,
           allowSalePrice: true,
           allowEditImei: true,
-          allowEditDetails: true,
           allowVerify: true,
-          allowAddDevice: true
+          allowAddDevice: true,
+          allowEditActions: true
         };
+      } else {
+        if(d.meta.shopPortals[s.id].allowEditName === undefined) d.meta.shopPortals[s.id].allowEditName = true;
+        if(d.meta.shopPortals[s.id].allowEditActions === undefined) d.meta.shopPortals[s.id].allowEditActions = true;
       }
     });
     // ensure Tullamore exists as a shop
@@ -3679,7 +3683,16 @@ Views.portals = function(){
   const currentBase = window.location.origin + window.location.pathname;
 
   const cardsHtml = shops.map(s => {
-    const cfg = portals[s.id] || { enabled: true, allowCostPrice: false, allowSalePrice: true, allowEditImei: true, allowVerify: true, allowAddDevice: true };
+    const cfg = portals[s.id] || {
+      enabled: true,
+      allowEditName: true,
+      allowCostPrice: false,
+      allowSalePrice: true,
+      allowEditImei: true,
+      allowVerify: true,
+      allowAddDevice: true,
+      allowEditActions: true
+    };
     const linkUrl = `${currentBase}?portal=${s.id}`;
     const deviceCount = (Store.data.items || []).reduce((sum, it) => sum + unitsAt(it, s.id).length, 0);
 
@@ -3712,26 +3725,34 @@ Views.portals = function(){
         </div>
 
         <!-- Permissions toggles -->
-        <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink);background:#FAFBFC;padding:8px 12px;border-radius:6px;border:1px solid #F1F5F9;">
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:${cfg.allowCostPrice?'#B91C1C':'var(--muted)'};font-weight:${cfg.allowCostPrice?'700':'normal'};">
+        <div style="margin-top:12px;display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink);background:#FAFBFC;padding:10px 14px;border-radius:6px;border:1px solid #F1F5F9;">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+            <input type="checkbox" ${cfg.allowEditName!==false?'checked':''} onchange="Views.updateShopPortalPerm('${s.id}','allowEditName',this.checked)">
+            <span>✏️ Edit Phone Names</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:${cfg.allowCostPrice?'#B91C1C':'inherit'};font-weight:${cfg.allowCostPrice?'700':'normal'};">
             <input type="checkbox" ${cfg.allowCostPrice?'checked':''} onchange="Views.updateShopPortalPerm('${s.id}','allowCostPrice',this.checked)">
-            <span>👁️ Show Cost Price (€)</span>
+            <span>👁️ Show/Edit Cost Price</span>
           </label>
           <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
             <input type="checkbox" ${cfg.allowSalePrice!==false?'checked':''} onchange="Views.updateShopPortalPerm('${s.id}','allowSalePrice',this.checked)">
-            <span>💰 Show Sale Price (€)</span>
+            <span>💰 Show/Edit Sale Price</span>
           </label>
           <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
             <input type="checkbox" ${cfg.allowEditImei!==false?'checked':''} onchange="Views.updateShopPortalPerm('${s.id}','allowEditImei',this.checked)">
-            <span>✏️ Allow Editing IMEIs</span>
+            <span>📱 Edit IMEI</span>
           </label>
           <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
             <input type="checkbox" ${cfg.allowVerify!==false?'checked':''} onchange="Views.updateShopPortalPerm('${s.id}','allowVerify',this.checked)">
-            <span>✓ Allow Checking (✓ OK)</span>
+            <span>✓ Allow Checking</span>
           </label>
           <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
             <input type="checkbox" ${cfg.allowAddDevice!==false?'checked':''} onchange="Views.updateShopPortalPerm('${s.id}','allowAddDevice',this.checked)">
-            <span>➕ Allow Adding New Devices</span>
+            <span>➕ Allow New Devices</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+            <input type="checkbox" ${cfg.allowEditActions!==false?'checked':''} onchange="Views.updateShopPortalPerm('${s.id}','allowEditActions',this.checked)">
+            <span>⚙️ Allow Editing Actions</span>
           </label>
         </div>
       </div>
@@ -3754,7 +3775,16 @@ Views.portals = function(){
 Views.shopPortal = function(shopId){
   const shop = Store.data.shops.find(s => s.id === shopId) || { id: shopId, name: shopName(shopId) };
   const portals = (Store.data.meta && Store.data.meta.shopPortals) || {};
-  const cfg = portals[shopId] || { enabled: true, allowCostPrice: false, allowSalePrice: true, allowEditImei: true, allowVerify: true, allowAddDevice: true };
+  const cfg = portals[shopId] || {
+    enabled: true,
+    allowEditName: true,
+    allowCostPrice: false,
+    allowSalePrice: true,
+    allowEditImei: true,
+    allowVerify: true,
+    allowAddDevice: true,
+    allowEditActions: true
+  };
 
   // If unalive / locked
   if(!cfg.enabled){
@@ -3815,7 +3845,7 @@ Views.shopPortal = function(shopId){
       const isVerified = !!u.verified;
       const imeiInput = cfg.allowEditImei !== false 
         ? `<input class="mono" id="imei_inp_${u.id}" value="${esc(u.imei||'')}" placeholder="Scan / enter IMEI" onchange="Views.saveInlineImei('${it.id}','${u.id}',this.value)" style="width:170px;font-weight:700;padding:4px 8px;border-radius:4px;border:1.5px solid ${isVerified?'#86EFAC':'#CBD5E1'};background:${isVerified?'#F0FDF4':'#fff'};font-size:12px;">`
-        : `<span class="mono" style="font-weight:700;font-size:12px;">${esc(u.imei||'(No IMEI)')}</span>`;
+        : `<span class="mono" style="font-weight:700;font-size:12px;color:#334155;">${esc(u.imei||'(No IMEI)')}</span>`;
 
       const verifyBtn = cfg.allowVerify !== false
         ? `<button class="btn sm ${isVerified?'green':'ghost'}" onclick="Views.toggleUnitVerified('${it.id}','${u.id}');render();" title="${isVerified?'Verified OK':'Click to Mark Checked & Verified OK'}">${isVerified?'✓ OK':'🔍 Check'}</button>`
@@ -3823,7 +3853,9 @@ Views.shopPortal = function(shopId){
 
       const battInput = `<input type="number" min="0" max="100" value="${u.batteryPct!=null?u.batteryPct:''}" placeholder="—" onchange="Views.savePortalBattery('${it.id}','${u.id}',this.value)" style="width:48px;text-align:center;padding:3px 4px;font-size:11.5px;border:1px solid #CBD5E1;border-radius:4px;">`;
 
-      const costCol = cfg.allowCostPrice ? `<td style="text-align:right;">${euro(u.costPrice!=null?u.costPrice:it.costPrice)}</td>` : '';
+      const costCol = cfg.allowCostPrice 
+        ? `<td style="text-align:right;"><input type="number" step="0.01" min="0" value="${u.costPrice!=null?u.costPrice:it.costPrice}" oninput="Views.invSetCostPrice('${it.id}','${u.id}',this.value,false)" onchange="Views.invSetCostPrice('${it.id}','${u.id}',this.value,true)" onkeydown="if(event.key==='Enter')this.blur()" style="width:75px;text-align:right;padding:4px 6px;border:1px solid #CBD5E1;border-radius:4px;font-size:12px;"></td>` 
+        : '';
       const salePriceVal = (u.sellPrice != null && u.sellPrice > 0) ? u.sellPrice : ((it.shopPrices && it.shopPrices[shopId]) || 0);
       const saleCol = cfg.allowSalePrice !== false 
         ? `<td style="text-align:right;">
@@ -3831,11 +3863,21 @@ Views.shopPortal = function(shopId){
            </td>` 
         : '';
 
+      const nameHtml = cfg.allowEditActions !== false 
+        ? `<a href="javascript:void(0)" onclick="Views.openEditUnitModal('${it.id}','${u.id}','${shopId}')" style="font-weight:700;color:var(--teal-dark);text-decoration:underline;" title="Click to edit device details">${esc(it.name)}</a>`
+        : `<div style="font-weight:700;color:var(--ink);">${esc(it.name)}</div>`;
+
+      const actionsCol = cfg.allowEditActions !== false 
+        ? `<td style="text-align:center;white-space:nowrap;">
+             <button class="btn sm" onclick="Views.openEditUnitModal('${it.id}','${u.id}','${shopId}')" title="Edit Model Name, Memory, Colour, Condition, Sale Price, IMEI">✏️ Edit</button>
+           </td>`
+        : '';
+
       tableRows += `
         <tr style="${isVerified?'background:#F0FDF4;':''}">
           <td style="text-align:center;color:#64748B;font-size:11px;">${rowIdx++}</td>
           <td>
-            <a href="javascript:void(0)" onclick="Views.openEditUnitModal('${it.id}','${u.id}','${shopId}')" style="font-weight:700;color:var(--teal-dark);text-decoration:underline;" title="Click to edit device details">${esc(it.name)}</a>
+            ${nameHtml}
             <div style="font-size:11px;color:var(--muted);">${esc(catName(it.category))} · ${esc(it.memory||'')}</div>
           </td>
           <td>
@@ -3849,9 +3891,7 @@ Views.shopPortal = function(shopId){
           <td style="text-align:center;">${battInput}</td>
           ${costCol}
           ${saleCol}
-          <td style="text-align:center;white-space:nowrap;">
-            <button class="btn sm" onclick="Views.openEditUnitModal('${it.id}','${u.id}','${shopId}')" title="Edit Model Name, Memory, Colour, Condition, Sale Price, IMEI">✏️ Edit</button>
-          </td>
+          ${actionsCol}
         </tr>
       `;
     });
@@ -3898,9 +3938,9 @@ Views.shopPortal = function(shopId){
               <th>Colour</th>
               <th>Condition</th>
               <th style="width:65px;text-align:center;">Battery %</th>
-              ${cfg.allowCostPrice ? '<th style="text-align:right;">Cost Price</th>' : ''}
+              ${cfg.allowCostPrice ? '<th style="text-align:right;">Cost Price (€)</th>' : ''}
               ${cfg.allowSalePrice !== false ? '<th style="text-align:right;">Sale Price (€)</th>' : ''}
-              <th style="width:75px;text-align:center;">Actions</th>
+              ${cfg.allowEditActions !== false ? '<th style="width:75px;text-align:center;">Actions</th>' : ''}
             </tr>
           </thead>
           <tbody>
@@ -4068,19 +4108,19 @@ Views.openEditUnitModal = function(itemId, unitId, portalShopId){
         
         <div class="field">
           <label>Device Model / Name</label>
-          <input id="eu_name" value="${esc(it.name)}" placeholder="e.g. iPhone 14 128GB" style="font-weight:600;">
+          <input id="eu_name" value="${esc(it.name)}" ${cfg && cfg.allowEditName === false ? 'readonly style="background:#F1F5F9;cursor:not-allowed;font-weight:600;" title="Editing device name is locked by manager"' : 'style="font-weight:600;"'} placeholder="e.g. iPhone 14 128GB">
         </div>
         
         <div class="field-grid">
           <div class="field">
             <label>Category</label>
-            <select id="eu_cat">
+            <select id="eu_cat" ${cfg && cfg.allowEditName === false ? 'disabled style="background:#F1F5F9;cursor:not-allowed;"' : ''}>
               ${Store.data.categories.map(c=>`<option value="${c.id}" ${it.category===c.id?'selected':''}>${esc(c.name)}</option>`).join('')}
             </select>
           </div>
           <div class="field">
             <label>Storage / Memory</label>
-            <input id="eu_mem" value="${esc(it.memory||'')}" placeholder="e.g. 128GB">
+            <input id="eu_mem" value="${esc(it.memory||'')}" ${cfg && cfg.allowEditName === false ? 'readonly style="background:#F1F5F9;cursor:not-allowed;"' : ''} placeholder="e.g. 128GB">
           </div>
         </div>
 
@@ -4129,9 +4169,9 @@ Views.saveEditedUnit = function(itemId, unitId){
   const it = itemById(itemId); if(!it) return;
   const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
 
-  const newName = val('eu_name').trim();
+  const newName = (val('eu_name')||'').trim() || it.name;
   if(!newName){ Toast.show('Please enter a device model/name.','err'); return; }
-  const newCat = val('eu_cat');
+  const newCat = val('eu_cat') || it.category;
   let newMem = val('eu_mem').trim();
   if(newMem){
     newMem = newMem.replace(/\s+/g, '').replace(/gb/gi, 'GB');
