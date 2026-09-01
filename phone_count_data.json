@@ -5456,7 +5456,7 @@
         "Black"
       ],
       "batteryPct": 100,
-      "costPrice": 1,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 240,
         "shop_thurles": 240,
@@ -5472,10 +5472,24 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 1,
         "shop_tullamore": 0
       },
-      "units": [],
+      "units": [
+        {
+          "id": "unit_0rowkc7kjvs",
+          "imei": "352482910532203",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "sellPrice": 240,
+          "addedAt": "2026-09-01",
+          "verified": true,
+          "verifiedAt": "2026-09-01"
+        }
+      ],
       "createdAt": "2026-08-20",
       "wholesalePrice": 155
     },
@@ -15929,7 +15943,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T13:04:53.548Z",
+    "lastSaved": "2026-09-01T13:06:02.313Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
