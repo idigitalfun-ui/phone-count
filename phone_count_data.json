@@ -7380,11 +7380,13 @@
           "imei": "356080129578169",
           "color": "Black",
           "condition": "New",
-          "batteryPct": 100,
+          "batteryPct": null,
           "location": "shop_tralee",
           "costPrice": 220,
           "sellPrice": 300,
-          "addedAt": "2026-09-01"
+          "addedAt": "2026-09-01",
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -9043,7 +9045,9 @@
           "costPrice": 125,
           "wholesalePrice": 0,
           "sellPrice": 190,
-          "batteryPct": null
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         },
         {
           "id": "unit_qrigxj56kjb",
@@ -9055,7 +9059,9 @@
           "costPrice": 125,
           "wholesalePrice": 0,
           "sellPrice": 190,
-          "addedAt": "2026-08-28"
+          "addedAt": "2026-08-28",
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20"
@@ -15891,7 +15897,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:41:30.082Z",
+    "lastSaved": "2026-09-01T12:41:49.673Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
