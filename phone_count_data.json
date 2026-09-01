@@ -517,7 +517,6 @@
       "name": "Samsung A07",
       "category": "cat_w56n2ktw69i",
       "memory": "64GB",
-      "imei": "352262376794756",
       "condition": "New",
       "colors": [
         "Black",
@@ -540,7 +539,7 @@
         "shop_kilkenny": 2,
         "shop_maynooth": 3,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
@@ -579,20 +578,6 @@
           "sellPrice": 80,
           "verified": true,
           "verifiedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_aahrl0b54hs",
-          "imei": "352262376794756",
-          "color": "Black",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_tralee",
-          "costPrice": 115,
-          "wholesalePrice": 0,
-          "sellPrice": 130,
-          "addedAt": "2026-08-28",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
         },
         {
           "id": "unit_j27nc5zu5nz",
@@ -640,7 +625,7 @@
         "shop_kilkenny": 150,
         "shop_maynooth": 0,
         "shop_mullingar": 115,
-        "shop_tralee": 150,
+        "shop_tralee": 160,
         "shop_tullamore": 115
       },
       "locations": {
@@ -649,7 +634,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 2,
         "shop_mullingar": 1,
-        "shop_tralee": 2,
+        "shop_tralee": 1,
         "shop_tullamore": 1
       },
       "units": [
@@ -798,10 +783,12 @@
           "condition": "New",
           "location": "shop_tralee",
           "costPrice": 115,
-          "sellPrice": 115,
+          "sellPrice": 160,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 107
+          "wholesalePrice": 107,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         },
         {
           "id": "unit_zkrq9rfkx8x",
@@ -815,19 +802,6 @@
           "addedAt": "2026-08-28",
           "verified": true,
           "verifiedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_df57rg6qmmn",
-          "imei": "351388337849909",
-          "color": "Black",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_tralee",
-          "costPrice": 115,
-          "sellPrice": 150,
-          "addedAt": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15926,7 +15900,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:50:04.594Z",
+    "lastSaved": "2026-09-01T12:50:50.193Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
