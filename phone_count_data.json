@@ -537,7 +537,7 @@
         "shop_thurles": 0,
         "shop_kilkenny": 2,
         "shop_maynooth": 3,
-        "shop_mullingar": 2,
+        "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 0
       },
@@ -577,18 +577,6 @@
           "sellPrice": 80,
           "verified": true,
           "verifiedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_zvup0bjtbtr",
-          "imei": "352262376794764",
-          "color": "Black",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_mullingar",
-          "costPrice": 115,
-          "wholesalePrice": 0,
-          "sellPrice": 95,
-          "addedAt": "2026-08-25"
         },
         {
           "id": "unit_kt2gfe0thw6",
@@ -1860,7 +1848,7 @@
         "shop_thurles": 0,
         "shop_kilkenny": 2,
         "shop_maynooth": 3,
-        "shop_mullingar": 2,
+        "shop_mullingar": 1,
         "shop_tralee": 5,
         "shop_tullamore": 0
       },
@@ -1985,18 +1973,6 @@
         {
           "id": "unit_uvpo2ph02qf",
           "imei": "355282133017884",
-          "color": "Charcoal",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_mullingar",
-          "costPrice": 14,
-          "wholesalePrice": 0,
-          "sellPrice": 45,
-          "addedAt": "2026-08-25"
-        },
-        {
-          "id": "unit_dmcxf6f0rwv",
-          "imei": "355282133017769",
           "color": "Charcoal",
           "condition": "New",
           "batteryPct": null,
@@ -6634,24 +6610,11 @@
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
-        "shop_mullingar": 1,
+        "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_nh1u2nru5ou",
-          "imei": "K33QLC9R9H",
-          "color": "",
-          "condition": "New",
-          "location": "shop_mullingar",
-          "costPrice": 0,
-          "wholesalePrice": 13,
-          "sellPrice": 0,
-          "verified": true,
-          "verifiedAt": "2026-08-28"
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-20",
       "wholesalePrice": 13
     },
@@ -15940,7 +15903,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:34:09.594Z",
+    "lastSaved": "2026-09-01T12:35:22.065Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
