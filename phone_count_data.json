@@ -9810,12 +9810,13 @@
       "id": "item_vppdhg4u5p5",
       "name": "Samsung A37",
       "category": "cat_w56n2ktw69i",
-      "memory": "6GB/128GB",
+      "memory": "8GB/256GB",
       "imei": "",
       "condition": "New",
       "colors": [
         "awe lomen",
-        "Awesome Lemon"
+        "Awesome Lemon",
+        "Awesome White"
       ],
       "batteryPct": null,
       "costPrice": 0,
@@ -9826,7 +9827,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 400,
         "shop_tullamore": 0
       },
       "locations": {
@@ -9841,16 +9842,16 @@
       "units": [
         {
           "id": "unit_z2gb320u5p5",
-          "imei": "350290815194769",
-          "color": "Awesome Lemon",
+          "imei": "353700230852723",
+          "color": "Awesome White",
           "condition": "New",
           "location": "shop_tralee",
-          "costPrice": 0,
+          "costPrice": 285,
           "wholesalePrice": 0,
-          "sellPrice": 0,
+          "sellPrice": 400,
           "batteryPct": null,
-          "verified": false,
-          "verifiedAt": null
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20"
@@ -15921,7 +15922,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:56:55.377Z",
+    "lastSaved": "2026-09-01T12:58:11.489Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
