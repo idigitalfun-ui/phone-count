@@ -6633,8 +6633,8 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
-        "shop_maynooth": 1,
-        "shop_mullingar": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 1,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
@@ -6644,7 +6644,7 @@
           "imei": "K33QLC9R9H",
           "color": "",
           "condition": "New",
-          "location": "shop_maynooth",
+          "location": "shop_mullingar",
           "costPrice": 0,
           "wholesalePrice": 13,
           "sellPrice": 0,
@@ -15909,6 +15909,30 @@
         "sellPrice": 220,
         "addedAt": "2026-09-01"
       }
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_d7tqrqtw69m",
+      "itemName": "iPad 10th Generation",
+      "categoryId": "cat_cgd9w36w69i",
+      "location": "shop_maynooth",
+      "toLocation": "shop_mullingar",
+      "qty": 1,
+      "date": "2026-09-01",
+      "note": "Transferred iPad 10th Generation from Maynooth to Mullingar",
+      "id": "mv_wu0mfuifmt3"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_d7tqrqtw69m",
+      "itemName": "iPad 10th Generation",
+      "categoryId": "cat_cgd9w36w69i",
+      "location": "shop_mullingar",
+      "fromLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-01",
+      "note": "Transferred iPad 10th Generation from Maynooth to Mullingar",
+      "id": "mv_7rnm8cqfmt3"
     }
   ],
   "reorderList": [],
@@ -15916,7 +15940,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:32:54.413Z",
+    "lastSaved": "2026-09-01T12:34:09.594Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
