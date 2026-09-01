@@ -7379,7 +7379,7 @@
         },
         {
           "id": "unit_krgo0qmp2ov",
-          "imei": "3507668455591956",
+          "imei": "350768455591956",
           "color": "Awesome Lime",
           "condition": "New",
           "batteryPct": null,
@@ -9954,7 +9954,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 430,
         "shop_tullamore": 400
       },
       "locations": {
@@ -9975,7 +9975,7 @@
           "location": "shop_tralee",
           "costPrice": 0,
           "wholesalePrice": 0,
-          "sellPrice": 1,
+          "sellPrice": 430,
           "batteryPct": null,
           "verified": false,
           "verifiedAt": null
@@ -15923,7 +15923,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:59:58.770Z",
+    "lastSaved": "2026-09-01T13:01:06.884Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
