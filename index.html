@@ -1782,7 +1782,7 @@ function renderSidebar(){
   if(portalShopId){
     const sName = shopName(portalShopId);
     nav.innerHTML = `
-      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.6.0</span></div>
+      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.7.0</span></div>
       <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
         <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
         <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
@@ -1794,7 +1794,7 @@ function renderSidebar(){
     `;
     return;
   }
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.6.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.7.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -2055,7 +2055,15 @@ function sortedItems(list){
 function groupByCategory(list){
   const groups = {};
   Store.data.categories.forEach(c=>groups[c.id]=[]);
-  (list||Store.data.items).forEach(it=>{ (groups[it.category]||(groups[it.category]=[])).push(it); });
+  (list||Store.data.items).forEach(it=>{
+    if(!it) return;
+    let catId = it.category;
+    if(!groups[catId]){
+      const found = Store.data.categories.find(c => c.id === catId || c.name.toLowerCase() === (catId||'').toLowerCase());
+      if(found) catId = found.id;
+    }
+    (groups[catId]||(groups[catId]=[])).push(it);
+  });
   return Store.data.categories.map(c=>({cat:c, items:(groups[c.id]||[]).slice().sort((a,b)=>compareDeviceNames(a, b))})).filter(g=>g.items.length);
 }
 function cssColor(name){
@@ -2636,7 +2644,15 @@ Views.dashboard = function(){
 
   const byCat = {};
   Store.data.categories.forEach(c=>byCat[c.id]=0);
-  items.forEach(it=>{ byCat[it.category] = (byCat[it.category]||0) + totalQty(it); });
+  items.forEach(it=>{
+    if(!it) return;
+    let catId = it.category;
+    if(byCat[catId] == null){
+      const found = Store.data.categories.find(c => c.id === catId || c.name.toLowerCase() === (catId||'').toLowerCase());
+      if(found) catId = found.id;
+    }
+    if(byCat[catId] != null) byCat[catId] += totalQty(it);
+  });
   const maxCat = Math.max(1,...Object.values(byCat));
 
   const shopCards = activeShops().map(s=>{
