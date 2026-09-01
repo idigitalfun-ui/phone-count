@@ -9865,7 +9865,8 @@
       "colors": [
         "AwesomeNavy",
         "Lavender",
-        "Black"
+        "Black",
+        "Awesome Navy"
       ],
       "batteryPct": null,
       "costPrice": 0,
@@ -9899,8 +9900,8 @@
           "wholesalePrice": 0,
           "sellPrice": 0,
           "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verified": false,
+          "verifiedAt": null
         },
         {
           "id": "unit_57ab6rwu5p6",
@@ -9912,21 +9913,21 @@
           "wholesalePrice": 0,
           "sellPrice": 0,
           "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verified": false,
+          "verifiedAt": null
         },
         {
           "id": "unit_jnno2ksod8g",
           "imei": "350290815117711",
-          "color": "AwesomeNavy",
+          "color": "Awesome Navy",
           "condition": "New",
           "batteryPct": null,
           "location": "shop_tralee",
           "costPrice": 0,
           "sellPrice": 0,
           "addedAt": "2026-09-01",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-20"
@@ -11305,7 +11306,7 @@
         "shop_kilkenny": 220,
         "shop_maynooth": 0,
         "shop_mullingar": 220,
-        "shop_tralee": 220,
+        "shop_tralee": 330,
         "shop_tullamore": 220
       },
       "locations": {
@@ -11438,8 +11439,10 @@
           "batteryPct": null,
           "location": "shop_tralee",
           "costPrice": 220,
-          "sellPrice": 220,
-          "addedAt": "2026-09-01"
+          "sellPrice": 330,
+          "addedAt": "2026-09-01",
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-26",
@@ -15918,7 +15921,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:53:42.274Z",
+    "lastSaved": "2026-09-01T12:54:12.530Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
