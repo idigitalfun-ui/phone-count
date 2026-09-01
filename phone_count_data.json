@@ -5580,7 +5580,7 @@
     {
       "id": "item_y1rs6jnw69l",
       "name": "Nokia C1 2nd Edition",
-      "category": "cat_lkhn0qyw69i",
+      "category": "cat_kzhvkkxw69i",
       "memory": "16GB",
       "imei": "",
       "condition": "New",
@@ -5618,7 +5618,9 @@
           "costPrice": 30,
           "wholesalePrice": 0,
           "sellPrice": 60,
-          "addedAt": "2026-08-28"
+          "addedAt": "2026-08-28",
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15961,7 +15963,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:22:42.721Z",
+    "lastSaved": "2026-09-01T12:23:08.209Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
