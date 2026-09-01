@@ -5867,7 +5867,7 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
-        "shop_maynooth": 2,
+        "shop_maynooth": 1,
         "shop_mullingar": 0,
         "shop_tralee": 1,
         "shop_tullamore": 0
@@ -5876,18 +5876,6 @@
         {
           "id": "unit_bf689wgu5ou",
           "imei": "357778641667134",
-          "color": "Gray",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 100,
-          "wholesalePrice": 13,
-          "sellPrice": 100,
-          "verified": true,
-          "verifiedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_7n4fj75u5ou",
-          "imei": "357778641668520",
           "color": "Gray",
           "condition": "New",
           "location": "shop_maynooth",
@@ -15927,7 +15915,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:28:51.185Z",
+    "lastSaved": "2026-09-01T12:29:09.529Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
