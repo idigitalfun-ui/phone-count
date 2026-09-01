@@ -17430,7 +17430,7 @@ function renderSidebar(){
   if(portalShopId){
     const sName = shopName(portalShopId);
     nav.innerHTML = `
-      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.12.0</span></div>
+      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.15.0</span></div>
       <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
         <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
         <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
@@ -17442,7 +17442,7 @@ function renderSidebar(){
     `;
     return;
   }
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.12.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.15.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -18173,19 +18173,59 @@ const Stock = {
     return mv;
   },
   sellUnit(itemId, unitId, date, note){ return this.removeUnit(itemId, unitId, 'sold', date, note); },
-  faultyUnit(itemId, unitId, date, note){ return this.removeUnit(itemId, unitId, 'faulty', date, note); },
+  faultyUnit(itemId, unitId, date, note){ return this.markUnitFaulty(itemId, unitId, date, note); },
   depositUnit(itemId, unitId, date, note){ return this.removeUnit(itemId, unitId, 'deposit', date, note); },
+  markUnitFaulty(itemId, unitId, date, note){
+    const it = itemById(itemId); if(!it) return false;
+    const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return false;
+    unit.isFaulty = true;
+    unit.faultyStatus = 'in_shop';
+    unit.faultyDate = date || todayISO();
+    unit.faultyNote = note || '';
+
+    const mv = {
+      id: uid('mv'),
+      type: 'faulty',
+      faultyStatus: 'in_shop',
+      itemId,
+      itemName: it.name,
+      categoryId: it.category,
+      location: unit.location,
+      qty: 1,
+      date: date || todayISO(),
+      note: note || ('Faulty in ' + shopName(unit.location) + ' (Awaiting Warehouse): ' + (unit.imei || '—')),
+      unitData: JSON.parse(JSON.stringify(unit))
+    };
+    this.addMovement(mv);
+    Store.save();
+    return mv;
+  },
   receiveFaultyInWarehouse(movementId){
     const mv = (Store.data.movements||[]).find(m=>m.id===movementId);
     if(!mv){ Toast.show('Record not found.','err'); return false; }
     mv.faultyStatus = 'received_warehouse';
     mv.warehouseReceivedDate = todayISO();
-    if(mv.unitData){
-      mv.unitData.location = 'warehouse';
-      mv.unitData.faultyStatus = 'received_warehouse';
+    
+    const it = itemById(mv.itemId);
+    if(it){
+      const fromShop = mv.location;
+      if(fromShop !== 'warehouse'){
+        if(it.locations && it.locations[fromShop]){
+          it.locations[fromShop] = Math.max(0, (it.locations[fromShop]||0) - 1);
+        }
+        if(it.locations){
+          it.locations['warehouse'] = (it.locations['warehouse']||0) + 1;
+        }
+      }
+      const unit = (it.units||[]).find(u => u.id === (mv.unitData?.id) || (u.imei && mv.unitData?.imei && u.imei.trim().toLowerCase() === mv.unitData.imei.trim().toLowerCase()));
+      if(unit){
+        unit.location = 'warehouse';
+        unit.faultyStatus = 'received_warehouse';
+      }
     }
+    
     Store.save();
-    Toast.show(`Faulty ${mv.itemName||'device'} marked as Received in Warehouse.`, 'ok');
+    Toast.show('Faulty ' + (mv.itemName||'device') + ' received into Warehouse stock.', 'ok');
     render();
     return true;
   },
@@ -18198,7 +18238,6 @@ const Stock = {
     if(it){
       const qty = Math.abs(m.qty || 1);
       if(m.type === 'stock-in'){
-        // If stock-in record is removed, decrease location count and remove tracked unit if present
         if(m.unitData && m.unitData.imei && Array.isArray(it.units)){
           const uIdx = it.units.findIndex(u => u.imei && u.imei.trim().toLowerCase() === m.unitData.imei.trim().toLowerCase());
           if(uIdx >= 0) it.units.splice(uIdx, 1);
@@ -18207,28 +18246,58 @@ const Stock = {
           it.locations[m.location] = Math.max(0, (it.locations[m.location] || 0) - qty);
         }
       } else if(m.type === 'sold' || m.type === 'faulty' || m.type === 'deposit'){
-        // If sold/faulty/deposit is removed, restore device to store stock
-        if(it.locations){
-          it.locations[m.location] = (it.locations[m.location] || 0) + qty;
-        }
-        if(m.unitData){
-          if(!Array.isArray(it.units)) it.units = [];
-          if(!it.units.some(u => u.id === m.unitData.id || (m.unitData.imei && u.imei === m.unitData.imei))){
-            it.units.push(m.unitData);
+        if(m.type === 'faulty' && m.faultyStatus === 'in_shop'){
+          if(m.unitData && m.unitData.imei && Array.isArray(it.units)){
+            const u = it.units.find(x => x.imei && x.imei.trim().toLowerCase() === m.unitData.imei.trim().toLowerCase());
+            if(u){
+              u.isFaulty = false;
+              delete u.faultyStatus;
+            }
+          }
+        } else {
+          if(it.locations){
+            it.locations[m.location] = (it.locations[m.location] || 0) + qty;
+          }
+          if(m.unitData){
+            if(!Array.isArray(it.units)) it.units = [];
+            if(!it.units.some(u => u.id === m.unitData.id || (m.unitData.imei && u.imei === m.unitData.imei))){
+              it.units.push(m.unitData);
+            }
           }
         }
       } else if(m.type === 'transfer-out' || m.type === 'transfer-in'){
-        // Revert transfer between locations
-        if(m.fromLocation && it.locations){
-          it.locations[m.fromLocation] = (it.locations[m.fromLocation] || 0) + qty;
+        const isOut = m.type === 'transfer-out';
+        const from = isOut ? m.location : m.fromLocation;
+        const to = isOut ? m.toLocation : m.location;
+
+        if(from && it.locations){
+          it.locations[from] = (it.locations[from] || 0) + qty;
         }
-        if(m.toLocation && it.locations && it.locations[m.toLocation]){
-          it.locations[m.toLocation] = Math.max(0, (it.locations[m.toLocation] || 0) - qty);
+        if(to && it.locations && it.locations[to]){
+          it.locations[to] = Math.max(0, (it.locations[to] || 0) - qty);
+        }
+        if(m.unitData && m.unitData.imei && Array.isArray(it.units)){
+          const u = it.units.find(x => x.imei && x.imei.trim().toLowerCase() === m.unitData.imei.trim().toLowerCase());
+          if(u && from){
+            u.location = from;
+          }
+        }
+
+        const pairedIdx = Store.data.movements.findIndex(x => 
+          x && x.id !== m.id &&
+          (isOut ? x.type === 'transfer-in' : x.type === 'transfer-out') &&
+          x.itemId === m.itemId &&
+          x.date === m.date &&
+          (isOut ? (x.location === to && x.fromLocation === from) : (x.location === from && x.toLocation === to))
+        );
+        if(pairedIdx >= 0){
+          Store.data.movements.splice(pairedIdx, 1);
         }
       }
     }
 
-    Store.data.movements.splice(mIdx, 1);
+    const finalIdx = Store.data.movements.findIndex(m=>m.id===movementId);
+    if(finalIdx >= 0) Store.data.movements.splice(finalIdx, 1);
     Store.save();
     return true;
   },
@@ -18313,7 +18382,7 @@ Views.dashboard = function(){
       <div class="stat-card accent-teal"><div class="n">${totalUnits}</div><div class="l">Total units, all locations</div></div>
       <div class="stat-card accent-green"><div class="n">${euro(totalValue)}</div><div class="l">Stock value at cost</div></div>
       <div class="stat-card accent-amber"><div class="n">${lowStock.length}</div><div class="l">Items running low (≤3)</div></div>
-      <div class="stat-card accent-red"><div class="n">${outOfStock.length}</div><div class="l">Out of stock</div></div>
+      <div class="stat-card accent-red" style="cursor:pointer;" onclick="document.getElementById('dash_needs_attention')?.scrollIntoView({behavior:'smooth'});" title="Click to view out-of-stock models"><div class="n">${outOfStock.length}</div><div class="l">Out of stock (Click to view)</div></div>
       <div class="stat-card accent-teal"><div class="n">${soldLast30}</div><div class="l">Sold, last 30 days</div></div>
     </div>
     <div class="row">
@@ -18496,7 +18565,7 @@ Views.inventory = function(){
           <td><span class="pill" style="background:${th.pillBg};color:${th.pillColor};border:1px solid ${th.pillBorder};font-weight:600;">${esc(catName(it.category))}</span></td>
           <td class="mono">${esc(it.memory||'-')}</td>
           <td>
-            ${u.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}
+            ${u.isFaulty || u.faultyStatus === 'in_shop' ? '<span class="pill amber" style="font-weight:700;background:#FEF3C7;color:#92400E;border:1px solid #F59E0B;">⚠ FAULTY (In Shop)</span>' : (u.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>')}
             ${Views._showBattery!==false && hasBattery ? `<div style="margin-top:3px;"><span class="pill purple" style="font-size:10px;font-weight:700;padding:1px 5px;background:#EDE9FE;color:#6D28D9;border:1px solid #DDD6FE;">🔋 ${u.batteryPct}%</span></div>` : ''}
           </td>
           ${Views._showBattery!==false ? `<td><span class="mono" style="font-weight:700;color:${hasBattery?'#6D28D9':'var(--muted)'};">${hasBattery ? `${u.batteryPct}%` : '—'}</span></td>` : ''}
