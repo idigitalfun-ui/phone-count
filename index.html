@@ -17405,7 +17405,7 @@ function renderSidebar(){
   if(portalShopId){
     const sName = shopName(portalShopId);
     nav.innerHTML = `
-      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.7.0</span></div>
+      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.8.0</span></div>
       <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
         <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
         <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
@@ -17417,7 +17417,7 @@ function renderSidebar(){
     `;
     return;
   }
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.7.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.8.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -18321,6 +18321,74 @@ Views.dashboard = function(){
 };
 function daysAgo(iso){ return Math.round((Date.now()-new Date(iso+'T00:00:00').getTime())/86400000); }
 
+
+/* ---- SEARCH HELPERS ---- */
+Views._searchDebounce = null;
+
+Views.onInventorySearch = function(val){
+  Views._invFilter.q = val;
+  if(Views._searchDebounce) clearTimeout(Views._searchDebounce);
+  Views._searchDebounce = setTimeout(() => {
+    const activeId = document.activeElement ? document.activeElement.id : null;
+    const start = document.activeElement ? document.activeElement.selectionStart : null;
+    const end = document.activeElement ? document.activeElement.selectionEnd : null;
+    render();
+    if(activeId){
+      const el = document.getElementById(activeId);
+      if(el){
+        el.focus();
+        if(start !== null && end !== null) el.setSelectionRange(start, end);
+      }
+    }
+  }, 220);
+};
+
+Views.doInventorySearch = function(val){
+  if(Views._searchDebounce) clearTimeout(Views._searchDebounce);
+  Views._invFilter.q = val || '';
+  render();
+};
+
+Views.clearInventorySearch = function(){
+  if(Views._searchDebounce) clearTimeout(Views._searchDebounce);
+  Views._invFilter.q = '';
+  render();
+  const el = document.getElementById('inv_search_q');
+  if(el) el.focus();
+};
+
+Views.onPortalSearch = function(val){
+  Views._portalFilter.q = val;
+  if(Views._searchDebounce) clearTimeout(Views._searchDebounce);
+  Views._searchDebounce = setTimeout(() => {
+    const activeId = document.activeElement ? document.activeElement.id : null;
+    const start = document.activeElement ? document.activeElement.selectionStart : null;
+    const end = document.activeElement ? document.activeElement.selectionEnd : null;
+    render();
+    if(activeId){
+      const el = document.getElementById(activeId);
+      if(el){
+        el.focus();
+        if(start !== null && end !== null) el.setSelectionRange(start, end);
+      }
+    }
+  }, 220);
+};
+
+Views.doPortalSearch = function(val){
+  if(Views._searchDebounce) clearTimeout(Views._searchDebounce);
+  Views._portalFilter.q = val || '';
+  render();
+};
+
+Views.clearPortalSearch = function(){
+  if(Views._searchDebounce) clearTimeout(Views._searchDebounce);
+  Views._portalFilter.q = '';
+  render();
+  const el = document.getElementById('portal_search_q');
+  if(el) el.focus();
+};
+
 /* ---- INVENTORY ---- */
 Views._invFilter = {q:'', cat:'all', shop:'all'};
 
@@ -18329,7 +18397,13 @@ Views.inventory = function(){
   const shops = activeShops();
   let items = sortedItems();
 
-  if(f.q) items = items.filter(it=>((it?.name||'')+(it?.imei||'')+(it?.memory||'')+(it?.units||[]).map(u=>u?.imei||'').join(' ')).toLowerCase().includes(f.q.toLowerCase()));
+  if(f.q){
+    const words = f.q.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    items = items.filter(it => {
+      const itText = ((it?.name||'') + ' ' + (it?.category||'') + ' ' + catName(it?.category) + ' ' + (it?.memory||'') + ' ' + (it?.condition||'') + ' ' + (it?.units||[]).map(u=>(u?.imei||'') + ' ' + (u?.color||'') + ' ' + (u?.condition||'')).join(' ')).toLowerCase();
+      return words.every(w => itText.includes(w));
+    });
+  }
   if(f.cat!=='all') items = items.filter(it=>it?.category===f.cat);
   if(f.shop!=='all') items = items.filter(it=>(((it?.locations&&it.locations[f.shop])||0) > 0) || (it?.units && it.units.some(u=>u&&u.location===f.shop)));
 
@@ -18575,7 +18649,14 @@ Views.inventory = function(){
     <div class="toolbar" style="flex-wrap:wrap;gap:8px;">
       <div class="chip-select" style="flex-wrap:wrap;">${shopChips}</div>
       <div class="spacer"></div>
-      <div class="search-input"><span class="ic">🔎</span><input id="inv_search_q" placeholder="Search name / IMEI…" value="${esc(f.q)}" oninput="Views._invFilter.q=this.value;render()"></div>
+      <div style="display:inline-flex;align-items:center;gap:6px;">
+        <div class="search-input" style="position:relative;">
+          <span class="ic">🔎</span>
+          <input id="inv_search_q" placeholder="Search name, IMEI, colour, spec…" value="${esc(f.q)}" oninput="Views.onInventorySearch(this.value)" onkeydown="if(event.key==='Enter')Views.doInventorySearch(this.value);if(event.key==='Escape')Views.clearInventorySearch();" style="min-width:240px;padding-right:26px;">
+          ${f.q ? `<button onclick="Views.clearInventorySearch()" title="Clear search" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:#94A3B8;cursor:pointer;font-size:14px;padding:0;line-height:1;">✕</button>` : ''}
+        </div>
+        <button class="btn sm primary" onclick="Views.doInventorySearch(document.getElementById('inv_search_q')?.value||'')" style="background:#0F766E;">Search</button>
+      </div>
       <select onchange="Views._invFilter.cat=this.value;render()">
         <option value="all">All categories</option>
         ${Store.data.categories.map(c=>`<option value="${c.id}" ${f.cat===c.id?'selected':''}>${esc(c.name)}</option>`).join('')}
