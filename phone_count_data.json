@@ -15802,9 +15802,74 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T13:32:41.470Z",
+    "lastSaved": "2026-09-01T13:52:15.041Z",
     "migratedSamsungPrices": true,
-    "migratedTransfers26": true
+    "migratedTransfers26": true,
+    "shopPortals": {
+      "warehouse": {
+        "enabled": true,
+        "allowCostPrice": false,
+        "allowSalePrice": true,
+        "allowEditImei": true,
+        "allowEditDetails": true,
+        "allowVerify": true,
+        "allowAddDevice": true
+      },
+      "shop_thurles": {
+        "enabled": true,
+        "allowCostPrice": false,
+        "allowSalePrice": true,
+        "allowEditImei": true,
+        "allowEditDetails": true,
+        "allowVerify": true,
+        "allowAddDevice": true
+      },
+      "shop_kilkenny": {
+        "enabled": true,
+        "allowCostPrice": false,
+        "allowSalePrice": true,
+        "allowEditImei": true,
+        "allowEditDetails": true,
+        "allowVerify": true,
+        "allowAddDevice": true
+      },
+      "shop_maynooth": {
+        "enabled": true,
+        "allowCostPrice": false,
+        "allowSalePrice": true,
+        "allowEditImei": true,
+        "allowEditDetails": true,
+        "allowVerify": true,
+        "allowAddDevice": true
+      },
+      "shop_mullingar": {
+        "enabled": true,
+        "allowCostPrice": false,
+        "allowSalePrice": true,
+        "allowEditImei": true,
+        "allowEditDetails": true,
+        "allowVerify": true,
+        "allowAddDevice": true
+      },
+      "shop_tralee": {
+        "enabled": true,
+        "allowCostPrice": false,
+        "allowSalePrice": true,
+        "allowEditImei": true,
+        "allowEditDetails": true,
+        "allowVerify": true,
+        "allowAddDevice": true
+      },
+      "shop_tullamore": {
+        "enabled": true,
+        "allowCostPrice": false,
+        "allowSalePrice": true,
+        "allowEditImei": true,
+        "allowEditDetails": true,
+        "allowVerify": true,
+        "allowAddDevice": true
+      }
+    }
   },
   "reorderMeta": {
     "lastOrderDate": null
