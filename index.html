@@ -16491,6 +16491,15 @@ const Store = {
       }
 
       it.colors = [...new Set((it.colors||[]).filter(Boolean))];
+      if(Array.isArray(it.units)){
+        d.shops.forEach(s => {
+          const tracked = it.units.filter(u => u && u.location === s.id).length;
+          if(!it.locations) it.locations = {};
+          if((it.locations[s.id] || 0) < tracked){
+            it.locations[s.id] = tracked;
+          }
+        });
+      }
 
       // Merge duplicates by canonical model (Name + Category + Memory)
       const canonKey = (it.name + '|' + it.category + '|' + (it.memory||'')).toLowerCase();
@@ -17430,7 +17439,7 @@ function renderSidebar(){
   if(portalShopId){
     const sName = shopName(portalShopId);
     nav.innerHTML = `
-      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.15.0</span></div>
+      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.16.0</span></div>
       <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
         <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
         <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
@@ -17442,7 +17451,7 @@ function renderSidebar(){
     `;
     return;
   }
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.15.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.16.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -18676,8 +18685,8 @@ Views.inventory = function(){
                   <button class="btn sm green" onclick="Views.invUntrackedAction('${it.id}','${s.id}','sold')" title="Mark 1 as sold">✓ Sold</button>
                   <button class="btn sm amber" onclick="Views.invUntrackedAction('${it.id}','${s.id}','faulty')" title="Mark 1 as faulty">⚠ Faulty</button>
                   <button class="btn sm" onclick="Views.invUntrackedAction('${it.id}','${s.id}','deposit')" title="Mark 1 as deposit" style="background:#E8F0FE;color:#1967D2;border:1px solid #BDD0F7;">🔒 Deposit</button>
-                  <button class="btn sm" onclick="Views.openDuplicateDeviceModal('${it.id}', null, '${s.id}')" title="Duplicate product details" style="background:#F3F4F6;color:var(--ink);border:1px solid var(--line);">📋 Copy</button>
-                  <button class="btn sm ghost" onclick="Views.removeUntrackedStock('${it.id}','${s.id}')" title="Clear generic stock balance" style="border:1px solid var(--line);color:var(--muted);">🗑</button>
+                  <button class="btn sm" onclick="Views.openDuplicateDeviceModal('${it.id}', null, '${s.id}')" title="Duplicate product details" style="background:#F3F4F6;color:var(--ink);border:1px solid #D1D5DB;">📋 Copy</button>
+                  <button class="btn sm ghost" onclick="Views.removeUntrackedStock('${it.id}','${s.id}')" title="Clear generic stock balance" style="border:1px solid #D1D5DB;color:var(--muted);">🗑</button>
                 </div>
               </td>
             </tr>`;
@@ -18693,7 +18702,14 @@ Views.inventory = function(){
   Store.data.categories.forEach(c => { catCounts[c.id] = 0; });
   (Store.data.items || []).forEach(it => {
     if(!it) return;
-    const q = f.shop !== 'all' ? ((it.locations && it.locations[f.shop]) || 0) : totalQty(it);
+    let q = 0;
+    if(f.shop !== 'all'){
+      const trackedCount = (it.units || []).filter(u => u && u.location === f.shop).length;
+      const locCount = (it.locations && it.locations[f.shop]) || 0;
+      q = Math.max(locCount, trackedCount);
+    } else {
+      q = totalQty(it);
+    }
     if(q > 0) {
       let catId = it.category;
       if(catCounts[catId] == null){
