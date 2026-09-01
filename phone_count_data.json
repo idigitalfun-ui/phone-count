@@ -12145,11 +12145,10 @@
     {
       "id": "item_iybvu5gpqkc",
       "name": "Samsung Buds 3 Pro",
-      "category": "cat_w56n2ktw69i",
+      "category": "cat_qaxr5vow69i",
       "memory": "",
       "condition": "New",
       "batteryPct": null,
-      "imei": "",
       "colors": [
         "Black"
       ],
@@ -15967,7 +15966,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:26:55.946Z",
+    "lastSaved": "2026-09-01T12:28:03.578Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
