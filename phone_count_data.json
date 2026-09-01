@@ -7361,7 +7361,9 @@
           "costPrice": 220,
           "wholesalePrice": 0,
           "sellPrice": 300,
-          "batteryPct": null
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         },
         {
           "id": "unit_o6kttf8u5pg",
@@ -9853,7 +9855,9 @@
           "costPrice": 0,
           "wholesalePrice": 0,
           "sellPrice": 0,
-          "batteryPct": null
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20"
@@ -9888,7 +9892,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 2,
+        "shop_tralee": 3,
         "shop_tullamore": 0
       },
       "units": [
@@ -9915,6 +9919,19 @@
           "wholesalePrice": 0,
           "sellPrice": 0,
           "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
+        },
+        {
+          "id": "unit_jnno2ksod8g",
+          "imei": "350290815117711",
+          "color": "AwesomeNavy",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "sellPrice": 0,
+          "addedAt": "2026-09-01",
           "verified": true,
           "verifiedAt": "2026-09-01"
         }
@@ -15863,7 +15880,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:40:25.137Z",
+    "lastSaved": "2026-09-01T12:41:19.273Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
