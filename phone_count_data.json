@@ -7491,7 +7491,7 @@
     {
       "id": "item_6iqajsow69m",
       "name": "Nokia C1",
-      "category": "cat_lkhn0qyw69i",
+      "category": "cat_kzhvkkxw69i",
       "memory": "-",
       "imei": "",
       "condition": "New",
@@ -7506,7 +7506,7 @@
         "shop_kilkenny": 60,
         "shop_maynooth": 60,
         "shop_mullingar": 60,
-        "shop_tralee": 60,
+        "shop_tralee": 90,
         "shop_tullamore": 60
       },
       "locations": {
@@ -7527,8 +7527,10 @@
           "location": "shop_tralee",
           "costPrice": 30,
           "wholesalePrice": 0,
-          "sellPrice": 60,
-          "batteryPct": null
+          "sellPrice": 90,
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -9310,7 +9312,7 @@
         "shop_kilkenny": 3,
         "shop_maynooth": 0,
         "shop_mullingar": 1,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
@@ -9362,19 +9364,6 @@
           "wholesalePrice": 0,
           "sellPrice": 160,
           "addedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_foavhrwu5p6",
-          "imei": "353359200196726",
-          "color": "Phantom Black",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 58,
-          "wholesalePrice": 0,
-          "sellPrice": 160,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
         }
       ],
       "colors": [
@@ -12283,6 +12272,51 @@
           "wholesalePrice": 0,
           "sellPrice": 200,
           "addedAt": "2026-08-28",
+          "verified": true,
+          "verifiedAt": "2026-09-01"
+        }
+      ],
+      "createdAt": "2026-09-01"
+    },
+    {
+      "id": "item_dzst7ofmuw0",
+      "name": "Blackview N1000",
+      "category": "cat_lkhn0qyw69i",
+      "memory": "4GB",
+      "condition": "New",
+      "colors": [
+        "Phantom Black"
+      ],
+      "costPrice": 58,
+      "shopPrices": {
+        "warehouse": 160,
+        "shop_thurles": 160,
+        "shop_kilkenny": 160,
+        "shop_maynooth": 160,
+        "shop_mullingar": 160,
+        "shop_tralee": 160,
+        "shop_tullamore": 160
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_foavhrwu5p6",
+          "imei": "353359200196726",
+          "color": "Phantom Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 58,
+          "wholesalePrice": 0,
+          "sellPrice": 160,
+          "batteryPct": null,
           "verified": true,
           "verifiedAt": "2026-09-01"
         }
@@ -15934,7 +15968,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T13:07:19.270Z",
+    "lastSaved": "2026-09-01T13:07:46.273Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
