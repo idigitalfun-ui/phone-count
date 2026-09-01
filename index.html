@@ -3790,13 +3790,18 @@ Views.shopPortal = function(shopId){
       const battInput = `<input type="number" min="0" max="100" value="${u.batteryPct!=null?u.batteryPct:''}" placeholder="—" onchange="Views.savePortalBattery('${it.id}','${u.id}',this.value)" style="width:48px;text-align:center;padding:3px 4px;font-size:11.5px;border:1px solid #CBD5E1;border-radius:4px;">`;
 
       const costCol = cfg.allowCostPrice ? `<td style="text-align:right;">${euro(u.costPrice!=null?u.costPrice:it.costPrice)}</td>` : '';
-      const saleCol = cfg.allowSalePrice !== false ? `<td style="text-align:right;font-weight:600;">${euro(u.sellPrice!=null?u.sellPrice:((it.shopPrices&&it.shopPrices[shopId])||0))}</td>` : '';
+      const salePriceVal = (u.sellPrice != null && u.sellPrice > 0) ? u.sellPrice : ((it.shopPrices && it.shopPrices[shopId]) || 0);
+      const saleCol = cfg.allowSalePrice !== false 
+        ? `<td style="text-align:right;">
+             <input type="number" step="0.01" min="0" value="${salePriceVal}" oninput="Views.invSetSalePrice('${it.id}','${u.id}','${shopId}',this.value,false)" onchange="Views.invSetSalePrice('${it.id}','${u.id}','${shopId}',this.value,true)" onkeydown="if(event.key==='Enter')this.blur()" style="width:75px;text-align:right;font-weight:700;padding:4px 6px;border:1px solid #CBD5E1;border-radius:4px;font-size:12px;">
+           </td>` 
+        : '';
 
       tableRows += `
         <tr style="${isVerified?'background:#F0FDF4;':''}">
           <td style="text-align:center;color:#64748B;font-size:11px;">${rowIdx++}</td>
           <td>
-            <div style="font-weight:700;color:var(--ink);">${esc(it.name)}</div>
+            <a href="javascript:void(0)" onclick="Views.openEditUnitModal('${it.id}','${u.id}','${shopId}')" style="font-weight:700;color:var(--teal-dark);text-decoration:underline;" title="Click to edit device details">${esc(it.name)}</a>
             <div style="font-size:11px;color:var(--muted);">${esc(catName(it.category))} · ${esc(it.memory||'')}</div>
           </td>
           <td>
@@ -3810,6 +3815,9 @@ Views.shopPortal = function(shopId){
           <td style="text-align:center;">${battInput}</td>
           ${costCol}
           ${saleCol}
+          <td style="text-align:center;white-space:nowrap;">
+            <button class="btn sm" onclick="Views.openEditUnitModal('${it.id}','${u.id}','${shopId}')" title="Edit Model Name, Memory, Colour, Condition, Sale Price, IMEI">✏️ Edit</button>
+          </td>
         </tr>
       `;
     });
@@ -3857,11 +3865,12 @@ Views.shopPortal = function(shopId){
               <th>Condition</th>
               <th style="width:65px;text-align:center;">Battery %</th>
               ${cfg.allowCostPrice ? '<th style="text-align:right;">Cost Price</th>' : ''}
-              ${cfg.allowSalePrice !== false ? '<th style="text-align:right;">Sale Price</th>' : ''}
+              ${cfg.allowSalePrice !== false ? '<th style="text-align:right;">Sale Price (€)</th>' : ''}
+              <th style="width:75px;text-align:center;">Actions</th>
             </tr>
           </thead>
           <tbody>
-            ${tableRows || `<tr><td colspan="8" style="text-align:center;padding:30px;color:#64748B;">No devices found matching this filter at ${esc(shop.name)}.</td></tr>`}
+            ${tableRows || `<tr><td colspan="9" style="text-align:center;padding:30px;color:#64748B;">No devices found matching this filter at ${esc(shop.name)}.</td></tr>`}
           </tbody>
         </table>
       </div>
@@ -3968,13 +3977,51 @@ Views.saveAssignedImei = function(itemId, shopId){
   render();
 };
 
-/* ---- EDIT INDIVIDUAL PHONE / IMEI DEVICE ---- */
-Views.openEditUnitModal = function(itemId, unitId){
+Views.openEditUnitModal = function(itemId, unitId, portalShopId){
   const it = itemById(itemId); if(!it) return;
   const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
   const shops = activeShops();
+  const currentPortalShop = portalShopId || Router.getPortalShopId();
+  const portals = (Store.data.meta && Store.data.meta.shopPortals) || {};
+  const cfg = currentPortalShop ? (portals[currentPortalShop] || {}) : null;
+  const showCost = !cfg || cfg.allowCostPrice === true;
+
   const cost = unit.costPrice != null ? unit.costPrice : (it.costPrice || 0);
-  const sale = unit.sellPrice != null ? unit.sellPrice : (it.shopPrices[unit.location] || it.costPrice || 0);
+  const sale = unit.sellPrice != null ? unit.sellPrice : ((it.shopPrices && it.shopPrices[unit.location]) || it.costPrice || 0);
+
+  const locSelectHtml = currentPortalShop ? `
+    <div class="field">
+      <label>Location</label>
+      <input type="text" readonly value="${esc(shopName(unit.location))}" style="background:#F1F5F9;font-weight:600;color:#334155;">
+      <input type="hidden" id="eu_loc" value="${esc(unit.location)}">
+    </div>
+  ` : `
+    <div class="field">
+      <label>Location</label>
+      <select id="eu_loc">
+        ${shops.map(s=>`<option value="${s.id}" ${unit.location===s.id?'selected':''}>${esc(s.name)}${s.isWarehouse?' (Warehouse)':''}</option>`).join('')}
+      </select>
+    </div>
+  `;
+
+  const priceFieldsHtml = showCost ? `
+    <div class="field-grid" style="grid-template-columns:1fr 1fr;">
+      <div class="field">
+        <label>Cost Price (€)</label>
+        <input id="eu_cost" type="number" step="0.01" value="${cost}">
+      </div>
+      <div class="field">
+        <label>Sale Price (€)</label>
+        <input id="eu_sale" type="number" step="0.01" value="${sale}">
+      </div>
+    </div>
+  ` : `
+    <div class="field">
+      <label>Sale Price (€)</label>
+      <input id="eu_sale" type="number" step="0.01" value="${sale}">
+      <input id="eu_cost" type="hidden" value="${cost}">
+    </div>
+  `;
 
   const html = `
     <div class="modal" style="max-width:540px;">
@@ -4029,24 +4076,10 @@ Views.openEditUnitModal = function(itemId, unitId){
             <label>Battery %</label>
             <input id="eu_batt" type="number" min="0" max="100" value="${unit.batteryPct!=null?unit.batteryPct:''}" placeholder="e.g. 86 (or leave blank)">
           </div>
-          <div class="field">
-            <label>Location</label>
-            <select id="eu_loc">
-              ${shops.map(s=>`<option value="${s.id}" ${unit.location===s.id?'selected':''}>${esc(s.name)}${s.isWarehouse?' (Warehouse)':''}</option>`).join('')}
-            </select>
-          </div>
+          ${locSelectHtml}
         </div>
 
-        <div class="field-grid" style="grid-template-columns:1fr 1fr;">
-          <div class="field">
-            <label>Cost Price (€)</label>
-            <input id="eu_cost" type="number" step="0.01" value="${cost}">
-          </div>
-          <div class="field">
-            <label>Sale Price (€)</label>
-            <input id="eu_sale" type="number" step="0.01" value="${sale}">
-          </div>
-        </div>
+        ${priceFieldsHtml}
       </div>
       <div class="modal-foot">
         <button class="btn danger" onclick="Views.drawerRemoveUnit('${it.id}','${unit.id}');Modal.close();">Delete Device</button>
@@ -4123,15 +4156,22 @@ Views.saveEditedUnit = function(itemId, unitId){
 
   // If model specification (Name / Category / Memory) changed:
   if(canonNew !== canonOld){
-    // If the original item has multiple units, split ONLY this unit out so other units (e.g. at Warehouse) remain unchanged!
-    if((it.units||[]).length > 1){
-      // 1. Detach unit from old item
-      it.units = it.units.filter(u => u.id !== unit.id);
-      it.locations[unit.location] = Math.max(0, (it.locations[unit.location]||0) - 1);
+    // 1. Detach unit from old item
+    it.units = (it.units||[]).filter(u => u.id !== unit.id);
+    it.locations[unit.location] = Math.max(0, (it.locations[unit.location]||0) - 1);
 
-      // 2. Find or create target item model
-      let targetItem = Store.data.items.find(x => ((x.name + '|' + x.category + '|' + (x.memory||'')).toLowerCase() === canonNew));
-      if(!targetItem){
+    // 2. Find or create target item model
+    let targetItem = Store.data.items.find(x => ((x.name + '|' + x.category + '|' + (x.memory||'')).toLowerCase() === canonNew));
+    if(!targetItem){
+      if((it.units||[]).length === 0){
+        // Reuse old item object if it became empty
+        it.name = newName;
+        it.category = newCat;
+        it.memory = newMem;
+        if(newColor && !it.colors.includes(newColor)) it.colors.push(newColor);
+        it.locations[unit.location] = (it.locations[unit.location]||0) + 1;
+        it.units.push(unit);
+      } else {
         targetItem = {
           id: uid('item'),
           name: newName,
@@ -4142,22 +4182,24 @@ Views.saveEditedUnit = function(itemId, unitId){
           costPrice: newCost,
           shopPrices: JSON.parse(JSON.stringify(it.shopPrices || {})),
           locations: {},
-          units: [],
+          units: [unit],
           createdAt: todayISO()
         };
         Store.data.shops.forEach(s => { targetItem.locations[s.id] = 0; });
+        targetItem.locations[unit.location] = 1;
         Store.data.items.push(targetItem);
       }
+    } else {
+      // Merge unit into targetItem
       if(newColor && !targetItem.colors.includes(newColor)) targetItem.colors.push(newColor);
       targetItem.locations[unit.location] = (targetItem.locations[unit.location]||0) + 1;
       if(!Array.isArray(targetItem.units)) targetItem.units = [];
       targetItem.units.push(unit);
-    } else {
-      // Only 1 unit exists in this item — safe to rename in-place
-      it.name = newName;
-      it.category = newCat;
-      it.memory = newMem;
-      if(newColor && !it.colors.includes(newColor)) it.colors.push(newColor);
+
+      // If old item is now completely empty (0 units and 0 total stock), delete old empty item
+      if((it.units||[]).length === 0 && Object.values(it.locations||{}).every(v => v === 0)){
+        Store.data.items = Store.data.items.filter(x => x.id !== it.id);
+      }
     }
   } else {
     // Model didn't change
@@ -4368,10 +4410,54 @@ Views.addModalColorInput = function(val = ''){
 Views.openItemModal = function(itemId, shopId){
   const it = itemId ? itemById(itemId) : null;
   const shops = activeShops();
+  const currentPortalShop = shopId || Router.getPortalShopId();
+  const portals = (Store.data.meta && Store.data.meta.shopPortals) || {};
+  const cfg = currentPortalShop ? (portals[currentPortalShop] || {}) : null;
+  const showCost = !cfg || cfg.allowCostPrice === true;
+
   const isGeneric = it ? (!it.imei && (it.category === 'cat_u83iatxw69i' || it.category === 'cat_qaxr5vow69i')) : false;
   const defaultLoc = shopId || (it && Object.keys(it.locations||{}).find(k=>(it.locations[k]||0)>0)) || 'warehouse';
   const currentUntracked = it ? untrackedQtyAt(it, defaultLoc) : 1;
   const existingColors = it ? (it.colors || []) : ['Black'];
+  const defaultSalePrice = it ? ((it.shopPrices && it.shopPrices[defaultLoc]) || it.costPrice || '') : '';
+
+  const locSelectHtml = currentPortalShop ? `
+    <div class="field">
+      <label>Store Location</label>
+      <input type="text" readonly value="${esc(shopName(defaultLoc))}" style="background:#F1F5F9;font-weight:600;color:#334155;">
+      <input type="hidden" id="f_openloc" value="${esc(defaultLoc)}">
+    </div>
+  ` : `
+    <div class="field">
+      <label>Opening Location</label>
+      <select id="f_openloc" onchange="if(window._currentEditItemId){ const q = untrackedQtyAt(itemById(window._currentEditItemId), this.value); const qi = document.getElementById('f_qty'); if(qi) qi.value = q; const ql = document.querySelector('#f_qty_wrap label'); if(ql) ql.textContent = 'Stock Quantity at ' + this.options[this.selectedIndex].text; }">
+        ${shops.map(s=>`<option value="${s.id}" ${s.id===defaultLoc?'selected':''}>${esc(s.name)}</option>`).join('')}
+      </select>
+    </div>
+  `;
+
+  const priceFieldsHtml = showCost ? `
+    <div class="field-grid" style="grid-template-columns:1fr 1fr 1.2fr;">
+      <div class="field">
+        <label>Cost Price (€)</label>
+        <input id="f_cost" type="number" step="0.01" value="${it?it.costPrice:''}" placeholder="e.g. 0.00">
+      </div>
+      <div class="field">
+        <label>Sale Price (€)</label>
+        <input id="f_saleprice" type="number" step="0.01" value="${defaultSalePrice}" placeholder="e.g. 150.00">
+      </div>
+      ${locSelectHtml}
+    </div>
+  ` : `
+    <div class="field-grid" style="grid-template-columns:1fr 1.2fr;">
+      <div class="field">
+        <label>Sale Price (€)</label>
+        <input id="f_saleprice" type="number" step="0.01" value="${defaultSalePrice}" placeholder="e.g. 150.00">
+        <input id="f_cost" type="hidden" value="${it?it.costPrice:0}">
+      </div>
+      ${locSelectHtml}
+    </div>
+  `;
 
   const html = `
     <div class="modal">
@@ -4399,10 +4485,9 @@ Views.openItemModal = function(itemId, shopId){
         
         ${Views.renderModalColorInputs(existingColors)}
 
-        <div class="field-grid" style="grid-template-columns:1fr 1fr;">
-          <div class="field"><label>Cost Price (€)</label><input id="f_cost" type="number" step="0.01" value="${it?it.costPrice:''}" placeholder="e.g. 0.00"></div>
-          <div class="field"><label>Opening Location</label><select id="f_openloc" onchange="if(window._currentEditItemId){ const q = untrackedQtyAt(itemById(window._currentEditItemId), this.value); const qi = document.getElementById('f_qty'); if(qi) qi.value = q; const ql = document.querySelector('#f_qty_wrap label'); if(ql) ql.textContent = 'Stock Quantity at ' + this.options[this.selectedIndex].text; }">${shops.map(s=>`<option value="${s.id}" ${s.id===defaultLoc?'selected':''}>${esc(s.name)}</option>`).join('')}</select></div>
-        </div>
+        ${priceFieldsHtml}
+
+        ${showCost ? `
         <div class="field-grid">
           <div class="field">
             <label>Supplier / Source</label>
@@ -4416,6 +4501,7 @@ Views.openItemModal = function(itemId, shopId){
             <input id="f_invoice" placeholder="e.g. INV-10492 (Optional)">
           </div>
         </div>
+        ` : ''}
       </div>
       <div class="modal-foot">
         ${it?`<button class="btn danger" onclick="Views.deleteItem('${it.id}')">Delete</button>`:''}
