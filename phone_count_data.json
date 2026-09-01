@@ -3425,7 +3425,7 @@
       },
       "locations": {
         "warehouse": 10,
-        "shop_thurles": 2,
+        "shop_thurles": 1,
         "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
@@ -3433,16 +3433,6 @@
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_lv00yk0u5np",
-          "imei": "354880841197053",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_thurles",
-          "costPrice": 95,
-          "wholesalePrice": 0,
-          "sellPrice": 110
-        },
         {
           "id": "unit_4qum30hu5nq",
           "imei": "354880841192062",
@@ -15927,7 +15917,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T11:27:37.618Z",
+    "lastSaved": "2026-09-01T11:34:47.135Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
