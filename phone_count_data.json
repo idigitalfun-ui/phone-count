@@ -7330,7 +7330,8 @@
       "condition": "New",
       "colors": [
         "Purple",
-        "Black"
+        "Black",
+        "Awesome Lime"
       ],
       "batteryPct": 100,
       "costPrice": 220,
@@ -7378,8 +7379,8 @@
         },
         {
           "id": "unit_krgo0qmp2ov",
-          "imei": "356080129578169",
-          "color": "Black",
+          "imei": "3507668455591956",
+          "color": "Awesome Lime",
           "condition": "New",
           "batteryPct": null,
           "location": "shop_tralee",
@@ -15922,7 +15923,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:58:32.817Z",
+    "lastSaved": "2026-09-01T12:59:58.770Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
