@@ -571,6 +571,7 @@ const Store = {
     }catch(e){ this.data = seedData(); }
     try{
       this.migrate();
+      if(this.data) localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
     }catch(err){
       console.error('Migration error:', err);
     }
