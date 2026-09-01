@@ -6217,7 +6217,6 @@
       "name": "Smart Bracelet",
       "category": "cat_u83iatxw69i",
       "memory": "-",
-      "imei": "",
       "condition": "New",
       "colors": [
         "Pink",
@@ -6237,7 +6236,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 5,
         "shop_maynooth": 0,
         "shop_mullingar": 3,
         "shop_tralee": 0,
@@ -15921,7 +15920,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:24:52.009Z",
+    "lastSaved": "2026-09-01T12:25:05.322Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
