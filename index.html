@@ -1077,8 +1077,10 @@ const Store = {
     this.save();
   },
   save(){
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
+    if(!this.data) return;
+    if(!this.data.meta) this.data.meta = {};
     this.data.meta.lastSaved = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
     FileStore.writeAsync(); // silently write to linked file if one is set
     GitHubStore.triggerDebouncedSave(); // silently push to GitHub in background
     updateSaveIndicator();
@@ -1443,6 +1445,34 @@ const GitHubStore = {
       if(getRes.ok){
         const getData = await getRes.json();
         currentSha = getData.sha;
+        
+        // CHECK IF REMOTE FILE IS NEWER (e.g. edited by a shop portal or another device)
+        if(getData.content && getData.sha !== cfg.sha){
+          try{
+            const remoteText = base64ToUtf8(getData.content.replace(/\s/g, ''));
+            const remoteData = JSON.parse(remoteText);
+            const remoteTs = remoteData?.meta?.lastSaved || '0';
+            const localTs = Store.data?.meta?.lastSaved || '0';
+            
+            // If remote is newer, adopt remote data so we never overwrite live shop edits!
+            if(remoteTs > localTs){
+              Store.data = remoteData;
+              Store.migrate();
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(Store.data));
+              this.saveConfig({
+                status: 'synced',
+                sha: getData.sha,
+                lastSync: new Date().toISOString(),
+                lastError: null
+              });
+              if(manual) Toast.show('☁️ Cloud sync: Received latest store updates from GitHub.', 'ok');
+              render();
+              return;
+            }
+          }catch(err){
+            console.error('Remote check error:', err);
+          }
+        }
       }
 
       const jsonStr = JSON.stringify(Store.data, null, 2);
@@ -1638,21 +1668,18 @@ const Toast = {
 const Modal = {
   open(html){ document.getElementById('modalRoot').innerHTML = html; document.getElementById('modalBg').classList.add('show'); },
   close(){ document.getElementById('modalBg').classList.remove('show'); document.getElementById('modalRoot').innerHTML=''; },
-  confirm(opts){
-    // opts: {title, body, confirmText, danger, onConfirm}
-    this.open(`
-      <div class="modal confirm">
-        <div class="modal-head"><h3>${esc(opts.title)}</h3><button class="btn ghost sm" onclick="Modal.close()">✕</button></div>
-        <div class="modal-body">
-          <div class="icon">${opts.danger?'⚠️':'❓'}</div>
-          <div>${opts.body}</div>
-        </div>
+  confirm({title,body,confirmText='Confirm',cancelText='Cancel',danger=false,onConfirm}){
+    const html = `
+      <div class="modal">
+        <div class="modal-head"><h3>${title}</h3><button class="btn ghost sm" onclick="Modal.close()">✕</button></div>
+        <div class="modal-body">${body}</div>
         <div class="modal-foot">
-          <button class="btn" onclick="Modal.close()">Cancel</button>
-          <button class="btn ${opts.danger?'danger':'primary'}" id="modalConfirmBtn">${esc(opts.confirmText||'Confirm')}</button>
+          <button class="btn" onclick="Modal.close()">${cancelText}</button>
+          <button class="btn ${danger?'danger':'primary'}" id="modalConfirmBtn">${confirmText}</button>
         </div>
-      </div>`);
-    document.getElementById('modalConfirmBtn').onclick = ()=>{ opts.onConfirm(); Modal.close(); };
+      </div>`;
+    this.open(html);
+    document.getElementById('modalConfirmBtn').onclick = ()=>{ Modal.close(); onConfirm && onConfirm(); };
   },
   backupQuick(){
     Store.snapshotToBackups('Manual quick backup');
@@ -1721,7 +1748,7 @@ function renderSidebar(){
   if(portalShopId){
     const sName = shopName(portalShopId);
     nav.innerHTML = `
-      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.5.0</span></div>
+      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.6.0</span></div>
       <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
         <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
         <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
@@ -1733,7 +1760,7 @@ function renderSidebar(){
     `;
     return;
   }
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.5.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.6.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
