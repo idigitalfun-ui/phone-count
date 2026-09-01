@@ -16186,11 +16186,36 @@ const Store = {
   data: null,
   load(){
     try{
+      const seed = seedData();
       const raw = localStorage.getItem(STORAGE_KEY);
-      this.data = raw ? JSON.parse(raw) : seedData();
-      const totalUnits = (this.data?.items || []).reduce((sum, it) => sum + (it.units||[]).length, 0);
-      if(totalUnits === 0){
-        this.data = seedData();
+      this.data = raw ? JSON.parse(raw) : seed;
+      
+      if(this.data && Array.isArray(this.data.items)){
+        const seedUnitsCount = seed.items.reduce((sum, it) => sum + (it.units||[]).length, 0);
+        const localUnitsCount = this.data.items.reduce((sum, it) => sum + (it.units||[]).length, 0);
+        
+        // Auto-merge any missing seed units or items into local storage
+        if(localUnitsCount < seedUnitsCount || this.data.items.length < seed.items.length){
+          seed.items.forEach(seedIt => {
+            const localIt = this.data.items.find(it => it.id === seedIt.id || (it.name.toLowerCase() === seedIt.name.toLowerCase() && it.category === seedIt.category && (it.memory||'').toLowerCase() === (seedIt.memory||'').toLowerCase()));
+            if(!localIt){
+              this.data.items.push(seedIt);
+            } else {
+              if(!Array.isArray(localIt.units)) localIt.units = [];
+              (seedIt.units||[]).forEach(su => {
+                if(!localIt.units.some(lu => lu.id === su.id || (lu.imei && su.imei && String(lu.imei).trim() === String(su.imei).trim()))){
+                  localIt.units.push(su);
+                  if(!localIt.locations) localIt.locations = {};
+                  if(su.location){
+                    localIt.locations[su.location] = (localIt.locations[su.location]||0) + 1;
+                  }
+                }
+              });
+            }
+          });
+        }
+      } else {
+        this.data = seed;
       }
     }catch(e){ this.data = seedData(); }
     try{
@@ -17405,7 +17430,7 @@ function renderSidebar(){
   if(portalShopId){
     const sName = shopName(portalShopId);
     nav.innerHTML = `
-      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.9.0</span></div>
+      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.10.0</span></div>
       <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
         <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
         <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
@@ -17417,7 +17442,7 @@ function renderSidebar(){
     `;
     return;
   }
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.9.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.10.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
