@@ -647,7 +647,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 2,
         "shop_mullingar": 1,
-        "shop_tralee": 1,
+        "shop_tralee": 2,
         "shop_tullamore": 1
       },
       "units": [
@@ -813,6 +813,19 @@
           "addedAt": "2026-08-28",
           "verified": true,
           "verifiedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_df57rg6qmmn",
+          "imei": "351388337849909",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_tralee",
+          "costPrice": 115,
+          "sellPrice": 150,
+          "addedAt": "2026-09-01",
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15897,7 +15910,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:41:49.673Z",
+    "lastSaved": "2026-09-01T12:42:46.825Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
