@@ -9913,8 +9913,8 @@
           "wholesalePrice": 0,
           "sellPrice": 350,
           "batteryPct": null,
-          "verified": false,
-          "verifiedAt": null
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         },
         {
           "id": "unit_jnno2ksod8g",
@@ -15921,7 +15921,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:55:54.946Z",
+    "lastSaved": "2026-09-01T12:56:22.622Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
