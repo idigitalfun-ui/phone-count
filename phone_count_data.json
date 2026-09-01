@@ -10975,7 +10975,7 @@
         "warehouse": 120,
         "shop_thurles": 120,
         "shop_kilkenny": 185,
-        "shop_maynooth": 120,
+        "shop_maynooth": 169,
         "shop_mullingar": 185,
         "shop_tralee": 120,
         "shop_tullamore": 120
@@ -11019,7 +11019,7 @@
           "batteryPct": null,
           "location": "shop_maynooth",
           "costPrice": 105,
-          "sellPrice": 120,
+          "sellPrice": 169,
           "addedAt": "2026-08-31"
         }
       ],
@@ -12160,21 +12160,20 @@
     },
     {
       "id": "item_fjh8pxkrhqs",
-      "name": "AirPods (3rd Generation)",
+      "name": "AirPods Pro (3rd Generation)",
       "category": "cat_qaxr5vow69i",
       "memory": "",
       "condition": "New",
       "batteryPct": null,
-      "imei": "SDVV4T0VGM0",
       "colors": [
         "Black"
       ],
-      "costPrice": 105,
+      "costPrice": 0,
       "shopPrices": {
         "warehouse": 135,
         "shop_thurles": 135,
         "shop_kilkenny": 135,
-        "shop_maynooth": 0,
+        "shop_maynooth": 269,
         "shop_mullingar": 135,
         "shop_tralee": 135,
         "shop_tullamore": 135
@@ -12197,7 +12196,7 @@
           "batteryPct": null,
           "location": "shop_maynooth",
           "costPrice": 105,
-          "sellPrice": 105,
+          "sellPrice": 269,
           "addedAt": "2026-08-28"
         }
       ],
@@ -15917,7 +15916,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:32:04.170Z",
+    "lastSaved": "2026-09-01T12:32:54.413Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
