@@ -6275,7 +6275,7 @@
     {
       "id": "item_7amlbnhw69m",
       "name": "Samsung Buds 2",
-      "category": "cat_w56n2ktw69i",
+      "category": "cat_qaxr5vow69i",
       "memory": "-",
       "imei": "",
       "condition": "New",
@@ -6313,7 +6313,9 @@
           "costPrice": 80,
           "wholesalePrice": 0,
           "sellPrice": 120,
-          "addedAt": "2026-08-28"
+          "addedAt": "2026-08-28",
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -6322,7 +6324,7 @@
     {
       "id": "item_xpj7c2aw69m",
       "name": "Samsung Buds 3",
-      "category": "cat_w56n2ktw69i",
+      "category": "cat_qaxr5vow69i",
       "memory": "-",
       "imei": "",
       "condition": "New",
@@ -6360,7 +6362,9 @@
           "costPrice": 90,
           "wholesalePrice": 0,
           "sellPrice": 130,
-          "addedAt": "2026-08-28"
+          "addedAt": "2026-08-28",
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15895,7 +15899,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:18:04.001Z",
+    "lastSaved": "2026-09-01T12:18:09.688Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
