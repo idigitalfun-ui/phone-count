@@ -7989,7 +7989,7 @@
     {
       "id": "item_lqe26i4w69m",
       "name": "Samsung A7 Lite",
-      "category": "cat_cgd9w36w69i",
+      "category": "cat_w56n2ktw69i",
       "memory": "32GB",
       "imei": "",
       "condition": "New",
@@ -15813,7 +15813,9 @@
         "allowEditImei": true,
         "allowEditDetails": true,
         "allowVerify": true,
-        "allowAddDevice": true
+        "allowAddDevice": true,
+        "allowEditName": true,
+        "allowEditActions": true
       },
       "shop_thurles": {
         "enabled": true,
@@ -15822,7 +15824,9 @@
         "allowEditImei": true,
         "allowEditDetails": true,
         "allowVerify": true,
-        "allowAddDevice": true
+        "allowAddDevice": true,
+        "allowEditName": true,
+        "allowEditActions": true
       },
       "shop_kilkenny": {
         "enabled": true,
@@ -15831,7 +15835,9 @@
         "allowEditImei": false,
         "allowEditDetails": true,
         "allowVerify": true,
-        "allowAddDevice": false
+        "allowAddDevice": false,
+        "allowEditName": true,
+        "allowEditActions": true
       },
       "shop_maynooth": {
         "enabled": true,
@@ -15840,7 +15846,9 @@
         "allowEditImei": true,
         "allowEditDetails": true,
         "allowVerify": true,
-        "allowAddDevice": true
+        "allowAddDevice": true,
+        "allowEditName": true,
+        "allowEditActions": true
       },
       "shop_mullingar": {
         "enabled": true,
@@ -15849,7 +15857,9 @@
         "allowEditImei": true,
         "allowEditDetails": true,
         "allowVerify": true,
-        "allowAddDevice": true
+        "allowAddDevice": true,
+        "allowEditName": true,
+        "allowEditActions": true
       },
       "shop_tralee": {
         "enabled": true,
@@ -15858,7 +15868,9 @@
         "allowEditImei": true,
         "allowEditDetails": true,
         "allowVerify": true,
-        "allowAddDevice": true
+        "allowAddDevice": true,
+        "allowEditName": true,
+        "allowEditActions": true
       },
       "shop_tullamore": {
         "enabled": true,
@@ -15867,7 +15879,9 @@
         "allowEditImei": true,
         "allowEditDetails": true,
         "allowVerify": true,
-        "allowAddDevice": true
+        "allowAddDevice": true,
+        "allowEditName": true,
+        "allowEditActions": true
       }
     }
   },
