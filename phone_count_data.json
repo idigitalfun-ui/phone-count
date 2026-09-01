@@ -7989,7 +7989,7 @@
     {
       "id": "item_lqe26i4w69m",
       "name": "Samsung A7 Lite",
-      "category": "cat_cgd9w36w69i",
+      "category": "cat_w56n2ktw69i",
       "memory": "32GB",
       "imei": "",
       "condition": "New",
@@ -15802,7 +15802,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T13:53:56.338Z",
+    "lastSaved": "2026-09-01T14:02:51.350Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
