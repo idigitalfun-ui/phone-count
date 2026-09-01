@@ -7575,13 +7575,14 @@
     },
     {
       "id": "item_7dn7oh2w69m",
-      "name": "Modio M129",
+      "name": "Modio M791",
       "category": "cat_cgd9w36w69i",
-      "memory": "512GB",
+      "memory": "6GB/256GB",
       "imei": "",
       "condition": "New",
       "colors": [
-        "Gold"
+        "Gold",
+        "Green"
       ],
       "batteryPct": 100,
       "costPrice": 120,
@@ -7591,7 +7592,7 @@
         "shop_kilkenny": 220,
         "shop_maynooth": 220,
         "shop_mullingar": 220,
-        "shop_tralee": 220,
+        "shop_tralee": 150,
         "shop_tullamore": 220
       },
       "locations": {
@@ -7607,13 +7608,15 @@
         {
           "id": "unit_2eiw3mqu5p8",
           "imei": "353387181149265",
-          "color": "Gold",
+          "color": "Green",
           "condition": "New",
           "location": "shop_tralee",
           "costPrice": 120,
           "wholesalePrice": 0,
-          "sellPrice": 220,
-          "batteryPct": null
+          "sellPrice": 150,
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -15968,7 +15971,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T13:18:18.021Z",
+    "lastSaved": "2026-09-01T13:19:52.617Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
