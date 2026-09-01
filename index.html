@@ -796,20 +796,28 @@ const Store = {
       name = name.replace(/\s+/g, ' ').replace(/\s+-\s*$/, '').trim();
       it.name = name;
 
-      // Category assignment: Samsung A11, A11+, A9, iPads, Kindles -> iPad & Tablets
-      const isTablet = /ipad|tab\b|tablet|kindle|fire\s*\d|mediapad|archos|t20\b|sky\s*pad|modio\s*m/i.test(it.name);
-      if(isTablet){
+      // Category assignment: Only assign if category is missing or invalid
+      if(!it.category || !d.categories.some(c=>c.id===it.category)){
+        const isTablet = /ipad|tab\b|tablet|kindle|fire\s*\d|mediapad|archos|t20\b|sky\s*pad|modio\s*m|a7\s*lite/i.test(it.name);
+        if(isTablet){
+          it.category = 'cat_cgd9w36w69i'; // iPad & Tablets
+        } else if(/iphone/i.test(it.name)){
+          it.category = 'cat_7qgen7vw69i'; // iPhone
+        } else if(/airpods|buds/i.test(it.name)){
+          it.category = 'cat_qaxr5vow69i'; // Gadgets
+        } else if(/watch|band|pencil/i.test(it.name)){
+          it.category = 'cat_u83iatxw69i'; // Smart Watches
+        } else if(/nokia\s*(105|106|110|1010|1110|c1)|mobitel|doro/i.test(it.name)){
+          it.category = 'cat_lkhn0qyw69i'; // Button Phones
+        } else if(/samsung/i.test(it.name)){
+          it.category = 'cat_w56n2ktw69i'; // Samsung
+        } else {
+          it.category = 'cat_kzhvkkxw69i'; // Other Brands
+        }
+      }
+      // Ensure Samsung A7 Lite is permanently categorized as iPad & Tablets
+      if(/a7\s*lite/i.test(it.name)){
         it.category = 'cat_cgd9w36w69i'; // iPad & Tablets
-      } else if(/iphone/i.test(it.name)){
-        it.category = 'cat_7qgen7vw69i'; // iPhone
-      } else if(/samsung/i.test(it.name)){
-        it.category = 'cat_w56n2ktw69i'; // Samsung
-      } else if(/airpods|buds/i.test(it.name)){
-        it.category = 'cat_qaxr5vow69i'; // Gadgets
-      } else if(/watch|band|pencil/i.test(it.name)){
-        it.category = 'cat_u83iatxw69i'; // Smart Watches
-      } else if(/nokia\s*(105|106|110|1010|1110|c1)|mobitel|doro/i.test(it.name)){
-        it.category = 'cat_lkhn0qyw69i'; // Button Phones
       }
 
       it.colors = [...new Set((it.colors||[]).filter(Boolean))];
