@@ -2292,20 +2292,27 @@ const Stock = {
     Store.save();
     return true;
   },
-  // Move ONE specific tracked unit (found by IMEI) to a new location.
-  transferUnitByImei(imei, toLoc, date, note){
-    const found = findUnitByImei(imei);
-    if(!found){ Toast.show('No device found with that IMEI.','err'); return false; }
-    const {item:it, unit} = found;
+  // Move ONE specific tracked unit (by unitId) to a new location. Works with or without IMEI.
+  transferUnit(itemId, unitId, toLoc, date, note){
+    const it = itemById(itemId); if(!it) return false;
+    const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return false;
     const fromLoc = unit.location;
     if(fromLoc===toLoc){ Toast.show('That device is already at '+shopName(toLoc)+'.','err'); return false; }
     it.locations[fromLoc] = Math.max(0,(it.locations[fromLoc]||0)-1);
     unit.location = toLoc;
-    it.locations[toLoc] = Math.max((it.locations[toLoc]||0)+1, (it.units||[]).filter(u=>u&&u.location===toLoc).length);
-    this.addMovement({type:'transfer-out', itemId:it.id, itemName:it.name, categoryId:it.category, location:fromLoc, toLocation:toLoc, qty:1, date, note:note||('IMEI '+unit.imei)});
-    this.addMovement({type:'transfer-in', itemId:it.id, itemName:it.name, categoryId:it.category, location:toLoc, fromLocation:fromLoc, qty:1, date, note:note||('IMEI '+unit.imei)});
+    const trackedAtTo = (it.units||[]).filter(u=>u&&u.location===toLoc).length;
+    it.locations[toLoc] = Math.max((it.locations[toLoc]||0)+1, trackedAtTo);
+    const imeiLabel = unit.imei ? `IMEI ${unit.imei}` : `Device ID ${unit.id}`;
+    this.addMovement({type:'transfer-out', itemId:it.id, itemName:it.name, categoryId:it.category, location:fromLoc, toLocation:toLoc, qty:1, date:date||todayISO(), note:note||imeiLabel});
+    this.addMovement({type:'transfer-in',  itemId:it.id, itemName:it.name, categoryId:it.category, location:toLoc, fromLocation:fromLoc, qty:1, date:date||todayISO(), note:note||imeiLabel});
     Store.save();
     return {item:it, unit};
+  },
+  // Move ONE specific tracked unit (found by IMEI) to a new location.
+  transferUnitByImei(imei, toLoc, date, note){
+    const found = findUnitByImei(imei);
+    if(!found){ Toast.show('No device found with that IMEI.','err'); return false; }
+    return this.transferUnit(found.item.id, found.unit.id, toLoc, date, note||('IMEI '+found.unit.imei));
   },
   // Remove ONE specific tracked unit from stock (sold / faulty / deposit).
   removeUnit(itemId, unitId, status, date, note){
@@ -3055,17 +3062,9 @@ Views.doInlineTransfer = function(itemId, unitId, fromLoc){
   const toLoc = document.getElementById('inv_to_'+unitId)?.value;
   if(!toLoc || toLoc===fromLoc){ Toast.show('Pick a different destination store.','err'); return; }
 
-  if(unit.imei){
-    const result = Stock.transferUnitByImei(unit.imei, toLoc, todayISO(), 'Transferred from Inventory');
-    if(result) Toast.show(`IMEI ${unit.imei} → ${shopName(toLoc)}.`,'ok');
-  } else {
-    it.locations[fromLoc] = Math.max(0,(it.locations[fromLoc]||0)-1);
-    it.locations[toLoc] = (it.locations[toLoc]||0)+1;
-    unit.location = toLoc;
-    Stock.addMovement({type:'transfer-out', itemId:it.id, itemName:it.name, categoryId:it.category, location:fromLoc, toLocation:toLoc, qty:1, date:todayISO(), note:'Transferred from Inventory'});
-    Stock.addMovement({type:'transfer-in',  itemId:it.id, itemName:it.name, categoryId:it.category, location:toLoc, fromLocation:fromLoc, qty:1, date:todayISO(), note:'Transferred from Inventory'});
-    Store.save();
-    Toast.show(`Device transferred to ${shopName(toLoc)}.`,'ok');
+  const result = Stock.transferUnit(itemId, unitId, toLoc, todayISO(), `Transferred ${it.name} from ${shopName(fromLoc)} to ${shopName(toLoc)}`);
+  if(result){
+    Toast.show(`✓ ${it.name} ${unit.imei ? '(IMEI ' + unit.imei + ')' : ''} moved to ${shopName(toLoc)}.`, 'ok');
   }
   render();
 };
@@ -3373,10 +3372,16 @@ Views.saveEditedUnit = function(itemId, unitId){
     it.locations[newLoc] = (it.locations[newLoc]||0) + 1;
     unit.location = newLoc;
     Stock.addMovement({
-      type: newLoc==='warehouse' ? 'transfer-in' : 'transfer-out',
+      type: 'transfer-out',
       itemId: it.id, itemName: newName, categoryId: newCat,
       location: oldLoc, toLocation: newLoc, fromLocation: oldLoc,
-      qty: 1, date: todayISO(), note: `Location updated for IMEI ${newImei||unit.id}`
+      qty: 1, date: todayISO(), note: `Transferred to ${shopName(newLoc)} (${newImei ? 'IMEI ' + newImei : 'Unit ' + unit.id})`
+    });
+    Stock.addMovement({
+      type: 'transfer-in',
+      itemId: it.id, itemName: newName, categoryId: newCat,
+      location: newLoc, toLocation: newLoc, fromLocation: oldLoc,
+      qty: 1, date: todayISO(), note: `Transferred from ${shopName(oldLoc)} (${newImei ? 'IMEI ' + newImei : 'Unit ' + unit.id})`
     });
   }
 
@@ -3410,10 +3415,8 @@ Views.saveEditedUnit = function(itemId, unitId){
           category: newCat,
           memory: newMem,
           condition: newCond,
-          imei: newImei || '',
           colors: newColor ? [newColor] : (it.colors||[]),
           costPrice: newCost,
-          wholesalePrice: newWholesale,
           shopPrices: JSON.parse(JSON.stringify(it.shopPrices || {})),
           locations: {},
           units: [],
@@ -3443,7 +3446,7 @@ Views.saveEditedUnit = function(itemId, unitId){
 
   Store.save();
   Modal.close();
-  Toast.show(`Saved ${newName} (IMEI ${newImei||'updated'}).`,'ok');
+  Toast.show(`Saved ${newName} (${shopName(unit.location)}).`,'ok');
   render();
 };
 
