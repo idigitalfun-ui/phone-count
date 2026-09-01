@@ -588,7 +588,9 @@
           "costPrice": 115,
           "wholesalePrice": 0,
           "sellPrice": 130,
-          "addedAt": "2026-08-28"
+          "addedAt": "2026-08-28",
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         },
         {
           "id": "unit_j27nc5zu5nz",
@@ -15866,7 +15868,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:35:48.569Z",
+    "lastSaved": "2026-09-01T12:36:53.714Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
