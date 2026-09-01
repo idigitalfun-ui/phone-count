@@ -7234,7 +7234,7 @@
         "shop_kilkenny": 380,
         "shop_maynooth": 380,
         "shop_mullingar": 380,
-        "shop_tralee": 380,
+        "shop_tralee": 330,
         "shop_tullamore": 370
       },
       "locations": {
@@ -7265,8 +7265,10 @@
           "location": "shop_tralee",
           "costPrice": 300,
           "wholesalePrice": 0,
-          "sellPrice": 380,
-          "batteryPct": null
+          "sellPrice": 330,
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         },
         {
           "id": "unit_ixgbjf6u5p3",
@@ -7276,8 +7278,10 @@
           "location": "shop_tralee",
           "costPrice": 300,
           "wholesalePrice": 0,
-          "sellPrice": 380,
-          "batteryPct": null
+          "sellPrice": 330,
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -15920,7 +15924,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:49:15.041Z",
+    "lastSaved": "2026-09-01T12:49:34.338Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
