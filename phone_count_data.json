@@ -12298,6 +12298,51 @@
         }
       ],
       "createdAt": "2026-09-01"
+    },
+    {
+      "id": "item_a6uajqi4ypz",
+      "name": "Apple Pencil 2nd Gen",
+      "category": "cat_qaxr5vow69i",
+      "memory": "",
+      "condition": "New",
+      "batteryPct": null,
+      "imei": "HJML4RXYJKM9",
+      "colors": [
+        "White"
+      ],
+      "costPrice": 95,
+      "shopPrices": {
+        "warehouse": 125,
+        "shop_thurles": 125,
+        "shop_kilkenny": 125,
+        "shop_maynooth": 125,
+        "shop_mullingar": 125,
+        "shop_tralee": 125,
+        "shop_tullamore": 125
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_bz0o5ot4ypz",
+          "imei": "HJML4RXYJKM9",
+          "color": "White",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_kilkenny",
+          "costPrice": 95,
+          "sellPrice": 125,
+          "addedAt": "2026-09-01"
+        }
+      ],
+      "createdAt": "2026-09-01"
     }
   ],
   "movements": [
@@ -15920,7 +15965,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:25:05.322Z",
+    "lastSaved": "2026-09-01T12:25:51.818Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
