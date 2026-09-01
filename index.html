@@ -645,8 +645,30 @@ const Store = {
       d.shops = keep;
     }
     // 1. Normalize all device names, categories, conditions, colors, and memories
+    const catNameToId = {
+      'iphone': 'cat_7qgen7vw69i',
+      'samsung': 'cat_w56n2ktw69i',
+      'other brands': 'cat_kzhvkkxw69i',
+      'other': 'cat_kzhvkkxw69i',
+      'button phones': 'cat_lkhn0qyw69i',
+      'ipad & tablets': 'cat_cgd9w36w69i',
+      'ipad and tablets': 'cat_cgd9w36w69i',
+      'tablets': 'cat_cgd9w36w69i',
+      'gadgets': 'cat_qaxr5vow69i',
+      'smart watches': 'cat_u83iatxw69i',
+      'smart watch': 'cat_u83iatxw69i'
+    };
+    (d.categories || []).forEach(c => {
+      catNameToId[c.id] = c.id;
+      catNameToId[c.name.trim().toLowerCase()] = c.id;
+    });
+
     d.items.forEach(it => {
       if(!it || !it.name) return;
+      const rawCat = (it.category || '').trim().toLowerCase();
+      if(catNameToId[rawCat]){
+        it.category = catNameToId[rawCat];
+      }
       if(it.name.toLowerCase().includes('a7 lite') && it.category !== 'cat_cgd9w36w69i'){
         it.category = 'cat_cgd9w36w69i';
       }
@@ -2852,9 +2874,15 @@ Views.inventory = function(){
   let grandTotal = 0;
   Store.data.categories.forEach(c => { catCounts[c.id] = 0; });
   (Store.data.items || []).forEach(it => {
+    if(!it) return;
     const q = f.shop !== 'all' ? ((it.locations && it.locations[f.shop]) || 0) : totalQty(it);
     if(q > 0) {
-      if(catCounts[it.category] != null) catCounts[it.category] += q;
+      let catId = it.category;
+      if(catCounts[catId] == null){
+        const found = Store.data.categories.find(c => c.id === catId || c.name.toLowerCase() === (catId||'').toLowerCase());
+        if(found) catId = found.id;
+      }
+      if(catCounts[catId] != null) catCounts[catId] += q;
       grandTotal += q;
     }
   });
@@ -6089,9 +6117,15 @@ Views.stockview = function(){
   let svGrandTotal = 0;
   Store.data.categories.forEach(c => { svCatCounts[c.id] = 0; });
   items.forEach(it => {
+    if(!it) return;
     const q = locId==='all' ? totalQty(it) : ((it.locations&&it.locations[locId])||0);
     if(q > 0) {
-      if(svCatCounts[it.category] != null) svCatCounts[it.category] += q;
+      let catId = it.category;
+      if(svCatCounts[catId] == null){
+        const found = Store.data.categories.find(c => c.id === catId || c.name.toLowerCase() === (catId||'').toLowerCase());
+        if(found) catId = found.id;
+      }
+      if(svCatCounts[catId] != null) svCatCounts[catId] += q;
       svGrandTotal += q;
     }
   });
