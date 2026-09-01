@@ -15813,9 +15813,9 @@
         "allowEditImei": true,
         "allowEditDetails": true,
         "allowVerify": true,
-        "allowAddDevice": true,
-        "allowEditName": true,
-        "allowEditActions": true
+        "allowAddDevice": false,
+        "allowEditName": false,
+        "allowEditActions": false
       },
       "shop_thurles": {
         "enabled": true,
