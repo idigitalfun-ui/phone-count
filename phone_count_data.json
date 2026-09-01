@@ -2416,7 +2416,7 @@
     {
       "id": "item_yrgi9pongjn",
       "name": "Samsung Buds 2",
-      "category": "cat_w56n2ktw69i",
+      "category": "cat_qaxr5vow69i",
       "memory": "-",
       "imei": "",
       "condition": "New",
@@ -2449,7 +2449,7 @@
     {
       "id": "item_hmjgigkngjo",
       "name": "Samsung Buds 3",
-      "category": "cat_w56n2ktw69i",
+      "category": "cat_qaxr5vow69i",
       "memory": "-",
       "imei": "",
       "condition": "New",
@@ -3032,7 +3032,7 @@
     {
       "id": "item_cdmu45ingjo",
       "name": "Samsung Buds 3 Pro",
-      "category": "cat_w56n2ktw69i",
+      "category": "cat_qaxr5vow69i",
       "memory": "-",
       "imei": "",
       "condition": "New",
@@ -3775,7 +3775,7 @@
     {
       "id": "item_3z2ohuengjo",
       "name": "Samsung A7 Lite",
-      "category": "cat_w56n2ktw69i",
+      "category": "cat_cgd9w36w69i",
       "memory": "32GB",
       "imei": "",
       "condition": "New",
@@ -4404,7 +4404,7 @@
     },
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
-    "lastSaved": "2026-09-01T14:39:59.015Z"
+    "lastSaved": "2026-09-01T14:55:47.609Z"
   },
   "reorderMeta": {
     "lastOrderDate": null
