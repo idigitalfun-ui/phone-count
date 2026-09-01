@@ -1859,7 +1859,7 @@
         "warehouse": 4,
         "shop_thurles": 0,
         "shop_kilkenny": 2,
-        "shop_maynooth": 4,
+        "shop_maynooth": 3,
         "shop_mullingar": 2,
         "shop_tralee": 5,
         "shop_tullamore": 0
@@ -2043,19 +2043,6 @@
           "wholesalePrice": 0,
           "sellPrice": 30,
           "addedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_odjsqfyg1ks",
-          "imei": "355282133045505",
-          "color": "Charcoal",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_maynooth",
-          "costPrice": 14,
-          "sellPrice": 14,
-          "addedAt": "2026-08-28",
-          "verified": true,
-          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -2086,7 +2073,7 @@
         "warehouse": 4,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
-        "shop_maynooth": 3,
+        "shop_maynooth": 2,
         "shop_mullingar": 2,
         "shop_tralee": 0,
         "shop_tullamore": 2
@@ -2141,18 +2128,6 @@
           "costPrice": 15,
           "wholesalePrice": 0,
           "sellPrice": 60
-        },
-        {
-          "id": "unit_bz638a1u5ot",
-          "imei": "355647768273715",
-          "color": "Charcoal",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 15,
-          "wholesalePrice": 27,
-          "sellPrice": 15,
-          "verified": true,
-          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_mvjfh6vu5ot",
@@ -15952,7 +15927,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:28:27.386Z",
+    "lastSaved": "2026-09-01T12:28:51.185Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
