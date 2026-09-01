@@ -5843,7 +5843,9 @@
           "costPrice": 100,
           "wholesalePrice": 0,
           "sellPrice": 200,
-          "batteryPct": null
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -15958,7 +15960,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T13:12:29.147Z",
+    "lastSaved": "2026-09-01T13:12:47.698Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
