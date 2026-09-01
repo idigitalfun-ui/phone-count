@@ -8222,14 +8222,14 @@
           "id": "unit_lekh53lu5pa",
           "imei": "CRAG502X600169/40235",
           "color": "",
-          "condition": "Used",
+          "condition": "New",
           "location": "shop_tralee",
           "costPrice": 25,
           "wholesalePrice": 25,
           "sellPrice": 40,
           "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-08-28"
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -8274,8 +8274,8 @@
           "wholesalePrice": 0,
           "sellPrice": 0,
           "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-08-28"
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -8320,8 +8320,8 @@
           "wholesalePrice": 0,
           "sellPrice": 0,
           "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-08-28"
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -8360,13 +8360,14 @@
           "id": "unit_tvrxfsdu5pa",
           "imei": "2172F225021488",
           "color": "",
-          "condition": "Used",
+          "condition": "New",
           "location": "shop_tralee",
           "costPrice": 0,
           "wholesalePrice": 0,
           "sellPrice": 0,
-          "verified": true,
-          "verifiedAt": "2026-08-28"
+          "verified": false,
+          "verifiedAt": null,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -8408,13 +8409,14 @@
           "id": "unit_dn2hqmiu5pb",
           "imei": "6974377570128",
           "color": "Pink",
-          "condition": "Used",
+          "condition": "New",
           "location": "shop_tralee",
           "costPrice": 0,
           "wholesalePrice": 30,
           "sellPrice": 0,
-          "verified": true,
-          "verifiedAt": "2026-08-28"
+          "verified": false,
+          "verifiedAt": null,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -8529,8 +8531,8 @@
           "wholesalePrice": 0,
           "sellPrice": 25,
           "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-08-28"
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -15962,7 +15964,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T13:14:56.596Z",
+    "lastSaved": "2026-09-01T13:16:28.761Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
