@@ -7363,8 +7363,8 @@
           "wholesalePrice": 0,
           "sellPrice": 300,
           "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verified": false,
+          "verifiedAt": null
         },
         {
           "id": "unit_o6kttf8u5pg",
@@ -7386,8 +7386,8 @@
           "costPrice": 220,
           "sellPrice": 300,
           "addedAt": "2026-09-01",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -9849,8 +9849,8 @@
           "wholesalePrice": 0,
           "sellPrice": 0,
           "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-20"
@@ -9918,16 +9918,16 @@
         },
         {
           "id": "unit_jnno2ksod8g",
-          "imei": "350290815117711",
-          "color": "Awesome Navy",
+          "imei": "355838611229497",
+          "color": "Black",
           "condition": "New",
           "batteryPct": null,
           "location": "shop_tralee",
           "costPrice": 0,
           "sellPrice": 350,
           "addedAt": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null
+          "verified": true,
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20"
@@ -9975,8 +9975,8 @@
           "wholesalePrice": 0,
           "sellPrice": 1,
           "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verified": false,
+          "verifiedAt": null
         },
         {
           "id": "unit_e9pmr5tu5ph",
@@ -15921,7 +15921,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T12:56:22.622Z",
+    "lastSaved": "2026-09-01T12:56:55.377Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true
   },
