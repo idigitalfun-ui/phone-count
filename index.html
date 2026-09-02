@@ -17439,7 +17439,7 @@ function renderSidebar(){
   if(portalShopId){
     const sName = shopName(portalShopId);
     nav.innerHTML = `
-      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.19.0</span></div>
+      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.20.0</span></div>
       <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
         <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
         <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
@@ -17451,7 +17451,7 @@ function renderSidebar(){
     `;
     return;
   }
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.19.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.20.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -18531,8 +18531,9 @@ Views.inventory = function(){
 
   // Build flat rows — one per IMEI unit (each phone on its own line)
   let rows = '';
+  let renderedCount = 0;
   if(items.length === 0){
-    rows = `<tr><td colspan="11"><div class="empty"><div class="big">No items match</div>Try clearing filters or add a new device.</div></td></tr>`;
+    rows = `<tr><td colspan="11"><div class="empty"><div class="big">No items match${f.q ? ' "' + esc(f.q) + '"' : ''}</div>Try clearing filters or check your search term.</div></td></tr>`;
   } else {
     items.forEach(it=>{
       if(!it) return;
@@ -18540,7 +18541,26 @@ Views.inventory = function(){
       const units = (it.units||[]).filter(Boolean);
       const relevantUnits = filterShop ? units.filter(u=>u && u.location===filterShop) : units;
 
-      relevantUnits.forEach(u=>{
+      // Filter units strictly at unit-level so searching an IMEI or colour only shows matching units
+      const matchingUnits = relevantUnits.filter(u => {
+        if(!f.q) return true;
+        const words = f.q.toLowerCase().trim().split(/\s+/).filter(Boolean);
+        const uText = (
+          (it?.name || '') + ' ' +
+          (it?.memory || '') + ' ' +
+          (it?.category || '') + ' ' +
+          catName(it?.category) + ' ' +
+          (u?.imei || '') + ' ' +
+          (u?.color || '') + ' ' +
+          (u?.condition || '') + ' ' +
+          shopName(u?.location) + ' ' +
+          (u?.purchaseDate || u?.dateAdded || '') + ' ' +
+          (u?.sentToShopDate || '')
+        ).toLowerCase();
+        return words.every(w => uText.includes(w));
+      });
+
+      matchingUnits.forEach(u=>{
         const otherShops = shops.filter(s=>s.id!==u.location);
         const hasImei = !!(u.imei && String(u.imei).trim());
         const cost = u.costPrice!=null?u.costPrice:(it.costPrice||0);
@@ -18609,7 +18629,20 @@ Views.inventory = function(){
 
       if(filterShop){
         const untracked = untrackedQtyAt(it, filterShop);
-        if(untracked > 0){
+        let showUntracked = untracked > 0;
+        if(showUntracked && f.q){
+          const words = f.q.toLowerCase().trim().split(/\s+/).filter(Boolean);
+          const untrackedText = (
+            (it?.name || '') + ' ' +
+            (it?.memory || '') + ' ' +
+            (it?.category || '') + ' ' +
+            catName(it?.category) + ' ' +
+            (it?.condition || '') + ' ' +
+            shopName(filterShop)
+          ).toLowerCase();
+          showUntracked = words.every(w => untrackedText.includes(w));
+        }
+        if(showUntracked){
           const otherShops = shops.filter(s=>s.id!==filterShop);
           rows += `<tr style="border-left:5px solid ${th.border};background:${th.bg};">
             <td>
@@ -18699,6 +18732,10 @@ Views.inventory = function(){
         });
       }
     });
+  }
+
+  if(!rows || rows.trim() === ''){
+    rows = `<tr><td colspan="11"><div class="empty"><div class="big">No matching devices found${f.q ? ' for "' + esc(f.q) + '"' : ''}</div>Try searching by a different IMEI, model name, colour, or clear the search filter.</div></td></tr>`;
   }
 
   // Dynamic Category totals based on active shop filter
@@ -19723,7 +19760,26 @@ Views.shopPortal = function(shopId){
   let rowIdx = 1;
 
   filtered.forEach(({item: it, units}) => {
-    units.forEach(u => {
+    // Filter units strictly at unit-level
+    const matchingUnits = units.filter(u => {
+      if(!f.q) return true;
+      const words = f.q.toLowerCase().trim().split(/\s+/).filter(Boolean);
+      const uText = (
+        (it?.name || '') + ' ' +
+        (it?.memory || '') + ' ' +
+        (it?.category || '') + ' ' +
+        catName(it?.category) + ' ' +
+        (u?.imei || '') + ' ' +
+        (u?.color || '') + ' ' +
+        (u?.condition || '') + ' ' +
+        shopName(u?.location) + ' ' +
+        (u?.purchaseDate || u?.dateAdded || '') + ' ' +
+        (u?.sentToShopDate || '')
+      ).toLowerCase();
+      return words.every(w => uText.includes(w));
+    });
+
+    matchingUnits.forEach(u => {
       const isVerified = !!u.verified;
       const imeiInput = cfg.allowEditImei !== false 
         ? `<input class="mono" id="imei_inp_${u.id}" value="${esc(u.imei||'')}" placeholder="Scan / enter IMEI" onchange="Views.saveInlineImei('${it.id}','${u.id}',this.value)" style="width:170px;font-weight:700;padding:4px 8px;border-radius:4px;border:1.5px solid ${isVerified?'#86EFAC':'#CBD5E1'};background:${isVerified?'#F0FDF4':'#fff'};font-size:12px;">`
@@ -19778,6 +19834,10 @@ Views.shopPortal = function(shopId){
       `;
     });
   });
+
+  if(!tableRows || tableRows.trim() === ''){
+    tableRows = `<tr><td colspan="9" style="text-align:center;padding:36px;"><div style="font-weight:700;font-size:15px;color:#334155;margin-bottom:4px;">No devices found${f.q ? ' matching "' + esc(f.q) + '"' : ''}</div><div style="font-size:12.5px;color:#64748B;">Try checking the IMEI or model name search term.</div></td></tr>`;
+  }
 
   return `
     <div style="margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;background:#fff;padding:14px 18px;border-radius:10px;border:1px solid #E2E8F0;box-shadow:0 1px 3px rgba(0,0,0,.04);flex-wrap:wrap;gap:12px;">
