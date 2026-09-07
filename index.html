@@ -272,6 +272,20 @@ const STORAGE_KEY = 'stockline_data_v2';
 const BACKUP_KEY  = 'stockline_backups_v2';
 
 function uid(p){ return (p||'id') + '_' + Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-4); }
+
+function movementImei(m){
+  if(!m) return '—';
+  if(m.unitData && m.unitData.imei && String(m.unitData.imei).trim()){
+    const clean = String(m.unitData.imei).trim();
+    if(clean && !/^(transferred|stock|sold|faulty|deposit)/i.test(clean)) return clean;
+  }
+  if(m.note){
+    const match = m.note.match(/\b\d{14,16}\b/) || m.note.match(/IMEI\s*[:#]?\s*([a-zA-Z0-9]+)/i) || m.note.match(/SN\s*[:#]?\s*([a-zA-Z0-9]+)/i);
+    if(match) return match[1] || match[0];
+  }
+  return '—';
+}
+
 function todayISO(){ return new Date().toISOString().slice(0,10); }
 function euro(n){ n = Number(n)||0; return '€' + n.toFixed(2); }
 function esc(s){ return (s==null?'':String(s)).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -18181,7 +18195,13 @@ function seedData(){
       "qty": 1,
       "date": "2026-09-02",
       "note": "Transferred iPhone 17 from Thurles to Warehouse",
-      "id": "mv_kincdtn9zcn"
+      "id": "mv_kincdtn9zcn",
+      "unitData": {
+        "id": "unit_gknex6ju5no",
+        "imei": "350085642277120",
+        "color": "Lavender",
+        "condition": "New"
+      }
     },
     {
       "type": "transfer-in",
@@ -18193,7 +18213,13 @@ function seedData(){
       "qty": 1,
       "date": "2026-09-02",
       "note": "Transferred iPhone 17 from Thurles to Warehouse",
-      "id": "mv_rbpieuf9zcn"
+      "id": "mv_rbpieuf9zcn",
+      "unitData": {
+        "id": "unit_gknex6ju5no",
+        "imei": "350085642277120",
+        "color": "Lavender",
+        "condition": "New"
+      }
     },
     {
       "id": "mv_6n3np4b5vbd",
@@ -18733,7 +18759,10 @@ function seedData(){
       "qty": 1,
       "date": "2026-09-07",
       "note": "Transferred to Kilkenney (IMEI 352262376794897)",
-      "id": "mv_jigisk4gc3w"
+      "id": "mv_jigisk4gc3w",
+      "unitData": {
+        "imei": "352262376794897"
+      }
     },
     {
       "type": "transfer-in",
@@ -18746,7 +18775,10 @@ function seedData(){
       "qty": 1,
       "date": "2026-09-07",
       "note": "Transferred from Warehouse (IMEI 352262376794897)",
-      "id": "mv_10151ozgc3w"
+      "id": "mv_10151ozgc3w",
+      "unitData": {
+        "imei": "352262376794897"
+      }
     },
     {
       "id": "mv_horkoteh4qc",
@@ -20200,7 +20232,7 @@ function renderSidebar(){
   if(portalShopId){
     const sName = shopName(portalShopId);
     nav.innerHTML = `
-      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.29.0</span></div>
+      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.30.0</span></div>
       <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
         <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
         <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
@@ -20212,7 +20244,7 @@ function renderSidebar(){
     `;
     return;
   }
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.29.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.30.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -24573,7 +24605,7 @@ Views.sales = function(){
               <td>${m.date||'—'}</td>
               <td><b>${esc(shopName(m.location))}</b></td>
               <td><b>${esc(m.itemName||'—')}</b></td>
-              <td>${m.unitData?.imei ? `<span class="mono" style="color:var(--teal-dark);font-weight:700;">${esc(m.unitData.imei)}</span>` : (m.note ? esc(m.note) : '—')}</td>
+              <td><span class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(movementImei(m))}</span></td>
               <td>${pillForType(m.type)}</td>
               <td><b>${m.qty||1}</b></td>
               <td style="text-align:right;">
@@ -24743,7 +24775,7 @@ Views.weekly = function(){
                       <td><b>${esc(m.fromLocation ? shopName(m.fromLocation) : (m.supplier || 'Supplier Stock In'))}</b>${m.invoice ? ` <span style="color:var(--muted);font-size:11px;">(${esc(m.invoice)})</span>` : ''}</td>
                       <td><b>${esc(shopName(m.location))}</b></td>
                       <td><b>${esc(m.itemName||'—')}</b></td>
-                      <td>${m.unitData?.imei ? `<span class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(m.unitData.imei)}</span>` : (m.note ? esc(m.note) : '—')}</td>
+                      <td><span class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(movementImei(m))}</span></td>
                       <td><span class="pill teal" style="font-size:11px;">${esc(catName(m.categoryId))}</span></td>
                       <td><b style="color:var(--green);">+${m.qty||1}</b></td>
                       <td style="text-align:right;">
@@ -24770,7 +24802,7 @@ Views.weekly = function(){
                       <td><b>${esc(shopName(m.fromLocation||m.location))}</b></td>
                       <td><b>${esc(m.toLocation?shopName(m.toLocation):'Customer / Faulty')}</b></td>
                       <td><b>${esc(m.itemName||'—')}</b></td>
-                      <td>${m.unitData?.imei ? `<span class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(m.unitData.imei)}</span>` : (m.note ? esc(m.note) : '—')}</td>
+                      <td><span class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(movementImei(m))}</span></td>
                       <td>${pillForType(m.type)}</td>
                       <td><b style="color:var(--danger);">-${m.qty||1}</b></td>
                       <td style="color:var(--muted);">${esc(m.note||'—')}</td>
