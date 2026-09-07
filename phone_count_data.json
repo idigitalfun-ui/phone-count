@@ -217,7 +217,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 1,
         "shop_maynooth": 3,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -258,20 +258,6 @@
           "wholesalePrice": 0,
           "sellPrice": 130,
           "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_i4412lu1af0",
-          "imei": "352262376794830",
-          "color": "Black",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 115,
-          "wholesalePrice": 0,
-          "sellPrice": 130,
-          "addedAt": "2026-08-28",
           "verified": true,
           "verifiedAt": "2026-09-01"
         },
@@ -1988,7 +1974,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 1,
         "shop_mullingar": 1,
         "shop_tralee": 0,
@@ -2016,18 +2002,6 @@
           "sellPrice": 300,
           "verified": true,
           "verifiedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_1rrhlffut12",
-          "imei": "JHLXL395HV",
-          "color": "Blue",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 300,
-          "wholesalePrice": 0,
-          "sellPrice": 380,
-          "addedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -2865,7 +2839,7 @@
       "locations": {
         "warehouse": 10,
         "shop_thurles": 1,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 1,
         "shop_maynooth": 2,
         "shop_mullingar": 2,
         "shop_tralee": 0,
@@ -2889,24 +2863,6 @@
           "addedAt": "2025-05-06",
           "sentToShopDate": "2026-05-26",
           "transferredAt": "2026-05-26"
-        },
-        {
-          "id": "unit_rhkc9cju5nu",
-          "imei": "354696400504509",
-          "color": "Blue",
-          "condition": "Used",
-          "location": "shop_kilkenny",
-          "costPrice": 180,
-          "wholesalePrice": 0,
-          "sellPrice": 390,
-          "batteryPct": null,
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2024-10-04",
-          "dateAdded": "2024-10-04",
-          "addedAt": "2024-10-04",
-          "sentToShopDate": "2025-05-07",
-          "transferredAt": "2025-05-07"
         },
         {
           "id": "unit_idxe9azu5pd",
@@ -8885,27 +8841,13 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_celo6tzvqiw",
-          "imei": "353451828264620",
-          "color": "Black",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 0,
-          "sellPrice": 150,
-          "addedAt": "2026-09-01",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-20"
     },
     {
@@ -12730,13 +12672,31 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 0,
+        "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [],
+      "units": [
+        {
+          "id": "unit_swzgzucfyyl",
+          "imei": "352262376794897",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_kilkenny",
+          "costPrice": 0,
+          "sellPrice": 0,
+          "addedAt": null,
+          "verified": false,
+          "verifiedAt": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        }
+      ],
       "createdAt": "2026-09-07"
     },
     {
@@ -18512,6 +18472,137 @@
         "sentToShopDate": null,
         "transferredAt": null
       }
+    },
+    {
+      "id": "mv_si3iskq9ogs",
+      "type": "sold",
+      "itemId": "item_aua8nirw69j",
+      "itemName": "Samsung A07",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_kilkenny",
+      "qty": 1,
+      "date": "2026-09-05",
+      "note": "Sold from Inventory",
+      "sellPrice": 130,
+      "unitData": {
+        "id": "unit_i4412lu1af0",
+        "imei": "352262376794830",
+        "color": "Black",
+        "condition": "New",
+        "batteryPct": null,
+        "location": "shop_kilkenny",
+        "costPrice": 115,
+        "wholesalePrice": 0,
+        "sellPrice": 130,
+        "addedAt": "2026-08-28",
+        "verified": true,
+        "verifiedAt": "2026-09-01"
+      }
+    },
+    {
+      "id": "mv_qi6qrxma9is",
+      "type": "sold",
+      "itemId": "item_krrjnksw69k",
+      "itemName": "iPad 11th Generation A16",
+      "categoryId": "cat_cgd9w36w69i",
+      "location": "shop_kilkenny",
+      "qty": 1,
+      "date": "2026-09-04",
+      "note": "Sold from Inventory",
+      "sellPrice": 480,
+      "unitData": {
+        "id": "unit_1rrhlffut12",
+        "imei": "SJHLXL395HV",
+        "color": "Blue",
+        "condition": "New",
+        "batteryPct": null,
+        "location": "shop_kilkenny",
+        "costPrice": 300,
+        "wholesalePrice": 0,
+        "sellPrice": 480,
+        "addedAt": "2026-08-28"
+      }
+    },
+    {
+      "id": "mv_m9dnnsmayt0",
+      "type": "sold",
+      "itemId": "item_qw8eo3aw69k",
+      "itemName": "iPhone 12",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_kilkenny",
+      "qty": 1,
+      "date": "2026-09-03",
+      "note": "Sold from Inventory",
+      "sellPrice": 330,
+      "unitData": {
+        "id": "unit_rhkc9cju5nu",
+        "imei": "354696400504509",
+        "color": "Blue",
+        "condition": "Used",
+        "location": "shop_kilkenny",
+        "costPrice": 180,
+        "wholesalePrice": 0,
+        "sellPrice": 330,
+        "batteryPct": null,
+        "verified": false,
+        "verifiedAt": null,
+        "purchaseDate": "2024-10-04",
+        "dateAdded": "2024-10-04",
+        "addedAt": "2024-10-04",
+        "sentToShopDate": "2025-05-07",
+        "transferredAt": "2025-05-07"
+      }
+    },
+    {
+      "id": "mv_p6q8btidoxo",
+      "type": "sold",
+      "itemId": "item_sbg2b4yu5nz",
+      "itemName": "Samsung A07",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_kilkenny",
+      "qty": 1,
+      "date": "2026-08-31",
+      "note": "Sold from Inventory",
+      "sellPrice": 140,
+      "unitData": {
+        "id": "unit_celo6tzvqiw",
+        "imei": "353451828264620",
+        "color": "Black",
+        "condition": "New",
+        "batteryPct": null,
+        "location": "shop_kilkenny",
+        "costPrice": 0,
+        "sellPrice": 140,
+        "addedAt": "2026-09-01",
+        "verified": true,
+        "verifiedAt": "2026-09-01"
+      }
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_epsgals21jn",
+      "itemName": "Samsung A07",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_kilkenny",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-07",
+      "note": "Transferred to Kilkenney (IMEI 352262376794897)",
+      "id": "mv_jigisk4gc3w"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_epsgals21jn",
+      "itemName": "Samsung A07",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_kilkenny",
+      "toLocation": "shop_kilkenny",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-07",
+      "note": "Transferred from Warehouse (IMEI 352262376794897)",
+      "id": "mv_10151ozgc3w"
     }
   ],
   "reorderList": [],
@@ -18519,7 +18610,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T15:23:46.816Z",
+    "lastSaved": "2026-09-07T16:00:41.036Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
