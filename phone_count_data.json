@@ -11865,7 +11865,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 4,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -11899,6 +11899,42 @@
           "addedAt": "2026-08-28",
           "verified": false,
           "verifiedAt": null
+        },
+        {
+          "id": "unit_hnx53ecxs7i",
+          "imei": "",
+          "color": "White",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_kilkenny",
+          "costPrice": 80,
+          "wholesalePrice": 0,
+          "sellPrice": 120,
+          "addedAt": null,
+          "verified": false,
+          "verifiedAt": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        },
+        {
+          "id": "unit_qffvc5zxs7i",
+          "imei": "",
+          "color": "White",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_kilkenny",
+          "costPrice": 80,
+          "wholesalePrice": 0,
+          "sellPrice": 120,
+          "addedAt": null,
+          "verified": false,
+          "verifiedAt": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "sentToShopDate": null,
+          "transferredAt": null
         }
       ],
       "createdAt": "2026-09-01"
@@ -12346,69 +12382,6 @@
       "shopVerifiedAt": {
         "shop_tralee": "2026-09-07"
       }
-    },
-    {
-      "id": "item_7amlbnhw69m",
-      "name": "Samsung Buds 2",
-      "category": "cat_w56n2ktw69i",
-      "memory": "-",
-      "imei": "",
-      "condition": "New",
-      "colors": [
-        "White"
-      ],
-      "batteryPct": 100,
-      "costPrice": 80,
-      "shopPrices": {
-        "warehouse": 120,
-        "shop_thurles": 120,
-        "shop_kilkenny": 120,
-        "shop_maynooth": 120,
-        "shop_mullingar": 120,
-        "shop_tralee": 120,
-        "shop_tullamore": 120
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 2,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "units": [
-        {
-          "id": "unit_hnx53ecxs7i",
-          "imei": "",
-          "color": "White",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 80,
-          "wholesalePrice": 0,
-          "sellPrice": 120,
-          "addedAt": "2026-08-28",
-          "verified": false,
-          "verifiedAt": null
-        },
-        {
-          "id": "unit_qffvc5zxs7i",
-          "imei": "",
-          "color": "White",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 80,
-          "wholesalePrice": 0,
-          "sellPrice": 120,
-          "addedAt": "2026-08-28",
-          "verified": false,
-          "verifiedAt": null
-        }
-      ],
-      "createdAt": "2026-08-20",
-      "wholesalePrice": 80
     },
     {
       "id": "item_nme6ice3fe2",
@@ -18478,7 +18451,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T16:25:11.060Z",
+    "lastSaved": "2026-09-07T16:26:32.541Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
