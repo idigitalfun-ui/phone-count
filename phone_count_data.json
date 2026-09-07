@@ -4651,7 +4651,7 @@
       "locations": {
         "warehouse": 9,
         "shop_thurles": 3,
-        "shop_kilkenny": 3,
+        "shop_kilkenny": 2,
         "shop_maynooth": 4,
         "shop_mullingar": 2,
         "shop_tralee": 1,
@@ -4711,18 +4711,6 @@
           "addedAt": "2026-08-25",
           "verified": true,
           "verifiedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_whufs3sblvc",
-          "imei": "354485255324589",
-          "color": "Blue",
-          "condition": "Used",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 440,
-          "wholesalePrice": 0,
-          "sellPrice": 550,
-          "addedAt": "2026-08-28"
         },
         {
           "id": "unit_s3xh0kye5bz",
@@ -11994,7 +11982,7 @@
       "locations": {
         "warehouse": 10,
         "shop_thurles": 2,
-        "shop_kilkenny": 3,
+        "shop_kilkenny": 4,
         "shop_maynooth": 7,
         "shop_mullingar": 2,
         "shop_tralee": 1,
@@ -12343,6 +12331,24 @@
           "sellPrice": 350,
           "batteryPct": null,
           "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_whufs3sblvc",
+          "imei": "350032736737429",
+          "color": "Starlight",
+          "condition": "Used",
+          "batteryPct": 86,
+          "location": "shop_kilkenny",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 450,
+          "addedAt": null,
+          "verified": true,
+          "verifiedAt": "2026-09-07",
+          "purchaseDate": null,
+          "dateAdded": null,
+          "sentToShopDate": null,
+          "transferredAt": null
         }
       ],
       "createdAt": "2026-09-01"
@@ -18487,7 +18493,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T16:58:29.685Z",
+    "lastSaved": "2026-09-07T16:59:09.573Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
