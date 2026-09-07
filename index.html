@@ -20192,7 +20192,7 @@ function renderSidebar(){
   if(portalShopId){
     const sName = shopName(portalShopId);
     nav.innerHTML = `
-      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.26.0</span></div>
+      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.27.0</span></div>
       <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
         <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
         <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
@@ -20204,7 +20204,7 @@ function renderSidebar(){
     `;
     return;
   }
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.26.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.27.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -21843,6 +21843,67 @@ Views.confirmInvUntrackedAction = function(itemId, locId, kind){
 };
 
 // Inline transfer of a tracked IMEI unit — reads the inline <select> for destination
+
+Views.openTransferUnitModal = function(itemId, unitId, fromLoc){
+  const it = itemById(itemId); if(!it) return;
+  const unit = (it.units||[]).find(u => u.id === unitId); if(!unit) return;
+  const fromShopId = fromLoc || unit.location || 'warehouse';
+  const shops = activeShops().filter(s => s.id !== fromShopId);
+  
+  Modal.open(`
+    <div class="modal">
+      <div class="modal-head">
+        <h3 style="color:var(--teal-dark);">⇄ Transfer Device — ${esc(it.name)}</h3>
+        <button class="btn ghost sm" onclick="Modal.close()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="helpbox">
+          Device: <b>${esc(it.name)}</b> (${esc(unit.color||'—')} · ${esc(unit.condition||'New')})<br>
+          IMEI: <b class="mono">${esc(unit.imei||'No IMEI')}</b><br>
+          Current Location: <b>${esc(shopName(fromShopId))}</b>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label>Transfer to Store / Warehouse</label>
+            <select id="tu_to_loc">
+              ${shops.map(s => `<option value="${s.id}">${esc(s.name)}</option>`).join('')}
+            </select>
+          </div>
+          <div class="field">
+            <label>Transfer Date</label>
+            <input id="tu_date" type="date" value="${todayISO()}">
+          </div>
+        </div>
+        <div class="field">
+          <label>Note / Reason (optional)</label>
+          <input id="tu_note" placeholder="e.g. Sent via DPD, stock replenishment…">
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" onclick="Modal.close()">Cancel</button>
+        <button class="btn primary" onclick="Views.confirmTransferUnitModal('${itemId}','${unitId}','${fromShopId}')">⇄ Complete Transfer</button>
+      </div>
+    </div>
+  `);
+};
+
+Views.confirmTransferUnitModal = function(itemId, unitId, fromLoc){
+  const it = itemById(itemId); if(!it) return;
+  const unit = (it.units||[]).find(u => u.id === unitId); if(!unit) return;
+  const toLoc = val('tu_to_loc');
+  const date = val('tu_date') || todayISO();
+  const note = val('tu_note').trim() || `Transferred ${it.name} from ${shopName(fromLoc)} to ${shopName(toLoc)}`;
+
+  if(!toLoc || toLoc === fromLoc){ Toast.show('Pick a different destination store.','err'); return; }
+
+  const result = Stock.transferUnit(itemId, unitId, toLoc, date, note);
+  if(result){
+    Toast.show(`✓ ${it.name} ${unit.imei ? '(IMEI ' + unit.imei + ')' : ''} moved to ${shopName(toLoc)}. <button class="btn sm" style="margin-left:8px;padding:2px 10px;font-size:11px;background:#fff;color:var(--ink);border:none;" onclick="Views.undoSale('${result.item.id}')">↩ Undo</button>`, 'ok');
+  }
+  Modal.close();
+  render();
+};
+
 Views.doInlineTransfer = function(itemId, unitId, fromLoc){
   const it = itemById(itemId); if(!it) return;
   const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
@@ -22605,7 +22666,12 @@ Views.shopPortal = function(shopId){
 
       const actionsCol = cfg.allowEditActions !== false 
         ? `<td style="text-align:center;white-space:nowrap;">
-             <button class="btn sm" onclick="Views.openEditUnitModal('${it.id}','${u.id}','${shopId}')" title="Edit Model Name, Memory, Colour, Condition, Sale Price, IMEI">✏️ Edit</button>
+             <div style="display:flex;gap:3px;justify-content:center;align-items:center;">
+               <button class="btn sm green" onclick="Views.invUnitAction('${it.id}','${u.id}','sold')" title="Mark this phone as sold">✓ Sold</button>
+               <button class="btn sm primary" onclick="Views.openTransferUnitModal('${it.id}','${u.id}','${shopId}')" title="Transfer to another shop / warehouse" style="padding:2px 6px;font-size:11px;">⇄ Move</button>
+               <button class="btn sm amber" onclick="Views.invUnitAction('${it.id}','${u.id}','faulty')" title="Mark as faulty" style="padding:2px 6px;font-size:11px;">⚠</button>
+               <button class="btn sm" onclick="Views.openEditUnitModal('${it.id}','${u.id}','${shopId}')" title="Edit device details" style="padding:2px 6px;font-size:11px;">✏️</button>
+             </div>
            </td>`
         : '';
 
@@ -23779,23 +23845,25 @@ Views.history = function(){
     if(!m) return false;
     if(tab === 'stockin'){
       if(m.type !== 'stock-in') return false;
+    } else if(tab === 'sold'){
+      if(m.type !== 'sold') return false;
+    } else if(tab === 'transfer'){
+      if(m.type !== 'transfer-out' && m.type !== 'transfer-in') return false;
+      if(m.type === 'transfer-in'){
+        const hasOut = moves.some(o => o.type === 'transfer-out' && o.itemId === m.itemId && o.date === m.date && o.toLocation === m.location);
+        if(hasOut) return false;
+      }
     } else if(tab === 'faulty'){
       if(m.type !== 'faulty') return false;
     } else {
-      // Stock Out & Transfers
       if(!['sold', 'transfer-out', 'deposit'].includes(m.type) && m.type !== 'faulty') {
-        // Only include transfer-in if there's no matching transfer-out in the dataset
         if(m.type === 'transfer-in'){
           const hasOut = moves.some(o => o.type === 'transfer-out' && o.itemId === m.itemId && o.date === m.date && o.toLocation === m.location);
-          if(hasOut) return false; // Deduplicate paired transfer
+          if(hasOut) return false;
         } else {
           return false;
         }
       }
-      if(subFilter === 'transfer' && !(m.type === 'transfer-out' || m.type === 'transfer-in')) return false;
-      if(subFilter === 'sold' && m.type !== 'sold') return false;
-      if(subFilter === 'faulty' && m.type !== 'faulty') return false;
-      if(subFilter === 'deposit' && m.type !== 'deposit') return false;
     }
     if(f.shop !== 'all' && m.location !== f.shop && m.toLocation !== f.shop && m.fromLocation !== f.shop) return false;
     if(f.search){
@@ -23823,9 +23891,10 @@ Views.history = function(){
   let html = `
     <div class="toolbar" style="flex-wrap:wrap;gap:10px;">
       <div class="chip-select">
-        <button class="${tab==='stockin'?'active':''}" onclick="Views._historyTab='stockin';render();">📥 Stock In (Arrivals)</button>
-        <button class="${tab==='stockout'?'active':''}" onclick="Views._historyTab='stockout';render();">📤 Stock Out & Transfers</button>
-        <button class="${tab==='faulty'?'active':''}" onclick="Views._historyTab='faulty';render();">⚠️ Faulty Devices (${faultyCount} active)</button>
+        <button class="${tab==='stockin'?'active':''}" onclick="Views._historyTab='stockin';render();">📥 Stock In (${moves.filter(m=>m&&m.type==='stock-in').length})</button>
+        <button class="${tab==='sold'?'active':''}" onclick="Views._historyTab='sold';render();" style="background:${tab==='sold'?'#059669':''};color:${tab==='sold'?'#fff':''};font-weight:${tab==='sold'?'700':'normal'};">💰 Customer Sales (${moves.filter(m=>m&&m.type==='sold').length})</button>
+        <button class="${tab==='transfer'?'active':''}" onclick="Views._historyTab='transfer';render();">⇄ Transfers (${moves.filter(m=>m&&(m.type==='transfer-out'||m.type==='transfer-in')).length})</button>
+        <button class="${tab==='faulty'?'active':''}" onclick="Views._historyTab='faulty';render();">⚠️ Faulty (${faultyCount})</button>
       </div>
       <div class="spacer"></div>
       <div class="field" style="margin:0;min-width:180px;">
@@ -24873,10 +24942,11 @@ Views.stockview = function(){
           <td colspan="2" style="text-align:right;white-space:nowrap;">
             <div style="display:flex;gap:4px;justify-content:flex-end;align-items:center;">
               <button class="btn sm ${u.verified?'green':'ghost'}" onclick="Views.toggleUnitVerified('${it.id}','${u.id}')" title="${u.verified?'IMEI Verified (Click to uncheck)':'Mark IMEI Verified'}">${u.verified?'✓ OK':'🔍 Check'}</button>
-              <button class="btn sm green" onclick="Views.unitAction('${it.id}','${u.id}','sold')" title="Sell this device">✓ Sold</button>
+              <button class="btn sm green" onclick="Views.invUnitAction('${it.id}','${u.id}','sold')" title="Sell this device">✓ Sold</button>
               <button class="btn sm amber" onclick="Views.unitAction('${it.id}','${u.id}','faulty')" title="Mark as faulty">⚠ Faulty</button>
               <button class="btn sm" onclick="Views.unitAction('${it.id}','${u.id}','deposit')" style="background:#E8F0FE;color:#1967D2;border:1px solid #BDD0F7;" title="Mark deposit">🔒</button>
-              <button class="btn sm primary" onclick="Views.openEditUnitModal('${it.id}','${u.id}')" title="Edit / Transfer">✏️ Edit</button>
+              <button class="btn sm primary" onclick="Views.openTransferUnitModal('${it.id}','${u.id}','${u.location}')" title="Transfer device to another store">⇄ Move</button>
+              <button class="btn sm" onclick="Views.openEditUnitModal('${it.id}','${u.id}')" title="Edit device details">✏️</button>
             </div>
           </td>
         </tr>`;
