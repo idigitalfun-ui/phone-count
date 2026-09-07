@@ -80,6 +80,341 @@
   "archivedCategories": [],
   "items": [
     {
+      "id": "item_cicbgruw69j",
+      "name": "iPhone 14",
+      "category": "cat_7qgen7vw69i",
+      "memory": "128GB",
+      "imei": "354768881961878",
+      "condition": "Used",
+      "batteryPct": null,
+      "costPrice": 285,
+      "shopPrices": {
+        "warehouse": 350,
+        "shop_thurles": 270,
+        "shop_kilkenny": 475,
+        "shop_maynooth": 0,
+        "shop_mullingar": 460,
+        "shop_tralee": 470,
+        "shop_tullamore": 740
+      },
+      "locations": {
+        "warehouse": 15,
+        "shop_thurles": 2,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 4,
+        "shop_mullingar": 2,
+        "shop_tralee": 1,
+        "shop_tullamore": 3
+      },
+      "createdAt": "2026-08-20",
+      "wholesalePrice": 0,
+      "units": [
+        {
+          "id": "unit_pissuuxonc9",
+          "imei": "350032738703866",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "shop_thurles",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": 87,
+          "dateAdded": "2026-08-24",
+          "wholesalePrice": 295
+        },
+        {
+          "id": "unit_rmitnpsouy1",
+          "imei": "350967683023648",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "shop_kilkenny",
+          "costPrice": 285,
+          "sellPrice": 460,
+          "batteryPct": 86,
+          "dateAdded": "2026-08-24",
+          "wholesalePrice": 0,
+          "battery": "86%"
+        },
+        {
+          "id": "unit_uzwpv30k8g1",
+          "imei": "357504140083957",
+          "color": "Purple",
+          "condition": "Used",
+          "location": "shop_thurles",
+          "costPrice": 285,
+          "sellPrice": 270,
+          "batteryPct": null,
+          "dateAdded": "2026-08-25",
+          "wholesalePrice": 295
+        },
+        {
+          "id": "unit_ce7qijg9ctz",
+          "imei": "350542608935141",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "shop_mullingar",
+          "costPrice": 285,
+          "sellPrice": 460,
+          "batteryPct": null,
+          "dateAdded": "2026-08-25",
+          "wholesalePrice": 0
+        },
+        {
+          "id": "unit_oun0bd59luf",
+          "imei": "355232484711874",
+          "color": "Purple",
+          "condition": "Used",
+          "location": "shop_mullingar",
+          "costPrice": 285,
+          "sellPrice": 460,
+          "batteryPct": null,
+          "dateAdded": "2026-08-25",
+          "wholesalePrice": 0
+        },
+        {
+          "id": "unit_32ex5mw9xnr",
+          "imei": "354768881961878",
+          "color": "Starlight",
+          "condition": "Used",
+          "batteryPct": null,
+          "location": "shop_maynooth",
+          "costPrice": 285,
+          "wholesalePrice": 297,
+          "sellPrice": 285,
+          "addedAt": "2026-08-25",
+          "verified": true,
+          "verifiedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_eqtvm9uasxz",
+          "imei": "350032735798075",
+          "color": "Starlight",
+          "condition": "Used",
+          "batteryPct": null,
+          "location": "shop_maynooth",
+          "costPrice": 285,
+          "wholesalePrice": 297,
+          "sellPrice": 285,
+          "addedAt": "2026-08-25",
+          "verified": true,
+          "verifiedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_4l190xpay5r",
+          "imei": "350967687737664",
+          "color": "Starlight",
+          "condition": "Used",
+          "batteryPct": null,
+          "location": "shop_maynooth",
+          "costPrice": 285,
+          "wholesalePrice": 297,
+          "sellPrice": 285,
+          "addedAt": "2026-08-25",
+          "verified": true,
+          "verifiedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_ny1gqswb55r",
+          "imei": "354768889302802",
+          "color": "Purple",
+          "condition": "Used",
+          "batteryPct": null,
+          "location": "shop_maynooth",
+          "costPrice": 285,
+          "wholesalePrice": 297,
+          "sellPrice": 285,
+          "addedAt": "2026-08-25",
+          "verified": true,
+          "verifiedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_tqsvjvtozri",
+          "imei": "356879772357379",
+          "color": "Yellow",
+          "condition": "Used",
+          "batteryPct": null,
+          "location": "shop_tralee",
+          "costPrice": 285,
+          "wholesalePrice": 0,
+          "sellPrice": 470,
+          "addedAt": "2026-08-28",
+          "verified": true,
+          "verifiedAt": "2026-09-01"
+        },
+        {
+          "id": "unit_55lwzsb22k4",
+          "imei": "351952295992595",
+          "color": "Blue",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_bq6na1522k6",
+          "imei": "350542600990516",
+          "color": "Yellow",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_zcocy2522k8",
+          "imei": "359203508677272",
+          "color": "Purple",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_tx0bjf122ka",
+          "imei": "356663510627701",
+          "color": "Purple",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_17ooc8322kc",
+          "imei": "359203501087933",
+          "color": "Midnight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_1lvbblr22ke",
+          "imei": "359203508146427",
+          "color": "Midnight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_nsyv0bv22kg",
+          "imei": "350596481059841",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_ryqouul22ki",
+          "imei": "359708629760799",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_wesjk4r22kk",
+          "imei": "357181332324240",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_zrbns6y22km",
+          "imei": "351454480824790",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_ytxsev222ko",
+          "imei": "354827388627232",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_nbwtrh422kq",
+          "imei": "350596482288977",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_53p1wve22kr",
+          "imei": "350596481722075",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_q4j05eo22kt",
+          "imei": "354870280368091",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_kinkwlx22kv",
+          "imei": "350967687530622",
+          "color": "Starlight",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 285,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        }
+      ],
+      "colors": [
+        "Starlight",
+        "Purple",
+        "Yellow",
+        "Blue",
+        "Midnight"
+      ]
+    },
+    {
       "id": "item_pp17oagw69j",
       "name": "iPhone 16",
       "category": "cat_7qgen7vw69i",
@@ -116,12 +451,10 @@
           "condition": "New",
           "location": "shop_thurles",
           "costPrice": 675,
-          "sellPrice": 679,
+          "sellPrice": 700,
           "batteryPct": null,
           "dateAdded": "2026-08-25",
-          "wholesalePrice": 687.02,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "wholesalePrice": 687.02
         },
         {
           "id": "unit_9ooj3c4aznq",
@@ -170,27 +503,13 @@
           "wholesalePrice": 0,
           "sellPrice": 750,
           "addedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_3vav1hd7pw2",
-          "imei": "357884596308680",
-          "color": "Pink",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_tullamore",
-          "costPrice": 675,
-          "sellPrice": 679,
-          "addedAt": null,
-          "verified": true,
-          "verifiedAt": "2026-09-07",
-          "purchaseDate": null,
-          "dateAdded": null,
-          "sentToShopDate": null,
-          "transferredAt": null
         }
       ],
       "colors": [
-        "Pink"
+        "White",
+        "Teal",
+        "Pink",
+        "Ultramarine"
       ]
     },
     {
@@ -225,6 +544,18 @@
       },
       "units": [
         {
+          "id": "unit_b0ppqadu5n9",
+          "imei": "352262376794723",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_maynooth",
+          "costPrice": 80,
+          "wholesalePrice": 0,
+          "sellPrice": 80,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
+        },
+        {
           "id": "unit_tfmskz0u5nb",
           "imei": "352262376794822",
           "color": "Black",
@@ -234,7 +565,7 @@
           "wholesalePrice": 0,
           "sellPrice": 80,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_3tn3d46u5oq",
@@ -246,7 +577,7 @@
           "wholesalePrice": 0,
           "sellPrice": 80,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_j27nc5zu5nz",
@@ -257,9 +588,7 @@
           "costPrice": 115,
           "wholesalePrice": 0,
           "sellPrice": 130,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "batteryPct": null
         },
         {
           "id": "unit_i4412lu1af0",
@@ -271,21 +600,7 @@
           "costPrice": 115,
           "wholesalePrice": 0,
           "sellPrice": 130,
-          "addedAt": "2026-08-28",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_b0ppqadu5n9",
-          "imei": "352262376794723",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 80,
-          "wholesalePrice": 0,
-          "sellPrice": 80,
-          "verified": true,
-          "verifiedAt": "2026-08-28"
+          "addedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -314,32 +629,24 @@
         "shop_tullamore": 115
       },
       "locations": {
-        "warehouse": 4,
+        "warehouse": 7,
         "shop_thurles": 2,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 2,
-        "shop_mullingar": 3,
-        "shop_tralee": 2,
+        "shop_mullingar": 1,
+        "shop_tralee": 1,
         "shop_tullamore": 1
       },
       "units": [
         {
           "id": "unit_fmodi01u5nc",
-          "imei": "351388337849909",
+          "imei": "353451828298263",
           "color": "Black",
           "condition": "New",
-          "location": "shop_tralee",
+          "location": "warehouse",
           "costPrice": 115,
           "wholesalePrice": 127,
-          "sellPrice": 160,
-          "batteryPct": null,
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": null,
-          "dateAdded": null,
-          "addedAt": null,
-          "sentToShopDate": "2026-08-26",
-          "transferredAt": "2026-08-26"
+          "sellPrice": 115
         },
         {
           "id": "unit_nyg8uqpu5np",
@@ -369,9 +676,7 @@
           "location": "shop_tullamore",
           "costPrice": 115,
           "wholesalePrice": 127,
-          "sellPrice": 115,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 115
         },
         {
           "id": "unit_35bi3shtyce",
@@ -426,7 +731,7 @@
           "imei": "351388337847564",
           "color": "Black",
           "condition": "New",
-          "location": "shop_kilkenny",
+          "location": "warehouse",
           "costPrice": 115,
           "sellPrice": 115,
           "batteryPct": null,
@@ -438,7 +743,7 @@
           "imei": "351388337860492",
           "color": "Black",
           "condition": "New",
-          "location": "shop_mullingar",
+          "location": "warehouse",
           "costPrice": 115,
           "sellPrice": 115,
           "batteryPct": null,
@@ -450,7 +755,7 @@
           "imei": "351388337847952",
           "color": "Black",
           "condition": "New",
-          "location": "shop_mullingar",
+          "location": "warehouse",
           "costPrice": 115,
           "sellPrice": 115,
           "batteryPct": null,
@@ -469,7 +774,7 @@
           "dateAdded": "2026-08-26",
           "wholesalePrice": 107,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_wf0h9009ljl",
@@ -496,7 +801,7 @@
           "sellPrice": 115,
           "addedAt": "2026-08-28",
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -524,15 +829,25 @@
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 15,
-        "shop_thurles": 3,
+        "warehouse": 19,
+        "shop_thurles": 1,
         "shop_kilkenny": 2,
         "shop_maynooth": 1,
-        "shop_mullingar": 3,
+        "shop_mullingar": 1,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
+        {
+          "id": "unit_jet6hb4u5nq",
+          "imei": "351355310077808",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_thurles",
+          "costPrice": 125,
+          "wholesalePrice": 137,
+          "sellPrice": 180
+        },
         {
           "id": "unit_2xe4fhmu5o0",
           "imei": "353578126885605",
@@ -542,9 +857,7 @@
           "costPrice": 125,
           "wholesalePrice": 0,
           "sellPrice": 190,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "batteryPct": null
         },
         {
           "id": "unit_u49qmbdu5oy",
@@ -642,11 +955,25 @@
           "wholesalePrice": 111
         },
         {
+          "id": "unit_yrbjsvm9llr",
+          "imei": "351355313872528",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_maynooth",
+          "costPrice": 125,
+          "sellPrice": 190,
+          "batteryPct": null,
+          "dateAdded": "2026-08-26",
+          "wholesalePrice": 111,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
+        },
+        {
           "id": "unit_mjhtw459lls",
           "imei": "351355313413943",
           "color": "Black",
           "condition": "New",
-          "location": "shop_thurles",
+          "location": "warehouse",
           "costPrice": 125,
           "sellPrice": 120,
           "batteryPct": null,
@@ -658,7 +985,7 @@
           "imei": "351355313876321",
           "color": "Black",
           "condition": "New",
-          "location": "shop_thurles",
+          "location": "warehouse",
           "costPrice": 125,
           "sellPrice": 120,
           "batteryPct": null,
@@ -670,7 +997,7 @@
           "imei": "351355314965701",
           "color": "Black",
           "condition": "New",
-          "location": "shop_mullingar",
+          "location": "warehouse",
           "costPrice": 125,
           "sellPrice": 120,
           "batteryPct": null,
@@ -682,7 +1009,7 @@
           "imei": "351355315586613",
           "color": "Black",
           "condition": "New",
-          "location": "shop_mullingar",
+          "location": "warehouse",
           "costPrice": 125,
           "sellPrice": 120,
           "batteryPct": null,
@@ -795,32 +1122,8 @@
           "costPrice": 125,
           "sellPrice": 180,
           "addedAt": "2026-09-01",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_jet6hb4u5nq",
-          "imei": "351355310077808",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_thurles",
-          "costPrice": 125,
-          "wholesalePrice": 137,
-          "sellPrice": 180
-        },
-        {
-          "id": "unit_yrbjsvm9llr",
-          "imei": "351355313872528",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 125,
-          "sellPrice": 190,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 111,
-          "verified": true,
-          "verifiedAt": "2026-08-28"
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -870,7 +1173,7 @@
           "sellPrice": 250,
           "addedAt": "2026-08-25",
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_bdk602tu5nd",
@@ -912,7 +1215,7 @@
           "wholesalePrice": 262,
           "sellPrice": 250,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -1012,7 +1315,7 @@
           "dateAdded": "2026-08-26",
           "wholesalePrice": 242,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -1064,7 +1367,7 @@
           "wholesalePrice": 287,
           "sellPrice": 275,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_12mgweuu5ok",
@@ -1076,7 +1379,7 @@
           "wholesalePrice": 287,
           "sellPrice": 275,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_nvcw6p99fst",
@@ -1088,9 +1391,7 @@
           "costPrice": 275,
           "wholesalePrice": 0,
           "sellPrice": 380,
-          "addedAt": "2026-08-28",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "addedAt": "2026-08-28"
         },
         {
           "id": "unit_pvitd2cafq5",
@@ -1102,9 +1403,7 @@
           "costPrice": 275,
           "wholesalePrice": 0,
           "sellPrice": 380,
-          "addedAt": "2026-08-28",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "addedAt": "2026-08-28"
         },
         {
           "id": "unit_3894ujxu5o2",
@@ -1115,9 +1414,7 @@
           "costPrice": 275,
           "wholesalePrice": 0,
           "sellPrice": 380,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -1145,11 +1442,11 @@
         "shop_tullamore": 180
       },
       "locations": {
-        "warehouse": 5,
+        "warehouse": 6,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 1,
-        "shop_mullingar": 1,
+        "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
@@ -1159,7 +1456,7 @@
           "imei": "352482910532708",
           "color": "Black",
           "condition": "New",
-          "location": "shop_mullingar",
+          "location": "warehouse",
           "costPrice": 155,
           "wholesalePrice": 167,
           "sellPrice": 180
@@ -1252,11 +1549,11 @@
         "shop_tullamore": 155
       },
       "locations": {
-        "warehouse": 6,
+        "warehouse": 7,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
         "shop_maynooth": 1,
-        "shop_mullingar": 1,
+        "shop_mullingar": 0,
         "shop_tralee": 1,
         "shop_tullamore": 0
       },
@@ -1266,7 +1563,7 @@
           "imei": "356771220265447",
           "color": "Black",
           "condition": "New",
-          "location": "shop_mullingar",
+          "location": "warehouse",
           "costPrice": 135,
           "wholesalePrice": 147,
           "sellPrice": 155
@@ -1527,11 +1824,11 @@
         "shop_tullamore": 20
       },
       "locations": {
-        "warehouse": 2,
+        "warehouse": 4,
         "shop_thurles": 0,
         "shop_kilkenny": 2,
         "shop_maynooth": 3,
-        "shop_mullingar": 3,
+        "shop_mullingar": 1,
         "shop_tralee": 3,
         "shop_tullamore": 0
       },
@@ -1541,7 +1838,7 @@
           "imei": "355282133048608",
           "color": "",
           "condition": "New",
-          "location": "shop_mullingar",
+          "location": "warehouse",
           "costPrice": 14,
           "wholesalePrice": 26,
           "sellPrice": 20
@@ -1568,10 +1865,10 @@
         },
         {
           "id": "unit_czdzzepu5nj",
-          "imei": "355282134801922",
+          "imei": "355282134807747",
           "color": "",
           "condition": "New",
-          "location": "shop_mullingar",
+          "location": "warehouse",
           "costPrice": 14,
           "wholesalePrice": 26,
           "sellPrice": 20
@@ -1713,12 +2010,12 @@
         "shop_tullamore": 22
       },
       "locations": {
-        "warehouse": 3,
+        "warehouse": 4,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
         "shop_maynooth": 2,
         "shop_mullingar": 2,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 2
       },
       "units": [
@@ -1747,7 +2044,7 @@
           "imei": "355647768273657",
           "color": "",
           "condition": "New",
-          "location": "shop_tralee",
+          "location": "warehouse",
           "costPrice": 15,
           "wholesalePrice": 27,
           "sellPrice": 22
@@ -1783,6 +2080,26 @@
           "sellPrice": 15,
           "verified": true,
           "verifiedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_av104ygu5pl",
+          "imei": "355647768278219",
+          "color": "",
+          "condition": "New",
+          "location": "shop_tullamore",
+          "costPrice": 15,
+          "wholesalePrice": 27,
+          "sellPrice": 22
+        },
+        {
+          "id": "unit_sbyzqazu5pm",
+          "imei": "355647768272337",
+          "color": "",
+          "condition": "New",
+          "location": "shop_tullamore",
+          "costPrice": 15,
+          "wholesalePrice": 27,
+          "sellPrice": 22
         },
         {
           "id": "unit_r3vzw000zlr",
@@ -1821,26 +2138,6 @@
           "addedAt": "2026-08-25",
           "verified": true,
           "verifiedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_av104ygu5pl",
-          "imei": "355647768278219",
-          "color": "",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 15,
-          "wholesalePrice": 27,
-          "sellPrice": 22
-        },
-        {
-          "id": "unit_sbyzqazu5pm",
-          "imei": "355647768272337",
-          "color": "",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 15,
-          "wholesalePrice": 27,
-          "sellPrice": 22
         }
       ],
       "createdAt": "2026-08-20",
@@ -2106,7 +2403,7 @@
       "imei": "",
       "condition": "Used",
       "batteryPct": null,
-      "costPrice": 170,
+      "costPrice": 190,
       "shopPrices": {
         "warehouse": 240,
         "shop_thurles": 240,
@@ -2117,11 +2414,11 @@
         "shop_tullamore": 270
       },
       "locations": {
-        "warehouse": 7,
+        "warehouse": 10,
         "shop_thurles": 4,
         "shop_kilkenny": 2,
-        "shop_maynooth": 3,
-        "shop_mullingar": 2,
+        "shop_maynooth": 1,
+        "shop_mullingar": 1,
         "shop_tralee": 2,
         "shop_tullamore": 3
       },
@@ -2132,17 +2429,11 @@
           "color": "Black",
           "condition": "Used",
           "location": "shop_thurles",
-          "costPrice": 170,
+          "costPrice": 190,
           "wholesalePrice": 200,
           "sellPrice": 240,
           "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": 74,
-          "purchaseDate": "2025-02-10",
-          "dateAdded": "2025-02-10",
-          "addedAt": "2025-02-10",
-          "sentToShopDate": "2026-03-24",
-          "transferredAt": "2026-03-24"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_bnk8a0wu5nn",
@@ -2150,17 +2441,11 @@
           "color": "Green",
           "condition": "Used",
           "location": "shop_thurles",
-          "costPrice": 170,
+          "costPrice": 190,
           "wholesalePrice": 200,
           "sellPrice": 240,
           "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": 90,
-          "purchaseDate": "2025-11-28",
-          "dateAdded": "2025-11-28",
-          "addedAt": "2025-11-28",
-          "sentToShopDate": "2026-03-24",
-          "transferredAt": "2026-03-24"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_swqkci5u5nu",
@@ -2188,17 +2473,11 @@
           "color": "Purple",
           "condition": "Used",
           "location": "shop_maynooth",
-          "costPrice": 170,
+          "costPrice": 190,
           "wholesalePrice": 200,
           "sellPrice": 190,
           "verified": true,
-          "verifiedAt": "2026-08-28",
-          "batteryPct": 89,
-          "purchaseDate": "2025-11-28",
-          "dateAdded": "2025-11-28",
-          "addedAt": "2025-11-28",
-          "sentToShopDate": "2026-05-19",
-          "transferredAt": "2026-05-19"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_erq6nzhu5ow",
@@ -2206,17 +2485,10 @@
           "color": "Purple",
           "condition": "Used",
           "location": "shop_mullingar",
-          "costPrice": 170,
+          "costPrice": 190,
           "wholesalePrice": 0,
           "sellPrice": 240,
-          "batteryPct": 85,
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2025-11-28",
-          "dateAdded": "2025-11-28",
-          "addedAt": "2025-11-28",
-          "sentToShopDate": "2026-10-20",
-          "transferredAt": "2026-10-20"
+          "batteryPct": null
         },
         {
           "id": "unit_2e1agrlu5p3",
@@ -2227,14 +2499,9 @@
           "costPrice": 190,
           "wholesalePrice": 0,
           "sellPrice": 270,
-          "batteryPct": 78,
+          "batteryPct": null,
           "verified": true,
-          "verifiedAt": "2026-09-01",
-          "purchaseDate": "2025-02-10",
-          "dateAdded": "2025-02-10",
-          "addedAt": "2025-02-10",
-          "sentToShopDate": "2025-04-15",
-          "transferredAt": "2025-04-15"
+          "verifiedAt": "2026-09-01"
         },
         {
           "id": "unit_uuy9nr3u5pd",
@@ -2244,15 +2511,17 @@
           "location": "shop_tullamore",
           "costPrice": 190,
           "wholesalePrice": 200,
-          "sellPrice": 270,
-          "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": 78,
-          "purchaseDate": "2025-02-10",
-          "dateAdded": "2025-02-10",
-          "addedAt": "2025-02-10",
-          "sentToShopDate": "2025-02-12",
-          "transferredAt": "2025-02-12"
+          "sellPrice": 270
+        },
+        {
+          "id": "unit_fvstts5u5pe",
+          "imei": "356559105580943",
+          "color": "",
+          "condition": "Used",
+          "location": "shop_tullamore",
+          "costPrice": 190,
+          "wholesalePrice": 200,
+          "sellPrice": 270
         },
         {
           "id": "unit_eruxzw1u5pe",
@@ -2262,15 +2531,7 @@
           "location": "shop_tullamore",
           "costPrice": 190,
           "wholesalePrice": 200,
-          "sellPrice": 270,
-          "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": 92,
-          "purchaseDate": "2025-11-28",
-          "dateAdded": "2025-11-28",
-          "addedAt": "2025-11-28",
-          "sentToShopDate": "2025-12-02",
-          "transferredAt": "2025-12-02"
+          "sellPrice": 270
         },
         {
           "id": "unit_jeg3xt4mxc7",
@@ -2280,15 +2541,11 @@
           "location": "shop_thurles",
           "costPrice": 190,
           "sellPrice": 240,
-          "batteryPct": 93,
-          "dateAdded": "2025-11-28",
+          "batteryPct": null,
+          "dateAdded": "2026-08-25",
           "wholesalePrice": 200,
           "verified": true,
-          "verifiedAt": "2026-09-01",
-          "purchaseDate": "2025-11-28",
-          "addedAt": "2025-11-28",
-          "sentToShopDate": "2025-12-17",
-          "transferredAt": "2025-12-17"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_p5w9t1gnl5z",
@@ -2298,15 +2555,11 @@
           "location": "shop_thurles",
           "costPrice": 190,
           "sellPrice": 240,
-          "batteryPct": 87,
-          "dateAdded": "2025-11-28",
+          "batteryPct": null,
+          "dateAdded": "2026-08-25",
           "wholesalePrice": 200,
           "verified": true,
-          "verifiedAt": "2026-09-01",
-          "purchaseDate": "2025-11-28",
-          "addedAt": "2025-11-28",
-          "sentToShopDate": "2025-11-25",
-          "transferredAt": "2025-11-25"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_uxxi2b7nhwv",
@@ -2330,14 +2583,8 @@
           "location": "warehouse",
           "costPrice": 155,
           "sellPrice": 240,
-          "batteryPct": 84,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_99fklui22iu",
@@ -2347,14 +2594,8 @@
           "location": "warehouse",
           "costPrice": 155,
           "sellPrice": 240,
-          "batteryPct": 85,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_kw1avlj22iw",
@@ -2364,14 +2605,8 @@
           "location": "warehouse",
           "costPrice": 155,
           "sellPrice": 240,
-          "batteryPct": 86,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_6wbxfg922iy",
@@ -2381,14 +2616,8 @@
           "location": "warehouse",
           "costPrice": 155,
           "sellPrice": 240,
-          "batteryPct": 97,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_ktsamft22j0",
@@ -2398,14 +2627,8 @@
           "location": "warehouse",
           "costPrice": 155,
           "sellPrice": 240,
-          "batteryPct": 85,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_pdeol4z22j2",
@@ -2415,14 +2638,8 @@
           "location": "warehouse",
           "costPrice": 155,
           "sellPrice": 240,
-          "batteryPct": 87,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_c03th1w22j4",
@@ -2432,75 +2649,41 @@
           "location": "warehouse",
           "costPrice": 155,
           "sellPrice": 240,
-          "batteryPct": 83,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_ni5mj6922j6",
           "imei": "356864117670819",
           "color": "Black",
           "condition": "Used",
-          "location": "shop_maynooth",
+          "location": "warehouse",
           "costPrice": 155,
           "sellPrice": 240,
-          "batteryPct": 95,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": "2026-09-01",
-          "transferredAt": "2026-09-01"
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_kzugwlg22j8",
           "imei": "356867118516238",
           "color": "Black",
           "condition": "Used",
-          "location": "shop_maynooth",
+          "location": "warehouse",
           "costPrice": 155,
           "sellPrice": 240,
-          "batteryPct": 84,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": "2026-09-01",
-          "transferredAt": "2026-09-01"
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_9zrm33p22ja",
           "imei": "356863113295118",
           "color": "Black",
           "condition": "Used",
-          "location": "shop_mullingar",
+          "location": "warehouse",
           "costPrice": 155,
           "sellPrice": 240,
-          "batteryPct": 84,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": "2026-09-02",
-          "transferredAt": "2026-09-02"
-        },
-        {
-          "id": "unit_fvstts5u5pe",
-          "imei": "356559105580943",
-          "color": "",
-          "condition": "Used",
-          "location": "shop_tullamore",
-          "costPrice": 190,
-          "wholesalePrice": 200,
-          "sellPrice": 270
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -2536,8 +2719,8 @@
         "shop_tullamore": 930
       },
       "locations": {
-        "warehouse": 1,
-        "shop_thurles": 0,
+        "warehouse": 0,
+        "shop_thurles": 1,
         "shop_kilkenny": 0,
         "shop_maynooth": 2,
         "shop_mullingar": 0,
@@ -2550,12 +2733,10 @@
           "imei": "350085642277120",
           "color": "Lavender",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_thurles",
           "costPrice": 850,
           "wholesalePrice": 850,
-          "sellPrice": 930,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 930
         },
         {
           "id": "unit_8fd2tbru5oe",
@@ -2604,12 +2785,12 @@
         "shop_tullamore": 340
       },
       "locations": {
-        "warehouse": 7,
-        "shop_thurles": 3,
+        "warehouse": 15,
+        "shop_thurles": 0,
         "shop_kilkenny": 3,
-        "shop_maynooth": 3,
-        "shop_mullingar": 2,
-        "shop_tralee": 1,
+        "shop_maynooth": 1,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
@@ -2725,7 +2906,7 @@
           "imei": "352941886853463",
           "color": "Midnight",
           "condition": "Used",
-          "location": "shop_tralee",
+          "location": "warehouse",
           "costPrice": 255,
           "sellPrice": 340,
           "batteryPct": null,
@@ -2736,7 +2917,7 @@
           "imei": "356815608003274",
           "color": "Midnight",
           "condition": "Used",
-          "location": "shop_mullingar",
+          "location": "warehouse",
           "costPrice": 255,
           "sellPrice": 340,
           "batteryPct": null,
@@ -2747,7 +2928,7 @@
           "imei": "352408234335635",
           "color": "Midnight",
           "condition": "Used",
-          "location": "shop_maynooth",
+          "location": "warehouse",
           "costPrice": 255,
           "sellPrice": 340,
           "batteryPct": null,
@@ -2780,7 +2961,7 @@
           "imei": "350225646713767",
           "color": "Blue",
           "condition": "Used",
-          "location": "shop_maynooth",
+          "location": "warehouse",
           "costPrice": 255,
           "sellPrice": 340,
           "batteryPct": null,
@@ -2791,7 +2972,7 @@
           "imei": "352472592505841",
           "color": "Blue",
           "condition": "Used",
-          "location": "shop_thurles",
+          "location": "warehouse",
           "costPrice": 255,
           "sellPrice": 340,
           "batteryPct": null,
@@ -2802,7 +2983,7 @@
           "imei": "352678431099610",
           "color": "Blue",
           "condition": "Used",
-          "location": "shop_mullingar",
+          "location": "warehouse",
           "costPrice": 255,
           "sellPrice": 340,
           "batteryPct": null,
@@ -2813,7 +2994,7 @@
           "imei": "357492900676816",
           "color": "Starlight",
           "condition": "Used",
-          "location": "shop_thurles",
+          "location": "warehouse",
           "costPrice": 255,
           "sellPrice": 340,
           "batteryPct": null,
@@ -2824,7 +3005,7 @@
           "imei": "352184999102359",
           "color": "Pink",
           "condition": "Used",
-          "location": "shop_thurles",
+          "location": "warehouse",
           "costPrice": 255,
           "sellPrice": 340,
           "batteryPct": null,
@@ -2848,11 +3029,10 @@
       "colors": [
         "White",
         "Blue",
-        "Black",
-        "Red"
+        "Black"
       ],
       "batteryPct": null,
-      "costPrice": 180,
+      "costPrice": 230,
       "shopPrices": {
         "warehouse": 290,
         "shop_thurles": 290,
@@ -2863,11 +3043,11 @@
         "shop_tullamore": 340
       },
       "locations": {
-        "warehouse": 10,
+        "warehouse": 15,
         "shop_thurles": 1,
-        "shop_kilkenny": 2,
-        "shop_maynooth": 2,
-        "shop_mullingar": 2,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 1
       },
@@ -2878,17 +3058,11 @@
           "color": "White",
           "condition": "Used",
           "location": "shop_thurles",
-          "costPrice": 180,
+          "costPrice": 230,
           "wholesalePrice": 230,
           "sellPrice": 290,
           "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": 84,
-          "purchaseDate": "2025-05-06",
-          "dateAdded": "2025-05-06",
-          "addedAt": "2025-05-06",
-          "sentToShopDate": "2026-05-26",
-          "transferredAt": "2026-05-26"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_rhkc9cju5nu",
@@ -2896,35 +3070,19 @@
           "color": "Blue",
           "condition": "Used",
           "location": "shop_kilkenny",
-          "costPrice": 180,
+          "costPrice": 330,
           "wholesalePrice": 0,
-          "sellPrice": 390,
-          "batteryPct": null,
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2024-10-04",
-          "dateAdded": "2024-10-04",
-          "addedAt": "2024-10-04",
-          "sentToShopDate": "2025-05-07",
-          "transferredAt": "2025-05-07"
+          "sellPrice": 390
         },
         {
           "id": "unit_idxe9azu5pd",
           "imei": "353042112703819",
-          "color": "Red",
+          "color": "",
           "condition": "Used",
           "location": "shop_tullamore",
-          "costPrice": 180,
+          "costPrice": 230,
           "wholesalePrice": 230,
-          "sellPrice": 340,
-          "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": null,
-          "purchaseDate": "2024-03-13",
-          "dateAdded": "2024-03-13",
-          "addedAt": "2024-03-13",
-          "sentToShopDate": "2024-05-07",
-          "transferredAt": "2024-05-07"
+          "sellPrice": 340
         },
         {
           "id": "unit_k8jk9oq22i0",
@@ -2934,14 +3092,8 @@
           "location": "warehouse",
           "costPrice": 170,
           "sellPrice": 290,
-          "batteryPct": 94,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_nkyhdck22i2",
@@ -2951,14 +3103,8 @@
           "location": "warehouse",
           "costPrice": 170,
           "sellPrice": 290,
-          "batteryPct": 87,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_rz8ylcp22i3",
@@ -2968,48 +3114,30 @@
           "location": "warehouse",
           "costPrice": 170,
           "sellPrice": 290,
-          "batteryPct": 96,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_8weajtd22i5",
           "imei": "352380202140760",
           "color": "White",
           "condition": "Used",
-          "location": "shop_mullingar",
+          "location": "warehouse",
           "costPrice": 170,
           "sellPrice": 290,
-          "batteryPct": 94,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_mjzh4r922i7",
           "imei": "353050110532999",
           "color": "White",
           "condition": "Used",
-          "location": "shop_kilkenny",
+          "location": "warehouse",
           "costPrice": 170,
           "sellPrice": 290,
-          "batteryPct": 100,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": "2026-09-01",
-          "transferredAt": "2026-09-01"
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_alal9k822i8",
@@ -3019,14 +3147,8 @@
           "location": "warehouse",
           "costPrice": 170,
           "sellPrice": 290,
-          "batteryPct": 99,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_t99266922ib",
@@ -3036,14 +3158,8 @@
           "location": "warehouse",
           "costPrice": 170,
           "sellPrice": 290,
-          "batteryPct": 88,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_2367lni22id",
@@ -3053,14 +3169,8 @@
           "location": "warehouse",
           "costPrice": 170,
           "sellPrice": 290,
-          "batteryPct": 99,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_8hvrv8r22ie",
@@ -3070,65 +3180,52 @@
           "location": "warehouse",
           "costPrice": 170,
           "sellPrice": 290,
-          "batteryPct": 94,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_n4xvy6k22ig",
           "imei": "351365225404484",
           "color": "Black",
           "condition": "Used",
-          "location": "shop_mullingar",
+          "location": "warehouse",
           "costPrice": 170,
           "sellPrice": 290,
-          "batteryPct": 93,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": "2026-09-02",
-          "transferredAt": "2026-09-02"
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
+        },
+        {
+          "id": "unit_5j2w08622ii",
+          "imei": "353049112302518",
+          "color": "Black",
+          "condition": "Used",
+          "location": "warehouse",
+          "costPrice": 170,
+          "sellPrice": 290,
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_mcia3yd22ik",
           "imei": "358503115710916",
           "color": "Black",
           "condition": "Used",
-          "location": "shop_maynooth",
+          "location": "warehouse",
           "costPrice": 170,
           "sellPrice": 290,
-          "batteryPct": 97,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": "2026-09-01",
-          "transferredAt": "2026-09-01"
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_g1hkv2w22im",
           "imei": "350400610875401",
           "color": "Black",
           "condition": "Used",
-          "location": "shop_maynooth",
+          "location": "warehouse",
           "costPrice": 170,
           "sellPrice": 290,
-          "batteryPct": 93,
-          "dateAdded": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": "2026-09-01",
-          "transferredAt": "2026-09-01"
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_9dl11y522io",
@@ -3138,35 +3235,12 @@
           "location": "warehouse",
           "costPrice": 170,
           "sellPrice": 290,
-          "batteryPct": 93,
-          "dateAdded": "2026-09-01",
-          "verified": true,
-          "verifiedAt": "2026-09-02",
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null,
+          "dateAdded": "2026-09-01"
         },
         {
           "id": "unit_5w98ykk22iq",
           "imei": "353049110269842",
-          "color": "Black",
-          "condition": "Used",
-          "location": "warehouse",
-          "costPrice": 170,
-          "sellPrice": 290,
-          "batteryPct": 95,
-          "dateAdded": "2026-09-01",
-          "verified": true,
-          "verifiedAt": "2026-09-02",
-          "purchaseDate": "2026-09-01",
-          "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
-        },
-        {
-          "id": "unit_5j2w08622ii",
-          "imei": "353049112302518",
           "color": "Black",
           "condition": "Used",
           "location": "warehouse",
@@ -3231,9 +3305,7 @@
           "location": "shop_tullamore",
           "costPrice": 250,
           "wholesalePrice": 13,
-          "sellPrice": 300,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 300
         }
       ],
       "createdAt": "2026-08-20",
@@ -3262,12 +3334,12 @@
         "shop_tullamore": 110
       },
       "locations": {
-        "warehouse": 5,
+        "warehouse": 10,
         "shop_thurles": 1,
-        "shop_kilkenny": 2,
-        "shop_maynooth": 1,
-        "shop_mullingar": 1,
-        "shop_tralee": 1,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
@@ -3310,68 +3382,6 @@
           "imei": "350584198664103",
           "color": "Black",
           "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 95,
-          "sellPrice": 110,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 0,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_t0zjnzn9lj0",
-          "imei": "350584198621574",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_kilkenny",
-          "costPrice": 95,
-          "sellPrice": 110,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 0
-        },
-        {
-          "id": "unit_t509u3l9lj2",
-          "imei": "350584198663675",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_kilkenny",
-          "costPrice": 95,
-          "sellPrice": 110,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 0
-        },
-        {
-          "id": "unit_zea2ipv9lj3",
-          "imei": "350584198664152",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_mullingar",
-          "costPrice": 95,
-          "sellPrice": 110,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 0
-        },
-        {
-          "id": "unit_0i6yq399lj7",
-          "imei": "350584198664095",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 95,
-          "sellPrice": 110,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 0
-        },
-        {
-          "id": "unit_w0rlswb9lj9",
-          "imei": "350584198854571",
-          "color": "Gold",
-          "condition": "New",
           "location": "warehouse",
           "costPrice": 95,
           "sellPrice": 110,
@@ -3392,9 +3402,69 @@
           "wholesalePrice": 0
         },
         {
+          "id": "unit_t0zjnzn9lj0",
+          "imei": "350584198621574",
+          "color": "Black",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 95,
+          "sellPrice": 110,
+          "batteryPct": null,
+          "dateAdded": "2026-08-26",
+          "wholesalePrice": 0
+        },
+        {
+          "id": "unit_t509u3l9lj2",
+          "imei": "350584198663675",
+          "color": "Black",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 95,
+          "sellPrice": 110,
+          "batteryPct": null,
+          "dateAdded": "2026-08-26",
+          "wholesalePrice": 0
+        },
+        {
+          "id": "unit_zea2ipv9lj3",
+          "imei": "350584198664152",
+          "color": "Black",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 95,
+          "sellPrice": 110,
+          "batteryPct": null,
+          "dateAdded": "2026-08-26",
+          "wholesalePrice": 0
+        },
+        {
           "id": "unit_s3lurxo9lj6",
           "imei": "350584198664277",
           "color": "Black",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 95,
+          "sellPrice": 110,
+          "batteryPct": null,
+          "dateAdded": "2026-08-26",
+          "wholesalePrice": 0
+        },
+        {
+          "id": "unit_0i6yq399lj7",
+          "imei": "350584198664095",
+          "color": "Black",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 95,
+          "sellPrice": 110,
+          "batteryPct": null,
+          "dateAdded": "2026-08-26",
+          "wholesalePrice": 0
+        },
+        {
+          "id": "unit_w0rlswb9lj9",
+          "imei": "350584198854571",
+          "color": "Gold",
           "condition": "New",
           "location": "warehouse",
           "costPrice": 95,
@@ -3509,7 +3579,7 @@
           "wholesalePrice": 242,
           "sellPrice": 230,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_2fu9c61u5ol",
@@ -3521,7 +3591,7 @@
           "wholesalePrice": 242,
           "sellPrice": 230,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_14ij1atu5om",
@@ -3533,7 +3603,20 @@
           "wholesalePrice": 242,
           "sellPrice": 230,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
+        },
+        {
+          "id": "unit_7fa9tuuu5om",
+          "imei": "353700230904797",
+          "color": "Awesome Graygreen",
+          "condition": "New",
+          "location": "shop_maynooth",
+          "costPrice": 230,
+          "wholesalePrice": 242,
+          "sellPrice": 230,
+          "verified": true,
+          "verifiedAt": "2026-08-28",
+          "batteryPct": null
         },
         {
           "id": "unit_vh6uk72u5oy",
@@ -3555,19 +3638,6 @@
           "costPrice": 230,
           "wholesalePrice": 0,
           "sellPrice": 240,
-          "batteryPct": null
-        },
-        {
-          "id": "unit_7fa9tuuu5om",
-          "imei": "353700230904797",
-          "color": "Awesome Graygreen",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 230,
-          "wholesalePrice": 242,
-          "sellPrice": 230,
-          "verified": true,
-          "verifiedAt": "2026-08-28",
           "batteryPct": null
         }
       ],
@@ -3597,15 +3667,41 @@
         "shop_tullamore": 220
       },
       "locations": {
-        "warehouse": 14,
+        "warehouse": 15,
         "shop_thurles": 1,
         "shop_kilkenny": 0,
         "shop_maynooth": 1,
         "shop_mullingar": 2,
-        "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tralee": 0,
+        "shop_tullamore": 0
       },
       "units": [
+        {
+          "id": "unit_ghyyvlc9ljp",
+          "imei": "351158945536341",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_thurles",
+          "costPrice": 160,
+          "sellPrice": 160,
+          "batteryPct": null,
+          "dateAdded": "2026-08-26",
+          "wholesalePrice": 172
+        },
+        {
+          "id": "unit_lxdhsp79ljq",
+          "imei": "351158945531433",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_maynooth",
+          "costPrice": 160,
+          "sellPrice": 160,
+          "batteryPct": null,
+          "dateAdded": "2026-08-26",
+          "wholesalePrice": 172,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
+        },
         {
           "id": "unit_x71el6d9ljs",
           "imei": "351158945536655",
@@ -3623,7 +3719,7 @@
           "imei": "351158945017052",
           "color": "Black",
           "condition": "New",
-          "location": "shop_tralee",
+          "location": "warehouse",
           "costPrice": 160,
           "sellPrice": 160,
           "batteryPct": null,
@@ -3809,45 +3905,6 @@
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 172
-        },
-        {
-          "id": "unit_b5re9hnu5pk",
-          "imei": "357884911526313",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 140,
-          "wholesalePrice": 13,
-          "sellPrice": 220,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_ghyyvlc9ljp",
-          "imei": "351158945536341",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_thurles",
-          "costPrice": 160,
-          "sellPrice": 160,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 172
-        },
-        {
-          "id": "unit_lxdhsp79ljq",
-          "imei": "351158945531433",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 160,
-          "sellPrice": 160,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 172,
-          "verified": true,
-          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -3912,7 +3969,7 @@
         "warehouse": 0,
         "shop_thurles": 1,
         "shop_kilkenny": 0,
-        "shop_maynooth": 1,
+        "shop_maynooth": 2,
         "shop_mullingar": 1,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -3923,13 +3980,13 @@
           "imei": "LINK1KNEU003079",
           "color": "Ocean Blue",
           "condition": "New",
-          "location": "shop_thurles",
+          "location": "shop_maynooth",
           "costPrice": 0,
           "wholesalePrice": 65,
           "sellPrice": 80,
           "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verified": false,
+          "verifiedAt": null
         },
         {
           "id": "unit_ay54o0iu5ov",
@@ -3999,9 +4056,7 @@
           "location": "shop_thurles",
           "costPrice": 140,
           "wholesalePrice": 140,
-          "sellPrice": 170,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 170
         }
       ],
       "createdAt": "2026-08-20",
@@ -4040,6 +4095,16 @@
       },
       "units": [
         {
+          "id": "unit_5tmijgtu5ns",
+          "imei": "355225690431618",
+          "color": "",
+          "condition": "New",
+          "location": "shop_thurles",
+          "costPrice": 60,
+          "wholesalePrice": 60,
+          "sellPrice": 80
+        },
+        {
           "id": "unit_0vgb5vcu5o8",
           "imei": "862599070093388",
           "color": "",
@@ -4058,16 +4123,6 @@
           "costPrice": 60,
           "wholesalePrice": 0,
           "sellPrice": 60
-        },
-        {
-          "id": "unit_5tmijgtu5ns",
-          "imei": "355225690431618",
-          "color": "",
-          "condition": "New",
-          "location": "shop_thurles",
-          "costPrice": 60,
-          "wholesalePrice": 60,
-          "sellPrice": 80
         }
       ],
       "createdAt": "2026-08-20",
@@ -4112,9 +4167,7 @@
           "location": "shop_thurles",
           "costPrice": 20,
           "wholesalePrice": 20,
-          "sellPrice": 45,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 45
         },
         {
           "id": "unit_5tjh9tzu5p2",
@@ -4355,12 +4408,7 @@
           "sellPrice": 160,
           "verified": true,
           "verifiedAt": "2026-08-28",
-          "batteryPct": 74,
-          "purchaseDate": "2024-11-12",
-          "dateAdded": "2024-11-12",
-          "addedAt": "2024-11-12",
-          "sentToShopDate": "2024-12-17",
-          "transferredAt": "2024-12-17"
+          "batteryPct": 74
         }
       ],
       "createdAt": "2026-08-20",
@@ -4444,7 +4492,7 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 0
       },
       "units": [
         {
@@ -4472,24 +4520,6 @@
           "batteryPct": null,
           "verified": true,
           "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_q5x5h9ou5pc",
-          "imei": "356773089691903",
-          "color": "",
-          "condition": "Used",
-          "location": "shop_tullamore",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 230,
-          "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": null,
-          "purchaseDate": null,
-          "dateAdded": null,
-          "addedAt": null,
-          "sentToShopDate": null,
-          "transferredAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -4536,15 +4566,7 @@
           "location": "shop_kilkenny",
           "costPrice": 380,
           "wholesalePrice": 0,
-          "sellPrice": 470,
-          "batteryPct": null,
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2024-12-11",
-          "dateAdded": "2024-12-11",
-          "addedAt": "2024-12-11",
-          "sentToShopDate": "2025-12-13",
-          "transferredAt": "2025-12-13"
+          "sellPrice": 470
         }
       ]
     },
@@ -4733,9 +4755,7 @@
           "location": "shop_tullamore",
           "costPrice": 570,
           "wholesalePrice": 88,
-          "sellPrice": 700,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 700
         },
         {
           "id": "unit_xekyjrxu5nw",
@@ -4770,12 +4790,12 @@
         "shop_tullamore": 550
       },
       "locations": {
-        "warehouse": 9,
-        "shop_thurles": 3,
+        "warehouse": 15,
+        "shop_thurles": 0,
         "shop_kilkenny": 3,
-        "shop_maynooth": 4,
+        "shop_maynooth": 2,
         "shop_mullingar": 2,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
@@ -4874,7 +4894,7 @@
           "imei": "355241440813179",
           "color": "Pink",
           "condition": "Used",
-          "location": "shop_thurles",
+          "location": "warehouse",
           "costPrice": 410,
           "sellPrice": 550,
           "batteryPct": null,
@@ -4907,7 +4927,7 @@
           "imei": "355663151740814",
           "color": "Blue",
           "condition": "Used",
-          "location": "shop_thurles",
+          "location": "warehouse",
           "costPrice": 410,
           "sellPrice": 550,
           "batteryPct": null,
@@ -4951,7 +4971,7 @@
           "imei": "354004395087384",
           "color": "Blue",
           "condition": "Used",
-          "location": "shop_maynooth",
+          "location": "warehouse",
           "costPrice": 410,
           "sellPrice": 550,
           "batteryPct": null,
@@ -5006,7 +5026,7 @@
           "imei": "352481290930060",
           "color": "Black",
           "condition": "Used",
-          "location": "shop_tralee",
+          "location": "warehouse",
           "costPrice": 410,
           "sellPrice": 550,
           "batteryPct": null,
@@ -5017,7 +5037,7 @@
           "imei": "355700851379970",
           "color": "Black",
           "condition": "Used",
-          "location": "shop_thurles",
+          "location": "warehouse",
           "costPrice": 410,
           "sellPrice": 550,
           "batteryPct": null,
@@ -5028,7 +5048,7 @@
           "imei": "359987254456010",
           "color": "Black",
           "condition": "Used",
-          "location": "shop_maynooth",
+          "location": "warehouse",
           "costPrice": 410,
           "sellPrice": 550,
           "batteryPct": null,
@@ -5150,9 +5170,7 @@
           "costPrice": 505,
           "wholesalePrice": 0,
           "sellPrice": 580,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -5198,9 +5216,7 @@
           "costPrice": 590,
           "wholesalePrice": 0,
           "sellPrice": 600,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -5246,9 +5262,7 @@
           "costPrice": 555,
           "wholesalePrice": 0,
           "sellPrice": 630,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -5294,9 +5308,7 @@
           "costPrice": 730,
           "wholesalePrice": 0,
           "sellPrice": 800,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -5494,7 +5506,7 @@
     {
       "id": "item_y1rs6jnw69l",
       "name": "Nokia C1 2nd Edition",
-      "category": "cat_kzhvkkxw69i",
+      "category": "cat_lkhn0qyw69i",
       "memory": "16GB",
       "imei": "",
       "condition": "New",
@@ -5609,9 +5621,7 @@
           "location": "shop_tullamore",
           "costPrice": 80,
           "wholesalePrice": 13,
-          "sellPrice": 160,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 160
         }
       ]
     },
@@ -5665,9 +5675,7 @@
           "location": "shop_tullamore",
           "costPrice": 90,
           "wholesalePrice": 90,
-          "sellPrice": 140,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 140
         }
       ],
       "createdAt": "2026-08-20",
@@ -6189,9 +6197,58 @@
       "wholesalePrice": 0
     },
     {
+      "id": "item_7amlbnhw69m",
+      "name": "Samsung Buds 2",
+      "category": "cat_w56n2ktw69i",
+      "memory": "-",
+      "imei": "",
+      "condition": "New",
+      "colors": [
+        "White"
+      ],
+      "batteryPct": 100,
+      "costPrice": 80,
+      "shopPrices": {
+        "warehouse": 120,
+        "shop_thurles": 120,
+        "shop_kilkenny": 120,
+        "shop_maynooth": 120,
+        "shop_mullingar": 120,
+        "shop_tralee": 120,
+        "shop_tullamore": 120
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 2,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_hnx53ecxs7i",
+          "imei": "8806094702705",
+          "color": "White",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_kilkenny",
+          "costPrice": 80,
+          "wholesalePrice": 0,
+          "sellPrice": 120,
+          "addedAt": "2026-08-28",
+          "verified": false,
+          "verifiedAt": null
+        }
+      ],
+      "createdAt": "2026-08-20",
+      "wholesalePrice": 80
+    },
+    {
       "id": "item_xpj7c2aw69m",
       "name": "Samsung Buds 3",
-      "category": "cat_qaxr5vow69i",
+      "category": "cat_w56n2ktw69i",
       "memory": "-",
       "imei": "",
       "condition": "New",
@@ -6221,7 +6278,7 @@
       "units": [
         {
           "id": "unit_klrfcvyyr06",
-          "imei": "",
+          "imei": "8806095645810",
           "color": "White",
           "condition": "New",
           "batteryPct": null,
@@ -6372,7 +6429,7 @@
           "wholesalePrice": 0,
           "sellPrice": 0,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-20",
@@ -6441,9 +6498,7 @@
           "location": "shop_tullamore",
           "costPrice": 38,
           "wholesalePrice": 13,
-          "sellPrice": 90,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 90
         },
         {
           "id": "unit_r9najlgu5p7",
@@ -6677,9 +6732,7 @@
           "location": "shop_tullamore",
           "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 70,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 70
         }
       ],
       "createdAt": "2026-08-20",
@@ -7155,7 +7208,7 @@
         "Red"
       ],
       "batteryPct": null,
-      "costPrice": 30,
+      "costPrice": 300,
       "shopPrices": {
         "warehouse": 380,
         "shop_thurles": 380,
@@ -7178,20 +7231,12 @@
         {
           "id": "unit_u04ngbqu5pe",
           "imei": "353039112970182",
-          "color": "Red",
+          "color": "",
           "condition": "Used",
           "location": "shop_tullamore",
-          "costPrice": 30,
+          "costPrice": 300,
           "wholesalePrice": 300,
-          "sellPrice": 370,
-          "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": 91,
-          "purchaseDate": "2024-12-11",
-          "dateAdded": "2024-12-11",
-          "addedAt": "2024-12-11",
-          "sentToShopDate": "2025-02-18",
-          "transferredAt": "2025-02-18"
+          "sellPrice": 370
         },
         {
           "id": "unit_r37il9ou5p3",
@@ -7199,17 +7244,12 @@
           "color": "Black",
           "condition": "Used",
           "location": "shop_tralee",
-          "costPrice": 30,
+          "costPrice": 300,
           "wholesalePrice": 0,
           "sellPrice": 330,
           "batteryPct": null,
           "verified": true,
-          "verifiedAt": "2026-09-01",
-          "purchaseDate": null,
-          "dateAdded": null,
-          "addedAt": null,
-          "sentToShopDate": "2024-05-14",
-          "transferredAt": "2024-05-14"
+          "verifiedAt": "2026-09-01"
         },
         {
           "id": "unit_ixgbjf6u5p3",
@@ -7217,7 +7257,7 @@
           "color": "Red",
           "condition": "Used",
           "location": "shop_tralee",
-          "costPrice": 30,
+          "costPrice": 300,
           "wholesalePrice": 0,
           "sellPrice": 330,
           "batteryPct": null,
@@ -7267,9 +7307,7 @@
           "location": "shop_tullamore",
           "costPrice": 170,
           "wholesalePrice": 170,
-          "sellPrice": 350,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 350
         },
         {
           "id": "unit_pp94jvzu5p3",
@@ -7282,12 +7320,7 @@
           "sellPrice": 450,
           "batteryPct": null,
           "verified": true,
-          "verifiedAt": "2026-09-01",
-          "purchaseDate": "2024-12-24",
-          "dateAdded": "2024-12-24",
-          "addedAt": "2024-12-24",
-          "sentToShopDate": "2025-04-29",
-          "transferredAt": "2025-04-29"
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -7347,9 +7380,7 @@
           "location": "shop_tullamore",
           "costPrice": 220,
           "wholesalePrice": 220,
-          "sellPrice": 350,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 350
         },
         {
           "id": "unit_krgo0qmp2ov",
@@ -7405,7 +7436,7 @@
     {
       "id": "item_6iqajsow69m",
       "name": "Nokia C1",
-      "category": "cat_kzhvkkxw69i",
+      "category": "cat_lkhn0qyw69i",
       "memory": "-",
       "imei": "",
       "condition": "New",
@@ -7444,12 +7475,7 @@
           "sellPrice": 90,
           "batteryPct": null,
           "verified": true,
-          "verifiedAt": "2026-09-01",
-          "purchaseDate": null,
-          "dateAdded": null,
-          "addedAt": null,
-          "sentToShopDate": null,
-          "transferredAt": null
+          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20",
@@ -7532,7 +7558,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 2,
+        "shop_tralee": 1,
         "shop_tullamore": 0
       },
       "units": [
@@ -7548,24 +7574,6 @@
           "batteryPct": null,
           "verified": true,
           "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_vcwgvd4u5p8",
-          "imei": "353387181135884",
-          "color": "Green",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 120,
-          "wholesalePrice": 0,
-          "sellPrice": 150,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-07",
-          "purchaseDate": null,
-          "dateAdded": null,
-          "addedAt": null,
-          "sentToShopDate": null,
-          "transferredAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -7610,9 +7618,7 @@
           "location": "shop_tullamore",
           "costPrice": 60,
           "wholesalePrice": 60,
-          "sellPrice": 90,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 90
         },
         {
           "id": "unit_70d68hfu5p8",
@@ -7623,9 +7629,7 @@
           "costPrice": 60,
           "wholesalePrice": 0,
           "sellPrice": 90,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-07"
+          "batteryPct": null
         },
         {
           "id": "unit_s99c3f5u5p9",
@@ -7636,9 +7640,7 @@
           "costPrice": 60,
           "wholesalePrice": 0,
           "sellPrice": 90,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-07"
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -7681,9 +7683,7 @@
           "costPrice": 100,
           "wholesalePrice": 0,
           "sellPrice": 150,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-07"
+          "batteryPct": null
         },
         {
           "id": "unit_7zft6nsu5p9",
@@ -7694,9 +7694,7 @@
           "costPrice": 100,
           "wholesalePrice": 0,
           "sellPrice": 150,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-07"
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -7740,9 +7738,7 @@
           "costPrice": 70,
           "wholesalePrice": 0,
           "sellPrice": 110,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-07"
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -7786,9 +7782,7 @@
           "costPrice": 90,
           "wholesalePrice": 0,
           "sellPrice": 140,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-07"
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -7891,9 +7885,7 @@
           "costPrice": 80,
           "wholesalePrice": 0,
           "sellPrice": 120,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-07"
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -8053,10 +8045,22 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 1,
         "shop_tullamore": 0
       },
-      "units": [],
+      "units": [
+        {
+          "id": "unit_2cd6qn1u5pa",
+          "imei": "413387181144784",
+          "color": "Silver",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 65,
+          "wholesalePrice": 0,
+          "sellPrice": 80,
+          "batteryPct": null
+        }
+      ],
       "createdAt": "2026-08-20",
       "wholesalePrice": 65
     },
@@ -8087,10 +8091,22 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 1,
         "shop_tullamore": 0
       },
-      "units": [],
+      "units": [
+        {
+          "id": "unit_rhhalnru5pa",
+          "imei": "351428241420312",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 60,
+          "wholesalePrice": 0,
+          "sellPrice": 100,
+          "batteryPct": null
+        }
+      ],
       "createdAt": "2026-08-20",
       "wholesalePrice": 60
     },
@@ -8131,9 +8147,7 @@
           "costPrice": 90,
           "wholesalePrice": 0,
           "sellPrice": 130,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-07"
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -8164,10 +8178,24 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 1,
         "shop_tullamore": 0
       },
-      "units": [],
+      "units": [
+        {
+          "id": "unit_lekh53lu5pa",
+          "imei": "CRAG502X600169/40235",
+          "color": "",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 25,
+          "wholesalePrice": 25,
+          "sellPrice": 40,
+          "batteryPct": null,
+          "verified": false,
+          "verifiedAt": null
+        }
+      ],
       "createdAt": "2026-08-20",
       "wholesalePrice": 25,
       "colors": []
@@ -8210,8 +8238,8 @@
           "wholesalePrice": 0,
           "sellPrice": 0,
           "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-07"
+          "verified": false,
+          "verifiedAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -8242,10 +8270,24 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 1,
         "shop_tullamore": 0
       },
-      "units": [],
+      "units": [
+        {
+          "id": "unit_rbwgaztu5pa",
+          "imei": "6971664931310",
+          "color": "",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0,
+          "batteryPct": null,
+          "verified": false,
+          "verifiedAt": null
+        }
+      ],
       "createdAt": "2026-08-20",
       "wholesalePrice": 0,
       "colors": []
@@ -8265,7 +8307,7 @@
         "shop_kilkenny": 55,
         "shop_maynooth": 55,
         "shop_mullingar": 55,
-        "shop_tralee": 84.99,
+        "shop_tralee": 0,
         "shop_tullamore": 55
       },
       "locations": {
@@ -8286,9 +8328,9 @@
           "location": "shop_tralee",
           "costPrice": 0,
           "wholesalePrice": 0,
-          "sellPrice": 84.99,
-          "verified": true,
-          "verifiedAt": "2026-09-07",
+          "sellPrice": 0,
+          "verified": false,
+          "verifiedAt": null,
           "batteryPct": null
         }
       ],
@@ -8323,10 +8365,24 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 1,
         "shop_tullamore": 0
       },
-      "units": [],
+      "units": [
+        {
+          "id": "unit_dn2hqmiu5pb",
+          "imei": "6974377570128",
+          "color": "Pink",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 30,
+          "sellPrice": 0,
+          "verified": false,
+          "verifiedAt": null,
+          "batteryPct": null
+        }
+      ],
       "createdAt": "2026-08-20",
       "wholesalePrice": 30
     },
@@ -8357,7 +8413,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 3,
         "shop_tullamore": 0
       },
       "units": [],
@@ -8391,18 +8447,12 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 3,
         "shop_tullamore": 0
       },
       "units": [],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 0,
-      "shopVerified": {
-        "shop_tralee": true
-      },
-      "shopVerifiedAt": {
-        "shop_tralee": "2026-09-07"
-      }
+      "wholesalePrice": 0
     },
     {
       "id": "item_tns4gnsw69n",
@@ -8431,10 +8481,24 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 1,
         "shop_tullamore": 0
       },
-      "units": [],
+      "units": [
+        {
+          "id": "unit_ws3essiu5pb",
+          "imei": "6974443389838",
+          "color": "Silver",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 15,
+          "wholesalePrice": 0,
+          "sellPrice": 25,
+          "batteryPct": null,
+          "verified": false,
+          "verifiedAt": null
+        }
+      ],
       "createdAt": "2026-08-20",
       "wholesalePrice": 15
     },
@@ -8465,7 +8529,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 2,
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
@@ -8500,18 +8564,12 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 3,
+        "shop_tralee": 4,
         "shop_tullamore": 0
       },
       "units": [],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 20,
-      "shopVerified": {
-        "shop_tralee": true
-      },
-      "shopVerifiedAt": {
-        "shop_tralee": "2026-09-07"
-      }
+      "wholesalePrice": 20
     },
     {
       "id": "item_tqb646rw69n",
@@ -8541,7 +8599,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 3,
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
@@ -8577,7 +8635,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 3,
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
@@ -8612,7 +8670,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 2,
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
@@ -8694,7 +8752,7 @@
           "wholesalePrice": 287,
           "sellPrice": 330,
           "verified": true,
-          "verifiedAt": "2026-09-01",
+          "verifiedAt": "2026-08-28",
           "batteryPct": null
         }
       ],
@@ -8740,9 +8798,7 @@
           "location": "shop_thurles",
           "costPrice": 0,
           "wholesalePrice": 0,
-          "sellPrice": 0,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 0
         }
       ],
       "createdAt": "2026-08-20"
@@ -8901,9 +8957,7 @@
           "location": "shop_kilkenny",
           "costPrice": 0,
           "sellPrice": 150,
-          "addedAt": "2026-09-01",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "addedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20"
@@ -8948,9 +9002,7 @@
           "location": "shop_tullamore",
           "costPrice": 125,
           "wholesalePrice": 107,
-          "sellPrice": 190,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 190
         },
         {
           "id": "unit_egbtcwqu5pi",
@@ -8960,9 +9012,7 @@
           "location": "shop_tullamore",
           "costPrice": 125,
           "wholesalePrice": 107,
-          "sellPrice": 190,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 190
         }
       ],
       "createdAt": "2026-08-20"
@@ -9008,9 +9058,7 @@
           "costPrice": 0,
           "wholesalePrice": 0,
           "sellPrice": 455,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20"
@@ -9082,19 +9130,6 @@
       },
       "units": [
         {
-          "id": "unit_6ahfa44u5o3",
-          "imei": "357884911520761",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_kilkenny",
-          "costPrice": 140,
-          "wholesalePrice": 0,
-          "sellPrice": 220,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
           "id": "unit_b5re9hnu5pk",
           "imei": "357884911523864",
           "color": "Black",
@@ -9113,6 +9148,17 @@
           "costPrice": 140,
           "wholesalePrice": 13,
           "sellPrice": 220
+        },
+        {
+          "id": "unit_6ahfa44u5o3",
+          "imei": "357884911520761",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_kilkenny",
+          "costPrice": 140,
+          "wholesalePrice": 0,
+          "sellPrice": 220,
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20"
@@ -9158,9 +9204,7 @@
           "costPrice": 160,
           "wholesalePrice": 0,
           "sellPrice": 220,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20"
@@ -9671,6 +9715,51 @@
       "createdAt": "2026-08-20"
     },
     {
+      "id": "item_6pp455gu5p4",
+      "name": "iPhone 8+",
+      "category": "cat_7qgen7vw69i",
+      "memory": "256GB",
+      "imei": "",
+      "condition": "Used",
+      "colors": [
+        "gold"
+      ],
+      "batteryPct": null,
+      "costPrice": 1,
+      "wholesalePrice": 12,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 230
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 1
+      },
+      "units": [
+        {
+          "id": "unit_q5x5h9ou5pc",
+          "imei": "356773089691903",
+          "color": "",
+          "condition": "Used",
+          "location": "shop_tullamore",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 230
+        }
+      ],
+      "createdAt": "2026-08-20"
+    },
+    {
       "id": "item_vppdhg4u5p5",
       "name": "Samsung A37",
       "category": "cat_w56n2ktw69i",
@@ -9806,9 +9895,7 @@
       "condition": "New",
       "colors": [
         "awesomeOlive",
-        "Awesome Olive",
-        "Awesome Graphi",
-        "Awesome Graphite"
+        "Awesome Olive"
       ],
       "batteryPct": null,
       "costPrice": 1,
@@ -9848,15 +9935,12 @@
         {
           "id": "unit_e9pmr5tu5ph",
           "imei": "352371190244821",
-          "color": "Awesome Graphite",
+          "color": "",
           "condition": "New",
           "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 400,
-          "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": null
+          "sellPrice": 400
         },
         {
           "id": "unit_7vudq5vu5ph",
@@ -9866,9 +9950,7 @@
           "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 400,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 400
         },
         {
           "id": "unit_z4pc6sau5pi",
@@ -9878,9 +9960,7 @@
           "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 400,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 400
         },
         {
           "id": "unit_e6bxgfru5pi",
@@ -9890,9 +9970,7 @@
           "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 400,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 400
         }
       ],
       "createdAt": "2026-08-20"
@@ -9989,27 +10067,18 @@
           "costPrice": 0,
           "wholesalePrice": 0,
           "sellPrice": 0,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-07"
+          "batteryPct": null
         },
         {
           "id": "unit_vtsv4m1u5p8",
-          "imei": "354933660373121",
-          "color": "Pink",
+          "imei": "353387181149273",
+          "color": "Gold",
           "condition": "New",
           "location": "shop_tralee",
           "costPrice": 0,
           "wholesalePrice": 0,
           "sellPrice": 0,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-07",
-          "purchaseDate": null,
-          "dateAdded": null,
-          "addedAt": null,
-          "sentToShopDate": null,
-          "transferredAt": null
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20"
@@ -10054,9 +10123,7 @@
           "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 230,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 230
         }
       ],
       "createdAt": "2026-08-20"
@@ -10101,9 +10168,7 @@
           "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 250,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 250
         },
         {
           "id": "unit_8mpjhjpu5pc",
@@ -10113,16 +10178,14 @@
           "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 250,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 250
         }
       ],
       "createdAt": "2026-08-20"
     },
     {
       "id": "item_u5msq3wu5pf",
-      "name": "Samsung M33 5G",
+      "name": "Samsung Galaxy M33 5G",
       "category": "cat_w56n2ktw69i",
       "memory": "128GB",
       "imei": "",
@@ -10160,17 +10223,14 @@
           "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 260,
-          "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": null
+          "sellPrice": 260
         }
       ],
       "createdAt": "2026-08-20"
     },
     {
       "id": "item_dhl8sgru5pg",
-      "name": "Samsung A42 5G",
+      "name": "Samsung Galaxy A42 5G",
       "category": "cat_w56n2ktw69i",
       "memory": "128GB",
       "imei": "",
@@ -10208,10 +10268,7 @@
           "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 250,
-          "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": null
+          "sellPrice": 250
         }
       ],
       "createdAt": "2026-08-20"
@@ -10256,9 +10313,7 @@
           "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 780,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 780
         }
       ],
       "createdAt": "2026-08-20"
@@ -10271,7 +10326,7 @@
       "imei": "",
       "condition": "New",
       "batteryPct": null,
-      "costPrice": 380,
+      "costPrice": 1,
       "wholesalePrice": 0,
       "shopPrices": {
         "warehouse": 380,
@@ -10292,37 +10347,8 @@
         "shop_tullamore": 2
       },
       "createdAt": "2026-08-20",
-      "units": [
-        {
-          "id": "unit_8jhr194rg4a",
-          "imei": "350100284709163",
-          "color": "Awesome Navy",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_tullamore",
-          "costPrice": 380,
-          "sellPrice": 380,
-          "addedAt": "2026-09-01",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_ayzjmcbsqv6",
-          "imei": "350100284830357",
-          "color": "Awesome Navy",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_tullamore",
-          "costPrice": 380,
-          "sellPrice": 380,
-          "addedAt": "2026-09-01",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        }
-      ],
-      "colors": [
-        "Awesome Navy"
-      ]
+      "units": [],
+      "colors": []
     },
     {
       "id": "item_z9wc6vtu5pi",
@@ -10409,9 +10435,7 @@
           "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 1,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 1
         }
       ],
       "createdAt": "2026-08-20"
@@ -10453,9 +10477,7 @@
           "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 1,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 1
         }
       ],
       "createdAt": "2026-08-20",
@@ -10498,9 +10520,7 @@
           "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 1,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 1
         }
       ],
       "createdAt": "2026-08-20",
@@ -10543,9 +10563,7 @@
           "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 1,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 1
         }
       ],
       "createdAt": "2026-08-20",
@@ -10636,16 +10654,14 @@
           "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 1,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "sellPrice": 1
         }
       ],
       "createdAt": "2026-08-20"
     },
     {
       "id": "item_pwxmydhu5po",
-      "name": "Tablet Blackview",
+      "name": "tablet Blackview",
       "category": "cat_cgd9w36w69i",
       "memory": "",
       "imei": "",
@@ -10680,15 +10696,7 @@
           "location": "shop_tullamore",
           "costPrice": 1,
           "wholesalePrice": 13,
-          "sellPrice": 1,
-          "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": null,
-          "purchaseDate": null,
-          "dateAdded": null,
-          "addedAt": null,
-          "sentToShopDate": null,
-          "transferredAt": null
+          "sellPrice": 1
         },
         {
           "id": "unit_n3j5mgju5po",
@@ -10730,7 +10738,7 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 1
+        "shop_tullamore": 2
       },
       "createdAt": "2026-08-20",
       "units": [],
@@ -10819,7 +10827,7 @@
       "imei": "",
       "condition": "New",
       "batteryPct": null,
-      "costPrice": 0,
+      "costPrice": 1,
       "wholesalePrice": 13,
       "shopPrices": {
         "warehouse": 1,
@@ -10836,7 +10844,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 1
       },
       "units": [
@@ -10846,21 +10854,13 @@
           "color": "",
           "condition": "New",
           "location": "shop_tullamore",
-          "costPrice": 0,
+          "costPrice": 1,
           "wholesalePrice": 13,
           "sellPrice": 1
         }
       ],
       "createdAt": "2026-08-20",
-      "colors": [
-        "Black"
-      ],
-      "shopVerified": {
-        "shop_tralee": true
-      },
-      "shopVerifiedAt": {
-        "shop_tralee": "2026-09-07"
-      }
+      "colors": []
     },
     {
       "id": "item_5ugsjjin1dj",
@@ -10985,21 +10985,35 @@
         "shop_tullamore": 140
       },
       "locations": {
-        "warehouse": 14,
+        "warehouse": 16,
         "shop_thurles": 1,
         "shop_kilkenny": 0,
         "shop_maynooth": 2,
-        "shop_mullingar": 2,
-        "shop_tralee": 1,
+        "shop_mullingar": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
+        {
+          "id": "unit_ti2zrni9lkh",
+          "imei": "350276231205313",
+          "color": "Gray",
+          "condition": "New",
+          "location": "shop_maynooth",
+          "costPrice": 140,
+          "sellPrice": 140,
+          "batteryPct": null,
+          "dateAdded": "2026-08-26",
+          "wholesalePrice": 152,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
+        },
         {
           "id": "unit_f5zw1l39lki",
           "imei": "350276231201692",
           "color": "Gray",
           "condition": "New",
-          "location": "shop_tralee",
+          "location": "warehouse",
           "costPrice": 140,
           "sellPrice": 140,
           "batteryPct": null,
@@ -11127,6 +11141,20 @@
           "wholesalePrice": 152
         },
         {
+          "id": "unit_62s2ins9lkz",
+          "imei": "350276232016271",
+          "color": "Light Blue",
+          "condition": "New",
+          "location": "shop_maynooth",
+          "costPrice": 140,
+          "sellPrice": 140,
+          "batteryPct": null,
+          "dateAdded": "2026-08-26",
+          "wholesalePrice": 152,
+          "verified": true,
+          "verifiedAt": "2026-08-28"
+        },
+        {
           "id": "unit_8pj3ajw9ll0",
           "imei": "350276232016339",
           "color": "Light Blue",
@@ -11155,7 +11183,7 @@
           "imei": "350276231911159",
           "color": "Light Blue",
           "condition": "New",
-          "location": "shop_mullingar",
+          "location": "warehouse",
           "costPrice": 140,
           "sellPrice": 140,
           "batteryPct": null,
@@ -11209,34 +11237,6 @@
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 152
-        },
-        {
-          "id": "unit_ti2zrni9lkh",
-          "imei": "350276231205313",
-          "color": "Gray",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 140,
-          "sellPrice": 140,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 152,
-          "verified": true,
-          "verifiedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_62s2ins9lkz",
-          "imei": "350276232016271",
-          "color": "Light Blue",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 140,
-          "sellPrice": 140,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 152,
-          "verified": true,
-          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-26",
@@ -11266,9 +11266,9 @@
         "shop_tullamore": 220
       },
       "locations": {
-        "warehouse": 2,
+        "warehouse": 4,
         "shop_thurles": 1,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 0,
         "shop_maynooth": 2,
         "shop_mullingar": 2,
         "shop_tralee": 1,
@@ -11292,7 +11292,7 @@
           "imei": "350983933956115",
           "color": "Blue",
           "condition": "New",
-          "location": "shop_kilkenny",
+          "location": "warehouse",
           "costPrice": 220,
           "sellPrice": 220,
           "batteryPct": null,
@@ -11323,7 +11323,7 @@
           "dateAdded": "2026-08-26",
           "wholesalePrice": 232,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_epcsz5o9lma",
@@ -11342,7 +11342,7 @@
           "imei": "350983933505938",
           "color": "Light Pink",
           "condition": "New",
-          "location": "shop_kilkenny",
+          "location": "warehouse",
           "costPrice": 220,
           "sellPrice": 220,
           "batteryPct": null,
@@ -11385,7 +11385,7 @@
           "dateAdded": "2026-08-26",
           "wholesalePrice": 232,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_2ai732r4rnk",
@@ -11427,9 +11427,9 @@
         "shop_tullamore": 480
       },
       "locations": {
-        "warehouse": 0,
+        "warehouse": 1,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 1,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -11441,7 +11441,7 @@
           "imei": "354526938867823",
           "color": "Blueblack",
           "condition": "New",
-          "location": "shop_kilkenny",
+          "location": "warehouse",
           "costPrice": 480,
           "sellPrice": 480,
           "batteryPct": null,
@@ -11460,7 +11460,7 @@
           "dateAdded": "2026-08-26",
           "wholesalePrice": 492,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-26",
@@ -11489,9 +11489,9 @@
         "shop_tullamore": 385
       },
       "locations": {
-        "warehouse": 2,
+        "warehouse": 3,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 1,
         "shop_mullingar": 1,
         "shop_tralee": 0,
@@ -11510,7 +11510,7 @@
           "dateAdded": "2026-08-26",
           "wholesalePrice": 397,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-08-28"
         },
         {
           "id": "unit_o76ce8r9lmx",
@@ -11529,7 +11529,7 @@
           "imei": "351060965389488",
           "color": "Jetblack",
           "condition": "New",
-          "location": "shop_kilkenny",
+          "location": "warehouse",
           "costPrice": 385,
           "sellPrice": 385,
           "batteryPct": null,
@@ -11639,9 +11639,7 @@
           "costPrice": 290,
           "wholesalePrice": 0,
           "sellPrice": 350,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "batteryPct": null
         },
         {
           "id": "unit_clcugevqam8",
@@ -11652,9 +11650,7 @@
           "location": "shop_kilkenny",
           "costPrice": 290,
           "sellPrice": 320,
-          "addedAt": "2026-08-28",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "addedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-28"
@@ -11700,9 +11696,7 @@
           "costPrice": 260,
           "wholesalePrice": 0,
           "sellPrice": 320,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-28"
@@ -11748,9 +11742,7 @@
           "costPrice": 230,
           "wholesalePrice": 0,
           "sellPrice": 440,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "batteryPct": null
         },
         {
           "id": "unit_fjts22ly707",
@@ -11761,9 +11753,7 @@
           "location": "shop_kilkenny",
           "costPrice": 230,
           "sellPrice": 440,
-          "addedAt": "2026-09-01",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
+          "addedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-28"
@@ -11862,9 +11852,54 @@
       "createdAt": "2026-08-28"
     },
     {
+      "id": "item_yem83pqx7e7",
+      "name": "Modio M129",
+      "category": "cat_cgd9w36w69i",
+      "memory": "8GB/512GB",
+      "condition": "New",
+      "imei": "359401901129723",
+      "colors": [
+        "Gold"
+      ],
+      "costPrice": 0,
+      "wholesalePrice": 0,
+      "shopPrices": {
+        "warehouse": 220,
+        "shop_thurles": 220,
+        "shop_kilkenny": 220,
+        "shop_maynooth": 220,
+        "shop_mullingar": 220,
+        "shop_tralee": 220,
+        "shop_tullamore": 220
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_vcwgvd4u5p8",
+          "imei": "359401901129723",
+          "color": "Gold",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 220,
+          "batteryPct": null
+        }
+      ],
+      "createdAt": "2026-08-28"
+    },
+    {
       "id": "item_iybvu5gpqkc",
       "name": "Samsung Buds 3 Pro",
-      "category": "cat_qaxr5vow69i",
+      "category": "cat_w56n2ktw69i",
       "memory": "",
       "condition": "New",
       "batteryPct": null,
@@ -12107,1030 +12142,6 @@
         }
       ],
       "createdAt": "2026-09-01"
-    },
-    {
-      "id": "item_gxhs2dyixky",
-      "name": "Samsung Buds 2",
-      "category": "cat_qaxr5vow69i",
-      "memory": "-",
-      "condition": "New",
-      "colors": [
-        "White"
-      ],
-      "costPrice": 80,
-      "shopPrices": {
-        "warehouse": 120,
-        "shop_thurles": 120,
-        "shop_kilkenny": 120,
-        "shop_maynooth": 120,
-        "shop_mullingar": 120,
-        "shop_tralee": 120,
-        "shop_tullamore": 120
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 2,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "units": [
-        {
-          "id": "unit_hnx53ecxs7i",
-          "imei": "",
-          "color": "White",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 80,
-          "wholesalePrice": 0,
-          "sellPrice": 120,
-          "addedAt": "2026-08-28",
-          "verified": false,
-          "verifiedAt": null
-        },
-        {
-          "id": "unit_qffvc5zxs7i",
-          "imei": "",
-          "color": "White",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 80,
-          "wholesalePrice": 0,
-          "sellPrice": 120,
-          "addedAt": "2026-08-28",
-          "verified": false,
-          "verifiedAt": null
-        }
-      ],
-      "createdAt": "2026-09-01"
-    },
-    {
-      "id": "item_8qq0twtnnrm",
-      "name": "iPhone 14",
-      "category": "cat_7qgen7vw69i",
-      "memory": "128GB",
-      "condition": "Used",
-      "batteryPct": 100,
-      "imei": "354248588708542",
-      "colors": [
-        "Starlight",
-        "Purple"
-      ],
-      "costPrice": 285,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 10,
-        "shop_thurles": 2,
-        "shop_kilkenny": 3,
-        "shop_maynooth": 7,
-        "shop_mullingar": 2,
-        "shop_tralee": 1,
-        "shop_tullamore": 3
-      },
-      "units": [
-        {
-          "id": "unit_atjjw91nnrn",
-          "imei": "354248588708542",
-          "color": "Starlight",
-          "condition": "Used",
-          "batteryPct": null,
-          "location": "shop_tullamore",
-          "costPrice": 285,
-          "sellPrice": 285,
-          "addedAt": "2026-09-01",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_3xjw5esossi",
-          "imei": "354768889669440",
-          "color": "Purple",
-          "condition": "Used",
-          "batteryPct": null,
-          "location": "shop_tullamore",
-          "costPrice": 285,
-          "sellPrice": 285,
-          "addedAt": "2026-09-01",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_fvstts5u5pe",
-          "imei": "350542609987828",
-          "color": "Starlight",
-          "condition": "Used",
-          "location": "shop_tullamore",
-          "costPrice": 285,
-          "wholesalePrice": 200,
-          "sellPrice": 285,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_on86qvs8awt",
-          "imei": "357504140083957",
-          "color": "Purple",
-          "condition": "Used",
-          "batteryPct": null,
-          "location": "shop_thurles",
-          "costPrice": 285,
-          "sellPrice": 285,
-          "addedAt": "2026-09-01",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_6yk4rrc8k9h",
-          "imei": "350032738703866",
-          "color": "Starlight",
-          "condition": "Used",
-          "batteryPct": null,
-          "location": "shop_thurles",
-          "costPrice": 285,
-          "sellPrice": 285,
-          "addedAt": "2026-09-01",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_rmitnpsouy1",
-          "imei": "350967683023648",
-          "color": "Starlight",
-          "condition": "Used",
-          "location": "shop_kilkenny",
-          "costPrice": 285,
-          "sellPrice": 460,
-          "batteryPct": 86,
-          "dateAdded": "2026-08-24",
-          "wholesalePrice": 0,
-          "battery": "86%"
-        },
-        {
-          "id": "unit_ce7qijg9ctz",
-          "imei": "350542608935141",
-          "color": "Starlight",
-          "condition": "Used",
-          "location": "shop_mullingar",
-          "costPrice": 285,
-          "sellPrice": 460,
-          "batteryPct": null,
-          "dateAdded": "2026-08-25",
-          "wholesalePrice": 0
-        },
-        {
-          "id": "unit_oun0bd59luf",
-          "imei": "355232484711874",
-          "color": "Purple",
-          "condition": "Used",
-          "location": "shop_mullingar",
-          "costPrice": 285,
-          "sellPrice": 460,
-          "batteryPct": null,
-          "dateAdded": "2026-08-25",
-          "wholesalePrice": 0
-        },
-        {
-          "id": "unit_32ex5mw9xnr",
-          "imei": "354768881961878",
-          "color": "Starlight",
-          "condition": "Used",
-          "batteryPct": null,
-          "location": "shop_maynooth",
-          "costPrice": 285,
-          "wholesalePrice": 297,
-          "sellPrice": 285,
-          "addedAt": "2026-08-25",
-          "verified": true,
-          "verifiedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_eqtvm9uasxz",
-          "imei": "350032735798075",
-          "color": "Starlight",
-          "condition": "Used",
-          "batteryPct": null,
-          "location": "shop_maynooth",
-          "costPrice": 285,
-          "wholesalePrice": 297,
-          "sellPrice": 285,
-          "addedAt": "2026-08-25",
-          "verified": true,
-          "verifiedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_4l190xpay5r",
-          "imei": "350967687737664",
-          "color": "Starlight",
-          "condition": "Used",
-          "batteryPct": null,
-          "location": "shop_maynooth",
-          "costPrice": 285,
-          "wholesalePrice": 297,
-          "sellPrice": 285,
-          "addedAt": "2026-08-25",
-          "verified": true,
-          "verifiedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_ny1gqswb55r",
-          "imei": "354768889302802",
-          "color": "Purple",
-          "condition": "Used",
-          "batteryPct": null,
-          "location": "shop_maynooth",
-          "costPrice": 285,
-          "wholesalePrice": 297,
-          "sellPrice": 285,
-          "addedAt": "2026-08-25",
-          "verified": true,
-          "verifiedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_tqsvjvtozri",
-          "imei": "356879772357379",
-          "color": "Yellow",
-          "condition": "Used",
-          "batteryPct": null,
-          "location": "shop_tralee",
-          "costPrice": 285,
-          "wholesalePrice": 0,
-          "sellPrice": 470,
-          "addedAt": "2026-08-28",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_55lwzsb22k4",
-          "imei": "351952295992595",
-          "color": "Blue",
-          "condition": "Used",
-          "location": "warehouse",
-          "costPrice": 285,
-          "sellPrice": 350,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        },
-        {
-          "id": "unit_bq6na1522k6",
-          "imei": "350542600990516",
-          "color": "Yellow",
-          "condition": "Used",
-          "location": "warehouse",
-          "costPrice": 285,
-          "sellPrice": 350,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        },
-        {
-          "id": "unit_zcocy2522k8",
-          "imei": "359203508677272",
-          "color": "Purple",
-          "condition": "Used",
-          "location": "warehouse",
-          "costPrice": 285,
-          "sellPrice": 350,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        },
-        {
-          "id": "unit_tx0bjf122ka",
-          "imei": "356663510627701",
-          "color": "Purple",
-          "condition": "Used",
-          "location": "shop_maynooth",
-          "costPrice": 285,
-          "sellPrice": 350,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        },
-        {
-          "id": "unit_17ooc8322kc",
-          "imei": "359203501087933",
-          "color": "Midnight",
-          "condition": "Used",
-          "location": "shop_maynooth",
-          "costPrice": 285,
-          "sellPrice": 350,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        },
-        {
-          "id": "unit_1lvbblr22ke",
-          "imei": "359203508146427",
-          "color": "Midnight",
-          "condition": "Used",
-          "location": "shop_kilkenny",
-          "costPrice": 285,
-          "sellPrice": 350,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        },
-        {
-          "id": "unit_nsyv0bv22kg",
-          "imei": "350596481059841",
-          "color": "Starlight",
-          "condition": "Used",
-          "location": "shop_kilkenny",
-          "costPrice": 285,
-          "sellPrice": 350,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        },
-        {
-          "id": "unit_ryqouul22ki",
-          "imei": "359708629760799",
-          "color": "Starlight",
-          "condition": "Used",
-          "location": "shop_maynooth",
-          "costPrice": 285,
-          "sellPrice": 350,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        },
-        {
-          "id": "unit_wesjk4r22kk",
-          "imei": "357181332324240",
-          "color": "Starlight",
-          "condition": "Used",
-          "location": "warehouse",
-          "costPrice": 285,
-          "sellPrice": 350,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        },
-        {
-          "id": "unit_zrbns6y22km",
-          "imei": "351454480824790",
-          "color": "Starlight",
-          "condition": "Used",
-          "location": "warehouse",
-          "costPrice": 285,
-          "sellPrice": 350,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        },
-        {
-          "id": "unit_ytxsev222ko",
-          "imei": "354827388627232",
-          "color": "Starlight",
-          "condition": "Used",
-          "location": "warehouse",
-          "costPrice": 285,
-          "sellPrice": 350,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        },
-        {
-          "id": "unit_nbwtrh422kq",
-          "imei": "350596482288977",
-          "color": "Starlight",
-          "condition": "Used",
-          "location": "warehouse",
-          "costPrice": 285,
-          "sellPrice": 350,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        },
-        {
-          "id": "unit_53p1wve22kr",
-          "imei": "350596481722075",
-          "color": "Starlight",
-          "condition": "Used",
-          "location": "warehouse",
-          "costPrice": 285,
-          "sellPrice": 350,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        },
-        {
-          "id": "unit_q4j05eo22kt",
-          "imei": "354870280368091",
-          "color": "Starlight",
-          "condition": "Used",
-          "location": "warehouse",
-          "costPrice": 285,
-          "sellPrice": 350,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        },
-        {
-          "id": "unit_kinkwlx22kv",
-          "imei": "350967687530622",
-          "color": "Starlight",
-          "condition": "Used",
-          "location": "warehouse",
-          "costPrice": 285,
-          "sellPrice": 350,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        }
-      ],
-      "createdAt": "2026-09-01"
-    },
-    {
-      "id": "item_e2rw77fwpre",
-      "name": "Galaxy Fit 3",
-      "category": "cat_u83iatxw69i",
-      "memory": "",
-      "condition": "New",
-      "batteryPct": null,
-      "imei": "",
-      "colors": [
-        "Black"
-      ],
-      "costPrice": 0,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 1
-      },
-      "units": [],
-      "createdAt": "2026-09-01"
-    },
-    {
-      "id": "item_v96xqidwzp7",
-      "name": "Hoco Y27",
-      "category": "cat_u83iatxw69i",
-      "memory": "",
-      "condition": "New",
-      "batteryPct": null,
-      "imei": "",
-      "colors": [
-        "Black"
-      ],
-      "costPrice": 0,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 3,
-        "shop_tullamore": 1
-      },
-      "units": [],
-      "createdAt": "2026-09-01",
-      "shopVerified": {
-        "shop_tralee": true
-      },
-      "shopVerifiedAt": {
-        "shop_tralee": "2026-09-07"
-      }
-    },
-    {
-      "id": "item_7amlbnhw69m",
-      "name": "Samsung Buds 2",
-      "category": "cat_w56n2ktw69i",
-      "memory": "-",
-      "imei": "",
-      "condition": "New",
-      "colors": [
-        "White"
-      ],
-      "batteryPct": 100,
-      "costPrice": 80,
-      "shopPrices": {
-        "warehouse": 120,
-        "shop_thurles": 120,
-        "shop_kilkenny": 120,
-        "shop_maynooth": 120,
-        "shop_mullingar": 120,
-        "shop_tralee": 120,
-        "shop_tullamore": 120
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 2,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "units": [
-        {
-          "id": "unit_hnx53ecxs7i",
-          "imei": "",
-          "color": "White",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 80,
-          "wholesalePrice": 0,
-          "sellPrice": 120,
-          "addedAt": "2026-08-28",
-          "verified": false,
-          "verifiedAt": null
-        },
-        {
-          "id": "unit_qffvc5zxs7i",
-          "imei": "",
-          "color": "White",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 80,
-          "wholesalePrice": 0,
-          "sellPrice": 120,
-          "addedAt": "2026-08-28",
-          "verified": false,
-          "verifiedAt": null
-        }
-      ],
-      "createdAt": "2026-08-20",
-      "wholesalePrice": 80
-    },
-    {
-      "id": "item_nme6ice3fe2",
-      "name": "Tablet Blackview",
-      "category": "cat_cgd9w36w69i",
-      "memory": "16GB/64GB",
-      "condition": "New",
-      "colors": [
-        "Ocean Blue"
-      ],
-      "costPrice": 1,
-      "shopPrices": {
-        "warehouse": 1,
-        "shop_thurles": 1,
-        "shop_kilkenny": 1,
-        "shop_maynooth": 1,
-        "shop_mullingar": 1,
-        "shop_tralee": 1,
-        "shop_tullamore": 1
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "units": [],
-      "createdAt": "2026-09-07"
-    },
-    {
-      "id": "item_epsgals21jn",
-      "name": "Samsung A07",
-      "category": "cat_w56n2ktw69i",
-      "memory": "4GB/64GB",
-      "condition": "New",
-      "batteryPct": null,
-      "imei": "352262376794723",
-      "colors": [
-        "Black"
-      ],
-      "costPrice": 0,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "units": [],
-      "createdAt": "2026-09-07"
-    },
-    {
-      "id": "item_6pp455gu5p4",
-      "name": "iPhone 8+",
-      "category": "cat_7qgen7vw69i",
-      "memory": "256GB",
-      "imei": "",
-      "condition": "Used",
-      "colors": [
-        "gold"
-      ],
-      "batteryPct": null,
-      "costPrice": 1,
-      "wholesalePrice": 12,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 230
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 1
-      },
-      "units": [],
-      "createdAt": "2026-08-20"
-    },
-    {
-      "id": "item_tsznsiulo1n",
-      "name": "Borofone BD2",
-      "category": "cat_u83iatxw69i",
-      "memory": "",
-      "condition": "New",
-      "batteryPct": null,
-      "imei": "",
-      "colors": [
-        "Silver"
-      ],
-      "costPrice": 0,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 2,
-        "shop_tullamore": 0
-      },
-      "units": [],
-      "createdAt": "2026-09-07",
-      "shopVerified": {
-        "shop_tralee": true
-      },
-      "shopVerifiedAt": {
-        "shop_tralee": "2026-09-07"
-      }
-    },
-    {
-      "id": "item_tb40siluz63",
-      "name": "Hoco Y25",
-      "category": "cat_u83iatxw69i",
-      "memory": "",
-      "condition": "New",
-      "batteryPct": null,
-      "imei": "",
-      "colors": [
-        "Silver"
-      ],
-      "costPrice": 0,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 3,
-        "shop_tullamore": 0
-      },
-      "units": [],
-      "createdAt": "2026-09-07",
-      "shopVerified": {
-        "shop_tralee": true
-      },
-      "shopVerifiedAt": {
-        "shop_tralee": "2026-09-07"
-      }
-    },
-    {
-      "id": "item_jdz3ct1vhar",
-      "name": "Hoco Y22",
-      "category": "cat_u83iatxw69i",
-      "memory": "",
-      "condition": "New",
-      "batteryPct": null,
-      "imei": "",
-      "colors": [
-        "Rose Gold"
-      ],
-      "costPrice": 0,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 1,
-        "shop_tullamore": 0
-      },
-      "units": [],
-      "createdAt": "2026-09-07",
-      "shopVerified": {
-        "shop_tralee": true
-      },
-      "shopVerifiedAt": {
-        "shop_tralee": "2026-09-07"
-      }
-    },
-    {
-      "id": "item_72sogu6wykj",
-      "name": "Joyroom JR-FT3 Pro",
-      "category": "cat_u83iatxw69i",
-      "memory": "",
-      "condition": "New",
-      "batteryPct": null,
-      "imei": "",
-      "colors": [
-        "Black"
-      ],
-      "costPrice": 0,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 2,
-        "shop_tullamore": 0
-      },
-      "units": [],
-      "createdAt": "2026-09-07",
-      "shopVerified": {
-        "shop_tralee": true
-      },
-      "shopVerifiedAt": {
-        "shop_tralee": "2026-09-07"
-      }
-    },
-    {
-      "id": "item_6spwi5zy3m3",
-      "name": "Colmi M42",
-      "category": "cat_u83iatxw69i",
-      "memory": "",
-      "condition": "New",
-      "batteryPct": null,
-      "imei": "",
-      "colors": [
-        "Black"
-      ],
-      "costPrice": 0,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 2,
-        "shop_tullamore": 0
-      },
-      "units": [],
-      "createdAt": "2026-09-07",
-      "shopVerified": {
-        "shop_tralee": true
-      },
-      "shopVerifiedAt": {
-        "shop_tralee": "2026-09-07"
-      }
-    },
-    {
-      "id": "item_hufs0wcyimr",
-      "name": "Colmi P71",
-      "category": "cat_u83iatxw69i",
-      "memory": "",
-      "condition": "New",
-      "batteryPct": null,
-      "imei": "",
-      "colors": [
-        "Rose Gold"
-      ],
-      "costPrice": 0,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 2,
-        "shop_tullamore": 0
-      },
-      "units": [],
-      "createdAt": "2026-09-07",
-      "shopVerified": {
-        "shop_tralee": true
-      },
-      "shopVerifiedAt": {
-        "shop_tralee": "2026-09-07"
-      }
-    },
-    {
-      "id": "item_cxk60dbz0sr",
-      "name": "Smart Bracelet",
-      "category": "cat_u83iatxw69i",
-      "memory": "",
-      "condition": "New",
-      "batteryPct": null,
-      "imei": "",
-      "colors": [
-        "Black"
-      ],
-      "costPrice": 0,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 1,
-        "shop_tullamore": 0
-      },
-      "units": [],
-      "createdAt": "2026-09-07",
-      "shopVerified": {
-        "shop_tralee": true
-      },
-      "shopVerifiedAt": {
-        "shop_tralee": "2026-09-07"
-      }
-    },
-    {
-      "id": "item_c8l908kzx6b",
-      "name": "Samsung Galaxy Fit 3",
-      "category": "cat_u83iatxw69i",
-      "memory": "",
-      "condition": "New",
-      "batteryPct": null,
-      "imei": "",
-      "colors": [
-        "Black"
-      ],
-      "costPrice": 0,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 1,
-        "shop_tullamore": 0
-      },
-      "units": [],
-      "createdAt": "2026-09-07",
-      "shopVerified": {
-        "shop_tralee": true
-      },
-      "shopVerifiedAt": {
-        "shop_tralee": "2026-09-07"
-      }
-    },
-    {
-      "id": "item_ezo8osp2hi4",
-      "name": "Blackview Link 1 Kids",
-      "category": "cat_cgd9w36w69i",
-      "memory": "64GB",
-      "condition": "New",
-      "batteryPct": null,
-      "imei": "LINK1KNEU006642",
-      "colors": [
-        "Dreamy Purple"
-      ],
-      "costPrice": 0,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 1,
-        "shop_tullamore": 0
-      },
-      "units": [
-        {
-          "id": "unit_zqrc79q2hi4",
-          "imei": "LINK1KNEU006642",
-          "color": "Dreamy Purple",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_tralee",
-          "costPrice": 0,
-          "sellPrice": 0,
-          "addedAt": "2026-09-07",
-          "verified": true,
-          "verifiedAt": "2026-09-07"
-        }
-      ],
-      "createdAt": "2026-09-07"
     }
   ],
   "movements": [
@@ -16770,1748 +15781,6 @@
       "date": "2026-09-01",
       "note": "Transferred iPad 10th Generation from Maynooth to Mullingar",
       "id": "mv_7rnm8cqfmt3"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_kjnrq5aw69k",
-      "itemName": "Samsung A06",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A06 from Warehouse to Maynooth",
-      "id": "mv_dzszmnx8ehm"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_kjnrq5aw69k",
-      "itemName": "Samsung A06",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_maynooth",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A06 from Warehouse to Maynooth",
-      "id": "mv_0fs92nr8ehm"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_kjnrq5aw69k",
-      "itemName": "Samsung A06",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A06 from Warehouse to Maynooth",
-      "id": "mv_903dk7ufjde"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_kjnrq5aw69k",
-      "itemName": "Samsung A06",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_maynooth",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A06 from Warehouse to Maynooth",
-      "id": "mv_uce81xjfjde"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_07lmh0xw69l",
-      "itemName": "iPhone 15",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 15 from Warehouse to Maynooth",
-      "id": "mv_2xnp71gcdhh"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_07lmh0xw69l",
-      "itemName": "iPhone 15",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_maynooth",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 15 from Warehouse to Maynooth",
-      "id": "mv_zyx9z6ycdhh"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_07lmh0xw69l",
-      "itemName": "iPhone 15",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 15 from Warehouse to Maynooth",
-      "id": "mv_5nlhuy1csks"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_07lmh0xw69l",
-      "itemName": "iPhone 15",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_maynooth",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 15 from Warehouse to Maynooth",
-      "id": "mv_wp71jlbcsks"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_8qq0twtnnrm",
-      "itemName": "iPhone 14",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 14 from Warehouse to Maynooth",
-      "id": "mv_yurnv5wcyed"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_8qq0twtnnrm",
-      "itemName": "iPhone 14",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_maynooth",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 14 from Warehouse to Maynooth",
-      "id": "mv_8ai21wacyed"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_8qq0twtnnrm",
-      "itemName": "iPhone 14",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 14 from Warehouse to Maynooth",
-      "id": "mv_m8wjs6fd9q5"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_8qq0twtnnrm",
-      "itemName": "iPhone 14",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_maynooth",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 14 from Warehouse to Maynooth",
-      "id": "mv_0c9gao9d9q5"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_8qq0twtnnrm",
-      "itemName": "iPhone 14",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 14 from Warehouse to Maynooth",
-      "id": "mv_yvjnae9dhsl"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_8qq0twtnnrm",
-      "itemName": "iPhone 14",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_maynooth",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 14 from Warehouse to Maynooth",
-      "id": "mv_3kxs8o5dhsl"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_14pcuqkw69k",
-      "itemName": "iPhone 13",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 13 from Warehouse to Maynooth",
-      "id": "mv_y7hy3i1f211"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_14pcuqkw69k",
-      "itemName": "iPhone 13",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_maynooth",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 13 from Warehouse to Maynooth",
-      "id": "mv_5aoly97f211"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_14pcuqkw69k",
-      "itemName": "iPhone 13",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 13 from Warehouse to Maynooth",
-      "id": "mv_1c3a924f8ad"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_14pcuqkw69k",
-      "itemName": "iPhone 13",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_maynooth",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 13 from Warehouse to Maynooth",
-      "id": "mv_1fquu7ff8ad"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_qw8eo3aw69k",
-      "itemName": "iPhone 12",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 12 from Warehouse to Maynooth",
-      "id": "mv_t6db0qufig5"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_qw8eo3aw69k",
-      "itemName": "iPhone 12",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_maynooth",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 12 from Warehouse to Maynooth",
-      "id": "mv_rsy730afig5"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_qw8eo3aw69k",
-      "itemName": "iPhone 12",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 12 from Warehouse to Maynooth",
-      "id": "mv_5xt55lpfqhx"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_qw8eo3aw69k",
-      "itemName": "iPhone 12",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_maynooth",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 12 from Warehouse to Maynooth",
-      "id": "mv_lw42oncfqhx"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_zet5u37w69k",
-      "itemName": "iPhone 11",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 11 from Warehouse to Maynooth",
-      "id": "mv_kl1h3r7g099"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_zet5u37w69k",
-      "itemName": "iPhone 11",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_maynooth",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 11 from Warehouse to Maynooth",
-      "id": "mv_fz1ehltg099"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_zet5u37w69k",
-      "itemName": "iPhone 11",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 11 from Warehouse to Maynooth",
-      "id": "mv_8a8063tg5fh"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_zet5u37w69k",
-      "itemName": "iPhone 11",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_maynooth",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 11 from Warehouse to Maynooth",
-      "id": "mv_h777o0dg5fh"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_8qq0twtnnrm",
-      "itemName": "iPhone 14",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_kilkenny",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 14 from Warehouse to Kilkenney",
-      "id": "mv_zzg15q0gh6d"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_8qq0twtnnrm",
-      "itemName": "iPhone 14",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_kilkenny",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 14 from Warehouse to Kilkenney",
-      "id": "mv_oqgboozgh6d"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_8qq0twtnnrm",
-      "itemName": "iPhone 14",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_kilkenny",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 14 from Warehouse to Kilkenney",
-      "id": "mv_ljxm0ctgp9p"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_8qq0twtnnrm",
-      "itemName": "iPhone 14",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_kilkenny",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 14 from Warehouse to Kilkenney",
-      "id": "mv_k5fjzyugp9p"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_qw8eo3aw69k",
-      "itemName": "iPhone 12",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_kilkenny",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 12 from Warehouse to Kilkenney",
-      "id": "mv_1vadt6ah19x"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_qw8eo3aw69k",
-      "itemName": "iPhone 12",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_kilkenny",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 12 from Warehouse to Kilkenney",
-      "id": "mv_e2t7s39h19x"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_kb0hq9hw69k",
-      "itemName": "Samsung A07",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_kilkenny",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A07 from Warehouse to Kilkenney",
-      "id": "mv_8e71t5ohcbp"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_kb0hq9hw69k",
-      "itemName": "Samsung A07",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_kilkenny",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A07 from Warehouse to Kilkenney",
-      "id": "mv_ihphgawhcbp"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_b3rxt5y9lm5",
-      "itemName": "Samsung A27 5G",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_kilkenny",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A27 5G from Warehouse to Kilkenney",
-      "id": "mv_xsbm89zhmha"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_b3rxt5y9lm5",
-      "itemName": "Samsung A27 5G",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_kilkenny",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A27 5G from Warehouse to Kilkenney",
-      "id": "mv_pfk3p3thmha"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_b3rxt5y9lm5",
-      "itemName": "Samsung A27 5G",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_kilkenny",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A27 5G from Warehouse to Kilkenney",
-      "id": "mv_95ksoqrhrzp"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_b3rxt5y9lm5",
-      "itemName": "Samsung A27 5G",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_kilkenny",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A27 5G from Warehouse to Kilkenney",
-      "id": "mv_js85bdhhrzp"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_el0cnli9lmr",
-      "itemName": "Samsung S25",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_kilkenny",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung S25 from Warehouse to Kilkenney",
-      "id": "mv_ejaev1fhy19"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_el0cnli9lmr",
-      "itemName": "Samsung S25",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_kilkenny",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung S25 from Warehouse to Kilkenney",
-      "id": "mv_qtrs9syhy19"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_kjnrq5aw69k",
-      "itemName": "Samsung A06",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_kilkenny",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A06 from Warehouse to Kilkenney",
-      "id": "mv_20rqajsi5d1"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_kjnrq5aw69k",
-      "itemName": "Samsung A06",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_kilkenny",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A06 from Warehouse to Kilkenney",
-      "id": "mv_fd0jn3ji5d1"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_kjnrq5aw69k",
-      "itemName": "Samsung A06",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_kilkenny",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A06 from Warehouse to Kilkenney",
-      "id": "mv_09juin7id19"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_kjnrq5aw69k",
-      "itemName": "Samsung A06",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_kilkenny",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A06 from Warehouse to Kilkenney",
-      "id": "mv_46ta4ekid19"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_1bk7lnr9lmu",
-      "itemName": "Samsung S25fe",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_kilkenny",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung S25fe from Warehouse to Kilkenney",
-      "id": "mv_2u92ahoikdh"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_1bk7lnr9lmu",
-      "itemName": "Samsung S25fe",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_kilkenny",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung S25fe from Warehouse to Kilkenney",
-      "id": "mv_k5owz3qikdh"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_07lmh0xw69l",
-      "itemName": "iPhone 15",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_thurles",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 15 from Warehouse to Thurles",
-      "id": "mv_cnzdag9iz6t"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_07lmh0xw69l",
-      "itemName": "iPhone 15",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_thurles",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 15 from Warehouse to Thurles",
-      "id": "mv_1d6uzbdiz6t"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_07lmh0xw69l",
-      "itemName": "iPhone 15",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_thurles",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 15 from Warehouse to Thurles",
-      "id": "mv_ru0jcezj5nx"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_07lmh0xw69l",
-      "itemName": "iPhone 15",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_thurles",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 15 from Warehouse to Thurles",
-      "id": "mv_bco8j7jj5nx"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_07lmh0xw69l",
-      "itemName": "iPhone 15",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_thurles",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 15 from Warehouse to Thurles",
-      "id": "mv_xn0dx1zjc0l"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_07lmh0xw69l",
-      "itemName": "iPhone 15",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_thurles",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 15 from Warehouse to Thurles",
-      "id": "mv_nrt789ijc0l"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_qw8eo3aw69k",
-      "itemName": "iPhone 12",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_thurles",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 12 from Warehouse to Thurles",
-      "id": "mv_gyhjmrkjjkt"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_qw8eo3aw69k",
-      "itemName": "iPhone 12",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_thurles",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 12 from Warehouse to Thurles",
-      "id": "mv_il1lbt3jjkt"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_14pcuqkw69k",
-      "itemName": "iPhone 13",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_thurles",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 13 from Warehouse to Thurles",
-      "id": "mv_qxynnp3jpp9"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_14pcuqkw69k",
-      "itemName": "iPhone 13",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_thurles",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 13 from Warehouse to Thurles",
-      "id": "mv_tcxij64jpp9"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_14pcuqkw69k",
-      "itemName": "iPhone 13",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_thurles",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 13 from Warehouse to Thurles",
-      "id": "mv_rhzjnh7jwj2"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_14pcuqkw69k",
-      "itemName": "iPhone 13",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_thurles",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 13 from Warehouse to Thurles",
-      "id": "mv_w725lnxjwj2"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_14pcuqkw69k",
-      "itemName": "iPhone 13",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_thurles",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 13 from Warehouse to Thurles",
-      "id": "mv_6d10r5gjzzz"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_14pcuqkw69k",
-      "itemName": "iPhone 13",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_thurles",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred iPhone 13 from Warehouse to Thurles",
-      "id": "mv_vz67flsjzzz"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_ktmrwgdw69k",
-      "itemName": "Samsung A16",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_thurles",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A16 from Warehouse to Thurles",
-      "id": "mv_zj37cgzkcsl"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_ktmrwgdw69k",
-      "itemName": "Samsung A16",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_thurles",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A16 from Warehouse to Thurles",
-      "id": "mv_fsvqab1kcsl"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_ktmrwgdw69k",
-      "itemName": "Samsung A16",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_thurles",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A16 from Warehouse to Thurles",
-      "id": "mv_8z4xjygkf05"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_ktmrwgdw69k",
-      "itemName": "Samsung A16",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_thurles",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Transferred Samsung A16 from Warehouse to Thurles",
-      "id": "mv_mr7m6jtkf05"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_zet5u37w69k",
-      "itemName": "iPhone 11",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred iPhone 11 from Warehouse to Mullingar",
-      "id": "mv_a4umy316gys"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_zet5u37w69k",
-      "itemName": "iPhone 11",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred iPhone 11 from Warehouse to Mullingar",
-      "id": "mv_gm7x3vo6gys"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_qw8eo3aw69k",
-      "itemName": "iPhone 12",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred iPhone 12 from Warehouse to Mullingar",
-      "id": "mv_y7a7fdk6rus"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_qw8eo3aw69k",
-      "itemName": "iPhone 12",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred iPhone 12 from Warehouse to Mullingar",
-      "id": "mv_3nzqfcr6rus"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_qw8eo3aw69k",
-      "itemName": "iPhone 12",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred iPhone 12 from Warehouse to Mullingar",
-      "id": "mv_ry9fujy6xf8"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_qw8eo3aw69k",
-      "itemName": "iPhone 12",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred iPhone 12 from Warehouse to Mullingar",
-      "id": "mv_8b6kxzl6xf8"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_14pcuqkw69k",
-      "itemName": "iPhone 13",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred iPhone 13 from Warehouse to Mullingar",
-      "id": "mv_9q1feah74jo"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_14pcuqkw69k",
-      "itemName": "iPhone 13",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred iPhone 13 from Warehouse to Mullingar",
-      "id": "mv_0lo2nyn74jo"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_14pcuqkw69k",
-      "itemName": "iPhone 13",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred iPhone 13 from Warehouse to Mullingar",
-      "id": "mv_61qtjhy7azo"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_14pcuqkw69k",
-      "itemName": "iPhone 13",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred iPhone 13 from Warehouse to Mullingar",
-      "id": "mv_zc354tx7azo"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_kb0hq9hw69k",
-      "itemName": "Samsung A07",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A07 from Warehouse to Mullingar",
-      "id": "mv_mg97jkq7m3g"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_kb0hq9hw69k",
-      "itemName": "Samsung A07",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A07 from Warehouse to Mullingar",
-      "id": "mv_76jl0ns7m3g"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_kb0hq9hw69k",
-      "itemName": "Samsung A07",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A07 from Warehouse to Mullingar",
-      "id": "mv_3sg87847rno"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_kb0hq9hw69k",
-      "itemName": "Samsung A07",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A07 from Warehouse to Mullingar",
-      "id": "mv_d4oyzqp7rno"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_1tue6b29lkh",
-      "itemName": "Samsung A17",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A17 from Warehouse to Mullingar",
-      "id": "mv_jz8ll3z843w"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_1tue6b29lkh",
-      "itemName": "Samsung A17",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A17 from Warehouse to Mullingar",
-      "id": "mv_h4svm5i843w"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_ktmrwgdw69k",
-      "itemName": "Samsung A16",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A16 from Warehouse to Mullingar",
-      "id": "mv_g491lf68e90"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_ktmrwgdw69k",
-      "itemName": "Samsung A16",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A16 from Warehouse to Mullingar",
-      "id": "mv_v567m6c8e90"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_ktmrwgdw69k",
-      "itemName": "Samsung A16",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A16 from Warehouse to Mullingar",
-      "id": "mv_jlecloq8lyc"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_ktmrwgdw69k",
-      "itemName": "Samsung A16",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A16 from Warehouse to Mullingar",
-      "id": "mv_qvugnat8lyc"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_kjnrq5aw69k",
-      "itemName": "Samsung A06",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A06 from Warehouse to Mullingar",
-      "id": "mv_p1sxldk8t0k"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_kjnrq5aw69k",
-      "itemName": "Samsung A06",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A06 from Warehouse to Mullingar",
-      "id": "mv_haushqp8t0k"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_kjnrq5aw69k",
-      "itemName": "Samsung A06",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A06 from Warehouse to Mullingar",
-      "id": "mv_ska50c18y2k"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_kjnrq5aw69k",
-      "itemName": "Samsung A06",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A06 from Warehouse to Mullingar",
-      "id": "mv_jte4u2g8y2k"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_ccykxiqw69k",
-      "itemName": "Blackview NB 4800 Pro",
-      "categoryId": "cat_kzhvkkxw69i",
-      "location": "warehouse",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Blackview NB 4800 Pro from Warehouse to Mullingar",
-      "id": "mv_7j7pj0d9cgs"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_ccykxiqw69k",
-      "itemName": "Blackview NB 4800 Pro",
-      "categoryId": "cat_kzhvkkxw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Blackview NB 4800 Pro from Warehouse to Mullingar",
-      "id": "mv_whvrnc89cgs"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_0apjlq8w69k",
-      "itemName": "Blackview BV 4800 SE",
-      "categoryId": "cat_kzhvkkxw69i",
-      "location": "warehouse",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Blackview BV 4800 SE from Warehouse to Mullingar",
-      "id": "mv_9dn2nk29k0s"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_0apjlq8w69k",
-      "itemName": "Blackview BV 4800 SE",
-      "categoryId": "cat_kzhvkkxw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Blackview BV 4800 SE from Warehouse to Mullingar",
-      "id": "mv_d2skou09k0s"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_vqdsfdww69k",
-      "itemName": "Nokia 105",
-      "categoryId": "cat_lkhn0qyw69i",
-      "location": "warehouse",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Nokia 105 from Warehouse to Mullingar",
-      "id": "mv_ql2ka0x9qc4"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_vqdsfdww69k",
-      "itemName": "Nokia 105",
-      "categoryId": "cat_lkhn0qyw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Nokia 105 from Warehouse to Mullingar",
-      "id": "mv_9uvqn8u9qc4"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_vqdsfdww69k",
-      "itemName": "Nokia 105",
-      "categoryId": "cat_lkhn0qyw69i",
-      "location": "warehouse",
-      "toLocation": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Nokia 105 from Warehouse to Mullingar",
-      "id": "mv_18t9qqkaj3g"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_vqdsfdww69k",
-      "itemName": "Nokia 105",
-      "categoryId": "cat_lkhn0qyw69i",
-      "location": "shop_mullingar",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Nokia 105 from Warehouse to Mullingar",
-      "id": "mv_akqt29uaj3g"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_07lmh0xw69l",
-      "itemName": "iPhone 15",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_tralee",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred iPhone 15 from Warehouse to Tralee",
-      "id": "mv_kqmdjxfaxgk"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_07lmh0xw69l",
-      "itemName": "iPhone 15",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_tralee",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred iPhone 15 from Warehouse to Tralee",
-      "id": "mv_ukm80ktaxgk"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_14pcuqkw69k",
-      "itemName": "iPhone 13",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "toLocation": "shop_tralee",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred iPhone 13 from Warehouse to Tralee",
-      "id": "mv_49kc1u5b8ek"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_14pcuqkw69k",
-      "itemName": "iPhone 13",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_tralee",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred iPhone 13 from Warehouse to Tralee",
-      "id": "mv_7g6nj3cb8ek"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_x587cu6w69k",
-      "itemName": "Samsung A17 5G",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_tralee",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A17 5G from Warehouse to Tralee",
-      "id": "mv_8m0zhg6bsec"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_x587cu6w69k",
-      "itemName": "Samsung A17 5G",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_tralee",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A17 5G from Warehouse to Tralee",
-      "id": "mv_xgtxn36bsec"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_1tue6b29lkh",
-      "itemName": "Samsung A17",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_tralee",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A17 from Warehouse to Tralee",
-      "id": "mv_8mo5zixbzss"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_1tue6b29lkh",
-      "itemName": "Samsung A17",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_tralee",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A17 from Warehouse to Tralee",
-      "id": "mv_rupdvhzbzss"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_kjnrq5aw69k",
-      "itemName": "Samsung A06",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "warehouse",
-      "toLocation": "shop_tralee",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A06 from Warehouse to Tralee",
-      "id": "mv_dxyu5f0c5kc"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_kjnrq5aw69k",
-      "itemName": "Samsung A06",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_tralee",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Samsung A06 from Warehouse to Tralee",
-      "id": "mv_dej1o2gc5kc"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_xil44ciw69k",
-      "itemName": "Nokia 106",
-      "categoryId": "cat_lkhn0qyw69i",
-      "location": "warehouse",
-      "toLocation": "shop_tralee",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Nokia 106 from Warehouse to Tralee",
-      "id": "mv_xqsnh8ccm1w"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_xil44ciw69k",
-      "itemName": "Nokia 106",
-      "categoryId": "cat_lkhn0qyw69i",
-      "location": "shop_tralee",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred Nokia 106 from Warehouse to Tralee",
-      "id": "mv_uqnsh0tcm1w"
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_6sqmxamw69k",
-      "itemName": "iPhone 17",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_thurles",
-      "toLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred iPhone 17 from Thurles to Warehouse",
-      "id": "mv_kincdtn9zcn"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_6sqmxamw69k",
-      "itemName": "iPhone 17",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "warehouse",
-      "fromLocation": "shop_thurles",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Transferred iPhone 17 from Thurles to Warehouse",
-      "id": "mv_rbpieuf9zcn"
-    },
-    {
-      "id": "mv_6n3np4b5vbd",
-      "type": "sold",
-      "itemId": "item_x587cu6w69k",
-      "itemName": "Samsung A17 5G",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_thurles",
-      "qty": 1,
-      "date": "2026-09-03",
-      "note": "Sold from Inventory",
-      "sellPrice": 240,
-      "unitData": {
-        "id": "unit_ghyyvlc9ljp",
-        "imei": "351158945536341",
-        "color": "Black",
-        "condition": "New",
-        "location": "shop_thurles",
-        "costPrice": 160,
-        "sellPrice": 240,
-        "batteryPct": null,
-        "dateAdded": "2026-08-26",
-        "wholesalePrice": 172
-      }
-    },
-    {
-      "id": "mv_wvwhfkv6kjd",
-      "type": "sold",
-      "itemId": "item_ktmrwgdw69k",
-      "itemName": "Samsung A16",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_thurles",
-      "qty": 1,
-      "date": "2026-08-31",
-      "note": "Sold from Inventory",
-      "sellPrice": 180,
-      "unitData": {
-        "id": "unit_jet6hb4u5nq",
-        "imei": "351355310077808",
-        "color": "Black",
-        "condition": "New",
-        "location": "shop_thurles",
-        "costPrice": 125,
-        "wholesalePrice": 137,
-        "sellPrice": 180
-      }
-    },
-    {
-      "id": "mv_z7mwnxl7jn5",
-      "type": "sold",
-      "itemId": "item_qw8eo3aw69k",
-      "itemName": "iPhone 12",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_thurles",
-      "qty": 1,
-      "date": "2026-09-03",
-      "note": "Sold from Inventory",
-      "sellPrice": 280,
-      "unitData": {
-        "id": "unit_5j2w08622ii",
-        "imei": "353049112302518",
-        "color": "Black",
-        "condition": "Used",
-        "location": "shop_thurles",
-        "costPrice": 170,
-        "sellPrice": 280,
-        "batteryPct": 98,
-        "dateAdded": "2026-09-01",
-        "verified": false,
-        "verifiedAt": null,
-        "purchaseDate": "2026-09-01",
-        "addedAt": "2026-09-01",
-        "sentToShopDate": "2026-09-01",
-        "transferredAt": "2026-09-01"
-      }
-    },
-    {
-      "id": "mv_pluwvmk8081",
-      "type": "sold",
-      "itemId": "item_sazrno4w69k",
-      "itemName": "Mobitel 8010",
-      "categoryId": "cat_lkhn0qyw69i",
-      "location": "shop_thurles",
-      "qty": 1,
-      "date": "2026-09-01",
-      "note": "Sold from Inventory",
-      "sellPrice": 90,
-      "unitData": {
-        "id": "unit_5tmijgtu5ns",
-        "imei": "355225690431618",
-        "color": "",
-        "condition": "New",
-        "location": "shop_thurles",
-        "costPrice": 60,
-        "wholesalePrice": 60,
-        "sellPrice": 90,
-        "verified": true,
-        "verifiedAt": "2026-09-01"
-      }
-    },
-    {
-      "id": "mv_dkqnxbveoep",
-      "type": "sold",
-      "itemId": "item_bwk09raw69m",
-      "itemName": "Mobitel 1010",
-      "categoryId": "cat_lkhn0qyw69i",
-      "location": "shop_tralee",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Sold from Inventory",
-      "sellPrice": 70,
-      "unitData": {
-        "id": "unit_r9najlgu5p7",
-        "imei": "355225690420892",
-        "color": "Black",
-        "condition": "New",
-        "location": "shop_tralee",
-        "costPrice": 38,
-        "wholesalePrice": 0,
-        "sellPrice": 70,
-        "batteryPct": null,
-        "verified": true,
-        "verifiedAt": "2026-09-01"
-      }
-    },
-    {
-      "id": "mv_t0quocjyh3u",
-      "type": "sold",
-      "itemId": "item_kjnrq5aw69k",
-      "itemName": "Samsung A06",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_mullingar",
-      "qty": 1,
-      "date": "2026-09-04",
-      "note": "Sold from Inventory",
-      "sellPrice": 120,
-      "unitData": {
-        "id": "unit_s3lurxo9lj6",
-        "imei": "350584198664277",
-        "color": "Black",
-        "condition": "New",
-        "location": "shop_mullingar",
-        "costPrice": 95,
-        "sellPrice": 120,
-        "batteryPct": null,
-        "dateAdded": "2026-08-26",
-        "wholesalePrice": 0
-      }
-    },
-    {
-      "id": "mv_mqfm0t63wdu",
-      "type": "sold",
-      "itemId": "item_nme6ice3fe2",
-      "itemName": "Tablet Blackview",
-      "categoryId": "cat_cgd9w36w69i",
-      "location": "shop_tullamore",
-      "qty": 1,
-      "date": "2026-09-04",
-      "note": "Sold from Inventory",
-      "sellPrice": 150,
-      "unitData": {
-        "id": "unit_n3j5mgju5po",
-        "imei": "LINK1KNEU002817",
-        "color": "Ocean Blue",
-        "condition": "New",
-        "location": "shop_tullamore",
-        "costPrice": 1,
-        "wholesalePrice": 13,
-        "sellPrice": 150,
-        "verified": true,
-        "verifiedAt": "2026-09-01",
-        "batteryPct": null,
-        "purchaseDate": null,
-        "dateAdded": null,
-        "addedAt": null,
-        "sentToShopDate": null,
-        "transferredAt": null
-      }
-    },
-    {
-      "id": "mv_sa03cf44box",
-      "type": "sold",
-      "itemId": "item_z9wc6vtu5pi",
-      "itemName": "Samsung S24FE",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_tullamore",
-      "qty": 1,
-      "date": "2026-08-31",
-      "note": "Sold from Inventory",
-      "sellPrice": 440,
-      "unitData": {
-        "id": "unit_oh0wn28u5pi",
-        "imei": "351273092482320",
-        "color": "Blue",
-        "condition": "New",
-        "location": "shop_tullamore",
-        "costPrice": 1,
-        "wholesalePrice": 13,
-        "sellPrice": 440,
-        "verified": true,
-        "verifiedAt": "2026-09-01"
-      }
-    },
-    {
-      "id": "mv_1tzskro4znd",
-      "type": "sold",
-      "itemId": "item_h80zvgvu5pp",
-      "itemName": "Galaxy Watch 5",
-      "categoryId": "cat_u83iatxw69i",
-      "location": "shop_tullamore",
-      "qty": 1,
-      "date": "2026-08-31",
-      "note": "RFAT72G3YBP",
-      "sellPrice": 1
-    },
-    {
-      "id": "mv_aexsv7hw4qq",
-      "type": "sold",
-      "itemId": "item_zrqsqf9w69m",
-      "itemName": "iPhone 17 Pro Max",
-      "categoryId": "cat_7qgen7vw69i",
-      "location": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-08-31",
-      "note": "Sold from Inventory",
-      "sellPrice": 1399,
-      "unitData": {
-        "id": "unit_71u7as4u5oi",
-        "imei": "351309195135751",
-        "color": "Orange",
-        "condition": "New",
-        "location": "shop_maynooth",
-        "costPrice": 0,
-        "wholesalePrice": 13,
-        "sellPrice": 1399,
-        "verified": true,
-        "verifiedAt": "2026-08-28"
-      }
-    },
-    {
-      "id": "mv_fxrbmiewhca",
-      "type": "sold",
-      "itemId": "item_1tue6b29lkh",
-      "itemName": "Samsung A17",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-05",
-      "note": "Sold from Inventory",
-      "sellPrice": 219,
-      "unitData": {
-        "id": "unit_62s2ins9lkz",
-        "imei": "350276232016271",
-        "color": "Light Blue",
-        "condition": "New",
-        "location": "shop_maynooth",
-        "costPrice": 140,
-        "sellPrice": 219,
-        "batteryPct": null,
-        "dateAdded": "2026-08-26",
-        "wholesalePrice": 152,
-        "verified": true,
-        "verifiedAt": "2026-09-01"
-      }
-    },
-    {
-      "id": "mv_dyfx7wswuyi",
-      "type": "sold",
-      "itemId": "item_kjnrq5aw69k",
-      "itemName": "Samsung A06",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-03",
-      "note": "Sold from Inventory",
-      "sellPrice": 119,
-      "unitData": {
-        "id": "unit_qhvabre9liz",
-        "imei": "350584198621590",
-        "color": "Black",
-        "condition": "New",
-        "location": "shop_maynooth",
-        "costPrice": 95,
-        "sellPrice": 119,
-        "batteryPct": null,
-        "dateAdded": "2026-08-26",
-        "wholesalePrice": 0,
-        "verified": true,
-        "verifiedAt": "2026-09-01"
-      }
-    },
-    {
-      "id": "mv_hkcr7bux5le",
-      "type": "sold",
-      "itemId": "item_ktmrwgdw69k",
-      "itemName": "Samsung A16",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Sold from Inventory",
-      "sellPrice": 199,
-      "unitData": {
-        "id": "unit_yrbjsvm9llr",
-        "imei": "351355313872528",
-        "color": "Black",
-        "condition": "New",
-        "location": "shop_maynooth",
-        "costPrice": 125,
-        "sellPrice": 199,
-        "batteryPct": null,
-        "dateAdded": "2026-08-26",
-        "wholesalePrice": 111,
-        "verified": true,
-        "verifiedAt": "2026-09-01"
-      }
-    },
-    {
-      "id": "mv_x17tpv2xiaa",
-      "type": "sold",
-      "itemId": "item_1tue6b29lkh",
-      "itemName": "Samsung A17",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Sold from Inventory",
-      "sellPrice": 219,
-      "unitData": {
-        "id": "unit_ti2zrni9lkh",
-        "imei": "350276231205313",
-        "color": "Gray",
-        "condition": "New",
-        "location": "shop_maynooth",
-        "costPrice": 140,
-        "sellPrice": 219,
-        "batteryPct": null,
-        "dateAdded": "2026-08-26",
-        "wholesalePrice": 152,
-        "verified": true,
-        "verifiedAt": "2026-09-01"
-      }
-    },
-    {
-      "id": "mv_nqyh24wy2xu",
-      "type": "sold",
-      "itemId": "item_x587cu6w69k",
-      "itemName": "Samsung A17 5G",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-02",
-      "note": "Sold from Inventory",
-      "sellPrice": 249,
-      "unitData": {
-        "id": "unit_lxdhsp79ljq",
-        "imei": "351158945531433",
-        "color": "Black",
-        "condition": "New",
-        "location": "shop_maynooth",
-        "costPrice": 160,
-        "sellPrice": 249,
-        "batteryPct": null,
-        "dateAdded": "2026-08-26",
-        "wholesalePrice": 172,
-        "verified": true,
-        "verifiedAt": "2026-09-01"
-      }
-    },
-    {
-      "id": "mv_1cdpkykynle",
-      "type": "sold",
-      "itemId": "item_qbvtan1w69k",
-      "itemName": "Samsung A37 5G",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-08-31",
-      "note": "Sold from Inventory",
-      "sellPrice": 389,
-      "unitData": {
-        "id": "unit_7fa9tuuu5om",
-        "imei": "353700230904797",
-        "color": "Awesome Graygreen",
-        "condition": "New",
-        "location": "shop_maynooth",
-        "costPrice": 230,
-        "wholesalePrice": 242,
-        "sellPrice": 389,
-        "verified": true,
-        "verifiedAt": "2026-09-01",
-        "batteryPct": null
-      }
-    },
-    {
-      "id": "mv_dvqwqlg502z",
-      "type": "sold",
-      "itemId": "item_epsgals21jn",
-      "itemName": "Samsung A07",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-08-31",
-      "note": "Sold from Inventory",
-      "sellPrice": 129,
-      "unitData": {
-        "id": "unit_xm7rgly21jo",
-        "imei": "352262376794723",
-        "color": "Black",
-        "condition": "New",
-        "batteryPct": null,
-        "location": "shop_maynooth",
-        "costPrice": 0,
-        "sellPrice": 129,
-        "addedAt": null,
-        "verified": false,
-        "verifiedAt": null,
-        "purchaseDate": null,
-        "dateAdded": null,
-        "sentToShopDate": null,
-        "transferredAt": null
-      }
     }
   ],
   "reorderList": [],
@@ -18519,7 +15788,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T15:23:46.816Z",
+    "lastSaved": "2026-09-07T15:35:57.626Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
