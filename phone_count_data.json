@@ -6235,25 +6235,12 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_71u7as4u5oi",
-          "imei": "351309195135751",
-          "color": "Orange",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 0,
-          "wholesalePrice": 13,
-          "sellPrice": 0,
-          "verified": true,
-          "verifiedAt": "2026-08-28"
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-20",
       "wholesalePrice": 13
     },
@@ -18567,7 +18554,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T16:06:03.692Z",
+    "lastSaved": "2026-09-07T16:09:27.028Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
