@@ -4118,7 +4118,9 @@
           "location": "shop_kilkenny",
           "costPrice": 0,
           "wholesalePrice": 0,
-          "sellPrice": 70
+          "sellPrice": 70,
+          "verified": true,
+          "verifiedAt": "2026-09-07"
         }
       ],
       "createdAt": "2026-08-20",
@@ -5993,7 +5995,9 @@
           "location": "shop_kilkenny",
           "costPrice": 0,
           "wholesalePrice": 13,
-          "sellPrice": 280
+          "sellPrice": 280,
+          "verified": true,
+          "verifiedAt": "2026-09-07"
         },
         {
           "id": "unit_6kez9nbu5ow",
@@ -6047,8 +6051,8 @@
           "wholesalePrice": 13,
           "sellPrice": 85,
           "batteryPct": null,
-          "verified": false,
-          "verifiedAt": null
+          "verified": true,
+          "verifiedAt": "2026-09-07"
         }
       ],
       "createdAt": "2026-08-20",
@@ -6089,7 +6093,13 @@
       },
       "units": [],
       "createdAt": "2026-08-20",
-      "wholesalePrice": 0
+      "wholesalePrice": 0,
+      "shopVerified": {
+        "shop_kilkenny": true
+      },
+      "shopVerifiedAt": {
+        "shop_kilkenny": "2026-09-07"
+      }
     },
     {
       "id": "item_xpj7c2aw69m",
@@ -11816,8 +11826,8 @@
           "costPrice": 95,
           "sellPrice": 130,
           "addedAt": "2026-09-01",
-          "verified": false,
-          "verifiedAt": null
+          "verified": true,
+          "verifiedAt": "2026-09-07"
         }
       ],
       "createdAt": "2026-09-01"
@@ -18517,7 +18527,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T17:02:11.245Z",
+    "lastSaved": "2026-09-07T17:02:26.845Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
