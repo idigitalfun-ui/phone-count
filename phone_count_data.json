@@ -3141,7 +3141,7 @@
         "shop_tullamore": 110
       },
       "locations": {
-        "warehouse": 5,
+        "warehouse": 3,
         "shop_thurles": 1,
         "shop_kilkenny": 2,
         "shop_maynooth": 1,
@@ -3170,7 +3170,9 @@
           "sellPrice": 110,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 0
+          "wholesalePrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-09-07"
         },
         {
           "id": "unit_q85irs19liu",
@@ -3182,7 +3184,9 @@
           "sellPrice": 110,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 0
+          "wholesalePrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-09-07"
         },
         {
           "id": "unit_3cnv0ft9lix",
@@ -3256,31 +3260,9 @@
           "sellPrice": 110,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 0
-        },
-        {
-          "id": "unit_qhvabre9liz",
-          "imei": "350584198621590",
-          "color": "Black",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 95,
-          "sellPrice": 110,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 0
-        },
-        {
-          "id": "unit_s3lurxo9lj6",
-          "imei": "350584198664277",
-          "color": "Black",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 95,
-          "sellPrice": 110,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 0
+          "wholesalePrice": 0,
+          "verified": true,
+          "verifiedAt": "2026-09-07"
         }
       ],
       "createdAt": "2026-08-20",
@@ -18455,7 +18437,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T16:23:22.724Z",
+    "lastSaved": "2026-09-07T16:24:01.780Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
