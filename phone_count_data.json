@@ -3383,7 +3383,7 @@
         "warehouse": 0,
         "shop_thurles": 1,
         "shop_kilkenny": 0,
-        "shop_maynooth": 4,
+        "shop_maynooth": 3,
         "shop_mullingar": 2,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -3455,19 +3455,6 @@
           "costPrice": 230,
           "wholesalePrice": 0,
           "sellPrice": 240,
-          "batteryPct": null
-        },
-        {
-          "id": "unit_7fa9tuuu5om",
-          "imei": "353700230904797",
-          "color": "Awesome Graygreen",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 230,
-          "wholesalePrice": 242,
-          "sellPrice": 230,
-          "verified": true,
-          "verifiedAt": "2026-08-28",
           "batteryPct": null
         }
       ],
@@ -18486,7 +18473,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T16:11:22.396Z",
+    "lastSaved": "2026-09-07T16:11:42.116Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
