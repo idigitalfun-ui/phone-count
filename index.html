@@ -245,6 +245,7 @@ tbody tr:hover{filter:brightness(0.97);}
         <div class="sub" id="pageSub"></div>
       </div>
       <div class="row" style="gap:8px;align-items:center;flex-wrap:wrap;">
+        <button class="btn sm no-print" onclick="GitHubStore.syncNow(true)" title="Sync all changes with GitHub Cloud" style="background:#0F766E;color:#fff;font-weight:700;border:none;box-shadow:0 1px 3px rgba(0,0,0,0.15);cursor:pointer;padding:4px 10px;">☁️ Sync Cloud</button>
         <div id="save_indicator" style="display:flex;align-items:center;gap:4px;font-size:12px;"></div>
         <button class="btn sm no-print" onclick="Views.showRecentActivity()" title="View recent actions and revert accidental sales, deposits, or faulty marks" style="border:1px solid var(--teal);color:var(--teal-dark);font-weight:600;">↩ Revert / Activity</button>
         <button class="btn sm no-print" onclick="FileStore.exportJson()" title="Download a backup JSON file right now">⬇ Export data</button>
@@ -19803,6 +19804,65 @@ const GitHubStore = {
     }
   },
 
+  async syncNow(manual = false){
+    const cfg = this.getConfig();
+    if(!cfg.token || !cfg.token.trim() || !cfg.owner || !cfg.repo) {
+      if(manual) Toast.show('GitHub configuration missing.', 'err');
+      return;
+    }
+    if(this._syncing) return;
+    this._syncing = true;
+    this.saveConfig({ status: 'syncing' });
+    updateSaveIndicator();
+
+    try {
+      const getUrl = "https://api.github.com/repos/" + encodeURIComponent(cfg.owner.trim()) + "/" + encodeURIComponent(cfg.repo.trim()) + "/contents/" + encodeURIComponent(cfg.path.trim()) + "?ref=" + encodeURIComponent(cfg.branch.trim()||'main') + "&_t=" + Date.now();
+      const getRes = await fetch(getUrl, {
+        cache: 'no-store',
+        headers: {
+          'Authorization': "Bearer " + cfg.token.trim(),
+          'Accept': 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28'
+        }
+      });
+
+      if(getRes.ok){
+        const getData = await getRes.json();
+        const currentSha = getData.sha;
+        
+        if(getData.content){
+          const remoteText = base64ToUtf8(getData.content.replace(/\s/g, ''));
+          const remoteData = JSON.parse(remoteText);
+          const remoteTs = remoteData?.meta?.lastSaved || '0';
+          const localTs = Store.data?.meta?.lastSaved || '0';
+          
+          if(remoteTs > localTs){
+            Store.data = remoteData;
+            Store.migrate();
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(Store.data));
+            this.saveConfig({
+              status: 'synced',
+              sha: currentSha,
+              lastSync: new Date().toISOString(),
+              lastError: null
+            });
+            if(manual) Toast.show('☁️ Cloud sync: Latest data loaded from GitHub.', 'ok');
+            render();
+            return;
+          }
+        }
+      }
+
+      this._syncing = false;
+      await this.saveRemote(manual);
+    } catch(err){
+      console.error('syncNow error:', err);
+      if(manual) Toast.show('Sync error: ' + err.message, 'err');
+      this._syncing = false;
+      updateSaveIndicator();
+    }
+  },
+
   async saveRemote(manual = false){
     // Commit any active in-progress input field before pushing to GitHub
     if(document.activeElement && typeof document.activeElement.blur === 'function'){
@@ -20132,7 +20192,7 @@ function renderSidebar(){
   if(portalShopId){
     const sName = shopName(portalShopId);
     nav.innerHTML = `
-      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.25.0</span></div>
+      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.26.0</span></div>
       <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
         <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
         <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
@@ -20144,7 +20204,7 @@ function renderSidebar(){
     `;
     return;
   }
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.25.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.26.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -22662,6 +22722,14 @@ Views.shopPortal = function(shopId){
       </div>
     </div>
 
+    <div style="display:flex;gap:8px;margin-bottom:14px;border-bottom:2px solid #E2E8F0;padding-bottom:8px;">
+      <button class="chip ${(Views._portalTab||'stock')==='stock'?'active':''}" onclick="Views._portalTab='stock';render();" style="font-weight:700;font-size:13px;padding:6px 14px;">📦 In-Stock Devices (${totalUnitsCount})</button>
+      <button class="chip ${(Views._portalTab||'stock')==='sold'?'active':''}" onclick="Views._portalTab='sold';render();" style="font-weight:700;font-size:13px;padding:6px 14px;background:${(Views._portalTab||'stock')==='sold'?'#059669':'#F1F5F9'};color:${(Views._portalTab||'stock')==='sold'?'#fff':'#334155'};">💰 Sold Devices (${(Store.data.movements||[]).filter(m=>m.type==='sold' && m.location===shopId).length})</button>
+    </div>
+
+    ${(Views._portalTab||'stock') === 'sold' ? Views.renderShopSoldTable(shopId) : `${''}`}
+
+    <div style="${(Views._portalTab||'stock')==='sold'?'display:none;':''}">
     <div class="toolbar" style="flex-wrap:wrap;gap:8px;margin-bottom:14px;">
       <div class="chip-select" style="flex-wrap:wrap;">
         <button class="chip ${f.cat==='all'?'active':''}" onclick="Views._portalFilter.cat='all';render();">All Categories <span class="badge">${totalUnitsCount}</span></button>
@@ -25520,7 +25588,8 @@ Views.addShop = function(){
 Store.load();
 render();
 FileStore.init(); // restore file handle from IndexedDB and sync data if file is newer
-GitHubStore.startAutoSyncTimer(); // start silent background GitHub cloud sync timer
+GitHubStore.startAutoSyncTimer();
+setTimeout(() => { if(GitHubStore.isConfigured()) GitHubStore.syncNow(false); }, 500); // start silent background GitHub cloud sync timer
 </script>
 </body>
 </html>
