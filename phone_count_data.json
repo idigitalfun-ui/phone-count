@@ -12672,31 +12672,13 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_swzgzucfyyl",
-          "imei": "352262376794897",
-          "color": "Black",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 0,
-          "sellPrice": 0,
-          "addedAt": null,
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": null,
-          "dateAdded": null,
-          "sentToShopDate": null,
-          "transferredAt": null
-        }
-      ],
+      "units": [],
       "createdAt": "2026-09-07"
     },
     {
@@ -18603,6 +18585,35 @@
       "date": "2026-09-07",
       "note": "Transferred from Warehouse (IMEI 352262376794897)",
       "id": "mv_10151ozgc3w"
+    },
+    {
+      "id": "mv_horkoteh4qc",
+      "type": "sold",
+      "itemId": "item_epsgals21jn",
+      "itemName": "Samsung A07",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_kilkenny",
+      "qty": 1,
+      "date": "2026-08-31",
+      "note": "Sold from Inventory",
+      "sellPrice": 130,
+      "unitData": {
+        "id": "unit_swzgzucfyyl",
+        "imei": "352262376794897",
+        "color": "Black",
+        "condition": "New",
+        "batteryPct": null,
+        "location": "shop_kilkenny",
+        "costPrice": 0,
+        "sellPrice": 130,
+        "addedAt": null,
+        "verified": false,
+        "verifiedAt": null,
+        "purchaseDate": null,
+        "dateAdded": null,
+        "sentToShopDate": null,
+        "transferredAt": null
+      }
     }
   ],
   "reorderList": [],
@@ -18610,7 +18621,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T16:00:41.036Z",
+    "lastSaved": "2026-09-07T16:01:18.132Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
