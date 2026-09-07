@@ -2839,7 +2839,7 @@
       "locations": {
         "warehouse": 10,
         "shop_thurles": 1,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 1,
         "shop_maynooth": 2,
         "shop_mullingar": 2,
         "shop_tralee": 0,
@@ -2863,24 +2863,6 @@
           "addedAt": "2025-05-06",
           "sentToShopDate": "2026-05-26",
           "transferredAt": "2026-05-26"
-        },
-        {
-          "id": "unit_rhkc9cju5nu",
-          "imei": "354696400504509",
-          "color": "Blue",
-          "condition": "Used",
-          "location": "shop_kilkenny",
-          "costPrice": 180,
-          "wholesalePrice": 0,
-          "sellPrice": 390,
-          "batteryPct": null,
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": "2024-10-04",
-          "dateAdded": "2024-10-04",
-          "addedAt": "2024-10-04",
-          "sentToShopDate": "2025-05-07",
-          "transferredAt": "2025-05-07"
         },
         {
           "id": "unit_idxe9azu5pd",
@@ -18536,6 +18518,36 @@
         "sellPrice": 480,
         "addedAt": "2026-08-28"
       }
+    },
+    {
+      "id": "mv_m9dnnsmayt0",
+      "type": "sold",
+      "itemId": "item_qw8eo3aw69k",
+      "itemName": "iPhone 12",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_kilkenny",
+      "qty": 1,
+      "date": "2026-09-03",
+      "note": "Sold from Inventory",
+      "sellPrice": 330,
+      "unitData": {
+        "id": "unit_rhkc9cju5nu",
+        "imei": "354696400504509",
+        "color": "Blue",
+        "condition": "Used",
+        "location": "shop_kilkenny",
+        "costPrice": 180,
+        "wholesalePrice": 0,
+        "sellPrice": 330,
+        "batteryPct": null,
+        "verified": false,
+        "verifiedAt": null,
+        "purchaseDate": "2024-10-04",
+        "dateAdded": "2024-10-04",
+        "addedAt": "2024-10-04",
+        "sentToShopDate": "2025-05-07",
+        "transferredAt": "2025-05-07"
+      }
     }
   ],
   "reorderList": [],
@@ -18543,7 +18555,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T15:55:57.748Z",
+    "lastSaved": "2026-09-07T15:56:30.516Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
