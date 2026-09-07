@@ -6509,7 +6509,7 @@ function seedData(){
       "units": [
         {
           "id": "unit_hnx53ecxs7i",
-          "imei": "",
+          "imei": "8806094702705",
           "color": "White",
           "condition": "New",
           "batteryPct": null,
@@ -6523,7 +6523,7 @@ function seedData(){
         },
         {
           "id": "unit_qffvc5zxs7i",
-          "imei": "",
+          "imei": "8806094702705",
           "color": "White",
           "condition": "New",
           "batteryPct": null,
@@ -6572,7 +6572,7 @@ function seedData(){
       "units": [
         {
           "id": "unit_klrfcvyyr06",
-          "imei": "",
+          "imei": "8806095645810",
           "color": "White",
           "condition": "New",
           "batteryPct": null,
@@ -16082,7 +16082,7 @@ function seedData(){
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-01T14:59:07.983Z",
+    "lastSaved": "2026-09-07T15:32:30.947Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
@@ -17415,7 +17415,7 @@ function renderSidebar(){
   if(portalShopId){
     const sName = shopName(portalShopId);
     nav.innerHTML = `
-      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.23.0</span></div>
+      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.24.0</span></div>
       <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
         <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
         <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
@@ -17427,7 +17427,7 @@ function renderSidebar(){
     `;
     return;
   }
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.23.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.24.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
