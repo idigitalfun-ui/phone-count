@@ -10784,7 +10784,7 @@
         "warehouse": 14,
         "shop_thurles": 1,
         "shop_kilkenny": 0,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 2,
         "shop_tralee": 1,
         "shop_tullamore": 0
@@ -11005,20 +11005,6 @@
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 152
-        },
-        {
-          "id": "unit_62s2ins9lkz",
-          "imei": "350276232016271",
-          "color": "Light Blue",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 140,
-          "sellPrice": 140,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 152,
-          "verified": true,
-          "verifiedAt": "2026-08-28"
         }
       ],
       "createdAt": "2026-08-26",
@@ -18500,7 +18486,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T16:11:09.316Z",
+    "lastSaved": "2026-09-07T16:11:22.396Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
