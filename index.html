@@ -12668,7 +12668,7 @@ function seedData(){
           "condition": "Used",
           "batteryPct": 86,
           "location": "shop_kilkenny",
-          "costPrice": 0,
+          "costPrice": 285,
           "wholesalePrice": 0,
           "sellPrice": 450,
           "addedAt": null,
@@ -18195,13 +18195,7 @@ function seedData(){
       "qty": 1,
       "date": "2026-09-02",
       "note": "Transferred iPhone 17 from Thurles to Warehouse",
-      "id": "mv_kincdtn9zcn",
-      "unitData": {
-        "id": "unit_gknex6ju5no",
-        "imei": "350085642277120",
-        "color": "Lavender",
-        "condition": "New"
-      }
+      "id": "mv_kincdtn9zcn"
     },
     {
       "type": "transfer-in",
@@ -18213,13 +18207,7 @@ function seedData(){
       "qty": 1,
       "date": "2026-09-02",
       "note": "Transferred iPhone 17 from Thurles to Warehouse",
-      "id": "mv_rbpieuf9zcn",
-      "unitData": {
-        "id": "unit_gknex6ju5no",
-        "imei": "350085642277120",
-        "color": "Lavender",
-        "condition": "New"
-      }
+      "id": "mv_rbpieuf9zcn"
     },
     {
       "id": "mv_6n3np4b5vbd",
@@ -18759,10 +18747,7 @@ function seedData(){
       "qty": 1,
       "date": "2026-09-07",
       "note": "Transferred to Kilkenney (IMEI 352262376794897)",
-      "id": "mv_jigisk4gc3w",
-      "unitData": {
-        "imei": "352262376794897"
-      }
+      "id": "mv_jigisk4gc3w"
     },
     {
       "type": "transfer-in",
@@ -18775,10 +18760,7 @@ function seedData(){
       "qty": 1,
       "date": "2026-09-07",
       "note": "Transferred from Warehouse (IMEI 352262376794897)",
-      "id": "mv_10151ozgc3w",
-      "unitData": {
-        "imei": "352262376794897"
-      }
+      "id": "mv_10151ozgc3w"
     },
     {
       "id": "mv_horkoteh4qc",
@@ -18840,7 +18822,7 @@ function seedData(){
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T17:02:26.845Z",
+    "lastSaved": "2026-09-07T17:30:16.095Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
@@ -20232,7 +20214,7 @@ function renderSidebar(){
   if(portalShopId){
     const sName = shopName(portalShopId);
     nav.innerHTML = `
-      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.30.0</span></div>
+      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.31.0</span></div>
       <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
         <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
         <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
@@ -20244,7 +20226,7 @@ function renderSidebar(){
     `;
     return;
   }
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.30.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.31.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
