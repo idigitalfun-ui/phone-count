@@ -8790,20 +8790,9 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 1
+        "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_c3rvhtfu5pj",
-          "imei": "354880841191908",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 95,
-          "wholesalePrice": 13,
-          "sellPrice": 110
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-20"
     },
     {
@@ -9010,7 +8999,7 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 2
+        "shop_tullamore": 0
       },
       "units": [
         {
@@ -9025,26 +9014,6 @@
           "batteryPct": null,
           "verified": true,
           "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_b5re9hnu5pk",
-          "imei": "357884911523864",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 140,
-          "wholesalePrice": 13,
-          "sellPrice": 220
-        },
-        {
-          "id": "unit_rq1zodlu5pk",
-          "imei": "357884911523328",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 140,
-          "wholesalePrice": 13,
-          "sellPrice": 220
         }
       ],
       "createdAt": "2026-08-20"
@@ -18611,7 +18580,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T16:03:56.876Z",
+    "lastSaved": "2026-09-07T16:04:14.940Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
