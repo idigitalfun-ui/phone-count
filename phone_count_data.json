@@ -17900,13 +17900,7 @@
       "qty": 1,
       "date": "2026-09-02",
       "note": "Transferred iPhone 17 from Thurles to Warehouse",
-      "id": "mv_kincdtn9zcn",
-      "unitData": {
-        "id": "unit_gknex6ju5no",
-        "imei": "350085642277120",
-        "color": "Lavender",
-        "condition": "New"
-      }
+      "id": "mv_kincdtn9zcn"
     },
     {
       "type": "transfer-in",
@@ -17918,13 +17912,7 @@
       "qty": 1,
       "date": "2026-09-02",
       "note": "Transferred iPhone 17 from Thurles to Warehouse",
-      "id": "mv_rbpieuf9zcn",
-      "unitData": {
-        "id": "unit_gknex6ju5no",
-        "imei": "350085642277120",
-        "color": "Lavender",
-        "condition": "New"
-      }
+      "id": "mv_rbpieuf9zcn"
     },
     {
       "id": "mv_6n3np4b5vbd",
@@ -18464,10 +18452,7 @@
       "qty": 1,
       "date": "2026-09-07",
       "note": "Transferred to Kilkenney (IMEI 352262376794897)",
-      "id": "mv_jigisk4gc3w",
-      "unitData": {
-        "imei": "352262376794897"
-      }
+      "id": "mv_jigisk4gc3w"
     },
     {
       "type": "transfer-in",
@@ -18480,10 +18465,7 @@
       "qty": 1,
       "date": "2026-09-07",
       "note": "Transferred from Warehouse (IMEI 352262376794897)",
-      "id": "mv_10151ozgc3w",
-      "unitData": {
-        "imei": "352262376794897"
-      }
+      "id": "mv_10151ozgc3w"
     },
     {
       "id": "mv_horkoteh4qc",
