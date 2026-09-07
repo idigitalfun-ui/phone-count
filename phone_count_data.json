@@ -1705,7 +1705,7 @@
         "shop_maynooth": 2,
         "shop_mullingar": 2,
         "shop_tralee": 1,
-        "shop_tullamore": 2
+        "shop_tullamore": 0
       },
       "units": [
         {
@@ -1807,26 +1807,6 @@
           "addedAt": "2026-08-25",
           "verified": true,
           "verifiedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_av104ygu5pl",
-          "imei": "355647768278219",
-          "color": "",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 15,
-          "wholesalePrice": 27,
-          "sellPrice": 22
-        },
-        {
-          "id": "unit_sbyzqazu5pm",
-          "imei": "355647768272337",
-          "color": "",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 15,
-          "wholesalePrice": 27,
-          "sellPrice": 22
         }
       ],
       "createdAt": "2026-08-20",
@@ -10470,20 +10450,9 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 1
+        "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_kpe78ppu5pn",
-          "imei": "g8s1l905136202m",
-          "color": "Green",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 1
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-20"
     },
     {
@@ -10559,7 +10528,7 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 2
+        "shop_tullamore": 1
       },
       "units": [
         {
@@ -10579,16 +10548,6 @@
           "addedAt": null,
           "sentToShopDate": null,
           "transferredAt": null
-        },
-        {
-          "id": "unit_n3j5mgju5po",
-          "imei": "LINK1KNEU002817",
-          "color": "",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 1
         }
       ],
       "createdAt": "2026-08-20",
@@ -18569,7 +18528,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T16:05:00.060Z",
+    "lastSaved": "2026-09-07T16:05:25.052Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
