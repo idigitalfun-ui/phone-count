@@ -12980,6 +12980,45 @@
         }
       ],
       "createdAt": "2026-09-07"
+    },
+    {
+      "id": "item_gsyepn7n798",
+      "name": "Samsung Galaxy Buds Plus",
+      "category": "cat_qaxr5vow69i",
+      "memory": "",
+      "condition": "New",
+      "batteryPct": null,
+      "imei": "",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 6
+      },
+      "units": [],
+      "createdAt": "2026-09-07",
+      "shopVerified": {
+        "shop_tullamore": true
+      },
+      "shopVerifiedAt": {
+        "shop_tullamore": "2026-09-07"
+      }
     }
   ],
   "movements": [
@@ -18528,7 +18567,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T16:05:25.052Z",
+    "lastSaved": "2026-09-07T16:06:03.692Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
