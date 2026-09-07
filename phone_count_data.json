@@ -18466,6 +18466,31 @@
         "sentToShopDate": null,
         "transferredAt": null
       }
+    },
+    {
+      "id": "mv_yvl2yw6z6sk",
+      "type": "faulty",
+      "itemId": "item_43fm6seu5ot",
+      "itemName": "Modio M25 Tablet",
+      "categoryId": "cat_cgd9w36w69i",
+      "location": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-08-31",
+      "note": "Faulty — from Inventory",
+      "sellPrice": 0,
+      "unitData": {
+        "id": "unit_hhdx4gqyx59",
+        "imei": "354933660374566",
+        "color": "Pink",
+        "condition": "New",
+        "batteryPct": null,
+        "location": "shop_maynooth",
+        "costPrice": 0,
+        "sellPrice": 0,
+        "addedAt": "2026-09-07",
+        "verified": true,
+        "verifiedAt": "2026-09-07"
+      }
     }
   ],
   "reorderList": [],
@@ -18473,7 +18498,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T16:11:42.116Z",
+    "lastSaved": "2026-09-07T16:15:20.612Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
