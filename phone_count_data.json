@@ -369,7 +369,9 @@
           "sellPrice": 115,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 107
+          "wholesalePrice": 107,
+          "verified": true,
+          "verifiedAt": "2026-09-07"
         },
         {
           "id": "unit_ufqlnab9ljc",
@@ -381,7 +383,9 @@
           "sellPrice": 115,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 107
+          "wholesalePrice": 107,
+          "verified": true,
+          "verifiedAt": "2026-09-07"
         },
         {
           "id": "unit_3t8f25n9ljd",
@@ -393,7 +397,9 @@
           "sellPrice": 115,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
-          "wholesalePrice": 107
+          "wholesalePrice": 107,
+          "verified": true,
+          "verifiedAt": "2026-09-07"
         },
         {
           "id": "unit_4rapsfx9ljf",
@@ -18437,7 +18443,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T16:24:01.780Z",
+    "lastSaved": "2026-09-07T16:24:21.764Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
