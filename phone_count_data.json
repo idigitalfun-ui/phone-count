@@ -6233,7 +6233,7 @@
     },
     {
       "id": "item_biux9rtw69m",
-      "name": "Samsung Galaxy S26 Ultra",
+      "name": "Samsung S26 Ultra",
       "category": "cat_w56n2ktw69i",
       "memory": "12GB/256GB",
       "imei": "",
@@ -6272,7 +6272,13 @@
           "wholesalePrice": 0,
           "sellPrice": 0,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-09-01",
+          "batteryPct": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -18515,7 +18521,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-08T14:36:42.561Z",
+    "lastSaved": "2026-09-08T14:38:39.273Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
