@@ -175,8 +175,8 @@ tbody tr:hover{filter:brightness(0.97);}
 .unit-row .meta{font-size:12.5px;color:var(--muted);}
 .unit-row .meta b{color:var(--ink);}
 .modal{background:#fff;border-radius:12px;max-width:580px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);}
-.modal.modal-xl{max-width:1250px!important;width:95vw!important;}
-.modal.modal-lg{max-width:980px!important;width:92vw!important;}
+.modal.modal-xl{max-width:1380px!important;width:96vw!important;max-height:94vh!important;}
+.modal.modal-lg{max-width:1080px!important;width:92vw!important;max-height:92vh!important;}
 .modal-head{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;}
 .modal-head h3{margin:0;font-size:16px;}
 .modal-body{padding:18px 20px;}
@@ -23835,99 +23835,72 @@ Views.openAuditSubmissionDetailsModal = function(changeId){
   }
 
   const html = `
-    <div class="modal modal-xl" style="max-width:1150px;">
-      <div class="modal-head" style="background:#0F172A;color:#fff;border-radius:10px 10px 0 0;padding:16px 20px;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:24px;">📋</span>
-          <div>
-            <h3 style="margin:0;color:#fff;font-size:18px;font-weight:800;">${esc(sName)} — Stock Audit Submission Details</h3>
-            <div style="font-size:12px;color:#94A3B8;margin-top:2px;">Submitted on <b>${dateStr}</b> · Status: <b style="color:${isPending?'#FBBF24':'#4ADE80'};">${isPending?'⏳ Pending Approval':'✓ Approved'}</b></div>
-          </div>
+    <div class="modal-head" style="background:#0F172A;color:#fff;border-radius:12px 12px 0 0;padding:16px 24px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-size:26px;">📋</span>
+        <div>
+          <h3 style="margin:0;color:#fff;font-size:19px;font-weight:800;">${esc(sName)} — Stock Audit Submission Details</h3>
+          <div style="font-size:12.5px;color:#94A3B8;margin-top:2px;">Submitted on <b>${dateStr}</b> · Status: <b style="color:${isPending?'#FBBF24':'#4ADE80'};">${isPending?'⏳ Pending Approval':'✓ Approved'}</b></div>
         </div>
-        <button class="btn ghost sm" onclick="Modal.close()" style="color:#fff;border-color:rgba(255,255,255,.3);">✕</button>
       </div>
-      <div class="modal-body" style="padding:20px;max-height:75vh;overflow-y:auto;background:#F8FAFC;">
-        
-        <!-- Metrics Grid -->
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px;">
-          <div style="background:#fff;padding:14px;border-radius:8px;border:1px solid #E2E8F0;box-shadow:0 1px 2px rgba(0,0,0,.04);">
-            <div style="font-size:11.5px;color:#64748B;font-weight:700;text-transform:uppercase;">📦 Total Devices in Store</div>
-            <div style="font-size:24px;font-weight:800;color:#0F172A;margin-top:4px;">${data.totalDevices}</div>
-          </div>
-          <div style="background:#ECFDF5;padding:14px;border-radius:8px;border:1px solid #A7F3D0;box-shadow:0 1px 2px rgba(0,0,0,.04);">
-            <div style="font-size:11.5px;color:#065F46;font-weight:700;text-transform:uppercase;">✓ Verified & Checked OK</div>
-            <div style="font-size:24px;font-weight:800;color:#047857;margin-top:4px;">${data.verifiedCount} <span style="font-size:13px;font-weight:600;">(${data.totalDevices>0?Math.round((data.verifiedCount/data.totalDevices)*100):0}%)</span></div>
-          </div>
-          <div style="background:${data.unverifiedCount>0?'#FEF2F2':'#F8FAFC'};padding:14px;border-radius:8px;border:1px solid ${data.unverifiedCount>0?'#FECACA':'#E2E8F0'};box-shadow:0 1px 2px rgba(0,0,0,.04);">
-            <div style="font-size:11.5px;color:${data.unverifiedCount>0?'#991B1B':'#64748B'};font-weight:700;text-transform:uppercase;">⚠️ Missing / Unchecked</div>
-            <div style="font-size:24px;font-weight:800;color:${data.unverifiedCount>0?'#DC2626':'#64748B'};margin-top:4px;">${data.unverifiedCount}</div>
-          </div>
-          <div style="background:#F5F3FF;padding:14px;border-radius:8px;border:1px solid #DDD6FE;box-shadow:0 1px 2px rgba(0,0,0,.04);">
-            <div style="font-size:11.5px;color:#5B21B6;font-weight:700;text-transform:uppercase;">💰 Changes & Price Edits</div>
-            <div style="font-size:24px;font-weight:800;color:#6D28D9;margin-top:4px;">${data.recentChangesCount}</div>
-          </div>
+      <button class="btn ghost sm" onclick="Modal.close()" style="color:#fff;border-color:rgba(255,255,255,.3);font-size:14px;padding:4px 10px;">✕ Close</button>
+    </div>
+    <div class="modal-body" style="padding:24px;max-height:78vh;overflow-y:auto;background:#F8FAFC;">
+      
+      <!-- Metrics Grid -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:22px;">
+        <div style="background:#fff;padding:16px;border-radius:10px;border:1px solid #E2E8F0;box-shadow:0 1px 3px rgba(0,0,0,.04);">
+          <div style="font-size:11.5px;color:#64748B;font-weight:700;text-transform:uppercase;">📦 Total Devices in Store</div>
+          <div style="font-size:26px;font-weight:800;color:#0F172A;margin-top:4px;">${data.totalDevices}</div>
         </div>
+        <div style="background:#ECFDF5;padding:16px;border-radius:10px;border:1px solid #A7F3D0;box-shadow:0 1px 3px rgba(0,0,0,.04);">
+          <div style="font-size:11.5px;color:#065F46;font-weight:700;text-transform:uppercase;">✓ Verified & Checked OK</div>
+          <div style="font-size:26px;font-weight:800;color:#047857;margin-top:4px;">${data.verifiedCount} <span style="font-size:14px;font-weight:600;">(${data.totalDevices>0?Math.round((data.verifiedCount/data.totalDevices)*100):0}%)</span></div>
+        </div>
+        <div style="background:${data.unverifiedCount>0?'#FEF2F2':'#F8FAFC'};padding:16px;border-radius:10px;border:1px solid ${data.unverifiedCount>0?'#FECACA':'#E2E8F0'};box-shadow:0 1px 3px rgba(0,0,0,.04);">
+          <div style="font-size:11.5px;color:${data.unverifiedCount>0?'#991B1B':'#64748B'};font-weight:700;text-transform:uppercase;">⚠️ Missing / Unchecked</div>
+          <div style="font-size:26px;font-weight:800;color:${data.unverifiedCount>0?'#DC2626':'#64748B'};margin-top:4px;">${data.unverifiedCount}</div>
+        </div>
+        <div style="background:#F5F3FF;padding:16px;border-radius:10px;border:1px solid #DDD6FE;box-shadow:0 1px 3px rgba(0,0,0,.04);">
+          <div style="font-size:11.5px;color:#5B21B6;font-weight:700;text-transform:uppercase;">💰 Changes & Price Edits</div>
+          <div style="font-size:26px;font-weight:800;color:#6D28D9;margin-top:4px;">${data.recentChangesCount}</div>
+        </div>
+      </div>
 
-        <!-- Section 1: Price / Detail Edits -->
-        <div style="background:#fff;border-radius:8px;border:1px solid #E2E8F0;padding:16px;margin-bottom:16px;">
-          <h4 style="margin:0 0 12px 0;font-size:14px;font-weight:800;color:#0F172A;display:flex;align-items:center;gap:6px;">
-            <span>📝</span> Specific Item Edits & Price Changes in this Audit (${data.recentChanges?.length||0})
+      <!-- Section 1: Price / Detail Edits -->
+      <div style="background:#fff;border-radius:10px;border:1px solid #E2E8F0;padding:18px;margin-bottom:18px;box-shadow:0 1px 3px rgba(0,0,0,.03);">
+        <h4 style="margin:0 0 14px 0;font-size:15px;font-weight:800;color:#0F172A;display:flex;align-items:center;gap:8px;">
+          <span>📝</span> Specific Item Edits & Price Changes in this Audit (${data.recentChanges?.length||0})
+        </h4>
+        <div class="table-wrap">
+          <table class="inv-flat">
+            <thead>
+              <tr style="background:#F8FAFC;">
+                <th style="width:40px;text-align:center;">#</th>
+                <th style="width:130px;">Type</th>
+                <th>Device & IMEI</th>
+                <th>What Changed (Diff)</th>
+                <th style="width:100px;text-align:center;">Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${changesRows}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Section 2: Unverified / Missing Devices -->
+      ${data.unverifiedCount > 0 ? `
+        <div style="background:#fff;border-radius:10px;border:1.5px solid #FECACA;padding:18px;margin-bottom:18px;box-shadow:0 1px 3px rgba(0,0,0,.03);">
+          <h4 style="margin:0 0 14px 0;font-size:15px;font-weight:800;color:#991B1B;display:flex;align-items:center;gap:8px;">
+            <span>⚠️</span> Unverified / Unchecked Devices (${data.unverifiedCount}) — Action Recommended
           </h4>
           <div class="table-wrap">
             <table class="inv-flat">
               <thead>
-                <tr style="background:#F8FAFC;">
-                  <th style="width:30px;text-align:center;">#</th>
-                  <th style="width:120px;">Type</th>
-                  <th>Device & IMEI</th>
-                  <th>What Changed (Diff)</th>
-                  <th style="width:80px;text-align:center;">Time</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${changesRows}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Section 2: Unverified / Missing Devices -->
-        ${data.unverifiedCount > 0 ? `
-          <div style="background:#fff;border-radius:8px;border:1px solid #FECACA;padding:16px;margin-bottom:16px;">
-            <h4 style="margin:0 0 12px 0;font-size:14px;font-weight:800;color:#991B1B;display:flex;align-items:center;gap:6px;">
-              <span>⚠️</span> Unverified / Unchecked Devices (${data.unverifiedCount}) — Action Recommended
-            </h4>
-            <div class="table-wrap">
-              <table class="inv-flat">
-                <thead>
-                  <tr style="background:#FEF2F2;">
-                    <th style="width:30px;text-align:center;">#</th>
-                    <th>Device Name</th>
-                    <th>IMEI</th>
-                    <th>Color</th>
-                    <th>Condition</th>
-                    <th style="text-align:right;">Sale Price</th>
-                    <th style="text-align:center;">Audit Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${unverifiedRows}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        ` : ''}
-
-        <!-- Section 3: Verified Devices -->
-        <div style="background:#fff;border-radius:8px;border:1px solid #E2E8F0;padding:16px;">
-          <h4 style="margin:0 0 12px 0;font-size:14px;font-weight:800;color:#065F46;display:flex;align-items:center;gap:6px;">
-            <span>✓</span> Verified & Checked OK Devices (${data.verifiedCount})
-          </h4>
-          <div class="table-wrap" style="max-height:260px;overflow-y:auto;">
-            <table class="inv-flat">
-              <thead>
-                <tr style="background:#F0FDF4;">
-                  <th style="width:30px;text-align:center;">#</th>
+                <tr style="background:#FEF2F2;">
+                  <th style="width:40px;text-align:center;">#</th>
                   <th>Device Name</th>
                   <th>IMEI</th>
                   <th>Color</th>
@@ -23937,27 +23910,52 @@ Views.openAuditSubmissionDetailsModal = function(changeId){
                 </tr>
               </thead>
               <tbody>
-                ${verifiedRows || '<tr><td colspan="7" style="text-align:center;padding:16px;color:#64748B;">No checked devices yet.</td></tr>'}
+                ${unverifiedRows}
               </tbody>
             </table>
           </div>
         </div>
+      ` : ''}
 
+      <!-- Section 3: Verified Devices -->
+      <div style="background:#fff;border-radius:10px;border:1px solid #E2E8F0;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.03);">
+        <h4 style="margin:0 0 14px 0;font-size:15px;font-weight:800;color:#065F46;display:flex;align-items:center;gap:8px;">
+          <span>✓</span> Verified & Checked OK Devices (${data.verifiedCount})
+        </h4>
+        <div class="table-wrap" style="max-height:320px;overflow-y:auto;">
+          <table class="inv-flat">
+            <thead>
+              <tr style="background:#F0FDF4;">
+                <th style="width:40px;text-align:center;">#</th>
+                <th>Device Name</th>
+                <th>IMEI</th>
+                <th>Color</th>
+                <th>Condition</th>
+                <th style="text-align:right;">Sale Price</th>
+                <th style="text-align:center;">Audit Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${verifiedRows || '<tr><td colspan="7" style="text-align:center;padding:20px;color:#64748B;">No checked devices yet.</td></tr>'}
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div class="modal-foot" style="background:#fff;padding:14px 20px;border-top:1px solid #E2E8F0;display:flex;justify-content:space-between;align-items:center;">
-        <button class="btn" onclick="Modal.close()">Close</button>
-        ${isPending ? `
-          <div style="display:flex;gap:8px;">
-            <button class="btn danger ghost" onclick="Views.rejectShopChange('${c.id}');Modal.close();">✕ Reject Submission</button>
-            <button class="btn primary" style="background:#0F766E;font-weight:700;padding:8px 18px;" onclick="Views.approveShopChange('${c.id}');Modal.close();">✓ Approve & Confirm into Inventory</button>
-          </div>
-        ` : `
-          <span class="pill green" style="font-weight:700;">✓ Submission Approved</span>
-        `}
-      </div>
+
+    </div>
+    <div class="modal-foot" style="background:#fff;padding:16px 24px;border-top:1px solid #E2E8F0;display:flex;justify-content:space-between;align-items:center;border-radius:0 0 12px 12px;">
+      <button class="btn" onclick="Modal.close()" style="padding:8px 18px;">Close Window</button>
+      ${isPending ? `
+        <div style="display:flex;gap:10px;">
+          <button class="btn danger ghost" onclick="Views.rejectShopChange('${c.id}');Modal.close();" style="padding:8px 18px;">✕ Reject Submission</button>
+          <button class="btn primary" style="background:#0F766E;font-weight:700;padding:8px 22px;font-size:13.5px;" onclick="Views.approveShopChange('${c.id}');Modal.close();">✓ Approve & Confirm into Inventory</button>
+        </div>
+      ` : `
+        <span class="pill green" style="font-weight:700;padding:6px 14px;font-size:12.5px;">✓ Submission Approved</span>
+      `}
     </div>
   `;
-  Modal.open(html);
+  Modal.open(html, 'modal-xl');
 };
 
 
