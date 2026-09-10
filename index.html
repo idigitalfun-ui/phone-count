@@ -246,8 +246,8 @@ tbody tr:hover{filter:brightness(0.97);}
         <h1 id="pageTitle">Dashboard</h1>
         <div class="sub" id="pageSub"></div>
       </div>
-      <div class="row" style="gap:8px;align-items:center;flex-wrap:wrap;">
-        <button class="btn sm no-print" onclick="GitHubStore.syncNow(true)" title="Sync all changes with GitHub Cloud" style="background:#0F766E;color:#fff;font-weight:700;border:none;box-shadow:0 1px 3px rgba(0,0,0,0.15);cursor:pointer;padding:4px 10px;">☁️ Sync Cloud</button>
+      <div class="row" id="topbarActions" style="gap:8px;align-items:center;flex-wrap:wrap;">
+        <button class="btn sm no-print" onclick="GitHubStore.syncNow(true)" title="Sync all changes with GitHub Cloud" style="background:#0F766E;color:#fff;font-weight:700;border:none;box-shadow:0 1px 3px rgba(0,0,0,0.15);cursor:pointer;padding:4px 12px;">☁️ Sync Cloud</button>
         <div id="save_indicator" style="display:flex;align-items:center;gap:4px;font-size:12px;"></div>
         <button class="btn sm no-print" onclick="Views.showActivityModal()" title="View recent activity log and undo any action" style="border:1.5px solid var(--teal);color:var(--teal-dark);font-weight:700;display:inline-flex;align-items:center;gap:4px;">📋 Activity</button>
         <button class="btn sm no-print" onclick="FileStore.exportJson()" title="Download a backup JSON file right now">⬇ Export data</button>
@@ -20441,14 +20441,14 @@ const GitHubStore = {
 function updateSaveIndicator(state){
   const el = document.getElementById('save_indicator');
   if(!el) return;
-  const linked = !!FileStore.handle;
+  const linked = !FileStore.handle;
   const ts = Store.data?.meta?.lastSaved ? new Date(Store.data.meta.lastSaved).toLocaleTimeString('en-IE') : '—';
 
   let localHtml = '';
   if(state==='needs-relink'){
     localHtml = `<span style="color:#F9AB00;font-weight:600;font-size:11.5px;">⚠ File relink</span> <button class="btn sm" onclick="FileStore.requestPermission()" style="padding:2px 6px;font-size:10px;margin-left:4px;">🔓 Link</button>`;
   } else if(linked){
-    localHtml = `<span style="color:var(--green);font-size:11.5px;">✓ File saved</span>`;
+    localHtml = `<span style="color:var(--green);font-size:11.5px;">✓ Saved</span>`;
   } else {
     localHtml = `<span style="color:var(--muted);font-size:11.5px;">💾 Local (${ts})</span>`;
   }
@@ -20457,15 +20457,13 @@ function updateSaveIndicator(state){
   const ghCfg = GitHubStore.getConfig();
   if(GitHubStore.isConfigured()){
     if(ghCfg.status === 'syncing'){
-      ghHtml = `<span style="color:var(--teal-dark);font-size:11.5px;font-weight:600;display:inline-flex;align-items:center;gap:4px;">☁️ GitHub: Syncing…</span>`;
+      ghHtml = `<span style="color:var(--teal-dark);font-size:11.5px;font-weight:600;display:inline-flex;align-items:center;gap:4px;">☁️ Saving…</span>`;
     } else if(ghCfg.status === 'error'){
-      ghHtml = `<span style="color:var(--red);font-size:11.5px;cursor:pointer;" onclick="GitHubStore.openSettingsModal()" title="${esc(ghCfg.lastError||'Sync error')}">⚠ GitHub error</span> <button class="btn sm ghost" onclick="GitHubStore.saveRemote(true)" style="padding:1px 5px;font-size:10px;">Retry</button>`;
+      ghHtml = `<span style="color:var(--red);font-size:11.5px;cursor:pointer;" onclick="GitHubStore.openSettingsModal()" title="${esc(ghCfg.lastError||'Sync error')}">⚠ Sync error</span> <button class="btn sm ghost" onclick="GitHubStore.saveRemote(true)" style="padding:1px 5px;font-size:10px;">Retry</button>`;
     } else {
       const ghTime = ghCfg.lastSync ? new Date(ghCfg.lastSync).toLocaleTimeString('en-IE') : 'ready';
-      ghHtml = `<span style="color:var(--green);font-size:11.5px;" title="Synced to GitHub repo ${esc(ghCfg.owner)}/${esc(ghCfg.repo)}">☁️ GitHub: Synced <span style="color:var(--muted);font-size:10px;">(${ghTime})</span></span> <button class="btn sm ghost" onclick="GitHubStore.saveRemote(true)" title="Push changes to GitHub now" style="padding:1px 6px;font-size:10px;border:1px solid var(--line);">☁️ Sync</button>`;
+      ghHtml = `<span style="color:var(--green);font-size:11.5px;">☁️ Synced <span style="color:var(--muted);font-size:10px;">(${ghTime})</span></span>`;
     }
-  } else {
-    ghHtml = `<button class="btn sm ghost" onclick="GitHubStore.openSettingsModal()" title="Connect GitHub token for automatic cloud backup" style="padding:2px 8px;font-size:11px;border:1px dashed var(--teal);color:var(--teal-dark);font-weight:600;">☁️ Set up GitHub Sync</button>`;
   }
 
   el.innerHTML = `<div style="display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.03);padding:3px 8px;border-radius:6px;border:1px solid var(--line);">${localHtml} <span style="color:var(--line);">|</span> ${ghHtml}</div>`;
@@ -20586,9 +20584,11 @@ function renderTopbar(){
   if(titleEl) titleEl.textContent = title;
   if(subEl) subEl.textContent = sub;
 
-  let actionsHtml = '';
+  const actionsEl = document.getElementById('topbarActions') || topbar.querySelector('.row');
+  if(!actionsEl) return;
+
   if(portalShopId){
-    actionsHtml = `
+    actionsEl.innerHTML = `
       <button class="btn sm no-print" onclick="Views.submitPortalAudit('${portalShopId}')" title="Submit verified count to Head Office" style="background:#0F766E;color:#fff;font-weight:700;border:none;box-shadow:0 1px 3px rgba(0,0,0,0.15);cursor:pointer;padding:6px 14px;font-size:12.5px;border-radius:6px;">📤 Submit Count to Head Office</button>
       <div id="save_indicator" style="display:flex;align-items:center;gap:4px;font-size:12px;"></div>
       <button class="btn sm no-print" onclick="Views.showPortalActivityModal('${portalShopId}')" style="border:1.5px solid var(--teal);color:var(--teal-dark);font-weight:700;background:#F0FDFA;display:inline-flex;align-items:center;gap:4px;">📋 Shop Activity</button>
@@ -20604,12 +20604,10 @@ function renderTopbar(){
       <button class="btn sm no-print" onclick="Modal.backupQuick()">💾 Quick backup</button>
       <button class="btn sm no-print" onclick="Router.go('backup')">⚙ Settings</button>
     `;
+    actionsEl.innerHTML = actionsHtml;
   }
 
-  const existingRow = topbar.querySelector('.row');
-  if(existingRow){
-    existingRow.innerHTML = actionsHtml;
-  }
+  updateSaveIndicator();
 }
 
 function renderSidebar(){
@@ -22436,49 +22434,100 @@ Views.saveInlineImei = function(itemId, unitId, rawVal){
 };
 
 // Inline price setters from Inventory
-Views.invSetCostPrice = function(itemId, unitId, v, showToast = true){
+Views.invSetCostPrice = function(itemId, unitId, v, persist = true){
   const p = Number(v);
   if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
+  const oldCost = it.costPrice;
   it.costPrice = p;
   const u = (it.units||[]).find(x=>x.id===unitId);
   if(u) u.costPrice = p;
-  // Sync to sibling units of this exact model with dummy/default cost
   (it.units||[]).forEach(x=>{ if(x.costPrice == null || x.costPrice <= 1) x.costPrice = p; });
-  Store.save();
-  if(showToast) Toast.show(`Cost price for ${it.name} saved (€${p.toFixed(2)}).`,'ok');
+  if(persist){
+    Store.save();
+    Store.logShopChange({
+      type: 'price_edit',
+      shopId: u?.location || 'warehouse',
+      itemId: it.id,
+      unitId: unitId,
+      itemName: it.name,
+      details: `Updated cost price to €${p.toFixed(2)}`,
+      oldValue: oldCost,
+      newValue: p
+    });
+    Toast.show(`Cost price for ${it.name} saved (€${p.toFixed(2)}).`,'ok');
+  }
 };
-Views.invSetSalePrice = function(itemId, unitId, locId, v, showToast = true){
+
+Views.invSetSalePrice = function(itemId, unitId, locId, v, persist = true){
   const p = Number(v);
   if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
   if(!it.shopPrices) it.shopPrices = {};
+  const oldPrice = it.shopPrices[locId];
   it.shopPrices[locId] = p;
   const u = (it.units||[]).find(x=>x.id===unitId);
   if(u) u.sellPrice = p;
-  // Sync to sibling units at this exact location
   (it.units||[]).filter(x=>x.location===locId).forEach(x=>{ x.sellPrice = p; });
-  Store.save();
-  if(showToast) Toast.show(`Sale price for ${it.name} saved (€${p.toFixed(2)} at ${shopName(locId)}).`,'ok');
+  if(persist){
+    Store.save();
+    Store.logShopChange({
+      type: 'price_edit',
+      shopId: locId,
+      itemId: it.id,
+      unitId: unitId,
+      itemName: it.name,
+      details: `Updated sale price to €${p.toFixed(2)} at ${shopName(locId)}`,
+      oldValue: oldPrice,
+      newValue: p
+    });
+    Toast.show(`Sale price for ${it.name} saved (€${p.toFixed(2)} at ${shopName(locId)}).`,'ok');
+  }
 };
-Views.invSetUntrackedCost = function(itemId, v, showToast = true){
+
+Views.invSetUntrackedCost = function(itemId, v, persist = true){
   const p = Number(v);
   if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
+  const oldCost = it.costPrice;
   it.costPrice = p;
   (it.units||[]).forEach(u => { u.costPrice = p; });
-  Store.save();
-  if(showToast) Toast.show(`Cost price for ${it.name} saved (€${p.toFixed(2)}).`,'ok');
+  if(persist){
+    Store.save();
+    Store.logShopChange({
+      type: 'price_edit',
+      shopId: 'warehouse',
+      itemId: it.id,
+      itemName: it.name,
+      details: `Updated cost price to €${p.toFixed(2)}`,
+      oldValue: oldCost,
+      newValue: p
+    });
+    Toast.show(`Cost price for ${it.name} saved (€${p.toFixed(2)}).`,'ok');
+  }
 };
-Views.invSetUntrackedSale = function(itemId, locId, v, showToast = true){
+
+Views.invSetUntrackedSale = function(itemId, locId, v, persist = true){
   const p = Number(v);
   if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
   if(!it.shopPrices) it.shopPrices = {};
+  const oldPrice = it.shopPrices[locId];
   it.shopPrices[locId] = p;
   (it.units||[]).filter(u=>u.location===locId).forEach(u => { u.sellPrice = p; });
-  Store.save();
-  if(showToast) Toast.show(`Sale price for ${it.name} saved (€${p.toFixed(2)} at ${shopName(locId)}).`,'ok');
+  if(persist){
+    Store.save();
+    Store.logShopChange({
+      type: 'price_edit',
+      shopId: locId,
+      itemId: it.id,
+      itemName: it.name,
+      details: `Updated sale price to €${p.toFixed(2)} at ${shopName(locId)}`,
+      oldValue: oldPrice,
+      newValue: p
+    });
+    Toast.show(`Sale price for ${it.name} saved (€${p.toFixed(2)} at ${shopName(locId)}).`,'ok');
+  }
 };
 
 Views.saveInlineUntrackedImei = function(itemId, shopId, rawVal){
@@ -23615,7 +23664,7 @@ Views.shopPortal = function(shopId){
       const costCol = cfg.allowCostPrice 
         ? `<td style="text-align:right;"><input id="cp_inp_${u.id}" type="number" step="0.01" min="0" value="${u.costPrice!=null?u.costPrice:it.costPrice}" oninput="Views.invSetCostPrice('${it.id}','${u.id}',this.value,false)" onchange="Views.invSetCostPrice('${it.id}','${u.id}',this.value,true)" onkeydown="if(event.key==='Enter')this.blur()" style="width:75px;text-align:right;padding:4px 6px;border:1px solid #CBD5E1;border-radius:4px;font-size:12px;"></td>` 
         : '';
-      const salePriceVal = (shopId === 'maynooth') ? 0 : ((u.sellPrice != null) ? u.sellPrice : ((it.shopPrices && it.shopPrices[shopId] != null) ? it.shopPrices[shopId] : 0));
+      const salePriceVal = (u.sellPrice != null) ? u.sellPrice : ((it.shopPrices && it.shopPrices[shopId] != null) ? it.shopPrices[shopId] : (it.costPrice || 0));
       const saleCol = cfg.allowSalePrice !== false 
         ? `<td style="text-align:right;">
              <input id="sp_inp_${u.id}_${shopId}" type="number" step="0.01" min="0" value="${salePriceVal}" oninput="Views.invSetSalePrice('${it.id}','${u.id}','${shopId}',this.value,false)" onchange="Views.invSetSalePrice('${it.id}','${u.id}','${shopId}',this.value,true)" onkeydown="if(event.key==='Enter')this.blur()" style="width:75px;text-align:right;font-weight:700;padding:4px 6px;border:1px solid #CBD5E1;border-radius:4px;font-size:12px;">
@@ -23674,7 +23723,7 @@ Views.shopPortal = function(shopId){
         showUntracked = words.every(w => itText.includes(w));
       }
       if(showUntracked){
-        const untrackedSaleVal = (shopId === 'maynooth') ? 0 : ((it.shopPrices && it.shopPrices[shopId] != null) ? it.shopPrices[shopId] : 0);
+        const untrackedSaleVal = (it.shopPrices && it.shopPrices[shopId] != null) ? it.shopPrices[shopId] : (it.costPrice || 0);
         const costCol = cfg.allowCostPrice 
           ? `<td style="text-align:right;"><input type="number" step="0.01" min="0" value="${it.costPrice||0}" oninput="Views.invSetUntrackedCost('${it.id}',this.value,false)" onchange="Views.invSetUntrackedCost('${it.id}',this.value,true)" onkeydown="if(event.key==='Enter')this.blur()" style="width:75px;text-align:right;padding:4px 6px;border:1px solid #CBD5E1;border-radius:4px;font-size:12px;"></td>` 
           : '';
