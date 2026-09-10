@@ -216,7 +216,7 @@
         "warehouse": 95,
         "shop_thurles": 95,
         "shop_kilkenny": 130,
-        "shop_maynooth": 0,
+        "shop_maynooth": 230,
         "shop_mullingar": 95,
         "shop_tralee": 130,
         "shop_tullamore": 95,
@@ -240,7 +240,7 @@
           "location": "shop_maynooth",
           "costPrice": 80,
           "wholesalePrice": 0,
-          "sellPrice": 0,
+          "sellPrice": 230,
           "verified": true,
           "verifiedAt": "2026-09-01"
         },
@@ -252,7 +252,7 @@
           "location": "shop_maynooth",
           "costPrice": 115,
           "wholesalePrice": 0,
-          "sellPrice": 0,
+          "sellPrice": 230,
           "verified": true,
           "verifiedAt": "2026-09-01"
         },
@@ -19059,7 +19059,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-10T15:13:44.392Z",
+    "lastSaved": "2026-09-10T15:13:47.580Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
