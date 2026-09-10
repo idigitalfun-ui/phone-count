@@ -95,7 +95,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 679,
         "shop_tralee": 679,
-        "shop_tullamore": 679
+        "shop_tullamore": 679,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -218,7 +219,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 95,
         "shop_tralee": 130,
-        "shop_tullamore": 95
+        "shop_tullamore": 95,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -291,7 +293,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 115,
         "shop_tralee": 160,
-        "shop_tullamore": 115
+        "shop_tullamore": 115,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 3,
@@ -526,7 +529,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 190,
         "shop_tralee": 190,
-        "shop_tullamore": 120
+        "shop_tullamore": 120,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 13,
@@ -845,7 +849,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 320,
         "shop_tralee": 280,
-        "shop_tullamore": 280
+        "shop_tullamore": 280,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 3,
@@ -941,7 +946,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 340,
         "shop_tralee": 320,
-        "shop_tullamore": 320
+        "shop_tullamore": 320,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 3,
@@ -1041,7 +1047,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 305,
         "shop_tralee": 380,
-        "shop_tullamore": 305
+        "shop_tullamore": 305,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -1141,7 +1148,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 180,
         "shop_tralee": 180,
-        "shop_tullamore": 180
+        "shop_tullamore": 180,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 5,
@@ -1248,7 +1256,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 155,
         "shop_tralee": 155,
-        "shop_tullamore": 155
+        "shop_tullamore": 155,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 6,
@@ -1392,7 +1401,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 160,
         "shop_tralee": 160,
-        "shop_tullamore": 75
+        "shop_tullamore": 75,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 5,
@@ -1525,7 +1535,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 45,
         "shop_tralee": 35,
-        "shop_tullamore": 20
+        "shop_tullamore": 20,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 2,
@@ -1715,7 +1726,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 60,
         "shop_tralee": 22,
-        "shop_tullamore": 22
+        "shop_tullamore": 22,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 2,
@@ -1852,7 +1864,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 160,
         "shop_tralee": 160,
-        "shop_tullamore": 160
+        "shop_tullamore": 160,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 6,
@@ -1970,7 +1983,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 340,
         "shop_tralee": 340,
-        "shop_tullamore": 340
+        "shop_tullamore": 340,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -2026,7 +2040,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 185,
         "shop_tralee": 120,
-        "shop_tullamore": 120
+        "shop_tullamore": 120,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 1,
@@ -2091,7 +2106,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 240,
         "shop_tralee": 270,
-        "shop_tullamore": 270
+        "shop_tullamore": 270,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 7,
@@ -2504,7 +2520,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 930,
         "shop_tralee": 930,
-        "shop_tullamore": 930
+        "shop_tullamore": 930,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 1,
@@ -2572,7 +2589,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 395,
         "shop_tralee": 340,
-        "shop_tullamore": 340
+        "shop_tullamore": 340,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 7,
@@ -2837,7 +2855,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 290,
         "shop_tralee": 290,
-        "shop_tullamore": 340
+        "shop_tullamore": 340,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 8,
@@ -3149,7 +3168,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 320,
         "shop_tralee": 320,
-        "shop_tullamore": 300
+        "shop_tullamore": 300,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -3207,7 +3227,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 110,
         "shop_tralee": 110,
-        "shop_tullamore": 110
+        "shop_tullamore": 110,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -3361,7 +3382,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 455,
         "shop_tralee": 455,
-        "shop_tullamore": 455
+        "shop_tullamore": 455,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -3411,7 +3433,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 240,
         "shop_tralee": 320,
-        "shop_tullamore": 240
+        "shop_tullamore": 240,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -3515,7 +3538,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 220,
         "shop_tralee": 220,
-        "shop_tullamore": 220
+        "shop_tullamore": 220,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 11,
@@ -3767,7 +3791,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 140,
         "shop_tralee": 140,
-        "shop_tullamore": 140
+        "shop_tullamore": 140,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -3801,7 +3826,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 80,
-        "shop_tullamore": 80
+        "shop_tullamore": 80,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -3874,7 +3900,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 170,
         "shop_tralee": 170,
-        "shop_tullamore": 170
+        "shop_tullamore": 170,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -3922,7 +3949,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 80,
-        "shop_tullamore": 80
+        "shop_tullamore": 80,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -3979,7 +4007,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 30,
         "shop_tralee": 30,
-        "shop_tullamore": 30
+        "shop_tullamore": 30,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -4034,7 +4063,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 45,
         "shop_tralee": 45,
-        "shop_tullamore": 45
+        "shop_tullamore": 45,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -4066,7 +4096,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 45,
         "shop_tralee": 45,
-        "shop_tullamore": 45
+        "shop_tullamore": 45,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -4098,7 +4129,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 70,
         "shop_tralee": 70,
-        "shop_tullamore": 70
+        "shop_tullamore": 70,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -4143,7 +4175,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 75,
         "shop_tralee": 75,
-        "shop_tullamore": 75
+        "shop_tullamore": 75,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -4186,7 +4219,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 65,
         "shop_tralee": 65,
-        "shop_tullamore": 65
+        "shop_tullamore": 65,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -4221,7 +4255,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 160,
         "shop_tralee": 160,
-        "shop_tullamore": 160
+        "shop_tullamore": 160,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -4274,7 +4309,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 210,
         "shop_tralee": 210,
-        "shop_tullamore": 210
+        "shop_tullamore": 210,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -4324,7 +4360,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 250,
         "shop_tralee": 280,
-        "shop_tullamore": 250
+        "shop_tullamore": 250,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -4403,7 +4440,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 470,
         "shop_tralee": 470,
-        "shop_tullamore": 470
+        "shop_tullamore": 470,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -4456,7 +4494,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 430,
         "shop_tralee": 430,
-        "shop_tullamore": 430
+        "shop_tullamore": 430,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -4504,7 +4543,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 600,
         "shop_tralee": 600,
-        "shop_tullamore": 600
+        "shop_tullamore": 600,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -4563,7 +4603,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 680,
         "shop_tralee": 680,
-        "shop_tullamore": 680
+        "shop_tullamore": 680,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -4610,7 +4651,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 700,
         "shop_tralee": 700,
-        "shop_tullamore": 700
+        "shop_tullamore": 700,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -4666,7 +4708,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 550,
         "shop_tralee": 550,
-        "shop_tullamore": 550
+        "shop_tullamore": 550,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 9,
@@ -4952,7 +4995,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 220,
         "shop_tralee": 220,
-        "shop_tullamore": 220
+        "shop_tullamore": 220,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -4986,7 +5030,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 145,
         "shop_tralee": 145,
-        "shop_tullamore": 145
+        "shop_tullamore": 145,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5020,7 +5065,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 580,
         "shop_tralee": 580,
-        "shop_tullamore": 580
+        "shop_tullamore": 580,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5068,7 +5114,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 600,
         "shop_tralee": 600,
-        "shop_tullamore": 600
+        "shop_tullamore": 600,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5116,7 +5163,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 630,
         "shop_tralee": 630,
-        "shop_tullamore": 630
+        "shop_tullamore": 630,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5164,7 +5212,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 800,
         "shop_tralee": 800,
-        "shop_tullamore": 800
+        "shop_tullamore": 800,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5213,7 +5262,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 495,
         "shop_tralee": 495,
-        "shop_tullamore": 495
+        "shop_tullamore": 495,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5248,7 +5298,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 200,
         "shop_tralee": 200,
-        "shop_tullamore": 200
+        "shop_tullamore": 200,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5296,7 +5347,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 210,
         "shop_tralee": 210,
-        "shop_tullamore": 210
+        "shop_tullamore": 210,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5344,7 +5396,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 240,
         "shop_tralee": 240,
-        "shop_tullamore": 240
+        "shop_tullamore": 240,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5405,7 +5458,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 60,
         "shop_tralee": 60,
-        "shop_tullamore": 60
+        "shop_tullamore": 60,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5455,7 +5509,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 120,
         "shop_tralee": 120,
-        "shop_tullamore": 120
+        "shop_tullamore": 120,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5529,7 +5584,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 140,
         "shop_tralee": 140,
-        "shop_tullamore": 140
+        "shop_tullamore": 140,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5589,7 +5645,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 55,
         "shop_tralee": 55,
-        "shop_tullamore": 55
+        "shop_tullamore": 55,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5623,7 +5680,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 100,
         "shop_tralee": 100,
-        "shop_tullamore": 100
+        "shop_tullamore": 100,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5670,7 +5728,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 550,
         "shop_tralee": 550,
-        "shop_tullamore": 550
+        "shop_tullamore": 550,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5704,7 +5763,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 300,
         "shop_tralee": 300,
-        "shop_tullamore": 300
+        "shop_tullamore": 300,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5753,7 +5813,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 200,
         "shop_tralee": 200,
-        "shop_tullamore": 200
+        "shop_tullamore": 200,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5810,7 +5871,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 260,
         "shop_tralee": 260,
-        "shop_tullamore": 260
+        "shop_tullamore": 260,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5847,7 +5909,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 170,
         "shop_tralee": 170,
-        "shop_tullamore": 170
+        "shop_tullamore": 170,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5895,7 +5958,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 230,
         "shop_tralee": 230,
-        "shop_tullamore": 230
+        "shop_tullamore": 230,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5940,7 +6004,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 130,
         "shop_tralee": 130,
-        "shop_tullamore": 130
+        "shop_tullamore": 130,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -5975,7 +6040,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 280,
         "shop_tralee": 280,
-        "shop_tullamore": 280
+        "shop_tullamore": 280,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6029,7 +6095,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 85,
         "shop_tralee": 85,
-        "shop_tullamore": 85
+        "shop_tullamore": 85,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6080,7 +6147,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 35,
-        "shop_tullamore": 35
+        "shop_tullamore": 35,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6120,7 +6188,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 130,
         "shop_tralee": 130,
-        "shop_tullamore": 130
+        "shop_tullamore": 130,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6169,7 +6238,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 700,
         "shop_tralee": 700,
-        "shop_tullamore": 700
+        "shop_tullamore": 700,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6216,7 +6286,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1050,
         "shop_tralee": 1050,
-        "shop_tullamore": 1050
+        "shop_tullamore": 1050,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6250,7 +6321,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1050,
         "shop_tralee": 1050,
-        "shop_tullamore": 1050
+        "shop_tullamore": 1050,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6303,7 +6375,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 90,
         "shop_tralee": 90,
-        "shop_tullamore": 90
+        "shop_tullamore": 90,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6372,7 +6445,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 90,
         "shop_tralee": 90,
-        "shop_tullamore": 90
+        "shop_tullamore": 90,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6420,7 +6494,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 330,
         "shop_tralee": 330,
-        "shop_tullamore": 330
+        "shop_tullamore": 330,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6454,7 +6529,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 380,
         "shop_tralee": 380,
-        "shop_tullamore": 380
+        "shop_tullamore": 380,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6498,7 +6574,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 180,
         "shop_tralee": 180,
-        "shop_tullamore": 180
+        "shop_tullamore": 180,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6541,7 +6618,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 70,
         "shop_tralee": 70,
-        "shop_tullamore": 70
+        "shop_tullamore": 70,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6599,7 +6677,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 330,
         "shop_tralee": 330,
-        "shop_tullamore": 330
+        "shop_tullamore": 330,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6644,7 +6723,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 420,
         "shop_tralee": 420,
-        "shop_tullamore": 420
+        "shop_tullamore": 420,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6686,7 +6766,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 35,
         "shop_tralee": 35,
-        "shop_tullamore": 35
+        "shop_tullamore": 35,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6721,7 +6802,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 80,
         "shop_tralee": 80,
-        "shop_tullamore": 80
+        "shop_tullamore": 80,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6768,7 +6850,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 330,
         "shop_tralee": 330,
-        "shop_tullamore": 330
+        "shop_tullamore": 330,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6799,7 +6882,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 300,
         "shop_tralee": 300,
-        "shop_tullamore": 300
+        "shop_tullamore": 300,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6831,7 +6915,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 170,
         "shop_tralee": 170,
-        "shop_tullamore": 170
+        "shop_tullamore": 170,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6866,7 +6951,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 320,
         "shop_tralee": 320,
-        "shop_tullamore": 320
+        "shop_tullamore": 320,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6912,7 +6998,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 150,
         "shop_tralee": 150,
-        "shop_tullamore": 150
+        "shop_tullamore": 150,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6958,7 +7045,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 320,
         "shop_tralee": 320,
-        "shop_tullamore": 320
+        "shop_tullamore": 320,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -6989,7 +7077,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 65,
-        "shop_tullamore": 65
+        "shop_tullamore": 65,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7021,7 +7110,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 80,
         "shop_tralee": 80,
-        "shop_tullamore": 80
+        "shop_tullamore": 80,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7057,7 +7147,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 380,
         "shop_tralee": 330,
-        "shop_tullamore": 370
+        "shop_tullamore": 370,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7141,7 +7232,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 230,
         "shop_tralee": 450,
-        "shop_tullamore": 350
+        "shop_tullamore": 350,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7208,7 +7300,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 300,
         "shop_tralee": 350,
-        "shop_tullamore": 350
+        "shop_tullamore": 350,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7281,7 +7374,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 30,
         "shop_tralee": 30,
-        "shop_tullamore": 30
+        "shop_tullamore": 30,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7315,7 +7409,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 60,
         "shop_tralee": 90,
-        "shop_tullamore": 60
+        "shop_tullamore": 60,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7368,7 +7463,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 140,
         "shop_tralee": 140,
-        "shop_tullamore": 140
+        "shop_tullamore": 140,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7418,7 +7514,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 220,
         "shop_tralee": 150,
-        "shop_tullamore": 220
+        "shop_tullamore": 220,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7484,7 +7581,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 90,
         "shop_tralee": 90,
-        "shop_tullamore": 90
+        "shop_tullamore": 90,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7554,7 +7652,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 150,
         "shop_tralee": 150,
-        "shop_tullamore": 150
+        "shop_tullamore": 150,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7613,7 +7712,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 110,
         "shop_tralee": 110,
-        "shop_tullamore": 110
+        "shop_tullamore": 110,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7659,7 +7759,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 140,
         "shop_tralee": 140,
-        "shop_tullamore": 140
+        "shop_tullamore": 140,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7705,7 +7806,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 100,
         "shop_tralee": 150,
-        "shop_tullamore": 100
+        "shop_tullamore": 100,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7764,7 +7866,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 120,
         "shop_tralee": 120,
-        "shop_tullamore": 120
+        "shop_tullamore": 120,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7810,7 +7913,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 180,
         "shop_tralee": 180,
-        "shop_tullamore": 180
+        "shop_tullamore": 180,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7845,7 +7949,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 180,
         "shop_tralee": 200,
-        "shop_tullamore": 180
+        "shop_tullamore": 180,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7890,7 +7995,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 140,
         "shop_tralee": 180,
-        "shop_tullamore": 140
+        "shop_tullamore": 140,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7939,7 +8045,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 80,
         "shop_tralee": 80,
-        "shop_tullamore": 80
+        "shop_tullamore": 80,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -7973,7 +8080,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 100,
         "shop_tralee": 100,
-        "shop_tullamore": 100
+        "shop_tullamore": 100,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8004,7 +8112,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 130,
         "shop_tralee": 130,
-        "shop_tullamore": 130
+        "shop_tullamore": 130,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8050,7 +8159,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 40,
         "shop_tralee": 40,
-        "shop_tullamore": 40
+        "shop_tullamore": 40,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8082,7 +8192,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 65,
         "shop_tralee": 0,
-        "shop_tullamore": 65
+        "shop_tullamore": 65,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8128,7 +8239,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 60,
         "shop_tralee": 0,
-        "shop_tullamore": 60
+        "shop_tullamore": 60,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8160,7 +8272,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 55,
         "shop_tralee": 84.99,
-        "shop_tullamore": 55
+        "shop_tullamore": 55,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8209,7 +8322,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 50,
         "shop_tralee": 0,
-        "shop_tullamore": 50
+        "shop_tullamore": 50,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8243,7 +8357,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 25,
         "shop_tralee": 0,
-        "shop_tullamore": 25
+        "shop_tullamore": 25,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8277,7 +8392,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 25,
         "shop_tralee": 0,
-        "shop_tullamore": 25
+        "shop_tullamore": 25,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8317,7 +8433,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 25,
         "shop_tralee": 25,
-        "shop_tullamore": 25
+        "shop_tullamore": 25,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8351,7 +8468,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 70,
         "shop_tralee": 0,
-        "shop_tullamore": 70
+        "shop_tullamore": 70,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8386,7 +8504,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 35,
         "shop_tralee": 0,
-        "shop_tullamore": 35
+        "shop_tullamore": 35,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8427,7 +8546,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 35,
         "shop_tralee": 0,
-        "shop_tullamore": 35
+        "shop_tullamore": 35,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8463,7 +8583,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 40,
         "shop_tralee": 0,
-        "shop_tullamore": 40
+        "shop_tullamore": 40,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8498,7 +8619,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 40,
         "shop_tralee": 0,
-        "shop_tullamore": 40
+        "shop_tullamore": 40,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8535,7 +8657,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 330,
         "shop_tralee": 330,
-        "shop_tullamore": 330
+        "shop_tullamore": 330,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8614,7 +8737,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8661,7 +8785,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 110,
         "shop_tralee": 110,
-        "shop_tullamore": 110
+        "shop_tullamore": 110,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8695,7 +8820,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 145,
         "shop_tralee": 145,
-        "shop_tullamore": 145
+        "shop_tullamore": 145,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8729,7 +8855,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 110,
         "shop_tralee": 110,
-        "shop_tullamore": 110
+        "shop_tullamore": 110,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8763,7 +8890,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 150,
         "shop_tralee": 150,
-        "shop_tullamore": 150
+        "shop_tullamore": 150,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8797,7 +8925,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 190,
         "shop_tralee": 190,
-        "shop_tullamore": 190
+        "shop_tullamore": 190,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8856,7 +8985,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 455,
         "shop_tralee": 455,
-        "shop_tullamore": 455
+        "shop_tullamore": 455,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8904,7 +9034,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 495,
         "shop_tralee": 495,
-        "shop_tullamore": 495
+        "shop_tullamore": 495,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8938,7 +9069,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 220,
         "shop_tralee": 220,
-        "shop_tullamore": 220
+        "shop_tullamore": 220,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -8986,7 +9118,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 220,
         "shop_tralee": 220,
-        "shop_tullamore": 220
+        "shop_tullamore": 220,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9034,7 +9167,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 130,
         "shop_tralee": 130,
-        "shop_tullamore": 130
+        "shop_tullamore": 130,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9065,7 +9199,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 160,
         "shop_tralee": 160,
-        "shop_tullamore": 160
+        "shop_tullamore": 160,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9158,7 +9293,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 550,
         "shop_tralee": 550,
-        "shop_tullamore": 550
+        "shop_tullamore": 550,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9206,7 +9342,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 200,
         "shop_tralee": 200,
-        "shop_tullamore": 200
+        "shop_tullamore": 200,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9254,7 +9391,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9300,7 +9438,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9334,7 +9473,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9379,7 +9519,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9424,7 +9565,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9458,7 +9600,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9504,7 +9647,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9551,7 +9695,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 400,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9602,7 +9747,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 350,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9679,7 +9825,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 430,
-        "shop_tullamore": 400
+        "shop_tullamore": 400,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9777,7 +9924,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 120,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9827,7 +9975,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9893,7 +10042,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 230,
         "shop_tralee": 230,
-        "shop_tullamore": 230
+        "shop_tullamore": 230,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9940,7 +10090,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 250,
         "shop_tralee": 250,
-        "shop_tullamore": 250
+        "shop_tullamore": 250,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -9999,7 +10150,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 260,
         "shop_tralee": 260,
-        "shop_tullamore": 260
+        "shop_tullamore": 260,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10047,7 +10199,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 250,
         "shop_tralee": 250,
-        "shop_tullamore": 250
+        "shop_tullamore": 250,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10095,7 +10248,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 780,
         "shop_tralee": 780,
-        "shop_tullamore": 780
+        "shop_tullamore": 780,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10139,7 +10293,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 380,
         "shop_tralee": 380,
-        "shop_tullamore": 380
+        "shop_tullamore": 380,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10203,7 +10358,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 500,
         "shop_tralee": 500,
-        "shop_tullamore": 500
+        "shop_tullamore": 500,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10237,7 +10393,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10281,7 +10438,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10326,7 +10484,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10371,7 +10530,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10419,7 +10579,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10453,7 +10614,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10497,7 +10659,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10548,7 +10711,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10580,7 +10744,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10623,7 +10788,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10655,7 +10821,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10708,7 +10875,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 185,
         "shop_tralee": 120,
-        "shop_tullamore": 120
+        "shop_tullamore": 120,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 1,
@@ -10777,7 +10945,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -10811,7 +10980,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 140,
         "shop_tralee": 140,
-        "shop_tullamore": 140
+        "shop_tullamore": 140,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 11,
@@ -11064,7 +11234,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 220,
         "shop_tralee": 330,
-        "shop_tullamore": 220
+        "shop_tullamore": 220,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 2,
@@ -11229,7 +11400,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 480,
         "shop_tralee": 480,
-        "shop_tullamore": 480
+        "shop_tullamore": 480,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -11293,7 +11465,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 385,
         "shop_tralee": 385,
-        "shop_tullamore": 385
+        "shop_tullamore": 385,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 2,
@@ -11392,7 +11565,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 560,
         "shop_tralee": 560,
-        "shop_tullamore": 560
+        "shop_tullamore": 560,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -11427,7 +11601,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 320,
         "shop_tralee": 320,
-        "shop_tullamore": 300
+        "shop_tullamore": 300,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -11488,7 +11663,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 320,
         "shop_tralee": 320,
-        "shop_tullamore": 300
+        "shop_tullamore": 300,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -11536,7 +11712,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 340,
         "shop_tralee": 320,
-        "shop_tullamore": 320
+        "shop_tullamore": 320,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -11596,7 +11773,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 320,
         "shop_tralee": 320,
-        "shop_tullamore": 300
+        "shop_tullamore": 300,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -11642,7 +11820,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 150,
         "shop_tralee": 260,
-        "shop_tullamore": 150
+        "shop_tullamore": 150,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -11688,7 +11867,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -11721,7 +11901,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -11753,7 +11934,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 135,
         "shop_tralee": 135,
-        "shop_tullamore": 135
+        "shop_tullamore": 135,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -11798,7 +11980,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 125,
         "shop_tralee": 125,
-        "shop_tullamore": 125
+        "shop_tullamore": 125,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -11843,7 +12026,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 190,
         "shop_tralee": 200,
-        "shop_tullamore": 190
+        "shop_tullamore": 190,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -11889,7 +12073,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 160,
         "shop_tralee": 160,
-        "shop_tullamore": 160
+        "shop_tullamore": 160,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -11934,7 +12119,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 120,
         "shop_tralee": 120,
-        "shop_tullamore": 120
+        "shop_tullamore": 120,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -12005,7 +12191,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 10,
@@ -12400,7 +12587,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -12433,7 +12621,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -12470,7 +12659,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 1,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -12503,7 +12693,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -12537,7 +12728,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 230
+        "shop_tullamore": 230,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -12570,7 +12762,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -12609,7 +12802,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -12648,7 +12842,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -12687,7 +12882,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -12726,7 +12922,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -12765,7 +12962,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -12804,7 +13002,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -12843,7 +13042,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -12882,7 +13082,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -12929,7 +13130,8 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 0,
+        "maynooth": 0
       },
       "locations": {
         "warehouse": 0,
@@ -18938,7 +19140,8 @@
         "allowEditName": true,
         "allowEditActions": true
       }
-    }
+    },
+    "shopChanges": []
   },
   "reorderMeta": {
     "lastOrderDate": null

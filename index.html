@@ -247,7 +247,7 @@ tbody tr:hover{filter:brightness(0.97);}
       <div class="row" style="gap:8px;align-items:center;flex-wrap:wrap;">
         <button class="btn sm no-print" onclick="GitHubStore.syncNow(true)" title="Sync all changes with GitHub Cloud" style="background:#0F766E;color:#fff;font-weight:700;border:none;box-shadow:0 1px 3px rgba(0,0,0,0.15);cursor:pointer;padding:4px 10px;">☁️ Sync Cloud</button>
         <div id="save_indicator" style="display:flex;align-items:center;gap:4px;font-size:12px;"></div>
-        <button class="btn sm no-print" onclick="Views.showRecentActivity()" title="View recent actions and revert accidental sales, deposits, or faulty marks" style="border:1px solid var(--teal);color:var(--teal-dark);font-weight:600;">↩ Revert / Activity</button>
+        <button class="btn sm no-print" onclick="Views.showActivityModal()" title="View recent activity log and undo any action" style="border:1.5px solid var(--teal);color:var(--teal-dark);font-weight:700;display:inline-flex;align-items:center;gap:4px;">📋 Activity</button>
         <button class="btn sm no-print" onclick="FileStore.exportJson()" title="Download a backup JSON file right now">⬇ Export data</button>
         <button class="btn sm no-print" onclick="FileStore.importJson()" title="Load data from a JSON backup file">⬆ Import data</button>
         <button class="btn sm no-print" onclick="Modal.backupQuick()">💾 Quick backup</button>
@@ -20171,6 +20171,11 @@ const GitHubStore = {
     }
   },
 
+  async submitPortalCount(shopId){
+    const sId = shopId || (Router && Router.getPortalShopId ? Router.getPortalShopId() : null);
+    if(sId) Views.submitPortalAudit(sId);
+  },
+
   async syncNow(manual = false){
     const cfg = this.getConfig();
     if(!cfg.token || !cfg.token.trim() || !cfg.owner || !cfg.repo) {
@@ -20238,10 +20243,7 @@ const GitHubStore = {
   },
 
   async saveRemote(manual = false){
-    // Commit any active in-progress input field before pushing to GitHub
-    if(document.activeElement && typeof document.activeElement.blur === 'function'){
-      document.activeElement.blur();
-    }
+    // In-progress active typing preserved without force-blur
     const cfg = this.getConfig();
     if(!cfg.token || !cfg.token.trim() || !cfg.owner || !cfg.repo) return;
     if(this._syncing) return;
@@ -20508,6 +20510,7 @@ const Drawer = {
   close(){ document.getElementById('drawerBg').classList.remove('show'); document.getElementById('drawerRoot').innerHTML=''; }
 };
 
+
 /* =========================================================================
    ROUTER + NAV
    ========================================================================= */
@@ -20564,7 +20567,7 @@ function renderSidebar(){
   if(portalShopId){
     const sName = shopName(portalShopId);
     nav.innerHTML = `
-      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.37.0</span></div>
+      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.38.0</span></div>
       <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
         <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
         <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
@@ -20576,7 +20579,7 @@ function renderSidebar(){
     `;
     return;
   }
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.37.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.38.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -21450,6 +21453,297 @@ const Stock = {
    ========================================================================= */
 const Views = {};
 Views.after = {};
+
+/* =========================================================================
+   ACTIVITY LOG & ONE-CLICK UNDO HUB
+   ========================================================================= */
+Views._activityFilterShop = 'all';
+Views._activityTab = 'all';
+Views._activitySearch = '';
+
+Views.showRecentActivity = function(){
+  Views.showActivityModal();
+};
+
+Views.showPortalActivityModal = function(shopId){
+  Views.showActivityModal(shopId, 'all');
+};
+
+Views.showActivityModal = function(filterShop = null, activeTab = null){
+  if(filterShop !== null) Views._activityFilterShop = filterShop;
+  if(activeTab !== null) Views._activityTab = activeTab;
+
+  const currentShop = Views._activityFilterShop || 'all';
+  const currentTab = Views._activityTab || 'all';
+  const q = (Views._activitySearch || '').toLowerCase().trim();
+
+  const shops = activeShops();
+  const allMovements = (Store.data.movements || []).map(m => ({
+    ...m,
+    isMovement: true,
+    activityTime: m.date || '2026-08-26',
+    activityShop: m.location || m.toLocation || m.fromLocation || 'warehouse'
+  }));
+
+  const allShopChanges = ((Store.data.meta && Store.data.meta.shopChanges) || []).map(c => ({
+    ...c,
+    isShopChange: true,
+    activityTime: c.timestamp ? c.timestamp.slice(0, 10) : '2026-08-26',
+    activityShop: c.shopId || 'unknown'
+  }));
+
+  let entries = [...allShopChanges, ...allMovements];
+  entries.sort((a, b) => {
+    const timeA = a.timestamp || a.date || '';
+    const timeB = b.timestamp || b.date || '';
+    return timeB.localeCompare(timeA);
+  });
+
+  if(currentShop !== 'all'){
+    entries = entries.filter(e => {
+      if(e.isShopChange) return e.shopId === currentShop;
+      return e.location === currentShop || e.fromLocation === currentShop || e.toLocation === currentShop;
+    });
+  }
+
+  if(currentTab === 'sales'){
+    entries = entries.filter(e => e.type === 'sold' || e.type === 'sale');
+  } else if(currentTab === 'transfers'){
+    entries = entries.filter(e => e.type === 'transfer-in' || e.type === 'transfer-out' || e.type === 'transfer');
+  } else if(currentTab === 'portal'){
+    entries = entries.filter(e => e.isShopChange);
+  } else if(currentTab === 'stockin'){
+    entries = entries.filter(e => e.type === 'stock-in');
+  } else if(currentTab === 'deposits_faulty'){
+    entries = entries.filter(e => e.type === 'deposit' || e.type === 'faulty');
+  }
+
+  if(q){
+    entries = entries.filter(e => {
+      const txt = [
+        e.type, e.itemName, e.details, e.note, e.imei,
+        e.unitData?.imei, shopName(e.activityShop), shopName(e.fromLocation), shopName(e.toLocation)
+      ].filter(Boolean).join(' ').toLowerCase();
+      return txt.includes(q);
+    });
+  }
+
+  const countSales = allMovements.filter(m => (currentShop==='all' || m.location===currentShop) && m.type==='sold').length;
+  const countTransfers = allMovements.filter(m => (currentShop==='all' || m.location===currentShop || m.fromLocation===currentShop || m.toLocation===currentShop) && (m.type==='transfer-out'||m.type==='transfer-in')).length;
+  const countPortal = allShopChanges.filter(c => currentShop==='all' || c.shopId===currentShop).length;
+  const countPending = allShopChanges.filter(c => (currentShop==='all' || c.shopId===currentShop) && c.status==='pending').length;
+  const countStockIn = allMovements.filter(m => (currentShop==='all' || m.location===currentShop) && m.type==='stock-in').length;
+  const countDepFaulty = allMovements.filter(m => (currentShop==='all' || m.location===currentShop) && (m.type==='deposit'||m.type==='faulty')).length;
+
+  let rowsHtml = '';
+  if(entries.length === 0){
+    rowsHtml = '<tr><td colspan="6" style="text-align:center;padding:32px;color:#64748B;font-size:13px;">No activity records found matching your filters.</td></tr>';
+  } else {
+    entries.slice(0, 150).forEach((e, idx) => {
+      const it = e.itemId ? itemById(e.itemId) : null;
+      const deviceName = e.itemName || it?.name || 'Device';
+      const imei = e.imei || e.unitData?.imei || '';
+      const sName = shopName(e.activityShop || e.location || e.shopId);
+      const timeStr = e.timestamp ? new Date(e.timestamp).toLocaleString('en-IE', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : (e.date || '—');
+
+      let badge = '';
+      let desc = '';
+      let actionBtn = '';
+
+      if(e.isShopChange){
+        if(e.type === 'verify') badge = '<span class="pill green">✓ Check / OK</span>';
+        else if(e.type === 'imei_edit') badge = '<span class="pill teal">📱 IMEI Edit</span>';
+        else if(e.type === 'price_edit') badge = '<span class="pill purple">💰 Price Edit</span>';
+        else if(e.type === 'battery_edit') badge = '<span class="pill blue">🔋 Battery</span>';
+        else if(e.type === 'audit_submission') badge = '<span class="pill primary">📤 Audit Submission</span>';
+        else badge = '<span class="pill gray">' + esc(e.type) + '</span>';
+
+        desc = esc(e.details || 'Store edit');
+
+        if(e.status === 'pending'){
+          actionBtn = `
+            <div style="display:flex;gap:4px;justify-content:center;">
+              <button class="btn sm green" onclick="Views.activityApproveChange('${e.id}')" title="Approve this change">✓ Approve</button>
+              <button class="btn sm danger ghost" onclick="Views.activityRejectChange('${e.id}')" title="Reject / Undo this change">↩ Undo</button>
+            </div>
+          `;
+        } else if(e.status === 'approved'){
+          actionBtn = `<button class="btn sm ghost" onclick="Views.activityRevertChange('${e.id}')" title="Revert this approved change">↩ Revert</button>`;
+        } else {
+          actionBtn = `<span style="font-size:11px;color:#DC2626;">✕ Rejected</span>`;
+        }
+      } else {
+        if(e.type === 'sold'){
+          badge = '<span class="pill green">🛒 Sold</span>';
+          desc = `Sold at ${sName}` + (e.price ? ` for ${euro(e.price)}` : '') + (e.note ? ` (${esc(e.note)})` : '');
+          actionBtn = `<button class="btn sm ghost" style="border:1px solid var(--line);" onclick="Views.activityUndoMovement('${e.id}')" title="Undo sale and restore device to stock">↩ Undo Sale</button>`;
+        } else if(e.type === 'transfer-out' || e.type === 'transfer-in'){
+          badge = '<span class="pill teal">⇄ Transfer</span>';
+          desc = `Transfer from ${shopName(e.fromLocation||'warehouse')} ➔ ${shopName(e.toLocation||e.location)}` + (e.note ? ` (${esc(e.note)})` : '');
+          actionBtn = `<button class="btn sm danger ghost" onclick="Views.activityUndoMovement('${e.id}')" title="Undo transfer and return device">↩ Undo Transfer</button>`;
+        } else if(e.type === 'stock-in'){
+          badge = '<span class="pill blue">⬇ Stock In</span>';
+          desc = `Received into ${sName}` + (e.supplier ? ` from ${esc(e.supplier)}` : '') + (e.cost ? ` at ${euro(e.cost)}` : '');
+          actionBtn = `<button class="btn sm danger ghost" onclick="Views.activityUndoMovement('${e.id}')" title="Revert stock in">↩ Revert In</button>`;
+        } else if(e.type === 'deposit'){
+          badge = '<span class="pill amber">🔒 Deposit</span>';
+          desc = `Customer Deposit reserved at ${sName}` + (e.note ? ` (${esc(e.note)})` : '');
+          actionBtn = `<button class="btn sm ghost" onclick="Views.activityUndoMovement('${e.id}')" title="Undo deposit">↩ Undo Deposit</button>`;
+        } else if(e.type === 'faulty'){
+          badge = '<span class="pill red">⚠ Faulty</span>';
+          desc = `Marked Faulty at ${sName}` + (e.note ? ` (${esc(e.note)})` : '');
+          actionBtn = `<button class="btn sm ghost" onclick="Views.activityUndoMovement('${e.id}')" title="Undo faulty mark">↩ Undo Faulty</button>`;
+        } else {
+          badge = '<span class="pill gray">' + esc(e.type) + '</span>';
+          desc = esc(e.note || 'Action');
+          actionBtn = `<button class="btn sm ghost" onclick="Views.activityUndoMovement('${e.id}')">↩ Undo</button>`;
+        }
+      }
+
+      rowsHtml += `
+        <tr>
+          <td style="font-size:11.5px;color:#64748B;white-space:nowrap;">${timeStr}</td>
+          <td><b>📍 ${esc(sName)}</b></td>
+          <td>${badge}</td>
+          <td>
+            <div style="font-weight:700;color:var(--ink);">${esc(deviceName)}</div>
+            ${imei ? `<div style="font-size:11px;color:#64748B;font-family:monospace;">IMEI: ${esc(imei)}</div>` : ''}
+          </td>
+          <td style="font-size:12.5px;color:#0F172A;">${desc}</td>
+          <td style="text-align:center;white-space:nowrap;">${actionBtn}</td>
+        </tr>
+      `;
+    });
+  }
+
+  const modalHtml = `
+    <div style="max-width:960px;width:95vw;max-height:90vh;display:flex;flex-direction:column;">
+      <div class="modal-head" style="border-bottom:1px solid #E2E8F0;padding:16px 20px;">
+        <div>
+          <h3 style="margin:0;font-size:18px;font-weight:800;color:#0F172A;display:flex;align-items:center;gap:8px;">
+            <span>📋</span> Activity Log & Undo Center
+          </h3>
+          <div style="font-size:12.5px;color:#64748B;margin-top:2px;">
+            Full chronological audit trail of store submissions, sales, transfers, and inventory updates. Click <b>↩ Undo / Revert</b> to rollback any mistake instantly.
+          </div>
+        </div>
+        <button class="btn ghost sm" onclick="Modal.close()" style="font-size:18px;">✕</button>
+      </div>
+
+      <div style="padding:14px 20px;background:#F8FAFC;border-bottom:1px solid #E2E8F0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <div style="min-width:180px;">
+          <select style="width:100%;padding:6px 10px;font-size:12.5px;border-radius:6px;border:1px solid #CBD5E1;font-weight:600;" onchange="Views._activityFilterShop=this.value;Views.showActivityModal();">
+            <option value="all" ${currentShop==='all'?'selected':''}>📍 All Stores & Warehouse</option>
+            ${shops.map(s => `<option value="${s.id}" ${currentShop===s.id?'selected':''}>📍 ${esc(s.name)}</option>`).join('')}
+          </select>
+        </div>
+        <div style="flex:1;min-width:200px;">
+          <input type="text" placeholder="Search device, IMEI, action or note..." value="${esc(Views._activitySearch||'')}" oninput="Views._activitySearch=this.value;Views.showActivityModal();" style="width:100%;padding:6px 12px;font-size:12.5px;border-radius:6px;border:1px solid #CBD5E1;">
+        </div>
+        ${countPending > 0 ? `
+          <button class="btn primary sm" style="background:#0F766E;font-weight:700;" onclick="Views.approveAllShopChanges('${currentShop}'); Views.showActivityModal('${currentShop}');">
+            ✓ Approve All Pending (${countPending})
+          </button>
+        ` : ''}
+      </div>
+
+      <div style="display:flex;gap:6px;padding:10px 20px;background:#fff;border-bottom:1px solid #E2E8F0;overflow-x:auto;">
+        <button class="chip ${currentTab==='all'?'active':''}" onclick="Views._activityTab='all';Views.showActivityModal();">All (${entries.length})</button>
+        <button class="chip ${currentTab==='sales'?'active':''}" onclick="Views._activityTab='sales';Views.showActivityModal();">🛒 Sales (${countSales})</button>
+        <button class="chip ${currentTab==='transfers'?'active':''}" onclick="Views._activityTab='transfers';Views.showActivityModal();">⇄ Transfers (${countTransfers})</button>
+        <button class="chip ${currentTab==='portal'?'active':''}" onclick="Views._activityTab='portal';Views.showActivityModal();">📱 Store Portal (${countPortal}${countPending>0?` · <b style="color:#B45309">${countPending} pending</b>`:''})</button>
+        <button class="chip ${currentTab==='stockin'?'active':''}" onclick="Views._activityTab='stockin';Views.showActivityModal();">⬇ Stock In (${countStockIn})</button>
+        <button class="chip ${currentTab==='deposits_faulty'?'active':''}" onclick="Views._activityTab='deposits_faulty';Views.showActivityModal();">🔒 Deposits & Faulty (${countDepFaulty})</button>
+      </div>
+
+      <div class="modal-body" style="padding:0;overflow-y:auto;max-height:55vh;">
+        <table class="inv-flat" style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr style="background:#F1F5F9;position:sticky;top:0;z-index:2;">
+              <th style="width:110px;">Time</th>
+              <th style="width:120px;">Location</th>
+              <th style="width:110px;">Type</th>
+              <th>Device & IMEI</th>
+              <th>Details</th>
+              <th style="width:120px;text-align:center;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rowsHtml}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-foot" style="border-top:1px solid #E2E8F0;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-size:12px;color:#64748B;">Showing recent activity entries across all sessions.</div>
+        <button class="btn primary sm" onclick="Modal.close()">Close</button>
+      </div>
+    </div>
+  `;
+
+  Modal.open(modalHtml);
+};
+
+Views.activityUndoMovement = function(moveId){
+  if(confirm('Undo this transaction and restore device back to its previous stock state?')){
+    const ok = Stock.revertMovement(moveId);
+    if(ok){
+      Toast.show('✓ Action reverted. Inventory restored.', 'ok');
+      Views.showActivityModal();
+      render();
+    }
+  }
+};
+
+Views.activityApproveChange = function(changeId){
+  Views.approveShopChange(changeId);
+  Views.showActivityModal();
+};
+
+Views.activityRejectChange = function(changeId){
+  Views.rejectShopChange(changeId);
+  Views.showActivityModal();
+};
+
+Views.activityRevertChange = function(changeId){
+  const allChanges = (Store.data.meta && Store.data.meta.shopChanges) || [];
+  const c = allChanges.find(x => x.id === changeId);
+  if(!c) return;
+  
+  if(confirm('Revert this change and restore the previous value?')){
+    const it = itemById(c.itemId);
+    if(it){
+      if(c.type === 'imei_edit' && c.unitId){
+        const u = (it.units||[]).find(x=>x.id===c.unitId);
+        if(u) u.imei = c.oldValue || '';
+      } else if(c.type === 'price_edit' && c.shopId){
+        if(!it.shopPrices) it.shopPrices = {};
+        it.shopPrices[c.shopId] = c.oldValue || 0;
+        if(c.unitId){
+          const u = (it.units||[]).find(x=>x.id===c.unitId);
+          if(u) u.sellPrice = c.oldValue || 0;
+        }
+      } else if(c.type === 'verify'){
+        if(c.unitId){
+          const u = (it.units||[]).find(x=>x.id===c.unitId);
+          if(u) u.verified = c.oldValue;
+        } else if(c.shopId && it.shopVerified){
+          it.shopVerified[c.shopId] = c.oldValue;
+        }
+      } else if(c.type === 'battery_edit' && c.unitId){
+        const u = (it.units||[]).find(x=>x.id===c.unitId);
+        if(u) u.batteryPct = c.oldValue;
+      }
+    }
+    c.status = 'rejected';
+    c.revertedAt = new Date().toISOString();
+    Store.save();
+    Toast.show('↩ Change reverted and restored.', 'ok');
+    Views.showActivityModal();
+    render();
+  }
+};
+
 Views.printPage = function(){
   try {
     window.print();
@@ -21993,8 +22287,20 @@ Views.inventory = function(){
 Views.toggleUnitVerified = function(itemId, unitId){
   const it = itemById(itemId); if(!it) return;
   const u = (it.units||[]).find(x=>x.id===unitId); if(!u) return;
-  u.verified = !u.verified;
+  const prev = !!u.verified;
+  u.verified = !prev;
   u.verifiedAt = u.verified ? todayISO() : null;
+  Store.logShopChange({
+    type: 'verify',
+    shopId: u.location,
+    itemId: it.id,
+    unitId: u.id,
+    itemName: it.name,
+    imei: u.imei || '',
+    details: u.verified ? `Marked IMEI ${u.imei||''} as Verified / OK` : `Unchecked verification for IMEI ${u.imei||''}`,
+    oldValue: prev,
+    newValue: u.verified
+  });
   Store.save();
   Toast.show(u.verified ? `IMEI ${u.imei||''} marked as Checked OK.` : 'IMEI verification cleared.', 'ok');
   render();
@@ -22003,15 +22309,40 @@ Views.toggleUnitVerified = function(itemId, unitId){
 Views.toggleUntrackedVerified = function(itemId, shopId){
   const it = itemById(itemId); if(!it) return;
   if(!it.shopVerified) it.shopVerified = {};
-  it.shopVerified[shopId] = !it.shopVerified[shopId];
+  const prev = !!it.shopVerified[shopId];
+  it.shopVerified[shopId] = !prev;
   if(it.shopVerified[shopId]){
     if(!it.shopVerifiedAt) it.shopVerifiedAt = {};
     it.shopVerifiedAt[shopId] = todayISO();
   } else {
     if(it.shopVerifiedAt) delete it.shopVerifiedAt[shopId];
   }
+  Store.logShopChange({
+    type: 'verify',
+    shopId: shopId,
+    itemId: it.id,
+    itemName: it.name,
+    details: it.shopVerified[shopId] ? `Marked stock as Checked / OK` : `Unchecked stock verification`,
+    oldValue: prev,
+    newValue: it.shopVerified[shopId]
+  });
   Store.save();
   Toast.show(it.shopVerified[shopId] ? `Stock for ${it.name} marked as Checked OK.` : `Verification cleared for ${it.name}.`, 'ok');
+  render();
+};
+
+Views.submitPortalAudit = async function(shopId){
+  const sName = shopName(shopId);
+  Store.logShopChange({
+    type: 'audit_submission',
+    shopId: shopId,
+    itemName: `${sName} Stock Count`,
+    details: `Full physical stock count submitted by ${sName} staff`,
+    timestamp: new Date().toISOString()
+  });
+  Store.save();
+  Toast.show(`✓ Stock count for ${sName} submitted to Head Office for approval.`, 'ok');
+  await GitHubStore.saveRemote(false);
   render();
 };
 
