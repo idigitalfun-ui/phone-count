@@ -20214,7 +20214,7 @@ function renderSidebar(){
   if(portalShopId){
     const sName = shopName(portalShopId);
     nav.innerHTML = `
-      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.31.0</span></div>
+      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.32.0</span></div>
       <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
         <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
         <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
@@ -20226,7 +20226,7 @@ function renderSidebar(){
     `;
     return;
   }
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.31.0</span></div>`;
+  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.32.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -22848,6 +22848,89 @@ Views.shopPortal = function(shopId){
           </thead>
           <tbody>
             ${tableRows || `<tr><td colspan="9" style="text-align:center;padding:30px;color:#64748B;">No devices found matching this filter at ${esc(shop.name)}.</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+};
+
+
+Views.renderShopSoldTable = function(shopId){
+  const shop = Store.data.shops.find(s => s.id === shopId) || { id: shopId, name: shopName(shopId) };
+  const soldList = (Store.data.movements || []).filter(m => m && m.type === 'sold' && m.location === shopId);
+  
+  if(soldList.length === 0){
+    return `
+      <div class="card card-pad" style="text-align:center;padding:40px 20px;color:#64748B;background:#fff;border:1px solid #E2E8F0;border-radius:10px;margin-bottom:16px;">
+        <div style="font-size:32px;margin-bottom:8px;">💰</div>
+        <div style="font-weight:700;font-size:16px;color:#0F172A;margin-bottom:4px;">No Sold Devices Recorded for ${esc(shop.name)}</div>
+        <div style="font-size:13px;">When you mark a phone as <b>✓ Sold</b> in this store, it will be listed here with its sale price, IMEI, and date.</div>
+      </div>
+    `;
+  }
+
+  // Sort sold movements descending by date
+  const sorted = soldList.slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+  let rows = '';
+  let totalRevenue = 0;
+
+  sorted.forEach((m, idx) => {
+    const u = m.unitData || {};
+    const price = m.sellPrice != null ? m.sellPrice : (u.sellPrice || 0);
+    totalRevenue += Number(price) || 0;
+    const imei = movementImei(m);
+
+    rows += `
+      <tr>
+        <td style="text-align:center;color:#64748B;font-size:11px;">${idx + 1}</td>
+        <td>
+          <div style="font-weight:700;color:var(--ink);">${esc(m.itemName || '—')}</div>
+          <div style="font-size:11px;color:var(--muted);">${esc(catName(m.categoryId))} ${u.memory ? '· ' + esc(u.memory) : ''}</div>
+        </td>
+        <td>
+          <span class="mono" style="font-weight:700;color:var(--teal-dark);font-size:12px;">${esc(imei)}</span>
+        </td>
+        <td>${esc(u.color || '—')}</td>
+        <td><span class="pill sm ${u.condition==='New'?'green':'blue'}">${esc(u.condition || 'Used')}</span></td>
+        <td><b>${esc(m.date || '—')}</b></td>
+        <td style="text-align:right;font-weight:800;color:#059669;font-size:13px;">${euro(price)}</td>
+        <td style="color:var(--muted);font-size:11.5px;">${esc(m.note || '—')}</td>
+        <td style="text-align:center;white-space:nowrap;">
+          <button class="btn sm ghost" onclick="if(confirm('Revert this sale and put device back into active stock?')){ Stock.revertMovement('${m.id}'); render(); Toast.show('Device restored to active stock.','ok'); }" title="Undo sale and return device to active store stock" style="border:1px solid #0F766E;color:#0F766E;padding:3px 8px;font-size:11px;font-weight:600;">↩ Put Back in Stock</button>
+        </td>
+      </tr>
+    `;
+  });
+
+  return `
+    <div style="margin-bottom:12px;background:#ECFDF5;border:1px solid #A7F3D0;border-radius:8px;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+      <div style="font-size:13px;color:#065F46;font-weight:700;">
+        💰 Total Sold at ${esc(shop.name)}: <b>${sorted.length} device(s)</b>
+      </div>
+      <div style="font-size:13px;color:#065F46;font-weight:800;">
+        Total Sales Value: <span style="font-size:15px;color:#047857;">${euro(totalRevenue)}</span>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="table-wrap">
+        <table class="inv-flat">
+          <thead>
+            <tr style="background:#F8FAFC;">
+              <th style="width:40px;text-align:center;">#</th>
+              <th>Device Model</th>
+              <th>IMEI / Serial</th>
+              <th>Colour</th>
+              <th>Condition</th>
+              <th>Date Sold</th>
+              <th style="text-align:right;">Sale Price</th>
+              <th>Note / Ref</th>
+              <th style="text-align:center;width:150px;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows}
           </tbody>
         </table>
       </div>
