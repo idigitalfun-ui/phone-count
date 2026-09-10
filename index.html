@@ -22610,15 +22610,98 @@ Views.toggleUntrackedVerified = function(itemId, shopId){
 
 Views.submitPortalAudit = async function(shopId){
   const sName = shopName(shopId);
+  const items = Store.data.items || [];
+  
+  let totalDevices = 0;
+  let verifiedCount = 0;
+  let unverifiedCount = 0;
+  const verifiedList = [];
+  const unverifiedList = [];
+  
+  items.forEach(it => {
+    (it.units || []).filter(u => u && u.location === shopId).forEach(u => {
+      totalDevices++;
+      const isVer = !!u.verified;
+      const deviceEntry = {
+        itemId: it.id,
+        unitId: u.id,
+        name: it.name,
+        memory: it.memory || '',
+        category: it.category || '',
+        imei: u.imei || '',
+        color: u.color || '',
+        condition: u.condition || 'Used',
+        batteryPct: u.batteryPct,
+        costPrice: u.costPrice != null ? u.costPrice : (it.costPrice || 0),
+        sellPrice: u.sellPrice != null ? u.sellPrice : ((it.shopPrices && it.shopPrices[shopId] != null) ? it.shopPrices[shopId] : (shopId==='shop_maynooth'||shopId==='maynooth' ? 0 : (it.costPrice || 0))),
+        verified: isVer,
+        verifiedAt: u.verifiedAt || (isVer ? todayISO() : null)
+      };
+      if(isVer){
+        verifiedCount++;
+        verifiedList.push(deviceEntry);
+      } else {
+        unverifiedCount++;
+        unverifiedList.push(deviceEntry);
+      }
+    });
+    
+    const untracked = untrackedQtyAt(it, shopId);
+    if(untracked > 0){
+      totalDevices += untracked;
+      const isVer = !!(it.shopVerified && it.shopVerified[shopId]);
+      const untrackedEntry = {
+        itemId: it.id,
+        name: it.name,
+        memory: it.memory || '',
+        category: it.category || '',
+        imei: 'Untracked (Qty ' + untracked + ')',
+        color: '',
+        condition: it.condition || 'New',
+        batteryPct: null,
+        costPrice: it.costPrice || 0,
+        sellPrice: (it.shopPrices && it.shopPrices[shopId] != null) ? it.shopPrices[shopId] : (shopId==='shop_maynooth'||shopId==='maynooth' ? 0 : (it.costPrice || 0)),
+        qty: untracked,
+        verified: isVer,
+        verifiedAt: it.shopVerifiedAt && it.shopVerifiedAt[shopId]
+      };
+      if(isVer){
+        verifiedCount += untracked;
+        verifiedList.push(untrackedEntry);
+      } else {
+        unverifiedCount += untracked;
+        unverifiedList.push(untrackedEntry);
+      }
+    }
+  });
+
+  const allShopChanges = ((Store.data.meta && Store.data.meta.shopChanges) || []).filter(c => c && c.shopId === shopId && c.type !== 'audit_submission');
+
+  const auditData = {
+    shopId: shopId,
+    shopName: sName,
+    totalDevices: totalDevices,
+    verifiedCount: verifiedCount,
+    unverifiedCount: unverifiedCount,
+    verifiedList: verifiedList,
+    unverifiedList: unverifiedList,
+    recentChangesCount: allShopChanges.length,
+    recentChanges: allShopChanges.slice(0, 50)
+  };
+
+  const detailsText = `Physical Count: ${verifiedCount} of ${totalDevices} checked OK (${unverifiedCount} unverified) · ${allShopChanges.length} edit(s) logged`;
+
   Store.logShopChange({
     type: 'audit_submission',
     shopId: shopId,
-    itemName: `${sName} Stock Count`,
-    details: `Full physical stock count submitted by ${sName} staff`,
+    itemName: `${sName} Full Stock Count`,
+    details: detailsText,
+    auditData: auditData,
     timestamp: new Date().toISOString()
   });
+
   Store.save();
-  Toast.show(`✓ Stock count for ${sName} submitted to Head Office for approval.`, 'ok');
+  Toast.show(`✓ Stock count for ${sName} submitted to Head Office for approval (${verifiedCount}/${totalDevices} checked).`, 'ok');
   await GitHubStore.saveRemote(false);
   render();
 };
@@ -22654,7 +22737,21 @@ Views.saveInlineImei = function(itemId, unitId, rawVal){
       return;
     }
   }
+  const oldImei = unit.imei;
   unit.imei = imei;
+  if(oldImei !== imei){
+    Store.logShopChange({
+      type: 'imei_edit',
+      shopId: unit.location,
+      itemId: it.id,
+      unitId: unitId,
+      itemName: it.name,
+      imei: imei,
+      details: `Updated IMEI from "${oldImei||'(none)'}" to "${imei}"`,
+      oldValue: oldImei,
+      newValue: imei
+    });
+  }
   Store.save();
   Toast.show(imei ? `IMEI ${imei} saved.` : 'IMEI cleared.','ok');
   render();
@@ -23462,28 +23559,72 @@ Views.renderShopApprovalsTab = function(){
     const isRejected = c.status === 'rejected';
 
     let typeBadge = '';
-    if(c.type === 'verify') typeBadge = '<span class="pill green">✓ Verification</span>';
-    else if(c.type === 'imei_edit') typeBadge = '<span class="pill teal">📱 IMEI Edit</span>';
-    else if(c.type === 'price_edit') typeBadge = '<span class="pill purple">💰 Price Edit</span>';
-    else if(c.type === 'battery_edit') typeBadge = '<span class="pill sm blue">🔋 Battery</span>';
-    else if(c.type === 'sale') typeBadge = '<span class="pill green">🛒 Sale Logged</span>';
-    else typeBadge = '<span class="pill gray">' + esc(c.type||'Change') + '</span>';
+    let detailsHtml = '';
+    let deviceNameHtml = esc(c.itemName || '—');
+
+    if(c.type === 'audit_submission'){
+      const auditData = Views.getAuditDataForChange(c);
+      typeBadge = '<span class="pill primary" style="background:#0F766E;color:#fff;font-weight:700;">📋 Stock Count Audit</span>';
+      deviceNameHtml = `<b>📍 ${esc(sName)} Full Count</b><div style="font-size:11px;color:#64748B;">${auditData.totalDevices} Total Devices</div>`;
+      detailsHtml = `
+        <div style="font-weight:700;color:#0F172A;margin-bottom:4px;">${esc(c.details || 'Store count submitted')}</div>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+          <span class="pill green" style="font-weight:700;font-size:11px;padding:2px 7px;">✓ ${auditData.verifiedCount} Verified</span>
+          ${auditData.unverifiedCount > 0 ? `<span class="pill red" style="font-weight:700;font-size:11px;padding:2px 7px;">⚠️ ${auditData.unverifiedCount} Unverified</span>` : '<span class="pill green" style="font-size:11px;">✓ 100% OK</span>'}
+          ${auditData.recentChangesCount > 0 ? `<span class="pill purple" style="font-weight:700;font-size:11px;padding:2px 7px;">💰 ${auditData.recentChangesCount} Edits</span>` : ''}
+          <button class="btn sm" onclick="Views.openAuditSubmissionDetailsModal('${c.id}')" style="background:#1E293B;color:#fff;font-weight:700;font-size:11px;padding:2px 8px;border-radius:4px;border:none;margin-left:4px;display:inline-flex;align-items:center;gap:4px;">🔍 View Exactly What Changed</button>
+        </div>
+      `;
+    } else if(c.type === 'price_edit'){
+      typeBadge = '<span class="pill purple" style="font-weight:700;">💰 Price Edit</span>';
+      let diffStr = '';
+      if(c.oldValue !== undefined && c.newValue !== undefined){
+        diffStr = `Sale price: <s style="color:#94A3B8;">${euro(c.oldValue)}</s> ➔ <b style="color:#0F766E;">${euro(c.newValue)}</b>`;
+      } else {
+        diffStr = esc(c.details || 'Updated price');
+      }
+      detailsHtml = `<div style="font-weight:600;color:#0F172A;">${diffStr}</div>`;
+      if(c.imei) deviceNameHtml += `<div class="mono" style="font-size:11px;color:#64748B;">IMEI: ${esc(c.imei)}</div>`;
+    } else if(c.type === 'cost_edit'){
+      typeBadge = '<span class="pill amber" style="font-weight:700;">🏷️ Cost Edit</span>';
+      let diffStr = '';
+      if(c.oldValue !== undefined && c.newValue !== undefined){
+        diffStr = `Cost price: <s style="color:#94A3B8;">${euro(c.oldValue)}</s> ➔ <b style="color:#D97706;">${euro(c.newValue)}</b>`;
+      } else {
+        diffStr = esc(c.details || 'Updated cost');
+      }
+      detailsHtml = `<div style="font-weight:600;color:#0F172A;">${diffStr}</div>`;
+    } else if(c.type === 'imei_edit'){
+      typeBadge = '<span class="pill teal" style="font-weight:700;">📱 IMEI Edit</span>';
+      let diffStr = '';
+      if(c.oldValue !== undefined && c.newValue !== undefined){
+        diffStr = `IMEI: <s style="color:#94A3B8;">${esc(c.oldValue||'(none)')}</s> ➔ <b style="color:#0F766E;">${esc(c.newValue)}</b>`;
+      } else {
+        diffStr = esc(c.details || 'Updated IMEI');
+      }
+      detailsHtml = `<div style="font-weight:600;color:#0F172A;">${diffStr}</div>`;
+    } else if(c.type === 'battery_edit'){
+      typeBadge = '<span class="pill blue" style="font-weight:700;">🔋 Battery</span>';
+      detailsHtml = `<div style="font-weight:600;color:#0F172A;">Battery: <s style="color:#94A3B8;">${c.oldValue!=null?c.oldValue+'%':'—'}</s> ➔ <b style="color:#2563EB;">${c.newValue}%</b></div>`;
+    } else if(c.type === 'verify'){
+      typeBadge = '<span class="pill green" style="font-weight:700;">✓ Check OK</span>';
+      detailsHtml = `<div style="font-weight:600;color:#15803D;">${c.newValue ? 'Marked as Verified OK' : 'Unchecked Verification'}</div>`;
+      if(c.imei) deviceNameHtml += `<div class="mono" style="font-size:11px;color:#64748B;">IMEI: ${esc(c.imei)}</div>`;
+    } else {
+      typeBadge = '<span class="pill gray">' + esc(c.type||'Change') + '</span>';
+      detailsHtml = `<div style="font-weight:600;color:#0F172A;">${esc(c.details||'Store change')}</div>`;
+    }
 
     rowsHtml += `
       <tr style="${isPending?'background:#FFFBEB;':'background:#fff;'}">
         <td style="text-align:center;color:#64748B;font-size:11px;">${idx + 1}</td>
         <td><b>📍 ${esc(sName)}</b><div style="font-size:11px;color:#64748B;">${dateStr}</div></td>
         <td>${typeBadge}</td>
-        <td>
-          <div style="font-weight:700;color:var(--ink);">${esc(c.itemName || '—')}</div>
-          <div style="font-size:11px;color:#64748B;">${c.imei ? 'IMEI: ' + esc(c.imei) : ''}</div>
-        </td>
-        <td style="font-size:12.5px;color:#0F172A;">
-          <b>${esc(c.details || '—')}</b>
-        </td>
+        <td>${deviceNameHtml}</td>
+        <td>${detailsHtml}</td>
         <td style="text-align:center;">
-          ${isPending ? '<span class="pill amber" style="font-weight:700;">⏳ Pending Approval</span>' : ''}
-          ${isApproved ? '<span class="pill green" style="font-weight:700;">✓ Approved & Saved</span>' : ''}
+          ${isPending ? '<span class="pill amber" style="font-weight:700;">⏳ Pending Review</span>' : ''}
+          ${isApproved ? '<span class="pill green" style="font-weight:700;">✓ Approved</span>' : ''}
           ${isRejected ? '<span class="pill red" style="font-weight:700;">✕ Rejected</span>' : ''}
         </td>
         <td style="text-align:center;white-space:nowrap;">
@@ -23544,8 +23685,8 @@ Views.renderShopApprovalsTab = function(){
                 <th style="width:40px;text-align:center;">#</th>
                 <th>Store & Time</th>
                 <th>Type</th>
-                <th>Device</th>
-                <th>Submission Details</th>
+                <th>Device / Audit Scope</th>
+                <th>Submission Details & What Changed</th>
                 <th style="text-align:center;">Status</th>
                 <th style="text-align:center;width:160px;">Action</th>
               </tr>
@@ -23559,6 +23700,266 @@ Views.renderShopApprovalsTab = function(){
     </div>
   `;
 };
+
+
+Views.getAuditDataForChange = function(c){
+  if(c.auditData && c.auditData.verifiedList) return c.auditData;
+  const shopId = c.shopId;
+  const sName = shopName(shopId);
+  const items = Store.data.items || [];
+  let totalDevices = 0, verifiedCount = 0, unverifiedCount = 0;
+  const verifiedList = [], unverifiedList = [];
+  
+  items.forEach(it => {
+    (it.units || []).filter(u => u && u.location === shopId).forEach(u => {
+      totalDevices++;
+      const isVer = !!u.verified;
+      const deviceEntry = {
+        itemId: it.id, unitId: u.id, name: it.name, memory: it.memory || '',
+        category: it.category || '', imei: u.imei || '', color: u.color || '',
+        condition: u.condition || 'Used', batteryPct: u.batteryPct,
+        costPrice: u.costPrice != null ? u.costPrice : (it.costPrice || 0),
+        sellPrice: u.sellPrice != null ? u.sellPrice : ((it.shopPrices && it.shopPrices[shopId] != null) ? it.shopPrices[shopId] : (shopId==='shop_maynooth'||shopId==='maynooth' ? 0 : (it.costPrice || 0))),
+        verified: isVer, verifiedAt: u.verifiedAt || (isVer ? todayISO() : null)
+      };
+      if(isVer){ verifiedCount++; verifiedList.push(deviceEntry); }
+      else { unverifiedCount++; unverifiedList.push(deviceEntry); }
+    });
+    const untracked = untrackedQtyAt(it, shopId);
+    if(untracked > 0){
+      totalDevices += untracked;
+      const isVer = !!(it.shopVerified && it.shopVerified[shopId]);
+      const untrackedEntry = {
+        itemId: it.id, name: it.name, memory: it.memory || '', category: it.category || '',
+        imei: 'Untracked (Qty ' + untracked + ')', color: '', condition: it.condition || 'New',
+        batteryPct: null, costPrice: it.costPrice || 0,
+        sellPrice: (it.shopPrices && it.shopPrices[shopId] != null) ? it.shopPrices[shopId] : (shopId==='shop_maynooth'||shopId==='maynooth' ? 0 : (it.costPrice || 0)),
+        qty: untracked, verified: isVer, verifiedAt: it.shopVerifiedAt && it.shopVerifiedAt[shopId]
+      };
+      if(isVer){ verifiedCount += untracked; verifiedList.push(untrackedEntry); }
+      else { unverifiedCount += untracked; unverifiedList.push(untrackedEntry); }
+    }
+  });
+
+  const allShopChanges = ((Store.data.meta && Store.data.meta.shopChanges) || []).filter(chg => chg && chg.shopId === shopId && chg.type !== 'audit_submission');
+  return {
+    shopId, shopName: sName, totalDevices, verifiedCount, unverifiedCount,
+    verifiedList, unverifiedList, recentChangesCount: allShopChanges.length,
+    recentChanges: allShopChanges
+  };
+};
+
+Views.openAuditSubmissionDetailsModal = function(changeId){
+  const allChanges = (Store.data.meta && Store.data.meta.shopChanges) || [];
+  const c = allChanges.find(x => x.id === changeId) || { id: changeId, type: 'audit_submission', shopId: 'shop_maynooth' };
+  const data = Views.getAuditDataForChange(c);
+  const sName = shopName(c.shopId);
+  const dateStr = c.timestamp ? new Date(c.timestamp).toLocaleString('en-IE', { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Recent';
+  const isPending = (c.status || 'pending') === 'pending';
+
+  let changesRows = '';
+  if(data.recentChanges && data.recentChanges.length > 0){
+    data.recentChanges.forEach((chg, idx) => {
+      let badge = '';
+      if(chg.type === 'price_edit') badge = '<span class="pill purple">💰 Price Edit</span>';
+      else if(chg.type === 'cost_edit') badge = '<span class="pill amber">🏷️ Cost Edit</span>';
+      else if(chg.type === 'imei_edit') badge = '<span class="pill teal">📱 IMEI Edit</span>';
+      else if(chg.type === 'battery_edit') badge = '<span class="pill blue">🔋 Battery</span>';
+      else if(chg.type === 'verify') badge = '<span class="pill green">✓ Check OK</span>';
+      else badge = '<span class="pill gray">' + esc(chg.type) + '</span>';
+
+      let diffHtml = esc(chg.details || '');
+      if(chg.type === 'price_edit' && chg.oldValue !== undefined && chg.newValue !== undefined){
+        diffHtml = `Sale Price: <s style="color:#94A3B8;">${euro(chg.oldValue)}</s> ➔ <b style="color:#0F766E;">${euro(chg.newValue)}</b>`;
+      } else if(chg.type === 'imei_edit' && chg.oldValue !== undefined){
+        diffHtml = `IMEI: <s style="color:#94A3B8;">${esc(chg.oldValue||'(none)')}</s> ➔ <b style="color:#0F766E;">${esc(chg.newValue)}</b>`;
+      }
+
+      changesRows += `
+        <tr>
+          <td style="text-align:center;color:#64748B;font-size:11px;">${idx + 1}</td>
+          <td>${badge}</td>
+          <td>
+            <div style="font-weight:700;color:var(--ink);">${esc(chg.itemName||'—')}</div>
+            ${chg.imei ? `<div class="mono" style="font-size:11px;color:#64748B;">IMEI: ${esc(chg.imei)}</div>` : ''}
+          </td>
+          <td style="font-size:12.5px;color:#0F172A;">${diffHtml}</td>
+          <td style="font-size:11px;color:#64748B;text-align:center;">${chg.timestamp ? new Date(chg.timestamp).toLocaleTimeString('en-IE',{hour:'2-digit',minute:'2-digit'}) : '—'}</td>
+        </tr>
+      `;
+    });
+  } else {
+    changesRows = `<tr><td colspan="5" style="text-align:center;padding:24px;color:#64748B;">No direct price or IMEI edits logged prior to this submission.</td></tr>`;
+  }
+
+  let unverifiedRows = '';
+  if(data.unverifiedList && data.unverifiedList.length > 0){
+    data.unverifiedList.forEach((u, idx) => {
+      unverifiedRows += `
+        <tr style="background:#FFF5F5;">
+          <td style="text-align:center;color:#DC2626;font-weight:700;font-size:11px;">${idx + 1}</td>
+          <td>
+            <div style="font-weight:700;color:#991B1B;">${esc(u.name)}</div>
+            <div style="font-size:11px;color:#64748B;">${esc(catName(u.category))} · ${esc(u.memory||'')}</div>
+          </td>
+          <td class="mono" style="font-weight:700;color:#334155;font-size:12px;">${esc(u.imei||'(No IMEI)')}</td>
+          <td>${esc(u.color||'—')}</td>
+          <td><span class="pill sm ${u.condition==='New'?'green':'blue'}">${esc(u.condition)}</span></td>
+          <td style="text-align:right;font-weight:700;color:#0F766E;">${euro(u.sellPrice)}</td>
+          <td style="text-align:center;"><span class="pill red" style="font-weight:700;font-size:10.5px;">⚠️ Missing / Unchecked</span></td>
+        </tr>
+      `;
+    });
+  } else {
+    unverifiedRows = `<tr><td colspan="7" style="text-align:center;padding:24px;color:#15803D;font-weight:700;">✓ 100% of devices at ${esc(sName)} were verified and checked OK!</td></tr>`;
+  }
+
+  let verifiedRows = '';
+  if(data.verifiedList && data.verifiedList.length > 0){
+    data.verifiedList.forEach((u, idx) => {
+      verifiedRows += `
+        <tr style="background:#F0FDF4;">
+          <td style="text-align:center;color:#15803D;font-weight:700;font-size:11px;">${idx + 1}</td>
+          <td>
+            <div style="font-weight:700;color:var(--ink);">${esc(u.name)}</div>
+            <div style="font-size:11px;color:#64748B;">${esc(catName(u.category))} · ${esc(u.memory||'')}</div>
+          </td>
+          <td class="mono" style="font-weight:700;color:#15803D;font-size:12px;">${esc(u.imei||'(No IMEI)')}</td>
+          <td>${esc(u.color||'—')}</td>
+          <td><span class="pill sm ${u.condition==='New'?'green':'blue'}">${esc(u.condition)}</span></td>
+          <td style="text-align:right;font-weight:700;color:#0F766E;">${euro(u.sellPrice)}</td>
+          <td style="text-align:center;"><span class="pill green" style="font-weight:700;font-size:10.5px;">✓ Checked OK</span></td>
+        </tr>
+      `;
+    });
+  }
+
+  const html = `
+    <div class="modal modal-xl" style="max-width:1150px;">
+      <div class="modal-head" style="background:#0F172A;color:#fff;border-radius:10px 10px 0 0;padding:16px 20px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:24px;">📋</span>
+          <div>
+            <h3 style="margin:0;color:#fff;font-size:18px;font-weight:800;">${esc(sName)} — Stock Audit Submission Details</h3>
+            <div style="font-size:12px;color:#94A3B8;margin-top:2px;">Submitted on <b>${dateStr}</b> · Status: <b style="color:${isPending?'#FBBF24':'#4ADE80'};">${isPending?'⏳ Pending Approval':'✓ Approved'}</b></div>
+          </div>
+        </div>
+        <button class="btn ghost sm" onclick="Modal.close()" style="color:#fff;border-color:rgba(255,255,255,.3);">✕</button>
+      </div>
+      <div class="modal-body" style="padding:20px;max-height:75vh;overflow-y:auto;background:#F8FAFC;">
+        
+        <!-- Metrics Grid -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px;">
+          <div style="background:#fff;padding:14px;border-radius:8px;border:1px solid #E2E8F0;box-shadow:0 1px 2px rgba(0,0,0,.04);">
+            <div style="font-size:11.5px;color:#64748B;font-weight:700;text-transform:uppercase;">📦 Total Devices in Store</div>
+            <div style="font-size:24px;font-weight:800;color:#0F172A;margin-top:4px;">${data.totalDevices}</div>
+          </div>
+          <div style="background:#ECFDF5;padding:14px;border-radius:8px;border:1px solid #A7F3D0;box-shadow:0 1px 2px rgba(0,0,0,.04);">
+            <div style="font-size:11.5px;color:#065F46;font-weight:700;text-transform:uppercase;">✓ Verified & Checked OK</div>
+            <div style="font-size:24px;font-weight:800;color:#047857;margin-top:4px;">${data.verifiedCount} <span style="font-size:13px;font-weight:600;">(${data.totalDevices>0?Math.round((data.verifiedCount/data.totalDevices)*100):0}%)</span></div>
+          </div>
+          <div style="background:${data.unverifiedCount>0?'#FEF2F2':'#F8FAFC'};padding:14px;border-radius:8px;border:1px solid ${data.unverifiedCount>0?'#FECACA':'#E2E8F0'};box-shadow:0 1px 2px rgba(0,0,0,.04);">
+            <div style="font-size:11.5px;color:${data.unverifiedCount>0?'#991B1B':'#64748B'};font-weight:700;text-transform:uppercase;">⚠️ Missing / Unchecked</div>
+            <div style="font-size:24px;font-weight:800;color:${data.unverifiedCount>0?'#DC2626':'#64748B'};margin-top:4px;">${data.unverifiedCount}</div>
+          </div>
+          <div style="background:#F5F3FF;padding:14px;border-radius:8px;border:1px solid #DDD6FE;box-shadow:0 1px 2px rgba(0,0,0,.04);">
+            <div style="font-size:11.5px;color:#5B21B6;font-weight:700;text-transform:uppercase;">💰 Changes & Price Edits</div>
+            <div style="font-size:24px;font-weight:800;color:#6D28D9;margin-top:4px;">${data.recentChangesCount}</div>
+          </div>
+        </div>
+
+        <!-- Section 1: Price / Detail Edits -->
+        <div style="background:#fff;border-radius:8px;border:1px solid #E2E8F0;padding:16px;margin-bottom:16px;">
+          <h4 style="margin:0 0 12px 0;font-size:14px;font-weight:800;color:#0F172A;display:flex;align-items:center;gap:6px;">
+            <span>📝</span> Specific Item Edits & Price Changes in this Audit (${data.recentChanges?.length||0})
+          </h4>
+          <div class="table-wrap">
+            <table class="inv-flat">
+              <thead>
+                <tr style="background:#F8FAFC;">
+                  <th style="width:30px;text-align:center;">#</th>
+                  <th style="width:120px;">Type</th>
+                  <th>Device & IMEI</th>
+                  <th>What Changed (Diff)</th>
+                  <th style="width:80px;text-align:center;">Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${changesRows}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section 2: Unverified / Missing Devices -->
+        ${data.unverifiedCount > 0 ? `
+          <div style="background:#fff;border-radius:8px;border:1px solid #FECACA;padding:16px;margin-bottom:16px;">
+            <h4 style="margin:0 0 12px 0;font-size:14px;font-weight:800;color:#991B1B;display:flex;align-items:center;gap:6px;">
+              <span>⚠️</span> Unverified / Unchecked Devices (${data.unverifiedCount}) — Action Recommended
+            </h4>
+            <div class="table-wrap">
+              <table class="inv-flat">
+                <thead>
+                  <tr style="background:#FEF2F2;">
+                    <th style="width:30px;text-align:center;">#</th>
+                    <th>Device Name</th>
+                    <th>IMEI</th>
+                    <th>Color</th>
+                    <th>Condition</th>
+                    <th style="text-align:right;">Sale Price</th>
+                    <th style="text-align:center;">Audit Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${unverifiedRows}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ` : ''}
+
+        <!-- Section 3: Verified Devices -->
+        <div style="background:#fff;border-radius:8px;border:1px solid #E2E8F0;padding:16px;">
+          <h4 style="margin:0 0 12px 0;font-size:14px;font-weight:800;color:#065F46;display:flex;align-items:center;gap:6px;">
+            <span>✓</span> Verified & Checked OK Devices (${data.verifiedCount})
+          </h4>
+          <div class="table-wrap" style="max-height:260px;overflow-y:auto;">
+            <table class="inv-flat">
+              <thead>
+                <tr style="background:#F0FDF4;">
+                  <th style="width:30px;text-align:center;">#</th>
+                  <th>Device Name</th>
+                  <th>IMEI</th>
+                  <th>Color</th>
+                  <th>Condition</th>
+                  <th style="text-align:right;">Sale Price</th>
+                  <th style="text-align:center;">Audit Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${verifiedRows || '<tr><td colspan="7" style="text-align:center;padding:16px;color:#64748B;">No checked devices yet.</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-foot" style="background:#fff;padding:14px 20px;border-top:1px solid #E2E8F0;display:flex;justify-content:space-between;align-items:center;">
+        <button class="btn" onclick="Modal.close()">Close</button>
+        ${isPending ? `
+          <div style="display:flex;gap:8px;">
+            <button class="btn danger ghost" onclick="Views.rejectShopChange('${c.id}');Modal.close();">✕ Reject Submission</button>
+            <button class="btn primary" style="background:#0F766E;font-weight:700;padding:8px 18px;" onclick="Views.approveShopChange('${c.id}');Modal.close();">✓ Approve & Confirm into Inventory</button>
+          </div>
+        ` : `
+          <span class="pill green" style="font-weight:700;">✓ Submission Approved</span>
+        `}
+      </div>
+    </div>
+  `;
+  Modal.open(html);
+};
+
 
 Views.approveShopChange = function(changeId){
   const allChanges = (Store.data.meta && Store.data.meta.shopChanges) || [];
@@ -23653,7 +24054,21 @@ Views.savePortalBattery = function(itemId, unitId, rawVal){
   const it = itemById(itemId); if(!it) return;
   const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
   const val = (rawVal||'').trim() === '' ? null : Math.max(0, Math.min(100, parseInt(rawVal)||0));
+  const oldBatt = unit.batteryPct;
   unit.batteryPct = val;
+  if(oldBatt !== val){
+    Store.logShopChange({
+      type: 'battery_edit',
+      shopId: unit.location,
+      itemId: it.id,
+      unitId: unitId,
+      itemName: it.name,
+      imei: unit.imei || '',
+      details: `Updated Battery % from ${oldBatt!=null?oldBatt+'%':'(none)'} to ${val!=null?val+'%':'(none)'}`,
+      oldValue: oldBatt,
+      newValue: val
+    });
+  }
   Store.save();
   Toast.show(val != null ? `Battery ${val}% saved.` : 'Battery cleared.', 'ok');
 };
