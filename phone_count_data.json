@@ -10814,10 +10814,10 @@
         "shop_tullamore": 140
       },
       "locations": {
-        "warehouse": 14,
+        "warehouse": 13,
         "shop_thurles": 1,
         "shop_kilkenny": 0,
-        "shop_maynooth": 0,
+        "shop_maynooth": 1,
         "shop_mullingar": 2,
         "shop_tralee": 1,
         "shop_tullamore": 0
@@ -10852,7 +10852,7 @@
           "imei": "350276231212442",
           "color": "Gray",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 140,
           "sellPrice": 140,
           "batteryPct": null,
@@ -18514,6 +18514,30 @@
         "verified": true,
         "verifiedAt": "2026-09-07"
       }
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_1tue6b29lkh",
+      "itemName": "Samsung A17",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A17 from Warehouse to Maynooth",
+      "id": "mv_z8k4bc1z95x"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_1tue6b29lkh",
+      "itemName": "Samsung A17",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A17 from Warehouse to Maynooth",
+      "id": "mv_ybewf2gz95x"
     }
   ],
   "reorderList": [],
@@ -18521,7 +18545,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-10T10:30:13.550Z",
+    "lastSaved": "2026-09-10T10:30:29.157Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
