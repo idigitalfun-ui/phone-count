@@ -92,7 +92,7 @@
         "warehouse": 679,
         "shop_thurles": 700,
         "shop_kilkenny": 750,
-        "shop_maynooth": 750,
+        "shop_maynooth": 0,
         "shop_mullingar": 679,
         "shop_tralee": 679,
         "shop_tullamore": 679
@@ -238,7 +238,7 @@
           "location": "shop_maynooth",
           "costPrice": 80,
           "wholesalePrice": 0,
-          "sellPrice": 80,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-09-01"
         },
@@ -250,7 +250,7 @@
           "location": "shop_maynooth",
           "costPrice": 115,
           "wholesalePrice": 0,
-          "sellPrice": 80,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-09-01"
         },
@@ -452,7 +452,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 115,
-          "sellPrice": 115,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 107,
@@ -481,7 +481,7 @@
           "batteryPct": null,
           "location": "shop_maynooth",
           "costPrice": 115,
-          "sellPrice": 115,
+          "sellPrice": 0,
           "addedAt": "2026-08-28",
           "verified": true,
           "verifiedAt": "2026-09-01"
@@ -701,7 +701,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 125,
-          "sellPrice": 125,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 111
@@ -763,7 +763,7 @@
           "location": "shop_maynooth",
           "costPrice": 125,
           "wholesalePrice": 137,
-          "sellPrice": 125,
+          "sellPrice": 0,
           "addedAt": null,
           "verified": false,
           "verifiedAt": null,
@@ -866,7 +866,7 @@
           "location": "shop_maynooth",
           "costPrice": 250,
           "wholesalePrice": 290,
-          "sellPrice": 250,
+          "sellPrice": 0,
           "addedAt": "2026-08-25",
           "verified": true,
           "verifiedAt": "2026-09-01"
@@ -909,7 +909,7 @@
           "location": "shop_maynooth",
           "costPrice": 250,
           "wholesalePrice": 262,
-          "sellPrice": 250,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-09-01"
         }
@@ -1006,7 +1006,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 230,
-          "sellPrice": 230,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 242,
@@ -1061,7 +1061,7 @@
           "location": "shop_maynooth",
           "costPrice": 275,
           "wholesalePrice": 287,
-          "sellPrice": 275,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-09-01"
         },
@@ -1073,7 +1073,7 @@
           "location": "shop_maynooth",
           "costPrice": 275,
           "wholesalePrice": 287,
-          "sellPrice": 275,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-09-01"
         },
@@ -1221,7 +1221,7 @@
           "location": "shop_maynooth",
           "costPrice": 155,
           "wholesalePrice": 167,
-          "sellPrice": 155,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28"
         }
@@ -1351,7 +1351,7 @@
           "location": "shop_maynooth",
           "costPrice": 135,
           "wholesalePrice": 147,
-          "sellPrice": 135,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -1462,7 +1462,7 @@
           "location": "shop_maynooth",
           "costPrice": 60,
           "wholesalePrice": 72,
-          "sellPrice": 60,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -1474,7 +1474,7 @@
           "location": "shop_maynooth",
           "costPrice": 60,
           "wholesalePrice": 72,
-          "sellPrice": 60,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -1486,7 +1486,7 @@
           "location": "shop_maynooth",
           "costPrice": 60,
           "wholesalePrice": 72,
-          "sellPrice": 60,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -1498,7 +1498,7 @@
           "location": "shop_maynooth",
           "costPrice": 60,
           "wholesalePrice": 72,
-          "sellPrice": 60,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28"
         }
@@ -1609,7 +1609,7 @@
           "location": "shop_maynooth",
           "costPrice": 14,
           "wholesalePrice": 26,
-          "sellPrice": 14,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -1621,7 +1621,7 @@
           "location": "shop_maynooth",
           "costPrice": 14,
           "wholesalePrice": 26,
-          "sellPrice": 14,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -1659,7 +1659,7 @@
           "location": "shop_maynooth",
           "costPrice": 14,
           "wholesalePrice": 26,
-          "sellPrice": 14,
+          "sellPrice": 0,
           "addedAt": "2026-08-25",
           "verified": true,
           "verifiedAt": "2026-08-28"
@@ -1787,7 +1787,7 @@
           "location": "shop_maynooth",
           "costPrice": 15,
           "wholesalePrice": 27,
-          "sellPrice": 15,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -1824,7 +1824,7 @@
           "location": "shop_maynooth",
           "costPrice": 15,
           "wholesalePrice": 27,
-          "sellPrice": 15,
+          "sellPrice": 0,
           "addedAt": "2026-08-25",
           "verified": true,
           "verifiedAt": "2026-08-28"
@@ -1849,7 +1849,7 @@
         "warehouse": 160,
         "shop_thurles": 160,
         "shop_kilkenny": 260,
-        "shop_maynooth": 160,
+        "shop_maynooth": 0,
         "shop_mullingar": 160,
         "shop_tralee": 160,
         "shop_tullamore": 160
@@ -2000,7 +2000,7 @@
           "location": "shop_maynooth",
           "costPrice": 300,
           "wholesalePrice": 312,
-          "sellPrice": 300,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28"
         }
@@ -2023,7 +2023,7 @@
         "warehouse": 120,
         "shop_thurles": 120,
         "shop_kilkenny": 185,
-        "shop_maynooth": 120,
+        "shop_maynooth": 0,
         "shop_mullingar": 185,
         "shop_tralee": 120,
         "shop_tullamore": 120
@@ -2088,7 +2088,7 @@
         "warehouse": 240,
         "shop_thurles": 240,
         "shop_kilkenny": 400,
-        "shop_maynooth": 240,
+        "shop_maynooth": 0,
         "shop_mullingar": 240,
         "shop_tralee": 270,
         "shop_tullamore": 270
@@ -2171,7 +2171,7 @@
           "location": "shop_maynooth",
           "costPrice": 170,
           "wholesalePrice": 200,
-          "sellPrice": 240,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28",
           "batteryPct": 89,
@@ -2429,7 +2429,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 155,
-          "sellPrice": 240,
+          "sellPrice": 0,
           "batteryPct": 95,
           "dateAdded": "2026-09-01",
           "verified": false,
@@ -2446,7 +2446,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 155,
-          "sellPrice": 240,
+          "sellPrice": 0,
           "batteryPct": 84,
           "dateAdded": "2026-09-01",
           "verified": false,
@@ -2536,7 +2536,7 @@
           "location": "shop_maynooth",
           "costPrice": 850,
           "wholesalePrice": 850,
-          "sellPrice": 850,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -2548,7 +2548,7 @@
           "location": "shop_maynooth",
           "costPrice": 850,
           "wholesalePrice": 850,
-          "sellPrice": 850,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28"
         }
@@ -2595,7 +2595,7 @@
           "location": "shop_maynooth",
           "costPrice": 410,
           "wholesalePrice": 0,
-          "sellPrice": 410,
+          "sellPrice": 0,
           "addedAt": "2026-08-25",
           "verified": true,
           "verifiedAt": "2026-08-28"
@@ -2726,7 +2726,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 255,
-          "sellPrice": 410,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-09-01"
         },
@@ -2759,7 +2759,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 255,
-          "sellPrice": 410,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-09-01"
         },
@@ -2834,7 +2834,7 @@
         "warehouse": 290,
         "shop_thurles": 290,
         "shop_kilkenny": 390,
-        "shop_maynooth": 290,
+        "shop_maynooth": 0,
         "shop_mullingar": 290,
         "shop_tralee": 290,
         "shop_tullamore": 340
@@ -3062,7 +3062,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 170,
-          "sellPrice": 290,
+          "sellPrice": 0,
           "batteryPct": 97,
           "dateAdded": "2026-09-01",
           "verified": false,
@@ -3079,7 +3079,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 170,
-          "sellPrice": 290,
+          "sellPrice": 0,
           "batteryPct": 93,
           "dateAdded": "2026-09-01",
           "verified": false,
@@ -3146,7 +3146,7 @@
         "warehouse": 300,
         "shop_thurles": 300,
         "shop_kilkenny": 320,
-        "shop_maynooth": 320,
+        "shop_maynooth": 0,
         "shop_mullingar": 320,
         "shop_tralee": 320,
         "shop_tullamore": 300
@@ -3250,7 +3250,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 95,
-          "sellPrice": 95,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 0,
@@ -3264,7 +3264,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 95,
-          "sellPrice": 95,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 0,
@@ -3330,7 +3330,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 95,
-          "sellPrice": 95,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 0,
@@ -3358,7 +3358,7 @@
         "warehouse": 455,
         "shop_thurles": 455,
         "shop_kilkenny": 455,
-        "shop_maynooth": 455,
+        "shop_maynooth": 0,
         "shop_mullingar": 455,
         "shop_tralee": 455,
         "shop_tullamore": 455
@@ -3441,7 +3441,7 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 230,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-09-01"
         },
@@ -3453,7 +3453,7 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 230,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-09-01"
         },
@@ -3465,7 +3465,7 @@
           "location": "shop_maynooth",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 230,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-09-01"
         },
@@ -3558,7 +3558,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 160,
-          "sellPrice": 160,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 172
@@ -3630,7 +3630,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 160,
-          "sellPrice": 160,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 172
@@ -3764,7 +3764,7 @@
         "warehouse": 140,
         "shop_thurles": 140,
         "shop_kilkenny": 140,
-        "shop_maynooth": 140,
+        "shop_maynooth": 0,
         "shop_mullingar": 140,
         "shop_tralee": 140,
         "shop_tullamore": 140
@@ -3871,7 +3871,7 @@
         "warehouse": 170,
         "shop_thurles": 170,
         "shop_kilkenny": 170,
-        "shop_maynooth": 170,
+        "shop_maynooth": 0,
         "shop_mullingar": 170,
         "shop_tralee": 170,
         "shop_tullamore": 170
@@ -3919,7 +3919,7 @@
         "warehouse": 80,
         "shop_thurles": 80,
         "shop_kilkenny": 100,
-        "shop_maynooth": 100,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 80,
         "shop_tullamore": 80
@@ -3976,7 +3976,7 @@
         "warehouse": 30,
         "shop_thurles": 45,
         "shop_kilkenny": 30,
-        "shop_maynooth": 30,
+        "shop_maynooth": 0,
         "shop_mullingar": 30,
         "shop_tralee": 30,
         "shop_tullamore": 30
@@ -4031,7 +4031,7 @@
         "warehouse": 45,
         "shop_thurles": 45,
         "shop_kilkenny": 45,
-        "shop_maynooth": 45,
+        "shop_maynooth": 0,
         "shop_mullingar": 45,
         "shop_tralee": 45,
         "shop_tullamore": 45
@@ -4063,7 +4063,7 @@
         "warehouse": 45,
         "shop_thurles": 45,
         "shop_kilkenny": 45,
-        "shop_maynooth": 45,
+        "shop_maynooth": 0,
         "shop_mullingar": 45,
         "shop_tralee": 45,
         "shop_tullamore": 45
@@ -4095,7 +4095,7 @@
         "warehouse": 70,
         "shop_thurles": 70,
         "shop_kilkenny": 70,
-        "shop_maynooth": 70,
+        "shop_maynooth": 0,
         "shop_mullingar": 70,
         "shop_tralee": 70,
         "shop_tullamore": 70
@@ -4183,7 +4183,7 @@
         "warehouse": 65,
         "shop_thurles": 65,
         "shop_kilkenny": 65,
-        "shop_maynooth": 65,
+        "shop_maynooth": 0,
         "shop_mullingar": 65,
         "shop_tralee": 65,
         "shop_tullamore": 65
@@ -4218,7 +4218,7 @@
         "warehouse": 160,
         "shop_thurles": 160,
         "shop_kilkenny": 160,
-        "shop_maynooth": 160,
+        "shop_maynooth": 0,
         "shop_mullingar": 160,
         "shop_tralee": 160,
         "shop_tullamore": 160
@@ -4271,7 +4271,7 @@
         "warehouse": 210,
         "shop_thurles": 210,
         "shop_kilkenny": 210,
-        "shop_maynooth": 210,
+        "shop_maynooth": 0,
         "shop_mullingar": 210,
         "shop_tralee": 210,
         "shop_tullamore": 210
@@ -4321,7 +4321,7 @@
         "warehouse": 250,
         "shop_thurles": 250,
         "shop_kilkenny": 250,
-        "shop_maynooth": 250,
+        "shop_maynooth": 0,
         "shop_mullingar": 250,
         "shop_tralee": 280,
         "shop_tullamore": 250
@@ -4400,7 +4400,7 @@
         "warehouse": 470,
         "shop_thurles": 470,
         "shop_kilkenny": 470,
-        "shop_maynooth": 470,
+        "shop_maynooth": 0,
         "shop_mullingar": 470,
         "shop_tralee": 470,
         "shop_tullamore": 470
@@ -4453,7 +4453,7 @@
         "warehouse": 430,
         "shop_thurles": 430,
         "shop_kilkenny": 430,
-        "shop_maynooth": 430,
+        "shop_maynooth": 0,
         "shop_mullingar": 430,
         "shop_tralee": 430,
         "shop_tullamore": 430
@@ -4501,7 +4501,7 @@
         "warehouse": 600,
         "shop_thurles": 600,
         "shop_kilkenny": 600,
-        "shop_maynooth": 600,
+        "shop_maynooth": 0,
         "shop_mullingar": 600,
         "shop_tralee": 600,
         "shop_tullamore": 600
@@ -4560,7 +4560,7 @@
         "warehouse": 680,
         "shop_thurles": 680,
         "shop_kilkenny": 680,
-        "shop_maynooth": 680,
+        "shop_maynooth": 0,
         "shop_mullingar": 680,
         "shop_tralee": 680,
         "shop_tullamore": 680
@@ -4607,7 +4607,7 @@
         "warehouse": 700,
         "shop_thurles": 700,
         "shop_kilkenny": 700,
-        "shop_maynooth": 700,
+        "shop_maynooth": 0,
         "shop_mullingar": 700,
         "shop_tralee": 700,
         "shop_tullamore": 700
@@ -4713,7 +4713,7 @@
           "location": "shop_maynooth",
           "costPrice": 440,
           "wholesalePrice": 452,
-          "sellPrice": 440,
+          "sellPrice": 0,
           "addedAt": "2026-08-25",
           "verified": true,
           "verifiedAt": "2026-08-28"
@@ -4727,7 +4727,7 @@
           "location": "shop_maynooth",
           "costPrice": 440,
           "wholesalePrice": 452,
-          "sellPrice": 440,
+          "sellPrice": 0,
           "addedAt": "2026-08-25",
           "verified": true,
           "verifiedAt": "2026-08-28"
@@ -4844,7 +4844,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 410,
-          "sellPrice": 440,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-09-01"
         },
@@ -4921,7 +4921,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 410,
-          "sellPrice": 440,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-09-01"
         }
@@ -4949,7 +4949,7 @@
         "warehouse": 220,
         "shop_thurles": 220,
         "shop_kilkenny": 220,
-        "shop_maynooth": 220,
+        "shop_maynooth": 0,
         "shop_mullingar": 220,
         "shop_tralee": 220,
         "shop_tullamore": 220
@@ -4983,7 +4983,7 @@
         "warehouse": 145,
         "shop_thurles": 145,
         "shop_kilkenny": 145,
-        "shop_maynooth": 145,
+        "shop_maynooth": 0,
         "shop_mullingar": 145,
         "shop_tralee": 145,
         "shop_tullamore": 145
@@ -5017,7 +5017,7 @@
         "warehouse": 580,
         "shop_thurles": 580,
         "shop_kilkenny": 580,
-        "shop_maynooth": 580,
+        "shop_maynooth": 0,
         "shop_mullingar": 580,
         "shop_tralee": 580,
         "shop_tullamore": 580
@@ -5065,7 +5065,7 @@
         "warehouse": 600,
         "shop_thurles": 600,
         "shop_kilkenny": 600,
-        "shop_maynooth": 600,
+        "shop_maynooth": 0,
         "shop_mullingar": 600,
         "shop_tralee": 600,
         "shop_tullamore": 600
@@ -5113,7 +5113,7 @@
         "warehouse": 630,
         "shop_thurles": 630,
         "shop_kilkenny": 630,
-        "shop_maynooth": 630,
+        "shop_maynooth": 0,
         "shop_mullingar": 630,
         "shop_tralee": 630,
         "shop_tullamore": 630
@@ -5161,7 +5161,7 @@
         "warehouse": 800,
         "shop_thurles": 800,
         "shop_kilkenny": 800,
-        "shop_maynooth": 800,
+        "shop_maynooth": 0,
         "shop_mullingar": 800,
         "shop_tralee": 800,
         "shop_tullamore": 800
@@ -5210,7 +5210,7 @@
         "warehouse": 495,
         "shop_thurles": 495,
         "shop_kilkenny": 495,
-        "shop_maynooth": 495,
+        "shop_maynooth": 0,
         "shop_mullingar": 495,
         "shop_tralee": 495,
         "shop_tullamore": 495
@@ -5245,7 +5245,7 @@
         "warehouse": 200,
         "shop_thurles": 200,
         "shop_kilkenny": 200,
-        "shop_maynooth": 200,
+        "shop_maynooth": 0,
         "shop_mullingar": 200,
         "shop_tralee": 200,
         "shop_tullamore": 200
@@ -5293,7 +5293,7 @@
         "warehouse": 210,
         "shop_thurles": 210,
         "shop_kilkenny": 210,
-        "shop_maynooth": 210,
+        "shop_maynooth": 0,
         "shop_mullingar": 210,
         "shop_tralee": 210,
         "shop_tullamore": 210
@@ -5341,7 +5341,7 @@
         "warehouse": 240,
         "shop_thurles": 240,
         "shop_kilkenny": 240,
-        "shop_maynooth": 240,
+        "shop_maynooth": 0,
         "shop_mullingar": 240,
         "shop_tralee": 240,
         "shop_tullamore": 240
@@ -5402,7 +5402,7 @@
         "warehouse": 60,
         "shop_thurles": 60,
         "shop_kilkenny": 60,
-        "shop_maynooth": 60,
+        "shop_maynooth": 0,
         "shop_mullingar": 60,
         "shop_tralee": 60,
         "shop_tullamore": 60
@@ -5491,7 +5491,7 @@
           "location": "shop_maynooth",
           "costPrice": 80,
           "wholesalePrice": 13,
-          "sellPrice": 80,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28",
           "batteryPct": null
@@ -5526,7 +5526,7 @@
         "warehouse": 140,
         "shop_thurles": 140,
         "shop_kilkenny": 140,
-        "shop_maynooth": 140,
+        "shop_maynooth": 0,
         "shop_mullingar": 140,
         "shop_tralee": 140,
         "shop_tullamore": 140
@@ -5586,7 +5586,7 @@
         "warehouse": 55,
         "shop_thurles": 55,
         "shop_kilkenny": 55,
-        "shop_maynooth": 55,
+        "shop_maynooth": 0,
         "shop_mullingar": 55,
         "shop_tralee": 55,
         "shop_tullamore": 55
@@ -5620,7 +5620,7 @@
         "warehouse": 100,
         "shop_thurles": 100,
         "shop_kilkenny": 100,
-        "shop_maynooth": 100,
+        "shop_maynooth": 0,
         "shop_mullingar": 100,
         "shop_tralee": 100,
         "shop_tullamore": 100
@@ -5667,7 +5667,7 @@
         "warehouse": 550,
         "shop_thurles": 550,
         "shop_kilkenny": 550,
-        "shop_maynooth": 550,
+        "shop_maynooth": 0,
         "shop_mullingar": 550,
         "shop_tralee": 550,
         "shop_tullamore": 550
@@ -5701,7 +5701,7 @@
         "warehouse": 300,
         "shop_thurles": 300,
         "shop_kilkenny": 300,
-        "shop_maynooth": 300,
+        "shop_maynooth": 0,
         "shop_mullingar": 300,
         "shop_tralee": 300,
         "shop_tullamore": 300
@@ -5773,7 +5773,7 @@
           "location": "shop_maynooth",
           "costPrice": 100,
           "wholesalePrice": 13,
-          "sellPrice": 100,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -5807,7 +5807,7 @@
         "warehouse": 260,
         "shop_thurles": 260,
         "shop_kilkenny": 260,
-        "shop_maynooth": 260,
+        "shop_maynooth": 0,
         "shop_mullingar": 260,
         "shop_tralee": 260,
         "shop_tullamore": 260
@@ -5844,7 +5844,7 @@
         "warehouse": 170,
         "shop_thurles": 170,
         "shop_kilkenny": 170,
-        "shop_maynooth": 170,
+        "shop_maynooth": 0,
         "shop_mullingar": 170,
         "shop_tralee": 170,
         "shop_tullamore": 170
@@ -5892,7 +5892,7 @@
         "warehouse": 230,
         "shop_thurles": 230,
         "shop_kilkenny": 230,
-        "shop_maynooth": 230,
+        "shop_maynooth": 0,
         "shop_mullingar": 230,
         "shop_tralee": 230,
         "shop_tullamore": 230
@@ -5937,7 +5937,7 @@
         "warehouse": 130,
         "shop_thurles": 130,
         "shop_kilkenny": 130,
-        "shop_maynooth": 130,
+        "shop_maynooth": 0,
         "shop_mullingar": 130,
         "shop_tralee": 130,
         "shop_tullamore": 130
@@ -6077,7 +6077,7 @@
         "warehouse": 35,
         "shop_thurles": 35,
         "shop_kilkenny": 35,
-        "shop_maynooth": 35,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 35,
         "shop_tullamore": 35
@@ -6117,7 +6117,7 @@
         "warehouse": 130,
         "shop_thurles": 130,
         "shop_kilkenny": 130,
-        "shop_maynooth": 130,
+        "shop_maynooth": 0,
         "shop_mullingar": 130,
         "shop_tralee": 130,
         "shop_tullamore": 130
@@ -6323,7 +6323,7 @@
           "location": "shop_maynooth",
           "costPrice": 38,
           "wholesalePrice": 13,
-          "sellPrice": 38,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -6335,7 +6335,7 @@
           "location": "shop_maynooth",
           "costPrice": 38,
           "wholesalePrice": 13,
-          "sellPrice": 38,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -6596,7 +6596,7 @@
         "warehouse": 330,
         "shop_thurles": 330,
         "shop_kilkenny": 330,
-        "shop_maynooth": 330,
+        "shop_maynooth": 0,
         "shop_mullingar": 330,
         "shop_tralee": 330,
         "shop_tullamore": 330
@@ -6765,7 +6765,7 @@
         "warehouse": 330,
         "shop_thurles": 330,
         "shop_kilkenny": 330,
-        "shop_maynooth": 330,
+        "shop_maynooth": 0,
         "shop_mullingar": 330,
         "shop_tralee": 330,
         "shop_tullamore": 330
@@ -6796,7 +6796,7 @@
         "warehouse": 300,
         "shop_thurles": 300,
         "shop_kilkenny": 300,
-        "shop_maynooth": 300,
+        "shop_maynooth": 0,
         "shop_mullingar": 300,
         "shop_tralee": 300,
         "shop_tullamore": 300
@@ -6828,7 +6828,7 @@
         "warehouse": 170,
         "shop_thurles": 170,
         "shop_kilkenny": 170,
-        "shop_maynooth": 170,
+        "shop_maynooth": 0,
         "shop_mullingar": 170,
         "shop_tralee": 170,
         "shop_tullamore": 170
@@ -6863,7 +6863,7 @@
         "warehouse": 320,
         "shop_thurles": 320,
         "shop_kilkenny": 320,
-        "shop_maynooth": 320,
+        "shop_maynooth": 0,
         "shop_mullingar": 320,
         "shop_tralee": 320,
         "shop_tullamore": 320
@@ -6909,7 +6909,7 @@
         "warehouse": 150,
         "shop_thurles": 150,
         "shop_kilkenny": 150,
-        "shop_maynooth": 150,
+        "shop_maynooth": 0,
         "shop_mullingar": 150,
         "shop_tralee": 150,
         "shop_tullamore": 150
@@ -6955,7 +6955,7 @@
         "warehouse": 320,
         "shop_thurles": 320,
         "shop_kilkenny": 320,
-        "shop_maynooth": 320,
+        "shop_maynooth": 0,
         "shop_mullingar": 320,
         "shop_tralee": 320,
         "shop_tullamore": 320
@@ -6986,7 +6986,7 @@
         "warehouse": 65,
         "shop_thurles": 65,
         "shop_kilkenny": 65,
-        "shop_maynooth": 65,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 65,
         "shop_tullamore": 65
@@ -7018,7 +7018,7 @@
         "warehouse": 80,
         "shop_thurles": 80,
         "shop_kilkenny": 80,
-        "shop_maynooth": 80,
+        "shop_maynooth": 0,
         "shop_mullingar": 80,
         "shop_tralee": 80,
         "shop_tullamore": 80
@@ -7054,7 +7054,7 @@
         "warehouse": 380,
         "shop_thurles": 380,
         "shop_kilkenny": 380,
-        "shop_maynooth": 380,
+        "shop_maynooth": 0,
         "shop_mullingar": 380,
         "shop_tralee": 330,
         "shop_tullamore": 370
@@ -7138,7 +7138,7 @@
         "warehouse": 230,
         "shop_thurles": 230,
         "shop_kilkenny": 230,
-        "shop_maynooth": 230,
+        "shop_maynooth": 0,
         "shop_mullingar": 230,
         "shop_tralee": 450,
         "shop_tullamore": 350
@@ -7205,7 +7205,7 @@
         "warehouse": 300,
         "shop_thurles": 300,
         "shop_kilkenny": 300,
-        "shop_maynooth": 300,
+        "shop_maynooth": 0,
         "shop_mullingar": 300,
         "shop_tralee": 350,
         "shop_tullamore": 350
@@ -7278,7 +7278,7 @@
         "warehouse": 30,
         "shop_thurles": 30,
         "shop_kilkenny": 30,
-        "shop_maynooth": 30,
+        "shop_maynooth": 0,
         "shop_mullingar": 30,
         "shop_tralee": 30,
         "shop_tullamore": 30
@@ -7312,7 +7312,7 @@
         "warehouse": 60,
         "shop_thurles": 60,
         "shop_kilkenny": 60,
-        "shop_maynooth": 60,
+        "shop_maynooth": 0,
         "shop_mullingar": 60,
         "shop_tralee": 90,
         "shop_tullamore": 60
@@ -7365,7 +7365,7 @@
         "warehouse": 140,
         "shop_thurles": 140,
         "shop_kilkenny": 140,
-        "shop_maynooth": 140,
+        "shop_maynooth": 0,
         "shop_mullingar": 140,
         "shop_tralee": 140,
         "shop_tullamore": 140
@@ -7415,7 +7415,7 @@
         "warehouse": 220,
         "shop_thurles": 220,
         "shop_kilkenny": 220,
-        "shop_maynooth": 220,
+        "shop_maynooth": 0,
         "shop_mullingar": 220,
         "shop_tralee": 150,
         "shop_tullamore": 220
@@ -7481,7 +7481,7 @@
         "warehouse": 90,
         "shop_thurles": 90,
         "shop_kilkenny": 90,
-        "shop_maynooth": 90,
+        "shop_maynooth": 0,
         "shop_mullingar": 90,
         "shop_tralee": 90,
         "shop_tullamore": 90
@@ -7551,7 +7551,7 @@
         "warehouse": 150,
         "shop_thurles": 150,
         "shop_kilkenny": 150,
-        "shop_maynooth": 150,
+        "shop_maynooth": 0,
         "shop_mullingar": 150,
         "shop_tralee": 150,
         "shop_tullamore": 150
@@ -7610,7 +7610,7 @@
         "warehouse": 110,
         "shop_thurles": 110,
         "shop_kilkenny": 110,
-        "shop_maynooth": 110,
+        "shop_maynooth": 0,
         "shop_mullingar": 110,
         "shop_tralee": 110,
         "shop_tullamore": 110
@@ -7656,7 +7656,7 @@
         "warehouse": 140,
         "shop_thurles": 140,
         "shop_kilkenny": 140,
-        "shop_maynooth": 140,
+        "shop_maynooth": 0,
         "shop_mullingar": 140,
         "shop_tralee": 140,
         "shop_tullamore": 140
@@ -7702,7 +7702,7 @@
         "warehouse": 100,
         "shop_thurles": 100,
         "shop_kilkenny": 100,
-        "shop_maynooth": 100,
+        "shop_maynooth": 0,
         "shop_mullingar": 100,
         "shop_tralee": 150,
         "shop_tullamore": 100
@@ -7761,7 +7761,7 @@
         "warehouse": 120,
         "shop_thurles": 120,
         "shop_kilkenny": 120,
-        "shop_maynooth": 120,
+        "shop_maynooth": 0,
         "shop_mullingar": 120,
         "shop_tralee": 120,
         "shop_tullamore": 120
@@ -7807,7 +7807,7 @@
         "warehouse": 180,
         "shop_thurles": 180,
         "shop_kilkenny": 180,
-        "shop_maynooth": 180,
+        "shop_maynooth": 0,
         "shop_mullingar": 180,
         "shop_tralee": 180,
         "shop_tullamore": 180
@@ -7842,7 +7842,7 @@
         "warehouse": 180,
         "shop_thurles": 180,
         "shop_kilkenny": 180,
-        "shop_maynooth": 180,
+        "shop_maynooth": 0,
         "shop_mullingar": 180,
         "shop_tralee": 200,
         "shop_tullamore": 180
@@ -7887,7 +7887,7 @@
         "warehouse": 140,
         "shop_thurles": 140,
         "shop_kilkenny": 140,
-        "shop_maynooth": 140,
+        "shop_maynooth": 0,
         "shop_mullingar": 140,
         "shop_tralee": 180,
         "shop_tullamore": 140
@@ -7936,7 +7936,7 @@
         "warehouse": 80,
         "shop_thurles": 80,
         "shop_kilkenny": 80,
-        "shop_maynooth": 80,
+        "shop_maynooth": 0,
         "shop_mullingar": 80,
         "shop_tralee": 80,
         "shop_tullamore": 80
@@ -7970,7 +7970,7 @@
         "warehouse": 100,
         "shop_thurles": 100,
         "shop_kilkenny": 100,
-        "shop_maynooth": 100,
+        "shop_maynooth": 0,
         "shop_mullingar": 100,
         "shop_tralee": 100,
         "shop_tullamore": 100
@@ -8001,7 +8001,7 @@
         "warehouse": 130,
         "shop_thurles": 130,
         "shop_kilkenny": 130,
-        "shop_maynooth": 130,
+        "shop_maynooth": 0,
         "shop_mullingar": 130,
         "shop_tralee": 130,
         "shop_tullamore": 130
@@ -8047,7 +8047,7 @@
         "warehouse": 40,
         "shop_thurles": 40,
         "shop_kilkenny": 40,
-        "shop_maynooth": 40,
+        "shop_maynooth": 0,
         "shop_mullingar": 40,
         "shop_tralee": 40,
         "shop_tullamore": 40
@@ -8079,7 +8079,7 @@
         "warehouse": 65,
         "shop_thurles": 65,
         "shop_kilkenny": 65,
-        "shop_maynooth": 65,
+        "shop_maynooth": 0,
         "shop_mullingar": 65,
         "shop_tralee": 0,
         "shop_tullamore": 65
@@ -8125,7 +8125,7 @@
         "warehouse": 60,
         "shop_thurles": 60,
         "shop_kilkenny": 60,
-        "shop_maynooth": 60,
+        "shop_maynooth": 0,
         "shop_mullingar": 60,
         "shop_tralee": 0,
         "shop_tullamore": 60
@@ -8157,7 +8157,7 @@
         "warehouse": 55,
         "shop_thurles": 55,
         "shop_kilkenny": 55,
-        "shop_maynooth": 55,
+        "shop_maynooth": 0,
         "shop_mullingar": 55,
         "shop_tralee": 84.99,
         "shop_tullamore": 55
@@ -8206,7 +8206,7 @@
         "warehouse": 50,
         "shop_thurles": 50,
         "shop_kilkenny": 50,
-        "shop_maynooth": 50,
+        "shop_maynooth": 0,
         "shop_mullingar": 50,
         "shop_tralee": 0,
         "shop_tullamore": 50
@@ -8240,7 +8240,7 @@
         "warehouse": 25,
         "shop_thurles": 25,
         "shop_kilkenny": 25,
-        "shop_maynooth": 25,
+        "shop_maynooth": 0,
         "shop_mullingar": 25,
         "shop_tralee": 0,
         "shop_tullamore": 25
@@ -8274,7 +8274,7 @@
         "warehouse": 25,
         "shop_thurles": 25,
         "shop_kilkenny": 25,
-        "shop_maynooth": 25,
+        "shop_maynooth": 0,
         "shop_mullingar": 25,
         "shop_tralee": 0,
         "shop_tullamore": 25
@@ -8314,7 +8314,7 @@
         "warehouse": 25,
         "shop_thurles": 25,
         "shop_kilkenny": 25,
-        "shop_maynooth": 25,
+        "shop_maynooth": 0,
         "shop_mullingar": 25,
         "shop_tralee": 25,
         "shop_tullamore": 25
@@ -8348,7 +8348,7 @@
         "warehouse": 70,
         "shop_thurles": 70,
         "shop_kilkenny": 70,
-        "shop_maynooth": 70,
+        "shop_maynooth": 0,
         "shop_mullingar": 70,
         "shop_tralee": 0,
         "shop_tullamore": 70
@@ -8383,7 +8383,7 @@
         "warehouse": 35,
         "shop_thurles": 35,
         "shop_kilkenny": 35,
-        "shop_maynooth": 35,
+        "shop_maynooth": 0,
         "shop_mullingar": 35,
         "shop_tralee": 0,
         "shop_tullamore": 35
@@ -8424,7 +8424,7 @@
         "warehouse": 35,
         "shop_thurles": 35,
         "shop_kilkenny": 35,
-        "shop_maynooth": 35,
+        "shop_maynooth": 0,
         "shop_mullingar": 35,
         "shop_tralee": 0,
         "shop_tullamore": 35
@@ -8460,7 +8460,7 @@
         "warehouse": 40,
         "shop_thurles": 40,
         "shop_kilkenny": 40,
-        "shop_maynooth": 40,
+        "shop_maynooth": 0,
         "shop_mullingar": 40,
         "shop_tralee": 0,
         "shop_tullamore": 40
@@ -8495,7 +8495,7 @@
         "warehouse": 40,
         "shop_thurles": 40,
         "shop_kilkenny": 40,
-        "shop_maynooth": 40,
+        "shop_maynooth": 0,
         "shop_mullingar": 40,
         "shop_tralee": 0,
         "shop_tullamore": 40
@@ -8532,7 +8532,7 @@
         "warehouse": 330,
         "shop_thurles": 330,
         "shop_kilkenny": 330,
-        "shop_maynooth": 330,
+        "shop_maynooth": 0,
         "shop_mullingar": 330,
         "shop_tralee": 330,
         "shop_tullamore": 330
@@ -8586,7 +8586,7 @@
           "location": "shop_maynooth",
           "costPrice": 275,
           "wholesalePrice": 287,
-          "sellPrice": 330,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-09-01",
           "batteryPct": null
@@ -8658,7 +8658,7 @@
         "warehouse": 110,
         "shop_thurles": 110,
         "shop_kilkenny": 110,
-        "shop_maynooth": 110,
+        "shop_maynooth": 0,
         "shop_mullingar": 110,
         "shop_tralee": 110,
         "shop_tullamore": 110
@@ -8692,7 +8692,7 @@
         "warehouse": 145,
         "shop_thurles": 145,
         "shop_kilkenny": 145,
-        "shop_maynooth": 145,
+        "shop_maynooth": 0,
         "shop_mullingar": 145,
         "shop_tralee": 145,
         "shop_tullamore": 145
@@ -8726,7 +8726,7 @@
         "warehouse": 110,
         "shop_thurles": 110,
         "shop_kilkenny": 110,
-        "shop_maynooth": 110,
+        "shop_maynooth": 0,
         "shop_mullingar": 110,
         "shop_tralee": 110,
         "shop_tullamore": 110
@@ -8760,7 +8760,7 @@
         "warehouse": 150,
         "shop_thurles": 150,
         "shop_kilkenny": 150,
-        "shop_maynooth": 150,
+        "shop_maynooth": 0,
         "shop_mullingar": 150,
         "shop_tralee": 150,
         "shop_tullamore": 150
@@ -8794,7 +8794,7 @@
         "warehouse": 190,
         "shop_thurles": 190,
         "shop_kilkenny": 190,
-        "shop_maynooth": 190,
+        "shop_maynooth": 0,
         "shop_mullingar": 190,
         "shop_tralee": 190,
         "shop_tullamore": 190
@@ -8853,7 +8853,7 @@
         "warehouse": 455,
         "shop_thurles": 455,
         "shop_kilkenny": 455,
-        "shop_maynooth": 455,
+        "shop_maynooth": 0,
         "shop_mullingar": 455,
         "shop_tralee": 455,
         "shop_tullamore": 455
@@ -8901,7 +8901,7 @@
         "warehouse": 495,
         "shop_thurles": 495,
         "shop_kilkenny": 495,
-        "shop_maynooth": 495,
+        "shop_maynooth": 0,
         "shop_mullingar": 495,
         "shop_tralee": 495,
         "shop_tullamore": 495
@@ -8935,7 +8935,7 @@
         "warehouse": 220,
         "shop_thurles": 220,
         "shop_kilkenny": 220,
-        "shop_maynooth": 220,
+        "shop_maynooth": 0,
         "shop_mullingar": 220,
         "shop_tralee": 220,
         "shop_tullamore": 220
@@ -8983,7 +8983,7 @@
         "warehouse": 220,
         "shop_thurles": 220,
         "shop_kilkenny": 220,
-        "shop_maynooth": 220,
+        "shop_maynooth": 0,
         "shop_mullingar": 220,
         "shop_tralee": 220,
         "shop_tullamore": 220
@@ -9031,7 +9031,7 @@
         "warehouse": 130,
         "shop_thurles": 130,
         "shop_kilkenny": 130,
-        "shop_maynooth": 130,
+        "shop_maynooth": 0,
         "shop_mullingar": 130,
         "shop_tralee": 130,
         "shop_tullamore": 130
@@ -9062,7 +9062,7 @@
         "warehouse": 160,
         "shop_thurles": 160,
         "shop_kilkenny": 160,
-        "shop_maynooth": 160,
+        "shop_maynooth": 0,
         "shop_mullingar": 160,
         "shop_tralee": 160,
         "shop_tullamore": 160
@@ -9155,7 +9155,7 @@
         "warehouse": 550,
         "shop_thurles": 550,
         "shop_kilkenny": 550,
-        "shop_maynooth": 550,
+        "shop_maynooth": 0,
         "shop_mullingar": 550,
         "shop_tralee": 550,
         "shop_tullamore": 550
@@ -9203,7 +9203,7 @@
         "warehouse": 200,
         "shop_thurles": 200,
         "shop_kilkenny": 200,
-        "shop_maynooth": 200,
+        "shop_maynooth": 0,
         "shop_mullingar": 200,
         "shop_tralee": 200,
         "shop_tullamore": 200
@@ -9251,7 +9251,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -9421,7 +9421,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -9455,7 +9455,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -9501,7 +9501,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -9890,7 +9890,7 @@
         "warehouse": 230,
         "shop_thurles": 230,
         "shop_kilkenny": 230,
-        "shop_maynooth": 230,
+        "shop_maynooth": 0,
         "shop_mullingar": 230,
         "shop_tralee": 230,
         "shop_tullamore": 230
@@ -9937,7 +9937,7 @@
         "warehouse": 250,
         "shop_thurles": 250,
         "shop_kilkenny": 250,
-        "shop_maynooth": 250,
+        "shop_maynooth": 0,
         "shop_mullingar": 250,
         "shop_tralee": 250,
         "shop_tullamore": 250
@@ -9996,7 +9996,7 @@
         "warehouse": 260,
         "shop_thurles": 260,
         "shop_kilkenny": 260,
-        "shop_maynooth": 260,
+        "shop_maynooth": 0,
         "shop_mullingar": 260,
         "shop_tralee": 260,
         "shop_tullamore": 260
@@ -10044,7 +10044,7 @@
         "warehouse": 250,
         "shop_thurles": 250,
         "shop_kilkenny": 250,
-        "shop_maynooth": 250,
+        "shop_maynooth": 0,
         "shop_mullingar": 250,
         "shop_tralee": 250,
         "shop_tullamore": 250
@@ -10092,7 +10092,7 @@
         "warehouse": 780,
         "shop_thurles": 780,
         "shop_kilkenny": 780,
-        "shop_maynooth": 780,
+        "shop_maynooth": 0,
         "shop_mullingar": 780,
         "shop_tralee": 780,
         "shop_tullamore": 780
@@ -10136,7 +10136,7 @@
         "warehouse": 380,
         "shop_thurles": 380,
         "shop_kilkenny": 380,
-        "shop_maynooth": 380,
+        "shop_maynooth": 0,
         "shop_mullingar": 380,
         "shop_tralee": 380,
         "shop_tullamore": 380
@@ -10200,7 +10200,7 @@
         "warehouse": 500,
         "shop_thurles": 500,
         "shop_kilkenny": 500,
-        "shop_maynooth": 500,
+        "shop_maynooth": 0,
         "shop_mullingar": 500,
         "shop_tralee": 500,
         "shop_tullamore": 500
@@ -10234,7 +10234,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -10278,7 +10278,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -10323,7 +10323,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -10368,7 +10368,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -10416,7 +10416,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -10450,7 +10450,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -10494,7 +10494,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -10545,7 +10545,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -10577,7 +10577,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -10620,7 +10620,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -10652,7 +10652,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -10705,7 +10705,7 @@
         "warehouse": 120,
         "shop_thurles": 120,
         "shop_kilkenny": 185,
-        "shop_maynooth": 169,
+        "shop_maynooth": 0,
         "shop_mullingar": 185,
         "shop_tralee": 120,
         "shop_tullamore": 120
@@ -10751,7 +10751,7 @@
           "batteryPct": null,
           "location": "shop_maynooth",
           "costPrice": 105,
-          "sellPrice": 169,
+          "sellPrice": 0,
           "addedAt": "2026-08-31"
         }
       ],
@@ -10842,7 +10842,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 140,
-          "sellPrice": 140,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 152
@@ -10854,7 +10854,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 140,
-          "sellPrice": 140,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 152
@@ -10998,7 +10998,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 140,
-          "sellPrice": 140,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 152
@@ -11121,7 +11121,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 220,
-          "sellPrice": 220,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 232,
@@ -11185,7 +11185,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 220,
-          "sellPrice": 220,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 232,
@@ -11262,7 +11262,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 480,
-          "sellPrice": 480,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 492,
@@ -11312,7 +11312,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 385,
-          "sellPrice": 385,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 397,
@@ -11389,7 +11389,7 @@
         "warehouse": 560,
         "shop_thurles": 560,
         "shop_kilkenny": 560,
-        "shop_maynooth": 560,
+        "shop_maynooth": 0,
         "shop_mullingar": 560,
         "shop_tralee": 560,
         "shop_tullamore": 560
@@ -11424,7 +11424,7 @@
         "warehouse": 300,
         "shop_thurles": 300,
         "shop_kilkenny": 320,
-        "shop_maynooth": 320,
+        "shop_maynooth": 0,
         "shop_mullingar": 320,
         "shop_tralee": 320,
         "shop_tullamore": 300
@@ -11485,7 +11485,7 @@
         "warehouse": 300,
         "shop_thurles": 300,
         "shop_kilkenny": 320,
-        "shop_maynooth": 320,
+        "shop_maynooth": 0,
         "shop_mullingar": 320,
         "shop_tralee": 320,
         "shop_tullamore": 300
@@ -11533,7 +11533,7 @@
         "warehouse": 320,
         "shop_thurles": 340,
         "shop_kilkenny": 440,
-        "shop_maynooth": 440,
+        "shop_maynooth": 0,
         "shop_mullingar": 340,
         "shop_tralee": 320,
         "shop_tullamore": 320
@@ -11593,7 +11593,7 @@
         "warehouse": 300,
         "shop_thurles": 300,
         "shop_kilkenny": 320,
-        "shop_maynooth": 320,
+        "shop_maynooth": 0,
         "shop_mullingar": 320,
         "shop_tralee": 320,
         "shop_tullamore": 300
@@ -11639,7 +11639,7 @@
         "warehouse": 150,
         "shop_thurles": 150,
         "shop_kilkenny": 150,
-        "shop_maynooth": 150,
+        "shop_maynooth": 0,
         "shop_mullingar": 150,
         "shop_tralee": 260,
         "shop_tullamore": 150
@@ -11750,7 +11750,7 @@
         "warehouse": 135,
         "shop_thurles": 135,
         "shop_kilkenny": 135,
-        "shop_maynooth": 269,
+        "shop_maynooth": 0,
         "shop_mullingar": 135,
         "shop_tralee": 135,
         "shop_tullamore": 135
@@ -11773,7 +11773,7 @@
           "batteryPct": null,
           "location": "shop_maynooth",
           "costPrice": 105,
-          "sellPrice": 269,
+          "sellPrice": 0,
           "addedAt": "2026-08-28"
         }
       ],
@@ -11795,7 +11795,7 @@
         "warehouse": 125,
         "shop_thurles": 125,
         "shop_kilkenny": 130,
-        "shop_maynooth": 125,
+        "shop_maynooth": 0,
         "shop_mullingar": 125,
         "shop_tralee": 125,
         "shop_tullamore": 125
@@ -11840,7 +11840,7 @@
         "warehouse": 190,
         "shop_thurles": 190,
         "shop_kilkenny": 190,
-        "shop_maynooth": 190,
+        "shop_maynooth": 0,
         "shop_mullingar": 190,
         "shop_tralee": 200,
         "shop_tullamore": 190
@@ -11886,7 +11886,7 @@
         "warehouse": 160,
         "shop_thurles": 160,
         "shop_kilkenny": 160,
-        "shop_maynooth": 160,
+        "shop_maynooth": 0,
         "shop_mullingar": 160,
         "shop_tralee": 160,
         "shop_tullamore": 160
@@ -11931,7 +11931,7 @@
         "warehouse": 120,
         "shop_thurles": 120,
         "shop_kilkenny": 120,
-        "shop_maynooth": 120,
+        "shop_maynooth": 0,
         "shop_mullingar": 120,
         "shop_tralee": 120,
         "shop_tullamore": 120
@@ -12130,7 +12130,7 @@
           "location": "shop_maynooth",
           "costPrice": 285,
           "wholesalePrice": 297,
-          "sellPrice": 285,
+          "sellPrice": 0,
           "addedAt": "2026-08-25",
           "verified": true,
           "verifiedAt": "2026-08-28"
@@ -12144,7 +12144,7 @@
           "location": "shop_maynooth",
           "costPrice": 285,
           "wholesalePrice": 297,
-          "sellPrice": 285,
+          "sellPrice": 0,
           "addedAt": "2026-08-25",
           "verified": true,
           "verifiedAt": "2026-08-28"
@@ -12158,7 +12158,7 @@
           "location": "shop_maynooth",
           "costPrice": 285,
           "wholesalePrice": 297,
-          "sellPrice": 285,
+          "sellPrice": 0,
           "addedAt": "2026-08-25",
           "verified": true,
           "verifiedAt": "2026-08-28"
@@ -12172,7 +12172,7 @@
           "location": "shop_maynooth",
           "costPrice": 285,
           "wholesalePrice": 297,
-          "sellPrice": 285,
+          "sellPrice": 0,
           "addedAt": "2026-08-25",
           "verified": true,
           "verifiedAt": "2026-08-28"
@@ -12231,7 +12231,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 285,
-          "sellPrice": 285,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-09-01"
         },
@@ -12242,7 +12242,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 285,
-          "sellPrice": 285,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-09-01"
         },
@@ -12279,7 +12279,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 285,
-          "sellPrice": 285,
+          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-09-01"
         },
@@ -12467,7 +12467,7 @@
         "warehouse": 1,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -18857,7 +18857,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-10T14:01:44.035Z",
+    "lastSaved": "2026-09-10T14:07:14.261Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
