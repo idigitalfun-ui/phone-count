@@ -6233,7 +6233,7 @@
     },
     {
       "id": "item_biux9rtw69m",
-      "name": "Samsung Galaxy S26 Ultra",
+      "name": "Samsung S26 Ultra",
       "category": "cat_w56n2ktw69i",
       "memory": "12GB/256GB",
       "imei": "",
@@ -6272,7 +6272,13 @@
           "wholesalePrice": 0,
           "sellPrice": 0,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-09-01",
+          "batteryPct": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -6306,7 +6312,7 @@
         "shop_maynooth": 2,
         "shop_mullingar": 0,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 0
       },
       "units": [
         {
@@ -6332,18 +6338,6 @@
           "sellPrice": 30,
           "verified": true,
           "verifiedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_ogt5rs1u5pm",
-          "imei": "355225690429158",
-          "color": "",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 38,
-          "wholesalePrice": 13,
-          "sellPrice": 90,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
         },
         {
           "id": "unit_r9najlgu5p7",
@@ -18527,7 +18521,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-10T10:30:18.406Z",
+    "lastSaved": "2026-09-10T10:30:13.550Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
