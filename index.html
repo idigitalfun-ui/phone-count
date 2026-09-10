@@ -174,7 +174,9 @@ tbody tr:hover{filter:brightness(0.97);}
 .unit-row{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
 .unit-row .meta{font-size:12.5px;color:var(--muted);}
 .unit-row .meta b{color:var(--ink);}
-.modal{background:#fff;border-radius:12px;max-width:560px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);}
+.modal{background:#fff;border-radius:12px;max-width:580px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);}
+.modal.modal-xl{max-width:1250px!important;width:95vw!important;}
+.modal.modal-lg{max-width:980px!important;width:92vw!important;}
 .modal-head{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;}
 .modal-head h3{margin:0;font-size:16px;}
 .modal-body{padding:18px 20px;}
@@ -20484,8 +20486,18 @@ const Toast = {
 
 /* ---------- modal helper ---------- */
 const Modal = {
-  open(html){ document.getElementById('modalRoot').innerHTML = html; document.getElementById('modalBg').classList.add('show'); },
-  close(){ document.getElementById('modalBg').classList.remove('show'); document.getElementById('modalRoot').innerHTML=''; },
+  open(html, sizeClass = ''){
+    const root = document.getElementById('modalRoot');
+    root.className = 'modal' + (sizeClass ? ' ' + sizeClass : '');
+    root.innerHTML = html;
+    document.getElementById('modalBg').classList.add('show');
+  },
+  close(){
+    document.getElementById('modalBg').classList.remove('show');
+    const root = document.getElementById('modalRoot');
+    root.className = 'modal';
+    root.innerHTML = '';
+  },
   confirm({title,body,confirmText='Confirm',cancelText='Cancel',danger=false,onConfirm}){
     const html = `
       <div class="modal">
@@ -20561,6 +20573,45 @@ const Router = {
   go(id){ this.current=id; render(); }
 };
 
+function renderTopbar(){
+  const topbar = document.getElementById('topbar');
+  if(!topbar) return;
+  const portalShopId = Router.getPortalShopId();
+  const [title, sub] = portalShopId 
+    ? [`📍 ${shopName(portalShopId)} Store Portal`, 'Live store inventory verification and physical count session']
+    : (TITLES[Router.current] || ['Dashboard', 'Overview']);
+
+  const titleEl = document.getElementById('pageTitle');
+  const subEl = document.getElementById('pageSub');
+  if(titleEl) titleEl.textContent = title;
+  if(subEl) subEl.textContent = sub;
+
+  let actionsHtml = '';
+  if(portalShopId){
+    actionsHtml = `
+      <button class="btn sm no-print" onclick="Views.submitPortalAudit('${portalShopId}')" title="Submit verified count to Head Office" style="background:#0F766E;color:#fff;font-weight:700;border:none;box-shadow:0 1px 3px rgba(0,0,0,0.15);cursor:pointer;padding:6px 14px;font-size:12.5px;border-radius:6px;">📤 Submit Count to Head Office</button>
+      <div id="save_indicator" style="display:flex;align-items:center;gap:4px;font-size:12px;"></div>
+      <button class="btn sm no-print" onclick="Views.showPortalActivityModal('${portalShopId}')" style="border:1.5px solid var(--teal);color:var(--teal-dark);font-weight:700;background:#F0FDFA;display:inline-flex;align-items:center;gap:4px;">📋 Shop Activity</button>
+      <button class="btn sm no-print" onclick="Views.openPdfExportModal()" style="border:1px solid var(--line);">📄 Print / PDF</button>
+    `;
+  } else {
+    actionsHtml = `
+      <button class="btn sm no-print" onclick="GitHubStore.syncNow(true)" title="Sync all changes with GitHub Cloud" style="background:#0F766E;color:#fff;font-weight:700;border:none;box-shadow:0 1px 3px rgba(0,0,0,0.15);cursor:pointer;padding:4px 12px;">☁️ Sync Cloud</button>
+      <div id="save_indicator" style="display:flex;align-items:center;gap:4px;font-size:12px;"></div>
+      <button class="btn sm no-print" onclick="Views.showActivityModal()" title="View recent activity log and undo any action" style="border:1.5px solid var(--teal);color:var(--teal-dark);font-weight:700;display:inline-flex;align-items:center;gap:4px;">📋 Activity</button>
+      <button class="btn sm no-print" onclick="FileStore.exportJson()" title="Download a backup JSON file right now">⬇ Export data</button>
+      <button class="btn sm no-print" onclick="FileStore.importJson()" title="Load data from a JSON backup file">⬆ Import data</button>
+      <button class="btn sm no-print" onclick="Modal.backupQuick()">💾 Quick backup</button>
+      <button class="btn sm no-print" onclick="Router.go('backup')">⚙ Settings</button>
+    `;
+  }
+
+  const existingRow = topbar.querySelector('.row');
+  if(existingRow){
+    existingRow.innerHTML = actionsHtml;
+  }
+}
+
 function renderSidebar(){
   const nav = document.getElementById('sidebar');
   const portalShopId = Router.getPortalShopId();
@@ -20593,6 +20644,7 @@ function renderSidebar(){
 function render(){
   try{
     renderSidebar();
+    renderTopbar();
     const portalShopId = Router.getPortalShopId();
     if(portalShopId){
       Router.current = 'portal';
@@ -21681,7 +21733,7 @@ Views.showActivityModal = function(filterShop = null, activeTab = null){
     </div>
   `;
 
-  Modal.open(modalHtml);
+  Modal.open(modalHtml, 'modal-xl');
 };
 
 Views.activityUndoMovement = function(moveId){
@@ -23330,8 +23382,23 @@ Views.savePortalBattery = function(itemId, unitId, rawVal){
 
 Views.portals = function(){
   const portals = (Store.data.meta && Store.data.meta.shopPortals) || {};
+  const allChanges = (Store.data.meta && Store.data.meta.shopChanges) || [];
   const shops = activeShops();
   const currentBase = window.location.origin + window.location.pathname;
+  const currentTab = Views._portalsTab || 'links';
+  const pendingTotal = allChanges.filter(c => c && c.status === 'pending').length;
+
+  if(currentTab === 'approvals'){
+    return `
+      <div style="max-width:1100px;">
+        <div style="display:flex;gap:8px;margin-bottom:16px;border-bottom:2px solid #E2E8F0;padding-bottom:10px;">
+          <button class="chip ${currentTab==='links'?'active':''}" onclick="Views._portalsTab='links';render();" style="font-weight:700;font-size:13.5px;padding:8px 18px;">🔗 Shareable Store Links (${shops.length})</button>
+          <button class="chip ${currentTab==='approvals'?'active':''}" onclick="Views._portalsTab='approvals';render();" style="font-weight:700;font-size:13.5px;padding:8px 18px;background:#0F766E;color:#fff;">📋 Review Store Activity & Approvals (${pendingTotal})</button>
+        </div>
+        ${Views.renderShopApprovalsTab()}
+      </div>
+    `;
+  }
 
   const cardsHtml = shops.map(s => {
     const cfg = portals[s.id] || {
@@ -23346,13 +23413,14 @@ Views.portals = function(){
     };
     const linkUrl = `${currentBase}?portal=${s.id}`;
     const deviceCount = (Store.data.items || []).reduce((sum, it) => sum + unitsAt(it, s.id).length, 0);
+    const shopPendingCount = allChanges.filter(c => c && c.shopId === s.id && c.status === 'pending').length;
 
     return `
-      <div class="card card-pad" style="margin-bottom:16px;border-left:5px solid ${cfg.enabled?'var(--green)':'#DC2626'};background:#fff;">
+      <div class="card card-pad" style="margin-bottom:16px;border-left:5px solid ${cfg.enabled?'var(--green)':'#DC2626'};background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
           <div>
             <div style="display:flex;align-items:center;gap:8px;">
-              <h3 style="margin:0;font-size:16.5px;font-weight:800;color:#0F172A;">📍 ${esc(s.name)}${s.isWarehouse?' (Warehouse)':''}</h3>
+              <h3 style="margin:0;font-size:17px;font-weight:800;color:#0F172A;">📍 ${esc(s.name)}${s.isWarehouse?' (Warehouse)':''}</h3>
               <span class="pill ${cfg.enabled?'green':'red'}" style="font-weight:700;font-size:11px;">${cfg.enabled?'🟢 LIVE':'🔴 UNALIVE / LOCKED'}</span>
               <span style="color:var(--muted);font-size:12.5px;font-weight:600;">(${deviceCount} Device${deviceCount===1?'':'s'} in store)</span>
             </div>
@@ -23360,7 +23428,10 @@ Views.portals = function(){
               ${cfg.enabled ? 'Store staff can open this live link to verify stock and update IMEIs in real time.' : 'Portal is locked. Staff cannot make any edits until you enable it.'}
             </p>
           </div>
-          <div style="display:flex;align-items:center;gap:8px;">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <button class="btn sm" onclick="Views._portalsTab='approvals';Views._approvalShopFilter='${s.id}';render();" style="background:#0F766E;color:#fff;font-weight:700;padding:6px 14px;border:none;border-radius:6px;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;box-shadow:0 1px 3px rgba(0,0,0,0.15);">
+              📋 Review Store Activity (${shopPendingCount})
+            </button>
             <button class="btn sm ${cfg.enabled?'danger':'primary'}" onclick="Views.toggleShopPortalStatus('${s.id}')">
               ${cfg.enabled ? '🔒 Make Unalive (Lock)' : '🟢 Make Live (Open)'}
             </button>
@@ -23411,7 +23482,11 @@ Views.portals = function(){
   }).join('');
 
   return `
-    <div style="max-width:960px;">
+    <div style="max-width:1100px;">
+      <div style="display:flex;gap:8px;margin-bottom:16px;border-bottom:2px solid #E2E8F0;padding-bottom:10px;">
+        <button class="chip ${currentTab==='links'?'active':''}" onclick="Views._portalsTab='links';render();" style="font-weight:700;font-size:13.5px;padding:8px 18px;">🔗 Shareable Store Links (${shops.length})</button>
+        <button class="chip ${currentTab==='approvals'?'active':''}" onclick="Views._portalsTab='approvals';render();" style="font-weight:700;font-size:13.5px;padding:8px 18px;background:${currentTab==='approvals'?'#0F766E':'#F1F5F9'};color:${currentTab==='approvals'?'#fff':'#334155'};">📋 Review Store Activity & Approvals (${pendingTotal})</button>
+      </div>
       <div class="helpbox" style="display:flex;align-items:center;gap:10px;">
         <span style="font-size:24px;">🔗</span>
         <div>
@@ -23540,7 +23615,7 @@ Views.shopPortal = function(shopId){
       const costCol = cfg.allowCostPrice 
         ? `<td style="text-align:right;"><input id="cp_inp_${u.id}" type="number" step="0.01" min="0" value="${u.costPrice!=null?u.costPrice:it.costPrice}" oninput="Views.invSetCostPrice('${it.id}','${u.id}',this.value,false)" onchange="Views.invSetCostPrice('${it.id}','${u.id}',this.value,true)" onkeydown="if(event.key==='Enter')this.blur()" style="width:75px;text-align:right;padding:4px 6px;border:1px solid #CBD5E1;border-radius:4px;font-size:12px;"></td>` 
         : '';
-      const salePriceVal = (u.sellPrice != null && u.sellPrice > 0) ? u.sellPrice : ((it.shopPrices && it.shopPrices[shopId]) || 0);
+      const salePriceVal = (shopId === 'maynooth') ? 0 : ((u.sellPrice != null) ? u.sellPrice : ((it.shopPrices && it.shopPrices[shopId] != null) ? it.shopPrices[shopId] : 0));
       const saleCol = cfg.allowSalePrice !== false 
         ? `<td style="text-align:right;">
              <input id="sp_inp_${u.id}_${shopId}" type="number" step="0.01" min="0" value="${salePriceVal}" oninput="Views.invSetSalePrice('${it.id}','${u.id}','${shopId}',this.value,false)" onchange="Views.invSetSalePrice('${it.id}','${u.id}','${shopId}',this.value,true)" onkeydown="if(event.key==='Enter')this.blur()" style="width:75px;text-align:right;font-weight:700;padding:4px 6px;border:1px solid #CBD5E1;border-radius:4px;font-size:12px;">
@@ -23599,7 +23674,7 @@ Views.shopPortal = function(shopId){
         showUntracked = words.every(w => itText.includes(w));
       }
       if(showUntracked){
-        const untrackedSaleVal = (it.shopPrices && it.shopPrices[shopId]) || it.costPrice || 0;
+        const untrackedSaleVal = (shopId === 'maynooth') ? 0 : ((it.shopPrices && it.shopPrices[shopId] != null) ? it.shopPrices[shopId] : 0);
         const costCol = cfg.allowCostPrice 
           ? `<td style="text-align:right;"><input type="number" step="0.01" min="0" value="${it.costPrice||0}" oninput="Views.invSetUntrackedCost('${it.id}',this.value,false)" onchange="Views.invSetUntrackedCost('${it.id}',this.value,true)" onkeydown="if(event.key==='Enter')this.blur()" style="width:75px;text-align:right;padding:4px 6px;border:1px solid #CBD5E1;border-radius:4px;font-size:12px;"></td>` 
           : '';
@@ -23669,20 +23744,22 @@ Views.shopPortal = function(shopId){
           Audited: <b>${verifiedCount} / ${totalUnitsCount}</b> devices checked (${totalUnitsCount>0?Math.round((verifiedCount/totalUnitsCount)*100):0}%) · Cloud Auto-Sync active
         </div>
       </div>
-      <div style="display:flex;gap:8px;">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <button class="btn sm primary" style="background:#0F766E;font-weight:700;padding:6px 14px;" onclick="Views.submitPortalAudit('${shopId}')">📤 Submit Count to Head Office</button>
         <button class="btn sm" onclick="Views.openPdfExportModal()"><span class="ic">📄</span> Print / PDF Sheet</button>
-        ${cfg.allowAddDevice!==false ? `<button class="btn sm primary" style="background:#0F766E;" onclick="Views.openItemModal(null, '${shopId}')">+ Add Device</button>` : ''}
+        ${cfg.allowAddDevice!==false ? `<button class="btn sm ghost" style="border:1px solid #CBD5E1;" onclick="Views.openItemModal(null, '${shopId}')">+ Add Device</button>` : ''}
       </div>
     </div>
 
-    <div style="display:flex;gap:8px;margin-bottom:14px;border-bottom:2px solid #E2E8F0;padding-bottom:8px;">
-      <button class="chip ${(Views._portalTab||'stock')==='stock'?'active':''}" onclick="Views._portalTab='stock';render();" style="font-weight:700;font-size:13px;padding:6px 14px;">📦 In-Stock Devices (${totalUnitsCount})</button>
-      <button class="chip ${(Views._portalTab||'stock')==='sold'?'active':''}" onclick="Views._portalTab='sold';render();" style="font-weight:700;font-size:13px;padding:6px 14px;background:${(Views._portalTab||'stock')==='sold'?'#059669':'#F1F5F9'};color:${(Views._portalTab||'stock')==='sold'?'#fff':'#334155'};">💰 Sold Devices (${(Store.data.movements||[]).filter(m=>m.type==='sold' && m.location===shopId).length})</button>
+    <div style="display:flex;gap:8px;margin-bottom:14px;border-bottom:2px solid #E2E8F0;padding-bottom:8px;flex-wrap:wrap;">
+      <button class="chip ${(Views._portalTab||'stock')==='stock'?'active':''}" onclick="Views._portalTab='stock';render();" style="font-weight:700;font-size:13px;padding:6px 16px;">📦 In-Stock Devices (${totalUnitsCount})</button>
+      <button class="chip ${(Views._portalTab||'stock')==='sold'?'active':''}" onclick="Views._portalTab='sold';render();" style="font-weight:700;font-size:13px;padding:6px 16px;background:${(Views._portalTab||'stock')==='sold'?'#059669':'#F1F5F9'};color:${(Views._portalTab||'stock')==='sold'?'#fff':'#334155'};">💰 Sold Devices (${(Store.data.movements||[]).filter(m=>m.type==='sold' && m.location===shopId).length})</button>
+      <button class="chip ${(Views._portalTab||'stock')==='activity'?'active':''}" onclick="Views._portalTab='activity';render();" style="font-weight:700;font-size:13px;padding:6px 16px;background:${(Views._portalTab||'stock')==='activity'?'#0F766E':'#F1F5F9'};color:${(Views._portalTab||'stock')==='activity'?'#fff':'#334155'};">📋 Shop Activity & Changes (${((Store.data.meta&&Store.data.meta.shopChanges)||[]).filter(c=>c&&c.shopId===shopId).length + (Store.data.movements||[]).filter(m=>m.location===shopId||m.fromLocation===shopId||m.toLocation===shopId).length})</button>
     </div>
 
-    ${(Views._portalTab||'stock') === 'sold' ? Views.renderShopSoldTable(shopId) : `${''}`}
+    ${(Views._portalTab||'stock') === 'activity' ? Views.renderShopActivityTable(shopId) : ((Views._portalTab||'stock') === 'sold' ? Views.renderShopSoldTable(shopId) : '')}
 
-    <div style="${(Views._portalTab||'stock')==='sold'?'display:none;':''}">
+    <div style="${(Views._portalTab||'stock')==='stock'?'':'display:none;'}">
     <div class="toolbar" style="flex-wrap:wrap;gap:8px;margin-bottom:14px;">
       <div class="chip-select" style="flex-wrap:wrap;">
         <button class="chip ${f.cat==='all'?'active':''}" onclick="Views._portalFilter.cat='all';render();">All Categories <span class="badge">${totalUnitsCount}</span></button>
@@ -23720,6 +23797,100 @@ Views.shopPortal = function(shopId){
   `;
 };
 
+
+
+Views.renderShopActivityTable = function(shopId){
+  const shop = Store.data.shops.find(s => s.id === shopId) || { id: shopId, name: shopName(shopId) };
+  const allChanges = ((Store.data.meta && Store.data.meta.shopChanges) || []).filter(c => c && c.shopId === shopId);
+  const allMovements = (Store.data.movements || []).filter(m => m && (m.location === shopId || m.fromLocation === shopId || m.toLocation === shopId));
+  
+  let list = [...allChanges.map(c=>({...c, isShopChange:true})), ...allMovements.map(m=>({...m, isMovement:true}))];
+  list.sort((a, b) => {
+    const tA = a.timestamp || a.date || '';
+    const tB = b.timestamp || b.date || '';
+    return tB.localeCompare(tA);
+  });
+
+  if(list.length === 0){
+    return `
+      <div class="card card-pad" style="text-align:center;padding:40px 20px;color:#64748B;background:#fff;border:1px solid #E2E8F0;border-radius:10px;margin-bottom:16px;">
+        <div style="font-size:32px;margin-bottom:8px;">📋</div>
+        <div style="font-weight:700;font-size:16px;color:#0F172A;margin-bottom:4px;">No Activity Logged Yet for ${esc(shop.name)}</div>
+        <div style="font-size:13px;">Checked devices, IMEI additions, sales, and transfers for this store will show here with one-click undo.</div>
+      </div>
+    `;
+  }
+
+  let rows = '';
+  list.forEach((e, idx) => {
+    const timeStr = e.timestamp ? new Date(e.timestamp).toLocaleString('en-IE', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : (e.date || '—');
+    let badge = '';
+    let desc = '';
+    let undoBtn = '';
+
+    if(e.isShopChange){
+      if(e.type === 'verify') badge = '<span class="pill green">✓ Check / OK</span>';
+      else if(e.type === 'imei_edit') badge = '<span class="pill teal">📱 IMEI Edit</span>';
+      else if(e.type === 'price_edit') badge = '<span class="pill purple">💰 Price Edit</span>';
+      else if(e.type === 'battery_edit') badge = '<span class="pill blue">🔋 Battery</span>';
+      else if(e.type === 'audit_submission') badge = '<span class="pill primary">📤 Audit Submission</span>';
+      else badge = '<span class="pill gray">' + esc(e.type) + '</span>';
+
+      desc = esc(e.details || 'Store update');
+      undoBtn = `<button class="btn sm danger ghost" onclick="Views.activityRevertChange('${e.id}')">↩ Undo</button>`;
+    } else {
+      if(e.type === 'sold'){
+        badge = '<span class="pill green">🛒 Sold</span>';
+        desc = `Sold for ${euro(e.price||0)}` + (e.note ? ` (${esc(e.note)})` : '');
+        undoBtn = `<button class="btn sm danger ghost" onclick="Views.activityUndoMovement('${e.id}')">↩ Undo Sale</button>`;
+      } else if(e.type === 'transfer-in' || e.type === 'transfer-out'){
+        badge = '<span class="pill teal">⇄ Transfer</span>';
+        desc = `Transfer from ${shopName(e.fromLocation||'warehouse')} ➔ ${shopName(e.toLocation||e.location)}`;
+        undoBtn = `<button class="btn sm danger ghost" onclick="Views.activityUndoMovement('${e.id}')">↩ Undo Transfer</button>`;
+      } else {
+        badge = '<span class="pill gray">' + esc(e.type) + '</span>';
+        desc = esc(e.note || 'Movement');
+        undoBtn = `<button class="btn sm ghost" onclick="Views.activityUndoMovement('${e.id}')">↩ Undo</button>`;
+      }
+    }
+
+    rows += `
+      <tr>
+        <td style="text-align:center;color:#64748B;font-size:11px;">${idx + 1}</td>
+        <td style="font-size:12px;color:#64748B;white-space:nowrap;">${timeStr}</td>
+        <td>${badge}</td>
+        <td>
+          <div style="font-weight:700;color:var(--ink);">${esc(e.itemName || '—')}</div>
+          ${e.imei ? `<div style="font-size:11px;color:#64748B;font-family:monospace;">IMEI: ${esc(e.imei)}</div>` : ''}
+        </td>
+        <td style="font-size:12.5px;color:#0F172A;">${desc}</td>
+        <td style="text-align:center;white-space:nowrap;">${undoBtn}</td>
+      </tr>
+    `;
+  });
+
+  return `
+    <div class="card" style="margin-bottom:16px;">
+      <div class="table-wrap">
+        <table class="inv-flat">
+          <thead>
+            <tr style="background:#F8FAFC;">
+              <th style="width:40px;text-align:center;">#</th>
+              <th style="width:130px;">Time</th>
+              <th style="width:120px;">Type</th>
+              <th>Device & IMEI</th>
+              <th>Action Details</th>
+              <th style="width:110px;text-align:center;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+};
 
 Views.renderShopSoldTable = function(shopId){
   const shop = Store.data.shops.find(s => s.id === shopId) || { id: shopId, name: shopName(shopId) };
@@ -26629,6 +26800,7 @@ Views.addShop = function(){
 // Cross-tab live sync: when any store portal or tab updates data, sync all other tabs immediately
 window.addEventListener('storage', (e) => {
   if (e.key === STORAGE_KEY) {
+    if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
     Store.load();
     render();
   }
@@ -26637,6 +26809,7 @@ window.addEventListener('storage', (e) => {
 // Auto-check on tab focus / visibility change
 window.addEventListener('visibilitychange', () => {
   if (!document.hidden) {
+    if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
     Store.load();
     render();
     if (GitHubStore.isConfigured()) {
@@ -26645,6 +26818,7 @@ window.addEventListener('visibilitychange', () => {
   }
 });
 window.addEventListener('focus', () => {
+  if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
   Store.load();
   render();
 });
