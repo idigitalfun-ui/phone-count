@@ -19059,7 +19059,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-10T15:34:37.286Z",
+    "lastSaved": "2026-09-10T15:34:51.025Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
@@ -19145,11 +19145,12 @@
       {
         "id": "chg_dqlil3e41az",
         "timestamp": "2026-09-10T15:14:08.411Z",
-        "status": "pending",
+        "status": "approved",
         "shopId": "shop_maynooth",
         "type": "audit_submission",
         "itemName": "Maynooth Stock Count",
-        "details": "Full physical stock count submitted by Maynooth staff"
+        "details": "Full physical stock count submitted by Maynooth staff",
+        "approvedAt": "2026-09-10T15:34:51.025Z"
       }
     ],
     "migratedMaynoothZeroPrices": true,
