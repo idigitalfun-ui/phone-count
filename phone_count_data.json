@@ -19059,7 +19059,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-10T15:06:35.627Z",
+    "lastSaved": "2026-09-10T15:08:05.664Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
@@ -19141,7 +19141,8 @@
         "allowEditActions": true
       }
     },
-    "shopChanges": []
+    "shopChanges": [],
+    "migratedMaynoothZeroPrices": true
   },
   "reorderMeta": {
     "lastOrderDate": null
