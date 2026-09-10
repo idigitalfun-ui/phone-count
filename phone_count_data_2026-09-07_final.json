@@ -294,13 +294,13 @@
         "shop_tullamore": 115
       },
       "locations": {
-        "warehouse": 4,
+        "warehouse": 3,
         "shop_thurles": 2,
         "shop_kilkenny": 1,
         "shop_maynooth": 2,
         "shop_mullingar": 3,
         "shop_tralee": 2,
-        "shop_tullamore": 1
+        "shop_tullamore": 2
       },
       "units": [
         {
@@ -384,7 +384,7 @@
           "imei": "351388337851509",
           "color": "Black",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_tullamore",
           "costPrice": 115,
           "sellPrice": 115,
           "batteryPct": null,
@@ -523,16 +523,16 @@
         "warehouse": 120,
         "shop_thurles": 180,
         "shop_kilkenny": 190,
-        "shop_maynooth": 190,
+        "shop_maynooth": 0,
         "shop_mullingar": 190,
         "shop_tralee": 190,
         "shop_tullamore": 120
       },
       "locations": {
-        "warehouse": 15,
+        "warehouse": 13,
         "shop_thurles": 2,
         "shop_kilkenny": 2,
-        "shop_maynooth": 0,
+        "shop_maynooth": 2,
         "shop_mullingar": 3,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -699,9 +699,9 @@
           "imei": "351355314962161",
           "color": "Black",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 125,
-          "sellPrice": 120,
+          "sellPrice": 125,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 111
@@ -760,10 +760,10 @@
           "color": "Black",
           "condition": "New",
           "batteryPct": null,
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 125,
           "wholesalePrice": 137,
-          "sellPrice": 120,
+          "sellPrice": 125,
           "addedAt": null,
           "verified": false,
           "verifiedAt": null,
@@ -1718,13 +1718,13 @@
         "shop_tullamore": 22
       },
       "locations": {
-        "warehouse": 3,
+        "warehouse": 2,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
         "shop_maynooth": 2,
         "shop_mullingar": 2,
         "shop_tralee": 1,
-        "shop_tullamore": 0
+        "shop_tullamore": 1
       },
       "units": [
         {
@@ -1762,7 +1762,7 @@
           "imei": "355647768198615",
           "color": "",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_tullamore",
           "costPrice": 15,
           "wholesalePrice": 27,
           "sellPrice": 22
@@ -2088,7 +2088,7 @@
         "warehouse": 240,
         "shop_thurles": 240,
         "shop_kilkenny": 400,
-        "shop_maynooth": 0,
+        "shop_maynooth": 240,
         "shop_mullingar": 240,
         "shop_tralee": 270,
         "shop_tullamore": 270
@@ -2171,7 +2171,7 @@
           "location": "shop_maynooth",
           "costPrice": 170,
           "wholesalePrice": 200,
-          "sellPrice": 190,
+          "sellPrice": 240,
           "verified": true,
           "verifiedAt": "2026-08-28",
           "batteryPct": 89,
@@ -2726,7 +2726,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 255,
-          "sellPrice": 340,
+          "sellPrice": 410,
           "batteryPct": null,
           "dateAdded": "2026-09-01"
         },
@@ -2759,7 +2759,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 255,
-          "sellPrice": 340,
+          "sellPrice": 410,
           "batteryPct": null,
           "dateAdded": "2026-09-01"
         },
@@ -2840,8 +2840,8 @@
         "shop_tullamore": 340
       },
       "locations": {
-        "warehouse": 9,
-        "shop_thurles": 1,
+        "warehouse": 8,
+        "shop_thurles": 2,
         "shop_kilkenny": 1,
         "shop_maynooth": 2,
         "shop_mullingar": 2,
@@ -3026,7 +3026,7 @@
           "imei": "358503116031924",
           "color": "Black",
           "condition": "Used",
-          "location": "warehouse",
+          "location": "shop_thurles",
           "costPrice": 170,
           "sellPrice": 290,
           "batteryPct": 94,
@@ -3204,19 +3204,19 @@
         "warehouse": 110,
         "shop_thurles": 110,
         "shop_kilkenny": 110,
-        "shop_maynooth": 110,
+        "shop_maynooth": 0,
         "shop_mullingar": 110,
         "shop_tralee": 110,
         "shop_tullamore": 110
       },
       "locations": {
-        "warehouse": 3,
+        "warehouse": 0,
         "shop_thurles": 1,
         "shop_kilkenny": 2,
-        "shop_maynooth": 1,
+        "shop_maynooth": 3,
         "shop_mullingar": 1,
         "shop_tralee": 1,
-        "shop_tullamore": 0
+        "shop_tullamore": 1
       },
       "units": [
         {
@@ -3234,7 +3234,7 @@
           "imei": "355726311750286",
           "color": "Black",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_tullamore",
           "costPrice": 95,
           "sellPrice": 110,
           "batteryPct": null,
@@ -3248,9 +3248,9 @@
           "imei": "355726311757166",
           "color": "Black",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 95,
-          "sellPrice": 110,
+          "sellPrice": 95,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 0,
@@ -3264,7 +3264,7 @@
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 95,
-          "sellPrice": 110,
+          "sellPrice": 95,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 0,
@@ -3328,9 +3328,9 @@
           "imei": "350584198854571",
           "color": "Gold",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 95,
-          "sellPrice": 110,
+          "sellPrice": 95,
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 0,
@@ -3518,10 +3518,10 @@
         "shop_tullamore": 220
       },
       "locations": {
-        "warehouse": 14,
-        "shop_thurles": 0,
+        "warehouse": 11,
+        "shop_thurles": 1,
         "shop_kilkenny": 0,
-        "shop_maynooth": 0,
+        "shop_maynooth": 2,
         "shop_mullingar": 2,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -3556,7 +3556,7 @@
           "imei": "351158945531516",
           "color": "Black",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 160,
           "sellPrice": 160,
           "batteryPct": null,
@@ -3568,7 +3568,7 @@
           "imei": "351158945536416",
           "color": "Black",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_thurles",
           "costPrice": 160,
           "sellPrice": 160,
           "batteryPct": null,
@@ -3628,7 +3628,7 @@
           "imei": "351158945075118",
           "color": "Black",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 160,
           "sellPrice": 160,
           "batteryPct": null,
@@ -4844,7 +4844,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 410,
-          "sellPrice": 550,
+          "sellPrice": 440,
           "batteryPct": null,
           "dateAdded": "2026-09-01"
         },
@@ -4921,7 +4921,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 410,
-          "sellPrice": 550,
+          "sellPrice": 440,
           "batteryPct": null,
           "dateAdded": "2026-09-01"
         }
@@ -5452,7 +5452,7 @@
         "warehouse": 120,
         "shop_thurles": 120,
         "shop_kilkenny": 120,
-        "shop_maynooth": 120,
+        "shop_maynooth": 0,
         "shop_mullingar": 120,
         "shop_tralee": 120,
         "shop_tullamore": 120
@@ -5491,7 +5491,7 @@
           "location": "shop_maynooth",
           "costPrice": 80,
           "wholesalePrice": 13,
-          "sellPrice": 120,
+          "sellPrice": 80,
           "verified": true,
           "verifiedAt": "2026-08-28",
           "batteryPct": null
@@ -6233,7 +6233,7 @@
     },
     {
       "id": "item_biux9rtw69m",
-      "name": "Samsung Galaxy S26 Ultra",
+      "name": "Samsung S26 Ultra",
       "category": "cat_w56n2ktw69i",
       "memory": "12GB/256GB",
       "imei": "",
@@ -6272,7 +6272,13 @@
           "wholesalePrice": 0,
           "sellPrice": 0,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-09-01",
+          "batteryPct": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
         }
       ],
       "createdAt": "2026-08-20",
@@ -6294,7 +6300,7 @@
         "warehouse": 90,
         "shop_thurles": 90,
         "shop_kilkenny": 90,
-        "shop_maynooth": 30,
+        "shop_maynooth": 0,
         "shop_mullingar": 90,
         "shop_tralee": 90,
         "shop_tullamore": 90
@@ -6306,7 +6312,7 @@
         "shop_maynooth": 2,
         "shop_mullingar": 0,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 0
       },
       "units": [
         {
@@ -6317,7 +6323,7 @@
           "location": "shop_maynooth",
           "costPrice": 38,
           "wholesalePrice": 13,
-          "sellPrice": 30,
+          "sellPrice": 38,
           "verified": true,
           "verifiedAt": "2026-08-28"
         },
@@ -6329,21 +6335,9 @@
           "location": "shop_maynooth",
           "costPrice": 38,
           "wholesalePrice": 13,
-          "sellPrice": 30,
+          "sellPrice": 38,
           "verified": true,
           "verifiedAt": "2026-08-28"
-        },
-        {
-          "id": "unit_ogt5rs1u5pm",
-          "imei": "355225690429158",
-          "color": "",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 38,
-          "wholesalePrice": 13,
-          "sellPrice": 90,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
         },
         {
           "id": "unit_r9najlgu5p7",
@@ -10820,10 +10814,10 @@
         "shop_tullamore": 140
       },
       "locations": {
-        "warehouse": 14,
+        "warehouse": 11,
         "shop_thurles": 1,
         "shop_kilkenny": 0,
-        "shop_maynooth": 0,
+        "shop_maynooth": 3,
         "shop_mullingar": 2,
         "shop_tralee": 1,
         "shop_tullamore": 0
@@ -10846,7 +10840,7 @@
           "imei": "350276231218217",
           "color": "Gray",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 140,
           "sellPrice": 140,
           "batteryPct": null,
@@ -10858,7 +10852,7 @@
           "imei": "350276231212442",
           "color": "Gray",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 140,
           "sellPrice": 140,
           "batteryPct": null,
@@ -11002,7 +10996,7 @@
           "imei": "350276232016305",
           "color": "Light Blue",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 140,
           "sellPrice": 140,
           "batteryPct": null,
@@ -12237,7 +12231,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 285,
-          "sellPrice": 350,
+          "sellPrice": 285,
           "batteryPct": null,
           "dateAdded": "2026-09-01"
         },
@@ -12248,7 +12242,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 285,
-          "sellPrice": 350,
+          "sellPrice": 285,
           "batteryPct": null,
           "dateAdded": "2026-09-01"
         },
@@ -12285,7 +12279,7 @@
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 285,
-          "sellPrice": 350,
+          "sellPrice": 285,
           "batteryPct": null,
           "dateAdded": "2026-09-01"
         },
@@ -18520,6 +18514,342 @@
         "verified": true,
         "verifiedAt": "2026-09-07"
       }
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_1tue6b29lkh",
+      "itemName": "Samsung A17",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A17 from Warehouse to Maynooth",
+      "id": "mv_z8k4bc1z95x"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_1tue6b29lkh",
+      "itemName": "Samsung A17",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A17 from Warehouse to Maynooth",
+      "id": "mv_ybewf2gz95x"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_x587cu6w69k",
+      "itemName": "Samsung A17 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A17 5G from Warehouse to Maynooth",
+      "id": "mv_vdp4ieoztvg"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_x587cu6w69k",
+      "itemName": "Samsung A17 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A17 5G from Warehouse to Maynooth",
+      "id": "mv_a4fin0bztvg"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_x587cu6w69k",
+      "itemName": "Samsung A17 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A17 5G from Warehouse to Maynooth",
+      "id": "mv_ervvy2izyyk"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_x587cu6w69k",
+      "itemName": "Samsung A17 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A17 5G from Warehouse to Maynooth",
+      "id": "mv_zfl91wozyyk"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_1tue6b29lkh",
+      "itemName": "Samsung A17",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A17 from Warehouse to Maynooth",
+      "id": "mv_x964rg4040d"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_1tue6b29lkh",
+      "itemName": "Samsung A17",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A17 from Warehouse to Maynooth",
+      "id": "mv_ei1gvl7040d"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_1tue6b29lkh",
+      "itemName": "Samsung A17",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A17 from Warehouse to Maynooth",
+      "id": "mv_ljjme9j07zg"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_1tue6b29lkh",
+      "itemName": "Samsung A17",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A17 from Warehouse to Maynooth",
+      "id": "mv_518e7tf07zh"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_ktmrwgdw69k",
+      "itemName": "Samsung A16",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A16 from Warehouse to Maynooth",
+      "id": "mv_c1smzt00bnh"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_ktmrwgdw69k",
+      "itemName": "Samsung A16",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A16 from Warehouse to Maynooth",
+      "id": "mv_o8jal7t0bnh"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_ktmrwgdw69k",
+      "itemName": "Samsung A16",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A16 from Warehouse to Maynooth",
+      "id": "mv_toy2yn60f99"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_ktmrwgdw69k",
+      "itemName": "Samsung A16",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A16 from Warehouse to Maynooth",
+      "id": "mv_sfgx9sk0f99"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_kjnrq5aw69k",
+      "itemName": "Samsung A06",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A06 from Warehouse to Maynooth",
+      "id": "mv_6pv67ht0kbo"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_kjnrq5aw69k",
+      "itemName": "Samsung A06",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A06 from Warehouse to Maynooth",
+      "id": "mv_u70yg3q0kbo"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_kjnrq5aw69k",
+      "itemName": "Samsung A06",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A06 from Warehouse to Maynooth",
+      "id": "mv_vty2xek0ozw"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_kjnrq5aw69k",
+      "itemName": "Samsung A06",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A06 from Warehouse to Maynooth",
+      "id": "mv_guj1mp20ozw"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_qw8eo3aw69k",
+      "itemName": "iPhone 12",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "warehouse",
+      "toLocation": "shop_thurles",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred iPhone 12 from Warehouse to Thurles",
+      "id": "mv_701qjf20sy4"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_qw8eo3aw69k",
+      "itemName": "iPhone 12",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_thurles",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred iPhone 12 from Warehouse to Thurles",
+      "id": "mv_z5e3wdf0sy4"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_x587cu6w69k",
+      "itemName": "Samsung A17 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_thurles",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A17 5G from Warehouse to Thurles",
+      "id": "mv_8brof8d0w7w"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_x587cu6w69k",
+      "itemName": "Samsung A17 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_thurles",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A17 5G from Warehouse to Thurles",
+      "id": "mv_hhyu1jf0w7w"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_kjnrq5aw69k",
+      "itemName": "Samsung A06",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_tullamore",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A06 from Warehouse to Tullamore",
+      "id": "mv_z8kjj7f0zw4"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_kjnrq5aw69k",
+      "itemName": "Samsung A06",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_tullamore",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A06 from Warehouse to Tullamore",
+      "id": "mv_hye74sc0zw4"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_kb0hq9hw69k",
+      "itemName": "Samsung A07",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_tullamore",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A07 from Warehouse to Tullamore",
+      "id": "mv_dqacasl13dx"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_kb0hq9hw69k",
+      "itemName": "Samsung A07",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_tullamore",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Samsung A07 from Warehouse to Tullamore",
+      "id": "mv_qb5ro6k13dx"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_xil44ciw69k",
+      "itemName": "Nokia 106",
+      "categoryId": "cat_lkhn0qyw69i",
+      "location": "warehouse",
+      "toLocation": "shop_tullamore",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Nokia 106 from Warehouse to Tullamore",
+      "id": "mv_ek8by491ail"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_xil44ciw69k",
+      "itemName": "Nokia 106",
+      "categoryId": "cat_lkhn0qyw69i",
+      "location": "shop_tullamore",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Transferred Nokia 106 from Warehouse to Tullamore",
+      "id": "mv_kx32ve21ail"
     }
   ],
   "reorderList": [],
@@ -18527,7 +18857,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-07T17:30:16.095Z",
+    "lastSaved": "2026-09-10T14:01:44.035Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
@@ -18566,7 +18896,7 @@
       },
       "shop_maynooth": {
         "enabled": true,
-        "allowCostPrice": false,
+        "allowCostPrice": true,
         "allowSalePrice": true,
         "allowEditImei": true,
         "allowEditDetails": true,
