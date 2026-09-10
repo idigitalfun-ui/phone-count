@@ -216,7 +216,7 @@
         "warehouse": 95,
         "shop_thurles": 95,
         "shop_kilkenny": 130,
-        "shop_maynooth": 230,
+        "shop_maynooth": 0,
         "shop_mullingar": 95,
         "shop_tralee": 130,
         "shop_tullamore": 95,
@@ -240,7 +240,7 @@
           "location": "shop_maynooth",
           "costPrice": 80,
           "wholesalePrice": 0,
-          "sellPrice": 230,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-09-01"
         },
@@ -252,7 +252,7 @@
           "location": "shop_maynooth",
           "costPrice": 80,
           "wholesalePrice": 0,
-          "sellPrice": 230,
+          "sellPrice": 0,
           "verified": true,
           "verifiedAt": "2026-09-01"
         },
@@ -19059,7 +19059,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-10T15:13:56.391Z",
+    "lastSaved": "2026-09-10T15:14:09.039Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
@@ -19141,7 +19141,17 @@
         "allowEditActions": true
       }
     },
-    "shopChanges": [],
+    "shopChanges": [
+      {
+        "id": "chg_dqlil3e41az",
+        "timestamp": "2026-09-10T15:14:08.411Z",
+        "status": "pending",
+        "shopId": "shop_maynooth",
+        "type": "audit_submission",
+        "itemName": "Maynooth Stock Count",
+        "details": "Full physical stock count submitted by Maynooth staff"
+      }
+    ],
     "migratedMaynoothZeroPrices": true,
     "migratedMaynoothZeroPrices_v3": true
   },
