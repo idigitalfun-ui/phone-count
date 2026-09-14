@@ -4032,7 +4032,7 @@
         "shop_thurles": 1,
         "shop_kilkenny": 0,
         "shop_maynooth": 2,
-        "shop_mullingar": 2,
+        "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 1
       },
@@ -4115,18 +4115,6 @@
           "color": "Black",
           "condition": "New",
           "location": "warehouse",
-          "costPrice": 160,
-          "sellPrice": 160,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 172
-        },
-        {
-          "id": "unit_beb55vo9lk3",
-          "imei": "351158945531466",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_mullingar",
           "costPrice": 160,
           "sellPrice": 160,
           "batteryPct": null,
@@ -19111,6 +19099,30 @@
         "batteryPct": null,
         "dateAdded": "2026-09-01"
       }
+    },
+    {
+      "id": "mv_vp9ofcyyk03",
+      "type": "sold",
+      "itemId": "item_x587cu6w69k",
+      "itemName": "Samsung A17 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_mullingar",
+      "qty": 1,
+      "date": "2026-09-11",
+      "note": "Sold from Inventory",
+      "sellPrice": 230,
+      "unitData": {
+        "id": "unit_beb55vo9lk3",
+        "imei": "351158945531466",
+        "color": "Black",
+        "condition": "New",
+        "location": "shop_mullingar",
+        "costPrice": 160,
+        "sellPrice": 230,
+        "batteryPct": null,
+        "dateAdded": "2026-08-26",
+        "wholesalePrice": 172
+      }
     }
   ],
   "reorderList": [],
@@ -19118,7 +19130,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-14T17:07:59.480Z",
+    "lastSaved": "2026-09-14T17:08:32.067Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
