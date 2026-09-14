@@ -8345,25 +8345,13 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_ylyc7ws4bx8",
-          "imei": "355647768273756",
-          "color": "Black",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 0,
-          "sellPrice": 60,
-          "addedAt": "2026-09-14"
-        }
-      ],
+      "units": [],
       "createdAt": "2026-09-14"
     },
     {
@@ -19313,6 +19301,29 @@
         "verified": true,
         "verifiedAt": "2026-09-07"
       }
+    },
+    {
+      "id": "mv_448zzqd4wgj",
+      "type": "sold",
+      "itemId": "item_doc1kpw4bx8",
+      "itemName": "Nokia 106",
+      "categoryId": "cat_lkhn0qyw69i",
+      "location": "shop_kilkenny",
+      "qty": 1,
+      "date": "2026-09-12",
+      "note": "Sold from Inventory",
+      "sellPrice": 60,
+      "unitData": {
+        "id": "unit_ylyc7ws4bx8",
+        "imei": "355647768273756",
+        "color": "Black",
+        "condition": "New",
+        "batteryPct": null,
+        "location": "shop_kilkenny",
+        "costPrice": 0,
+        "sellPrice": 60,
+        "addedAt": "2026-09-14"
+      }
     }
   ],
   "reorderList": [],
@@ -19320,7 +19331,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-14T17:13:11.318Z",
+    "lastSaved": "2026-09-14T17:13:28.147Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
