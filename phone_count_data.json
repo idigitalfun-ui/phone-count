@@ -3287,7 +3287,7 @@
         "shop_maynooth": 2,
         "shop_mullingar": 3,
         "shop_tralee": 1,
-        "shop_tullamore": 2
+        "shop_tullamore": 1
       },
       "units": [
         {
@@ -3327,18 +3327,6 @@
           "costPrice": 115,
           "wholesalePrice": 127,
           "sellPrice": 160
-        },
-        {
-          "id": "unit_w41zrfeu5pj",
-          "imei": "356354263888803",
-          "color": "",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 115,
-          "wholesalePrice": 127,
-          "sellPrice": 115,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
         },
         {
           "id": "unit_35bi3shtyce",
@@ -19135,6 +19123,30 @@
         "verified": true,
         "verifiedAt": "2026-09-01"
       }
+    },
+    {
+      "id": "mv_p155u2qz88b",
+      "type": "sold",
+      "itemId": "item_kb0hq9hw69k",
+      "itemName": "Samsung A07",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_tullamore",
+      "qty": 1,
+      "date": "2026-09-08",
+      "note": "Sold from Inventory",
+      "sellPrice": 160,
+      "unitData": {
+        "id": "unit_w41zrfeu5pj",
+        "imei": "356354263888803",
+        "color": "",
+        "condition": "New",
+        "location": "shop_tullamore",
+        "costPrice": 115,
+        "wholesalePrice": 127,
+        "sellPrice": 160,
+        "verified": true,
+        "verifiedAt": "2026-09-01"
+      }
     }
   ],
   "reorderList": [],
@@ -19142,7 +19154,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-14T17:08:55.077Z",
+    "lastSaved": "2026-09-14T17:09:03.467Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
