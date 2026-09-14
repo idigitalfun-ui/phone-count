@@ -2901,7 +2901,7 @@
       },
       "locations": {
         "warehouse": 0,
-        "shop_thurles": 1,
+        "shop_thurles": 0,
         "shop_kilkenny": 2,
         "shop_maynooth": 3,
         "shop_mullingar": 1,
@@ -2909,16 +2909,6 @@
         "shop_tullamore": 1
       },
       "units": [
-        {
-          "id": "unit_4qum30hu5nq",
-          "imei": "354880841192062",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_thurles",
-          "costPrice": 95,
-          "wholesalePrice": 0,
-          "sellPrice": 110
-        },
         {
           "id": "unit_r4jwn1n9lis",
           "imei": "355726311750286",
@@ -19064,6 +19054,28 @@
         "wholesalePrice": 242,
         "sellPrice": 330
       }
+    },
+    {
+      "id": "mv_v3z6rzmq1vw",
+      "type": "sold",
+      "itemId": "item_kjnrq5aw69k",
+      "itemName": "Samsung A06",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_thurles",
+      "qty": 1,
+      "date": "2026-09-08",
+      "note": "Sold from Inventory",
+      "sellPrice": 130,
+      "unitData": {
+        "id": "unit_4qum30hu5nq",
+        "imei": "354880841192062",
+        "color": "Black",
+        "condition": "New",
+        "location": "shop_thurles",
+        "costPrice": 95,
+        "wholesalePrice": 0,
+        "sellPrice": 130
+      }
     }
   ],
   "reorderList": [],
@@ -19071,7 +19083,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-14T17:01:44.125Z",
+    "lastSaved": "2026-09-14T17:01:55.340Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
