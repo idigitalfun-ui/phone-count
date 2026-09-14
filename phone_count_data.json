@@ -5265,7 +5265,7 @@
         "warehouse": 0,
         "shop_thurles": 1,
         "shop_kilkenny": 0,
-        "shop_maynooth": 3,
+        "shop_maynooth": 2,
         "shop_mullingar": 2,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -5280,18 +5280,6 @@
           "costPrice": 230,
           "wholesalePrice": 242,
           "sellPrice": 240
-        },
-        {
-          "id": "unit_slor9vdu5ok",
-          "imei": "358073840638527",
-          "color": "Awesome Lavender",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 230,
-          "wholesalePrice": 242,
-          "sellPrice": 0,
-          "verified": false,
-          "verifiedAt": null
         },
         {
           "id": "unit_2fu9c61u5ol",
@@ -19183,6 +19171,30 @@
         "sentToShopDate": "2026-09-01",
         "transferredAt": "2026-09-01"
       }
+    },
+    {
+      "id": "mv_mci0x051xmj",
+      "type": "sold",
+      "itemId": "item_qbvtan1w69k",
+      "itemName": "Samsung A37 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Sold from Inventory",
+      "sellPrice": 389,
+      "unitData": {
+        "id": "unit_slor9vdu5ok",
+        "imei": "358073840638527",
+        "color": "Awesome Lavender",
+        "condition": "New",
+        "location": "shop_maynooth",
+        "costPrice": 230,
+        "wholesalePrice": 242,
+        "sellPrice": 389,
+        "verified": false,
+        "verifiedAt": null
+      }
     }
   ],
   "reorderList": [],
@@ -19190,7 +19202,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-14T17:10:57.140Z",
+    "lastSaved": "2026-09-14T17:11:09.691Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
