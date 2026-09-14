@@ -9629,24 +9629,10 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 1,
+        "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_zqrc79q2hi4",
-          "imei": "LINK1KNEU006642",
-          "color": "Dreamy Purple",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_tralee",
-          "costPrice": 0,
-          "sellPrice": 0,
-          "addedAt": "2026-09-07",
-          "verified": true,
-          "verifiedAt": "2026-09-07"
-        }
-      ],
+      "units": [],
       "createdAt": "2026-09-07"
     },
     {
@@ -19076,6 +19062,31 @@
         "wholesalePrice": 0,
         "sellPrice": 130
       }
+    },
+    {
+      "id": "mv_emuttqbqjgi",
+      "type": "sold",
+      "itemId": "item_ezo8osp2hi4",
+      "itemName": "Blackview Link 1 Kids",
+      "categoryId": "cat_cgd9w36w69i",
+      "location": "shop_tralee",
+      "qty": 1,
+      "date": "2026-09-12",
+      "note": "Sold from Inventory",
+      "sellPrice": 150,
+      "unitData": {
+        "id": "unit_zqrc79q2hi4",
+        "imei": "LINK1KNEU006642",
+        "color": "Dreamy Purple",
+        "condition": "New",
+        "batteryPct": null,
+        "location": "shop_tralee",
+        "costPrice": 0,
+        "sellPrice": 150,
+        "addedAt": "2026-09-07",
+        "verified": true,
+        "verifiedAt": "2026-09-07"
+      }
     }
   ],
   "reorderList": [],
@@ -19083,7 +19094,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-14T17:02:08.004Z",
+    "lastSaved": "2026-09-14T17:02:18.114Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
