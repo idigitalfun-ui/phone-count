@@ -10710,7 +10710,7 @@
       "locations": {
         "warehouse": 1,
         "shop_thurles": 1,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -10736,19 +10736,6 @@
           "costPrice": 199,
           "wholesalePrice": 211,
           "sellPrice": 225
-        },
-        {
-          "id": "unit_821rtj8u5od",
-          "imei": "SFY4GVHG75Q",
-          "color": "",
-          "condition": "New",
-          "location": "shop_kilkenny",
-          "costPrice": 199,
-          "wholesalePrice": 0,
-          "sellPrice": 250,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-07"
         }
       ],
       "createdAt": "2026-08-20",
@@ -19336,6 +19323,31 @@
         "verified": true,
         "verifiedAt": "2026-09-07"
       }
+    },
+    {
+      "id": "mv_cl8abut5dlv",
+      "type": "sold",
+      "itemId": "item_6t2ggm3w69k",
+      "itemName": "AirPods Pro 3",
+      "categoryId": "cat_qaxr5vow69i",
+      "location": "shop_kilkenny",
+      "qty": 1,
+      "date": "2026-09-09",
+      "note": "Sold from Inventory",
+      "sellPrice": 250,
+      "unitData": {
+        "id": "unit_821rtj8u5od",
+        "imei": "SFY4GVHG75Q",
+        "color": "",
+        "condition": "New",
+        "location": "shop_kilkenny",
+        "costPrice": 199,
+        "wholesalePrice": 0,
+        "sellPrice": 250,
+        "batteryPct": null,
+        "verified": true,
+        "verifiedAt": "2026-09-07"
+      }
     }
   ],
   "reorderList": [],
@@ -19343,7 +19355,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-14T17:13:42.627Z",
+    "lastSaved": "2026-09-14T17:13:50.371Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
