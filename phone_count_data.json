@@ -1783,7 +1783,7 @@
         "warehouse": 10,
         "shop_thurles": 2,
         "shop_kilkenny": 4,
-        "shop_maynooth": 7,
+        "shop_maynooth": 6,
         "shop_mullingar": 2,
         "shop_tralee": 1,
         "shop_tullamore": 3
@@ -2000,17 +2000,6 @@
           "id": "unit_tx0bjf122ka",
           "imei": "356663510627701",
           "color": "Purple",
-          "condition": "Used",
-          "location": "shop_maynooth",
-          "costPrice": 285,
-          "sellPrice": 0,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        },
-        {
-          "id": "unit_17ooc8322kc",
-          "imei": "359203501087933",
-          "color": "Midnight",
           "condition": "Used",
           "location": "shop_maynooth",
           "costPrice": 285,
@@ -19207,6 +19196,29 @@
         "verified": false,
         "verifiedAt": null
       }
+    },
+    {
+      "id": "mv_93tk6bl2ep7",
+      "type": "sold",
+      "itemId": "item_8qq0twtnnrm",
+      "itemName": "iPhone 14",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-10",
+      "note": "Sold from Inventory",
+      "sellPrice": 400,
+      "unitData": {
+        "id": "unit_17ooc8322kc",
+        "imei": "359203501087933",
+        "color": "Midnight",
+        "condition": "Used",
+        "location": "shop_maynooth",
+        "costPrice": 285,
+        "sellPrice": 400,
+        "batteryPct": null,
+        "dateAdded": "2026-09-01"
+      }
     }
   ],
   "reorderList": [],
@@ -19214,7 +19226,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-14T17:11:25.673Z",
+    "lastSaved": "2026-09-14T17:11:31.819Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
