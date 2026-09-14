@@ -3510,24 +3510,12 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 2
+        "shop_tullamore": 1
       },
       "units": [
         {
           "id": "unit_8ypjymau5pi",
           "imei": "353578127007084",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 125,
-          "wholesalePrice": 107,
-          "sellPrice": 190,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_egbtcwqu5pi",
-          "imei": "352861492790141",
           "color": "Black",
           "condition": "New",
           "location": "shop_tullamore",
@@ -19123,6 +19111,30 @@
         "dateAdded": "2026-08-26",
         "wholesalePrice": 172
       }
+    },
+    {
+      "id": "mv_az74uggyynf",
+      "type": "sold",
+      "itemId": "item_1lznmr2u5o0",
+      "itemName": "Samsung A16",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_tullamore",
+      "qty": 1,
+      "date": "2026-09-12",
+      "note": "Sold from Inventory",
+      "sellPrice": 180,
+      "unitData": {
+        "id": "unit_egbtcwqu5pi",
+        "imei": "352861492790141",
+        "color": "Black",
+        "condition": "New",
+        "location": "shop_tullamore",
+        "costPrice": 125,
+        "wholesalePrice": 107,
+        "sellPrice": 180,
+        "verified": true,
+        "verifiedAt": "2026-09-01"
+      }
     }
   ],
   "reorderList": [],
@@ -19130,7 +19142,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-14T17:08:40.886Z",
+    "lastSaved": "2026-09-14T17:08:51.051Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
