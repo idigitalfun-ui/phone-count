@@ -5168,7 +5168,7 @@
       "costPrice": 230,
       "shopPrices": {
         "warehouse": 320,
-        "shop_thurles": 340,
+        "shop_thurles": 330,
         "shop_kilkenny": 440,
         "shop_maynooth": 0,
         "shop_mullingar": 340,
@@ -5194,7 +5194,7 @@
           "location": "shop_thurles",
           "costPrice": 230,
           "wholesalePrice": 242,
-          "sellPrice": 340
+          "sellPrice": 330
         },
         {
           "id": "unit_ycyyuov9lmk",
@@ -19059,7 +19059,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-14T17:01:25.155Z",
+    "lastSaved": "2026-09-14T17:01:30.900Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
@@ -19142,6 +19142,19 @@
       }
     },
     "shopChanges": [
+      {
+        "id": "chg_z2dl5yppj19",
+        "timestamp": "2026-09-14T17:01:30.909Z",
+        "status": "pending",
+        "shopId": "shop_thurles",
+        "type": "price_edit",
+        "itemId": "item_cu1j56ww69k",
+        "unitId": "unit_0lqb2b7u5np",
+        "itemName": "Samsung A37 5G",
+        "details": "Updated sale price to €330.00 at Thurles",
+        "oldValue": 330,
+        "newValue": 330
+      },
       {
         "id": "chg_cjca9vzylpl",
         "timestamp": "2026-09-10T15:37:54.537Z",
