@@ -1498,7 +1498,7 @@
         "warehouse": 7,
         "shop_thurles": 3,
         "shop_kilkenny": 3,
-        "shop_maynooth": 3,
+        "shop_maynooth": 2,
         "shop_mullingar": 2,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -1625,17 +1625,6 @@
           "location": "shop_mullingar",
           "costPrice": 255,
           "sellPrice": 340,
-          "batteryPct": null,
-          "dateAdded": "2026-09-01"
-        },
-        {
-          "id": "unit_g431gzh22hk",
-          "imei": "352408234335635",
-          "color": "Midnight",
-          "condition": "Used",
-          "location": "shop_maynooth",
-          "costPrice": 255,
-          "sellPrice": 0,
           "batteryPct": null,
           "dateAdded": "2026-09-01"
         },
@@ -19159,6 +19148,29 @@
         "sentToShopDate": "2026-09-01",
         "transferredAt": "2026-09-01"
       }
+    },
+    {
+      "id": "mv_e83i9r919o3",
+      "type": "sold",
+      "itemId": "item_14pcuqkw69k",
+      "itemName": "iPhone 13",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-12",
+      "note": "Sold from Inventory",
+      "sellPrice": 369,
+      "unitData": {
+        "id": "unit_g431gzh22hk",
+        "imei": "352408234335635",
+        "color": "Midnight",
+        "condition": "Used",
+        "location": "shop_maynooth",
+        "costPrice": 255,
+        "sellPrice": 369,
+        "batteryPct": null,
+        "dateAdded": "2026-09-01"
+      }
     }
   ],
   "reorderList": [],
@@ -19166,7 +19178,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-14T17:10:30.468Z",
+    "lastSaved": "2026-09-14T17:10:38.643Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
