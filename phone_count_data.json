@@ -5577,7 +5577,7 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 3,
-        "shop_maynooth": 2,
+        "shop_maynooth": 1,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -5587,18 +5587,6 @@
           "id": "unit_ksgzfbgu5ok",
           "imei": "350593640585246",
           "color": "Olive",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 275,
-          "wholesalePrice": 287,
-          "sellPrice": 0,
-          "verified": false,
-          "verifiedAt": null
-        },
-        {
-          "id": "unit_12mgweuu5ok",
-          "imei": "350593649176203",
-          "color": "Graphite",
           "condition": "New",
           "location": "shop_maynooth",
           "costPrice": 275,
@@ -19243,6 +19231,30 @@
         "verified": false,
         "verifiedAt": null
       }
+    },
+    {
+      "id": "mv_45f67uh390b",
+      "type": "sold",
+      "itemId": "item_imoqln3w69k",
+      "itemName": "Samsung A56 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-08",
+      "note": "Sold from Inventory",
+      "sellPrice": 349,
+      "unitData": {
+        "id": "unit_12mgweuu5ok",
+        "imei": "350593649176203",
+        "color": "Graphite",
+        "condition": "New",
+        "location": "shop_maynooth",
+        "costPrice": 275,
+        "wholesalePrice": 287,
+        "sellPrice": 349,
+        "verified": false,
+        "verifiedAt": null
+      }
     }
   ],
   "reorderList": [],
@@ -19250,7 +19262,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-14T17:12:04.038Z",
+    "lastSaved": "2026-09-14T17:12:11.099Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
