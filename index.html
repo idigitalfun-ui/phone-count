@@ -26061,6 +26061,7 @@ Views.deleteMovement = function(moveId){
 };
 
 /* ---- DASHBOARD ---- */
+Views._dashboardSalesRange = Views._dashboardSalesRange || 7;
 Views.dashboard = function(){
   const items = Store.data.items;
   const totalUnits = items.reduce((a,it)=>a+totalQty(it),0);
@@ -26068,6 +26069,10 @@ Views.dashboard = function(){
   const lowStock = items.filter(it=>totalQty(it)>0 && totalQty(it)<=3);
   const outOfStock = items.filter(it=>totalQty(it)===0);
   const soldLast30 = Store.data.movements.filter(m=>m.type==='sold' && daysAgo(m.date)<=30).reduce((a,m)=>a+m.qty,0);
+  const salesRange = Views._dashboardSalesRange || 7;
+  const periodSales = Store.data.movements.filter(m=>m?.type==='sold' && m.date>=isoAddDays(todayISO(),-salesRange));
+  let periodUnits=0, periodRevenue=0, periodCost=0, estimatedCount=0;
+  periodSales.forEach(m=>{ const q=Number(m.qty)||1, it=itemById(m.itemId); const sale=Number(m.sellPrice)||Number(m.unitData?.sellPrice)||Number(it?.shopPrices?.[m.location])||0; let cost=Number(m.unitData?.costPrice)||Number(it?.costPrice)||0; if(!cost && sale){ cost=sale*.65; estimatedCount+=q; } periodUnits+=q; periodRevenue+=sale*q; periodCost+=cost*q; });
 
   const byCat = {};
   Store.data.categories.forEach(c=>byCat[c.id]=0);
@@ -26113,6 +26118,11 @@ Views.dashboard = function(){
           <div class="row" style="flex-direction:column;gap:10px;">${shopCards}</div>
         </div>
       </div>
+    </div>
+    <div class="card card-pad" style="margin-top:16px;">
+      <div class="row" style="justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;"><div><h3 style="margin:0;">Sales performance</h3><div style="font-size:12px;color:var(--muted);margin-top:3px;">Revenue, cost and profit from recorded customer sales</div></div><div class="chip-select">${[[7,'Last week'],[30,'Last month'],[365,'Last year']].map(([d,label])=>`<button class="${salesRange===d?'active':''}" onclick="Views._dashboardSalesRange=${d};render()">${label}</button>`).join('')}</div></div>
+      <div class="stat-cards" style="margin:0;"><div class="stat-card accent-teal"><div class="n">${periodUnits}</div><div class="l">Units sold</div></div><div class="stat-card accent-green"><div class="n">${euro(periodRevenue)}</div><div class="l">Total sale price</div></div><div class="stat-card accent-amber"><div class="n">${euro(periodCost)}</div><div class="l">Total cost${estimatedCount?` · ${estimatedCount} estimated`:''}</div></div><div class="stat-card accent-green"><div class="n">${euro(periodRevenue-periodCost)}</div><div class="l">Estimated gross profit</div></div></div>
+      ${estimatedCount?'<div class="helpbox" style="margin-top:12px;">For phones without a recorded cost price, the cost is estimated at 65% of the recorded sale price. Add the actual cost in Inventory whenever available.</div>':''}
     </div>
     <div id="dash_needs_attention" class="card card-pad" style="margin-top:16px;">
       <h3 style="margin-top:0;">Needs attention</h3>
