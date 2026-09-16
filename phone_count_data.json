@@ -5338,27 +5338,13 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 2,
+        "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_nvcw6p99fst",
-          "imei": "352371191664787",
-          "color": "Awesome Pink",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 275,
-          "wholesalePrice": 0,
-          "sellPrice": 380,
-          "addedAt": "2026-08-28",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
         {
           "id": "unit_3894ujxu5o2",
           "imei": "350593642754246",
@@ -5386,7 +5372,8 @@
       "colors": [
         "Olive",
         "Awesome Light Gray",
-        "Graphite"
+        "Graphite",
+        "Awesome Pink"
       ],
       "batteryPct": null,
       "costPrice": 330,
@@ -5404,7 +5391,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 2,
-        "shop_kilkenny": 0,
+        "shop_kilkenny": 1,
         "shop_maynooth": 1,
         "shop_mullingar": 1,
         "shop_tralee": 0,
@@ -5462,6 +5449,24 @@
           "verified": false,
           "verifiedAt": null,
           "batteryPct": null
+        },
+        {
+          "id": "unit_nvcw6p99fst",
+          "imei": "352371191664787",
+          "color": "Awesome Pink",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_kilkenny",
+          "costPrice": 275,
+          "wholesalePrice": 0,
+          "sellPrice": 380,
+          "addedAt": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
+          "purchaseDate": null,
+          "dateAdded": null,
+          "sentToShopDate": null,
+          "transferredAt": null
         }
       ],
       "createdAt": "2026-08-20"
@@ -19227,7 +19232,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:08:09.171Z",
+    "lastSaved": "2026-09-16T18:08:13.587Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
