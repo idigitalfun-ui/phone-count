@@ -4636,7 +4636,7 @@
       "batteryPct": 100,
       "costPrice": 290,
       "shopPrices": {
-        "warehouse": 280,
+        "warehouse": 350,
         "shop_thurles": 300,
         "shop_kilkenny": 350,
         "shop_maynooth": 350,
@@ -4677,7 +4677,7 @@
           "location": "warehouse",
           "costPrice": 290,
           "wholesalePrice": 262,
-          "sellPrice": 300
+          "sellPrice": 350
         },
         {
           "id": "unit_p50bqdsu5ne",
@@ -4687,7 +4687,7 @@
           "location": "warehouse",
           "costPrice": 290,
           "wholesalePrice": 262,
-          "sellPrice": 300
+          "sellPrice": 350
         },
         {
           "id": "unit_2damwueu5ne",
@@ -4697,7 +4697,7 @@
           "location": "warehouse",
           "costPrice": 290,
           "wholesalePrice": 262,
-          "sellPrice": 300
+          "sellPrice": 350
         },
         {
           "id": "unit_n7b74heu5ne",
@@ -4705,7 +4705,7 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_maynooth",
-          "costPrice": 250,
+          "costPrice": 290,
           "wholesalePrice": 262,
           "sellPrice": 350,
           "verified": false,
@@ -19198,7 +19198,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:05:37.691Z",
+    "lastSaved": "2026-09-16T18:05:43.020Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
@@ -19281,6 +19281,71 @@
       }
     },
     "shopChanges": [
+      {
+        "id": "chg_nuscxn1vsoh",
+        "timestamp": "2026-09-16T18:05:43.025Z",
+        "status": "pending",
+        "shopId": "shop_maynooth",
+        "type": "price_edit",
+        "itemId": "item_44l4y60w69k",
+        "unitId": "unit_vao1rxlgq67",
+        "itemName": "Samsung A36 5G",
+        "details": "Updated sale price to €350.00 at Maynooth",
+        "oldValue": 350,
+        "newValue": 350
+      },
+      {
+        "id": "chg_8loqf1evs5w",
+        "timestamp": "2026-09-16T18:05:42.356Z",
+        "status": "pending",
+        "shopId": "warehouse",
+        "type": "price_edit",
+        "itemId": "item_44l4y60w69k",
+        "unitId": "unit_bdk602tu5nd",
+        "itemName": "Samsung A36 5G",
+        "details": "Updated sale price to €350.00 at Warehouse",
+        "oldValue": 350,
+        "newValue": 350
+      },
+      {
+        "id": "chg_g807ds7vror",
+        "timestamp": "2026-09-16T18:05:41.739Z",
+        "status": "pending",
+        "shopId": "warehouse",
+        "type": "price_edit",
+        "itemId": "item_44l4y60w69k",
+        "unitId": "unit_p50bqdsu5ne",
+        "itemName": "Samsung A36 5G",
+        "details": "Updated sale price to €350.00 at Warehouse",
+        "oldValue": 350,
+        "newValue": 350
+      },
+      {
+        "id": "chg_ajwjhd9vr3b",
+        "timestamp": "2026-09-16T18:05:40.967Z",
+        "status": "pending",
+        "shopId": "warehouse",
+        "type": "price_edit",
+        "itemId": "item_44l4y60w69k",
+        "unitId": "unit_2damwueu5ne",
+        "itemName": "Samsung A36 5G",
+        "details": "Updated sale price to €350.00 at Warehouse",
+        "oldValue": 350,
+        "newValue": 350
+      },
+      {
+        "id": "chg_ie5aeunvpm3",
+        "timestamp": "2026-09-16T18:05:39.051Z",
+        "status": "pending",
+        "shopId": "shop_maynooth",
+        "type": "price_edit",
+        "itemId": "item_44l4y60w69k",
+        "unitId": "unit_n7b74heu5ne",
+        "itemName": "Samsung A36 5G",
+        "details": "Updated cost price to €290.00",
+        "oldValue": 290,
+        "newValue": 290
+      },
       {
         "id": "chg_jf3g0xbvoke",
         "timestamp": "2026-09-16T18:05:37.694Z",
