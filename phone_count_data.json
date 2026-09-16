@@ -19350,12 +19350,17 @@
       }
     }
   ],
-  "reorderList": [],
+  "reorderList": [
+    {
+      "itemId": "item_kjnrq5aw69k",
+      "qty": 5
+    }
+  ],
   "meta": {
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T14:55:05.557Z",
+    "lastSaved": "2026-09-16T14:55:27.171Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
