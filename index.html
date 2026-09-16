@@ -26127,13 +26127,19 @@ Views.dashboard = function(){
     <div id="dash_needs_attention" class="card card-pad" style="margin-top:16px;">
       <h3 style="margin-top:0;">Needs attention</h3>
       ${ (lowStock.length+outOfStock.length)===0 ? '<div class="empty">Everything is healthily stocked. 🎉</div>' :
-        `<div class="table-wrap"><table><thead><tr><th>Item</th><th>Category</th><th>Total left</th><th>Status</th></tr></thead><tbody>
-          ${[...outOfStock,...lowStock].map(it=>`<tr><td>${esc(it.name)}</td><td>${esc(catName(it.category))}</td><td>${signalHtml(totalQty(it))} ${totalQty(it)}</td><td>${totalQty(it)===0?'<span class="pill red">Out of stock</span>':'<span class="pill amber">Low stock</span>'}</td></tr>`).join('')}
+        `<div class="table-wrap"><table><thead><tr><th>Item</th><th>Memory / Size</th><th>Colours</th><th>Category</th><th>Total left</th><th>Status</th><th></th></tr></thead><tbody>
+          ${[...outOfStock,...lowStock].map(it=>`<tr><td><b>${esc(it.name)}</b></td><td class="mono">${esc(it.memory||'—')}</td><td>${esc(it.colors?.join(', ')||'—')}</td><td>${esc(catName(it.category))}</td><td>${signalHtml(totalQty(it))} ${totalQty(it)}</td><td>${totalQty(it)===0?'<span class="pill red">Out of stock</span>':'<span class="pill amber">Low stock</span>'}</td><td><button class="btn sm" onclick="Views.addItemToReorder('${it.id}')">+ Add to reorder</button></td></tr>`).join('')}
         </tbody></table></div>`}
     </div>
   `;
 };
 function daysAgo(iso){ return Math.round((Date.now()-new Date(iso+'T00:00:00').getTime())/86400000); }
+Views.addItemToReorder = function(itemId){
+  const it=itemById(itemId); if(!it) return;
+  if(Store.data.reorderList.find(r=>r.itemId===itemId)){ Toast.show('Already on the reorder list.'); Router.go('reorder'); return; }
+  Store.data.reorderList.push({itemId, qty:5, memory:it.memory||'', colors:(it.colors||[]).join(', ')});
+  Store.save(); Toast.show('Added to reorder list with memory and colours.','ok'); Router.go('reorder');
+};
 
 
 /* ---- SEARCH HELPERS ---- */
@@ -30997,11 +31003,7 @@ Views.bestsellers = function(){
   `;
 };
 Views.addToReorder = function(itemId){
-  if(Store.data.reorderList.find(r=>r.itemId===itemId)){ Toast.show('Already on the reorder list.'); return; }
-  Store.data.reorderList.push({itemId, qty:5});
-  Store.save();
-  Toast.show('Added to reorder list.','ok');
-  Router.go('reorder');
+  Views.addItemToReorder(itemId);
 };
 
 /* ---- REORDER LIST ---- */
