@@ -4471,7 +4471,7 @@
       "id": "item_rihs5ml7gwk",
       "name": "Samsung A36 5G",
       "category": "cat_w56n2ktw69i",
-      "memory": "128GB",
+      "memory": "6GB/128GB",
       "condition": "New",
       "imei": "351741468679778",
       "colors": [
@@ -4511,7 +4511,12 @@
           "sellPrice": 320,
           "batteryPct": null,
           "verified": true,
-          "verifiedAt": "2026-09-01"
+          "verifiedAt": "2026-09-01",
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
         }
       ],
       "createdAt": "2026-08-28"
@@ -19218,7 +19223,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:03:11.611Z",
+    "lastSaved": "2026-09-16T18:03:18.043Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
