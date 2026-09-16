@@ -5409,7 +5409,7 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 1,
-        "shop_tullamore": 3
+        "shop_tullamore": 1
       },
       "units": [
         {
@@ -5437,30 +5437,6 @@
           "verified": true,
           "verifiedAt": "2026-09-01",
           "batteryPct": null
-        },
-        {
-          "id": "unit_7vudq5vu5ph",
-          "imei": "352371193239158",
-          "color": "",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 400,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_z4pc6sau5pi",
-          "imei": "352371198991548",
-          "color": "",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 400,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
         }
       ],
       "createdAt": "2026-08-20"
@@ -12793,12 +12769,48 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 1
+        "shop_tullamore": 3
       },
       "units": [
         {
           "id": "unit_e6bxgfru5pi",
           "imei": "352371198991514",
+          "color": "",
+          "condition": "New",
+          "location": "shop_tullamore",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 400,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
+          "batteryPct": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        },
+        {
+          "id": "unit_z4pc6sau5pi",
+          "imei": "352371198991548",
+          "color": "",
+          "condition": "New",
+          "location": "shop_tullamore",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 400,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
+          "batteryPct": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        },
+        {
+          "id": "unit_7vudq5vu5ph",
+          "imei": "352371193239158",
           "color": "",
           "condition": "New",
           "location": "shop_tullamore",
@@ -19244,7 +19256,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:07:58.371Z",
+    "lastSaved": "2026-09-16T18:08:03.355Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
