@@ -4532,7 +4532,7 @@
         "Black"
       ],
       "batteryPct": null,
-      "costPrice": 1,
+      "costPrice": 250,
       "wholesalePrice": 0,
       "shopPrices": {
         "warehouse": 1,
@@ -4560,7 +4560,7 @@
           "color": "Black",
           "condition": "New",
           "location": "shop_mullingar",
-          "costPrice": 0,
+          "costPrice": 250,
           "wholesalePrice": 0,
           "sellPrice": 1,
           "batteryPct": null
@@ -19198,7 +19198,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:03:54.555Z",
+    "lastSaved": "2026-09-16T18:05:04.868Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
@@ -19281,6 +19281,19 @@
       }
     },
     "shopChanges": [
+      {
+        "id": "chg_354nljduz8r",
+        "timestamp": "2026-09-16T18:05:04.875Z",
+        "status": "pending",
+        "shopId": "shop_mullingar",
+        "type": "price_edit",
+        "itemId": "item_26rm615u5om",
+        "unitId": "unit_1x8ad6nu5oy",
+        "itemName": "Samsung A36",
+        "details": "Updated cost price to €250.00",
+        "oldValue": 250,
+        "newValue": 250
+      },
       {
         "id": "chg_z2dl5yppj19",
         "timestamp": "2026-09-14T17:01:30.909Z",
