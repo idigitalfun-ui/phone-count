@@ -4634,16 +4634,16 @@
         "Awesome Lavender"
       ],
       "batteryPct": 100,
-      "costPrice": 250,
+      "costPrice": 290,
       "shopPrices": {
         "warehouse": 280,
         "shop_thurles": 300,
         "shop_kilkenny": 350,
-        "shop_maynooth": 0,
+        "shop_maynooth": 350,
         "shop_mullingar": 320,
         "shop_tralee": 280,
         "shop_tullamore": 280,
-        "maynooth": 0
+        "maynooth": 350
       },
       "locations": {
         "warehouse": 3,
@@ -4662,9 +4662,9 @@
           "condition": "New",
           "batteryPct": null,
           "location": "shop_maynooth",
-          "costPrice": 250,
+          "costPrice": 290,
           "wholesalePrice": 290,
-          "sellPrice": 0,
+          "sellPrice": 350,
           "addedAt": "2026-08-25",
           "verified": false,
           "verifiedAt": null
@@ -4675,7 +4675,7 @@
           "color": "Black",
           "condition": "New",
           "location": "warehouse",
-          "costPrice": 250,
+          "costPrice": 290,
           "wholesalePrice": 262,
           "sellPrice": 300
         },
@@ -4685,7 +4685,7 @@
           "color": "Black",
           "condition": "New",
           "location": "warehouse",
-          "costPrice": 250,
+          "costPrice": 290,
           "wholesalePrice": 262,
           "sellPrice": 300
         },
@@ -4695,7 +4695,7 @@
           "color": "Black",
           "condition": "New",
           "location": "warehouse",
-          "costPrice": 250,
+          "costPrice": 290,
           "wholesalePrice": 262,
           "sellPrice": 300
         },
@@ -4707,7 +4707,7 @@
           "location": "shop_maynooth",
           "costPrice": 250,
           "wholesalePrice": 262,
-          "sellPrice": 0,
+          "sellPrice": 350,
           "verified": false,
           "verifiedAt": null
         },
@@ -19198,7 +19198,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:05:04.868Z",
+    "lastSaved": "2026-09-16T18:05:37.691Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
@@ -19281,6 +19281,71 @@
       }
     },
     "shopChanges": [
+      {
+        "id": "chg_jf3g0xbvoke",
+        "timestamp": "2026-09-16T18:05:37.694Z",
+        "status": "pending",
+        "shopId": "shop_maynooth",
+        "type": "price_edit",
+        "itemId": "item_44l4y60w69k",
+        "unitId": "unit_n7b74heu5ne",
+        "itemName": "Samsung A36 5G",
+        "details": "Updated sale price to €350.00 at Maynooth",
+        "oldValue": 350,
+        "newValue": 350
+      },
+      {
+        "id": "chg_wbmp4upvmu2",
+        "timestamp": "2026-09-16T18:05:35.450Z",
+        "status": "pending",
+        "shopId": "warehouse",
+        "type": "price_edit",
+        "itemId": "item_44l4y60w69k",
+        "unitId": "unit_2damwueu5ne",
+        "itemName": "Samsung A36 5G",
+        "details": "Updated cost price to €290.00",
+        "oldValue": 290,
+        "newValue": 290
+      },
+      {
+        "id": "chg_a15kosrvlle",
+        "timestamp": "2026-09-16T18:05:33.842Z",
+        "status": "pending",
+        "shopId": "warehouse",
+        "type": "price_edit",
+        "itemId": "item_44l4y60w69k",
+        "unitId": "unit_p50bqdsu5ne",
+        "itemName": "Samsung A36 5G",
+        "details": "Updated cost price to €290.00",
+        "oldValue": 290,
+        "newValue": 290
+      },
+      {
+        "id": "chg_axp4lvrvkxu",
+        "timestamp": "2026-09-16T18:05:32.994Z",
+        "status": "pending",
+        "shopId": "warehouse",
+        "type": "price_edit",
+        "itemId": "item_44l4y60w69k",
+        "unitId": "unit_bdk602tu5nd",
+        "itemName": "Samsung A36 5G",
+        "details": "Updated cost price to €290.00",
+        "oldValue": 290,
+        "newValue": 290
+      },
+      {
+        "id": "chg_otq38nrvjqo",
+        "timestamp": "2026-09-16T18:05:31.440Z",
+        "status": "pending",
+        "shopId": "shop_maynooth",
+        "type": "price_edit",
+        "itemId": "item_44l4y60w69k",
+        "unitId": "unit_vao1rxlgq67",
+        "itemName": "Samsung A36 5G",
+        "details": "Updated cost price to €290.00",
+        "oldValue": 290,
+        "newValue": 290
+      },
       {
         "id": "chg_354nljduz8r",
         "timestamp": "2026-09-16T18:05:04.875Z",
