@@ -4622,57 +4622,6 @@
       "createdAt": "2026-08-20"
     },
     {
-      "id": "item_fzfhprnw69k",
-      "name": "Samsung A36",
-      "category": "cat_w56n2ktw69i",
-      "memory": "256GB",
-      "imei": "",
-      "condition": "New",
-      "colors": [
-        "Black",
-        "Awesome Lavender",
-        "Awesome Navy",
-        "Lavender"
-      ],
-      "batteryPct": 100,
-      "costPrice": 250,
-      "shopPrices": {
-        "warehouse": 300,
-        "shop_thurles": 300,
-        "shop_kilkenny": 320,
-        "shop_maynooth": 0,
-        "shop_mullingar": 320,
-        "shop_tralee": 320,
-        "shop_tullamore": 300,
-        "maynooth": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 1
-      },
-      "units": [
-        {
-          "id": "unit_bpr1kq5u5pk",
-          "imei": "350057712577051",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 250,
-          "wholesalePrice": 13,
-          "sellPrice": 300,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        }
-      ],
-      "createdAt": "2026-08-20",
-      "wholesalePrice": 262
-    },
-    {
       "id": "item_44l4y60w69k",
       "name": "Samsung A36 5G",
       "category": "cat_w56n2ktw69i",
@@ -4830,7 +4779,7 @@
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 0,
-        "shop_tullamore": 0
+        "shop_tullamore": 1
       },
       "units": [
         {
@@ -4856,6 +4805,24 @@
           "batteryPct": null,
           "verified": false,
           "verifiedAt": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        },
+        {
+          "id": "unit_bpr1kq5u5pk",
+          "imei": "350057712577051",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_tullamore",
+          "costPrice": 250,
+          "wholesalePrice": 13,
+          "sellPrice": 300,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
+          "batteryPct": null,
           "purchaseDate": null,
           "dateAdded": null,
           "addedAt": null,
@@ -19231,7 +19198,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:03:42.315Z",
+    "lastSaved": "2026-09-16T18:03:54.555Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
