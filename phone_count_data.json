@@ -5409,7 +5409,7 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 1,
-        "shop_tullamore": 1
+        "shop_tullamore": 0
       },
       "units": [
         {
@@ -5424,19 +5424,6 @@
           "batteryPct": null,
           "verified": true,
           "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_e9pmr5tu5ph",
-          "imei": "352371190244821",
-          "color": "Awesome Graphite",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 400,
-          "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": null
         }
       ],
       "createdAt": "2026-08-20"
@@ -12769,7 +12756,7 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
-        "shop_tullamore": 3
+        "shop_tullamore": 4
       },
       "units": [
         {
@@ -12812,6 +12799,24 @@
           "id": "unit_7vudq5vu5ph",
           "imei": "352371193239158",
           "color": "",
+          "condition": "New",
+          "location": "shop_tullamore",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 400,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
+          "batteryPct": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        },
+        {
+          "id": "unit_e9pmr5tu5ph",
+          "imei": "352371190244821",
+          "color": "Awesome Graphite",
           "condition": "New",
           "location": "shop_tullamore",
           "costPrice": 1,
@@ -19256,7 +19261,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:08:03.355Z",
+    "lastSaved": "2026-09-16T18:08:06.283Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
