@@ -5377,58 +5377,6 @@
       "wholesalePrice": 0
     },
     {
-      "id": "item_dqj8ifuu5p6",
-      "name": "Samsung A56",
-      "category": "cat_w56n2ktw69i",
-      "memory": "128GB",
-      "imei": "",
-      "condition": "New",
-      "colors": [
-        "awesomeOlive",
-        "Awesome Olive",
-        "Awesome Graphi",
-        "Awesome Graphite"
-      ],
-      "batteryPct": null,
-      "costPrice": 1,
-      "wholesalePrice": 12,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 430,
-        "shop_tullamore": 400,
-        "maynooth": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 1,
-        "shop_tullamore": 0
-      },
-      "units": [
-        {
-          "id": "unit_5iotgvcu5p6",
-          "imei": "352371197607293",
-          "color": "Awesome Olive",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 0,
-          "wholesalePrice": 0,
-          "sellPrice": 430,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        }
-      ],
-      "createdAt": "2026-08-20"
-    },
-    {
       "id": "item_zber68ru5no",
       "name": "Samsung A56 5G",
       "category": "cat_w56n2ktw69i",
@@ -12755,7 +12703,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
-        "shop_tralee": 0,
+        "shop_tralee": 1,
         "shop_tullamore": 4
       },
       "units": [
@@ -12825,6 +12773,24 @@
           "verified": true,
           "verifiedAt": "2026-09-01",
           "batteryPct": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        },
+        {
+          "id": "unit_5iotgvcu5p6",
+          "imei": "352371197607293",
+          "color": "Awesome Olive",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 430,
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
           "purchaseDate": null,
           "dateAdded": null,
           "addedAt": null,
@@ -19261,7 +19227,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:08:06.283Z",
+    "lastSaved": "2026-09-16T18:08:09.171Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
