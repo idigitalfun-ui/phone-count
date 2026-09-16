@@ -5339,24 +5339,12 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 3,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_ksgzfbgu5ok",
-          "imei": "350593640585246",
-          "color": "Olive",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 275,
-          "wholesalePrice": 287,
-          "sellPrice": 0,
-          "verified": false,
-          "verifiedAt": null
-        },
         {
           "id": "unit_nvcw6p99fst",
           "imei": "352371191664787",
@@ -12722,6 +12710,57 @@
       "shopVerifiedAt": {
         "shop_tralee": "2026-09-07"
       }
+    },
+    {
+      "id": "item_riyucc2xmv7",
+      "name": "Samsung A56 5G",
+      "category": "cat_w56n2ktw69i",
+      "memory": "8GB/256GB",
+      "condition": "New",
+      "colors": [
+        "Olive"
+      ],
+      "costPrice": 275,
+      "shopPrices": {
+        "warehouse": 305,
+        "shop_thurles": 330,
+        "shop_kilkenny": 380,
+        "shop_maynooth": 0,
+        "shop_mullingar": 305,
+        "shop_tralee": 380,
+        "shop_tullamore": 305,
+        "maynooth": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 1,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_ksgzfbgu5ok",
+          "imei": "350593640585246",
+          "color": "Olive",
+          "condition": "New",
+          "location": "shop_maynooth",
+          "costPrice": 275,
+          "wholesalePrice": 287,
+          "sellPrice": 0,
+          "verified": false,
+          "verifiedAt": null,
+          "batteryPct": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        }
+      ],
+      "createdAt": "2026-09-16"
     }
   ],
   "movements": [
@@ -19150,7 +19189,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:06:23.699Z",
+    "lastSaved": "2026-09-16T18:07:08.803Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
