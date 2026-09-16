@@ -29771,6 +29771,7 @@ Views.history = function(){
     const batch = dateGroups[dateKey];
     const totalQty = batch.reduce((sum, m) => sum + (Number(m.qty) || 1), 0);
     const totalVal = batch.reduce((sum, m) => sum + ((Number(m.unitData?.costPrice) || Number(itemById(m.itemId)?.costPrice) || 0) * (Number(m.qty) || 1)), 0);
+    const totalSale = batch.reduce((sum, m) => sum + ((Number(m.sellPrice) || Number(m.unitData?.sellPrice) || Number(itemById(m.itemId)?.shopPrices?.[m.location]) || 0) * (Number(m.qty) || 1)), 0);
     const firstSupplier = batch.find(m => m.supplier)?.supplier || (tab==='stockin'?'Supplier Delivery':'Shop Activity');
     const firstInvoice = batch.find(m => m.invoice)?.invoice || '';
     const isOpen = !!Views._historyExpandedDates[tab + '_' + dateKey];
@@ -29849,7 +29850,7 @@ Views.history = function(){
               </div>
               <div style="display:flex;align-items:center;gap:16px;font-size:13px;">
                 <span>Total: <b style="color:var(--danger);">${totalQty} devices</b></span>
-                ${totalVal > 0 ? `<span>Value: <b>${euro(totalVal)}</b></span>` : ''}
+                <span>Cost: <b>${euro(totalVal)}</b></span><span>Sales: <b style="color:var(--green);">${euro(totalSale)}</b></span><span>Profit: <b style="color:var(--green);">${euro(totalSale-totalVal)}</b></span>
               </div>
             </summary>
             <div class="table-wrap">
@@ -29865,6 +29866,7 @@ Views.history = function(){
                     <th>To (Destination)</th>
                     <th>Type / Action</th>
                     <th>Cost Price</th>
+                    <th>Sale Price</th>
                     <th>Reference / Note</th>
                     <th style="width:80px;text-align:right;">Action</th>
                   </tr>
@@ -29876,6 +29878,7 @@ Views.history = function(){
                     const color = m.unitData?.color || (it?.colors?.join(', ')) || '—';
                     const cond = m.unitData?.condition || it?.condition || 'New';
                     const cost = m.unitData?.costPrice != null ? euro(m.unitData.costPrice) : (it?.costPrice != null && it.costPrice > 1 ? euro(it.costPrice) : '—');
+                    const sale = m.sellPrice != null ? euro(m.sellPrice) : (m.unitData?.sellPrice != null ? euro(m.unitData.sellPrice) : (it?.shopPrices?.[m.location] != null ? euro(it.shopPrices[m.location]) : '—'));
                     
                     let fromLocStr = '—', toLocStr = '—', typePill = pillForType(m.type);
                     if(m.type === 'sold'){
@@ -29904,6 +29907,7 @@ Views.history = function(){
                       <td>${toLocStr}</td>
                       <td>${typePill}</td>
                       <td>${cost}</td>
+                      <td style="font-weight:700;color:var(--green);">${sale}</td>
                       <td style="color:var(--muted);">${esc(m.note || (m.type==='sold'?'Retail sale':(m.type==='deposit'?'Deposit hold':(m.type==='faulty'?'Faulty return':'Shop transfer'))))}</td>
                       <td style="text-align:right;">
                         <button class="btn sm danger ghost" onclick="Views.deleteMovement('${m.id}')" title="Delete / Revert this record" style="padding:2px 8px;font-size:11px;">🗑 Remove</button>
@@ -30501,7 +30505,7 @@ Views.weekly = function(){
           ${shops.map(s=>`<option value="${s.id}" ${Views._weeklyShop===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}
         </select>
       </div>
-      <button class="btn" onclick="Views.printPage()">🖨 Export PDF</button>
+      <button class="btn" onclick="Views.printReorderOrder()">🖨 Export PDF</button>
       <button class="btn" onclick="Views.exportWeeklyCsv()">⬇ Export Excel (CSV)</button>
     </div>
     <div class="weekly-print-grid">
@@ -31022,15 +31026,15 @@ Views.reorder = function(){
     <div class="helpbox no-print">Sold quantity is counted "${esc(periodLabel)}" — switch the range above to see how demand looks over a different window. "Mark list as ordered" resets the "since last order" clock to today.</div>
     <div class="card">
       <div class="table-wrap"><table>
-        <thead><tr><th>Item</th><th>Category</th><th>Currently in stock</th><th>Sold (${esc(periodLabel)})</th><th>Qty to order</th><th></th></tr></thead>
+        <thead><tr><th>Item</th><th>Memory / Size</th><th>Colours / Notes</th><th>Category</th><th>Currently in stock</th><th>Sold (${esc(periodLabel)})</th><th>Qty to order</th><th></th></tr></thead>
         <tbody>
           ${rows.length? rows.map(r=>`<tr>
-            <td>${esc(r.item.name)}</td><td><span class="pill teal">${esc(catName(r.item.category))}</span></td>
+            <td><b>${esc(r.item.name)}</b></td><td><input value="${esc(r.memory||r.item.memory||'')}" placeholder="e.g. 128GB" style="width:110px;padding:5px;" onchange="Views.setReorderSpec('${r.itemId}','memory',this.value)"></td><td><input value="${esc(r.colors||r.item.colors?.join(', ')||'')}" placeholder="e.g. Black, Blue" style="width:155px;padding:5px;" onchange="Views.setReorderSpec('${r.itemId}','colors',this.value)"></td><td><span class="pill teal">${esc(catName(r.item.category))}</span></td>
             <td>${totalQty(r.item)}</td>
             <td><b>${soldInPeriod(r.item, since)}</b></td>
             <td><input type="number" min="1" value="${r.qty}" style="width:80px;padding:5px 8px;border:1px solid var(--line);border-radius:6px;" onchange="Views.setReorderQty('${r.itemId}',this.value)"></td>
             <td><button class="btn sm danger" onclick="Views.removeReorder('${r.itemId}')">Remove</button></td>
-          </tr>`).join('') : `<tr><td colspan="6"><div class="empty"><div class="big">Reorder list is empty</div>Add items from Best Sellers or click "+ Add item".</div></td></tr>`}
+          </tr>`).join('') : `<tr><td colspan="8"><div class="empty"><div class="big">Reorder list is empty</div>Add items from Best Sellers or click "+ Add item".</div></td></tr>`}
         </tbody>
       </table></div>
     </div>
@@ -31045,6 +31049,7 @@ Views.markOrdered = function(){
 Views.setReorderQty = function(itemId,val){
   const r = Store.data.reorderList.find(x=>x.itemId===itemId); if(r){ r.qty = Number(val)||1; Store.save(); }
 };
+Views.setReorderSpec = function(itemId,key,val){ const r=Store.data.reorderList.find(x=>x.itemId===itemId); if(r){ r[key]=(val||'').trim(); Store.save(); } };
 Views.removeReorder = function(itemId){
   Store.data.reorderList = Store.data.reorderList.filter(r=>r.itemId!==itemId);
   Store.save(); render();
@@ -31097,6 +31102,7 @@ Views.addAnyToReorder = function(mode = 'existing'){
           </div>
         `}
 
+        <div class="field-grid"><div class="field"><label>Memory / Size wanted</label><input id="ro_memory" placeholder="e.g. 128GB"></div><div class="field"><label>Colour(s) wanted</label><input id="ro_colors" placeholder="e.g. Black, Blue"></div></div>
         <div class="field">
           <label>Quantity to order</label>
           <input id="ro_qty" type="number" min="1" value="5">
@@ -31142,25 +31148,31 @@ Views.confirmAddReorder = function(){
       Store.data.items.push(it);
     }
     const existing = Store.data.reorderList.find(r => r.itemId === it.id);
-    if(existing) existing.qty = qty; else Store.data.reorderList.push({ itemId: it.id, qty });
+    if(existing) existing.qty = qty; else Store.data.reorderList.push({ itemId: it.id, qty, memory: val('ro_memory').trim()||it.memory||'', colors: val('ro_colors').trim()||it.colors?.join(', ')||'' });
   } else {
     const itemId = val('ro_item');
     if(!itemId) return;
     const existing = Store.data.reorderList.find(r => r.itemId === itemId);
-    if(existing) existing.qty = qty; else Store.data.reorderList.push({ itemId, qty });
+    if(existing) existing.qty = qty; else { const it=itemById(itemId); Store.data.reorderList.push({ itemId, qty, memory: val('ro_memory').trim()||it?.memory||'', colors: val('ro_colors').trim()||it?.colors?.join(', ')||'' }); }
   }
 
   Store.save(); Modal.close(); Toast.show('Added to reorder list.', 'ok'); render();
 };
 Views.exportReorderCsv = function(){
   const since = reorderPeriodStart();
-  const rows = [['Item','Category','Memory','Currently in stock','Sold in period','Qty to order','Cost price']];
+  const rows = [['Item','Category','Memory / Size','Colours / Notes','Currently in stock','Sold in period','Qty to order','Cost price']];
   Store.data.reorderList.forEach(r=>{
     const it = itemById(r.itemId); if(!it) return;
-    rows.push([it.name, catName(it.category), it.memory, totalQty(it), soldInPeriod(it, since), r.qty, it.costPrice]);
+    rows.push([it.name, catName(it.category), r.memory||it.memory, r.colors||it.colors?.join(', ')||'', totalQty(it), soldInPeriod(it, since), r.qty, it.costPrice]);
   });
   csvDownload('supplier_reorder_list.csv', rows);
   Toast.show('Reorder list exported — ready to send to your supplier.','ok');
+};
+Views.printReorderOrder = function(){
+  const since=reorderPeriodStart(), date=new Date().toLocaleDateString('en-IE');
+  const rows=Store.data.reorderList.map(r=>({...r,item:itemById(r.itemId)})).filter(r=>r.item);
+  const w=window.open('','_blank'); if(!w){ Toast.show('Allow pop-ups to create the purchase order PDF.','err'); return; }
+  w.document.write(`<!doctype html><html><head><title>I Digital Fun Purchase Order</title><style>body{font-family:Arial,sans-serif;color:#172033;margin:38px}header{display:flex;justify-content:space-between;border-bottom:3px solid #1D6F8C;padding-bottom:18px;margin-bottom:26px}h1{margin:0;color:#154F63;font-size:28px}small{color:#64748b}table{width:100%;border-collapse:collapse;margin-top:18px}th{background:#154F63;color:#fff;text-align:left;padding:10px;font-size:12px}td{border-bottom:1px solid #dbe2ea;padding:10px;font-size:13px}.qty{text-align:center;font-weight:bold}.foot{margin-top:40px;border-top:1px solid #dbe2ea;padding-top:14px;font-size:12px;color:#64748b}@media print{body{margin:18px}}</style></head><body><header><div><h1>I Digital Fun</h1><div>Purchase Order</div></div><div style="text-align:right"><b>Order date:</b> ${date}<br><small>For supplier fulfilment</small></div></header><table><thead><tr><th>Model</th><th>Category</th><th>Memory / Size</th><th>Colours / Notes</th><th class="qty">Qty to order</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.item.name)}</b></td><td>${esc(catName(r.item.category))}</td><td>${esc(r.memory||r.item.memory||'—')}</td><td>${esc(r.colors||r.item.colors?.join(', ')||'—')}</td><td class="qty">${r.qty}</td></tr>`).join('')}</tbody></table><div class="foot">I Digital Fun · Generated from StockLine · Sales period: ${esc({since_last:'Since last order','7':'Last 7 days','30':'Last 30 days','90':'Last 90 days'}[Views._reorderPeriod]||'Custom')}</div><script>window.onload=()=>window.print()<\/script></body></html>`); w.document.close();
 };
 
 /* ---- SHOPS ---- */
