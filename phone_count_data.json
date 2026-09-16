@@ -5309,60 +5309,6 @@
       ]
     },
     {
-      "id": "item_imoqln3w69k",
-      "name": "Samsung A56 5G",
-      "category": "cat_w56n2ktw69i",
-      "memory": "128GB",
-      "imei": "352371191664787",
-      "condition": "New",
-      "colors": [
-        "Graphite",
-        "Olive",
-        "Light Gray",
-        "Awesome Pink",
-        "Awesome Lightgray",
-        "Awesome Olive"
-      ],
-      "batteryPct": 0,
-      "costPrice": 275,
-      "shopPrices": {
-        "warehouse": 305,
-        "shop_thurles": 330,
-        "shop_kilkenny": 380,
-        "shop_maynooth": 0,
-        "shop_mullingar": 305,
-        "shop_tralee": 380,
-        "shop_tullamore": 305,
-        "maynooth": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 1,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "units": [
-        {
-          "id": "unit_3894ujxu5o2",
-          "imei": "350593642754246",
-          "color": "Olive",
-          "condition": "New",
-          "location": "shop_kilkenny",
-          "costPrice": 275,
-          "wholesalePrice": 0,
-          "sellPrice": 380,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        }
-      ],
-      "createdAt": "2026-08-20",
-      "wholesalePrice": 0
-    },
-    {
       "id": "item_zber68ru5no",
       "name": "Samsung A56 5G",
       "category": "cat_w56n2ktw69i",
@@ -5391,7 +5337,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 2,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 2,
         "shop_maynooth": 1,
         "shop_mullingar": 1,
         "shop_tralee": 0,
@@ -5465,6 +5411,24 @@
           "verifiedAt": "2026-09-01",
           "purchaseDate": null,
           "dateAdded": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        },
+        {
+          "id": "unit_3894ujxu5o2",
+          "imei": "350593642754246",
+          "color": "Olive",
+          "condition": "New",
+          "location": "shop_kilkenny",
+          "costPrice": 275,
+          "wholesalePrice": 0,
+          "sellPrice": 380,
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
           "sentToShopDate": null,
           "transferredAt": null
         }
@@ -19232,7 +19196,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:08:13.587Z",
+    "lastSaved": "2026-09-16T18:08:16.627Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
