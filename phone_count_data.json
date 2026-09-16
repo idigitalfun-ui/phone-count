@@ -4468,71 +4468,6 @@
       "wholesalePrice": 232
     },
     {
-      "id": "item_xdk67qtu5p5",
-      "name": "Samsung A36",
-      "category": "cat_w56n2ktw69i",
-      "memory": "128GB",
-      "imei": "",
-      "condition": "New",
-      "colors": [
-        "AwesomeNavy",
-        "Lavender",
-        "Black",
-        "Awesome Navy"
-      ],
-      "batteryPct": null,
-      "costPrice": 250,
-      "wholesalePrice": 0,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 350,
-        "shop_tullamore": 0,
-        "maynooth": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 2,
-        "shop_tullamore": 0
-      },
-      "units": [
-        {
-          "id": "unit_57ab6rwu5p6",
-          "imei": "355838611201959",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 250,
-          "wholesalePrice": 0,
-          "sellPrice": 350,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_jnno2ksod8g",
-          "imei": "355838611229497",
-          "color": "Black",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_tralee",
-          "costPrice": 250,
-          "sellPrice": 350,
-          "addedAt": "2026-09-01",
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        }
-      ],
-      "createdAt": "2026-08-20"
-    },
-    {
       "id": "item_rihs5ml7gwk",
       "name": "Samsung A36 5G",
       "category": "cat_w56n2ktw69i",
@@ -4610,7 +4545,7 @@
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 1,
-        "shop_tralee": 1,
+        "shop_tralee": 3,
         "shop_tullamore": 0
       },
       "units": [
@@ -4628,6 +4563,41 @@
         {
           "id": "unit_nkgdaoxu5p6",
           "imei": "350057712576541",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 250,
+          "wholesalePrice": 0,
+          "sellPrice": 350,
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        },
+        {
+          "id": "unit_jnno2ksod8g",
+          "imei": "355838611229497",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_tralee",
+          "costPrice": 250,
+          "sellPrice": 350,
+          "addedAt": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
+          "purchaseDate": null,
+          "dateAdded": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        },
+        {
+          "id": "unit_57ab6rwu5p6",
+          "imei": "355838611201959",
           "color": "Black",
           "condition": "New",
           "location": "shop_tralee",
@@ -19279,7 +19249,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:02:28.363Z",
+    "lastSaved": "2026-09-16T18:02:34.395Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
