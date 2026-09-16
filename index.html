@@ -49,7 +49,8 @@ input,select,textarea{font-family:inherit;}
   font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; color:#fff;
   padding:6px 10px 18px 10px; display:flex; align-items:center; gap:8px;
 }
-#sidebar .brand .dot{width:10px;height:10px;border-radius:3px;background:var(--amber);display:inline-block;}
+#sidebar .brand .stockline-mark{width:26px;height:26px;flex:0 0 26px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.22));}
+#sidebar .brand .stockline-mark .screen{fill:#1D6F8C;stroke:#8ED1E5;stroke-width:1.5;}.stockline-mark .box{fill:#E2A33D;stroke:#FFE2A7;stroke-width:1.4;}.stockline-mark .line{stroke:#fff;stroke-width:1.6;stroke-linecap:round;}
 .navgroup{margin-bottom:14px;}
 .navlabel{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#7C8AA0;padding:8px 10px 4px;}
 .navbtn{
@@ -23442,6 +23443,11 @@ const Store = {
       if(note.includes('assigned imei') || note.includes('added from inventory') || note.includes('opening balance') || from.includes('opening balance')) return false;
       return true;
     });
+    d.movements.forEach(m => {
+      if(m?.type==='faulty' && /sold from inventory|shop sale|retail sale/i.test(m.note||'')){
+        m.type='sold'; delete m.faultyStatus; delete m.warehouseReceivedDate;
+      }
+    });
     if(!d.archivedCategories) d.archivedCategories=[];
     if(!d.reorderList) d.reorderList=[];
     if(!d.reorderMeta) d.reorderMeta = { lastOrderDate: null };
@@ -24722,6 +24728,7 @@ const NAV = [
     {id:'inventory', label:'Inventory', icon:'▤'},
     {id:'stockin', label:'Stock In', icon:'⬇'},
     {id:'stockview', label:'Stock List View', icon:'▥'},
+    {id:'availability', label:'Shop Availability', icon:'⇄'},
   ]},
   {group:'Reports', items:[
     {id:'weekly', label:'Weekly Report', icon:'▦'},
@@ -24741,6 +24748,7 @@ const TITLES = {
   inventory:['Inventory','Every device you stock, across all locations'],
   stockin:['Stock In','Receive new stock or import batch list'],
   stockview:['Stock List View','Live prices, shop stock, and instant unit sales/actions'],
+  availability:['Shop Availability','Warehouse and shop stock for sending devices'],
   weekly:['Weekly Report','Weekly stock in / out / faulty / deposit / remaining, per shop'],
   history:['History','Date-wise historical records of Stock In and Stock Out'],
   bestsellers:['Best Sellers','What is moving fastest, so you know what to reorder'],
@@ -24760,6 +24768,7 @@ const Router = {
   },
   go(id){ this.current=id; render(); }
 };
+const STOCKLINE_MARK = `<svg class="stockline-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="screen" x="5" y="3.5" width="17" height="25" rx="4"/><path class="line" d="M10 8.5h7M10 12h7M13 24h2"/><path class="box" d="M18.5 13.5 27 17.5v8l-8.5 4-8.5-4v-8z"/><path class="line" d="m18.5 13.5 8.5 4-8.5 4-8.5-4M18.5 21.5v8"/></svg>`;
 
 function renderTopbar(){
   const topbar = document.getElementById('topbar');
@@ -24806,7 +24815,7 @@ function renderSidebar(){
   if(portalShopId){
     const sName = shopName(portalShopId);
     nav.innerHTML = `
-      <div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.38.0</span></div>
+      <div class="brand">${STOCKLINE_MARK}StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.39.0</span></div>
       <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
         <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
         <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
@@ -24818,7 +24827,7 @@ function renderSidebar(){
     `;
     return;
   }
-  let html = `<div class="brand"><span class="dot"></span>StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.38.0</span></div>`;
+  let html = `<div class="brand">${STOCKLINE_MARK}StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.39.0</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
@@ -24866,7 +24875,7 @@ function render(){
     const fns = {
       dashboard: Views.dashboard, inventory: Views.inventory, stockin: Views.stockin,
       transfer: Views.stockview, sales: Views.stockview, weekly: Views.weekly,
-      history: Views.history, stockview: Views.stockview, bestsellers: Views.bestsellers,
+      history: Views.history, stockview: Views.stockview, availability: Views.availability, bestsellers: Views.bestsellers,
       reorder: Views.reorder, shops: Views.shops, categories: Views.categories,
       portals: Views.portals, portal: () => Views.shopPortal(portalShopId), backup: Views.backup,
     };
@@ -26103,7 +26112,7 @@ Views.dashboard = function(){
         </div>
       </div>
     </div>
-    <div class="card card-pad" style="margin-top:16px;">
+    <div id="dash_needs_attention" class="card card-pad" style="margin-top:16px;">
       <h3 style="margin-top:0;">Needs attention</h3>
       ${ (lowStock.length+outOfStock.length)===0 ? '<div class="empty">Everything is healthily stocked. 🎉</div>' :
         `<div class="table-wrap"><table><thead><tr><th>Item</th><th>Category</th><th>Total left</th><th>Status</th></tr></thead><tbody>
@@ -30909,6 +30918,13 @@ Views.exportStockviewCsv = function(){
   Toast.show('Stock list exported to CSV.','ok');
 };
 
+/* ---- SHOP AVAILABILITY ---- */
+Views.availability = function(){
+  const shops=activeShops(), items=sortedItems().filter(it=>totalQty(it)>0);
+  return `<div class="helpbox" style="margin-bottom:16px;">See Warehouse and shop quantities before sending stock. <b>View devices</b> shows model, memory and IMEI.</div><div class="card"><div class="table-wrap"><table><thead><tr><th>Model</th><th>Memory</th>${shops.map(s=>`<th>${esc(s.name)}</th>`).join('')}<th>Total</th><th></th></tr></thead><tbody>${items.map(it=>`<tr><td><b>${esc(it.name)}</b></td><td class="mono">${esc(it.memory||'—')}</td>${shops.map(s=>`<td>${it.locations?.[s.id]||'—'}</td>`).join('')}<td><b>${totalQty(it)}</b></td><td><button class="btn sm" onclick="Views.openAvailabilityDevices('${it.id}')">View devices</button></td></tr>`).join('')||'<tr><td colspan="10">No stock available.</td></tr>'}</tbody></table></div></div>`;
+};
+Views.openAvailabilityDevices = function(itemId){ const it=itemById(itemId); if(!it)return; const units=it.units||[]; Modal.open(`<div class="modal modal-xl"><div class="modal-head"><h3>${esc(it.name)} · ${esc(it.memory||'Memory not recorded')}</h3><button class="btn ghost sm" onclick="Modal.close()">✕</button></div><div class="modal-body"><div class="table-wrap"><table><thead><tr><th>Model</th><th>Memory</th><th>IMEI</th><th>Colour</th><th>Location</th></tr></thead><tbody>${units.map(u=>`<tr><td>${esc(it.name)}</td><td class="mono">${esc(it.memory||'—')}</td><td class="mono">${esc(u.imei||'No IMEI')}</td><td>${esc(u.color||'—')}</td><td>${esc(shopName(u.location))}</td></tr>`).join('')||'<tr><td colspan="5">No IMEI devices recorded.</td></tr>'}</tbody></table></div></div></div>`,'modal-xl'); };
+
 /* ---- BEST SELLERS ---- */
 Views._bsRange = 30;
 Views.bestsellers = function(){
@@ -30938,13 +30954,13 @@ Views.bestsellers = function(){
     </div>
     <div class="card" style="margin-top:16px;">
       <div class="table-wrap"><table>
-        <thead><tr><th>Item</th><th>Category</th><th>Sold (period)</th><th>Currently in stock</th><th></th></tr></thead>
+        <thead><tr><th>Model</th><th>Memory</th><th>Category</th><th>Sold (period)</th><th>Currently in stock</th><th></th></tr></thead>
         <tbody>
         ${rows.map(r=>`<tr>
-          <td>${esc(r.item.name)}</td><td><span class="pill teal">${esc(catName(r.item.category))}</span></td>
+          <td><b>${esc(r.item.name)}</b></td><td class="mono">${esc(r.item.memory||'—')}</td><td><span class="pill teal">${esc(catName(r.item.category))}</span></td>
           <td><b>${r.q}</b></td><td>${signalHtml(totalQty(r.item))} ${totalQty(r.item)}</td>
-          <td><button class="btn sm" onclick="Views.addToReorder('${r.item.id}')">+ Add to reorder list</button></td>
-        </tr>`).join('') || `<tr><td colspan="5"><div class="empty">Nothing to show yet.</div></td></tr>`}
+          <td><button class="btn sm" onclick="Views.openAvailabilityDevices('${r.item.id}')">View devices</button> <button class="btn sm" onclick="Views.addToReorder('${r.item.id}')">+ Add to reorder list</button></td>
+        </tr>`).join('') || `<tr><td colspan="6"><div class="empty">Nothing to show yet.</div></td></tr>`}
         </tbody>
       </table></div>
     </div>
