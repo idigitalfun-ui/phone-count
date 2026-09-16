@@ -4737,7 +4737,7 @@
           "batteryPct": null,
           "location": "shop_kilkenny",
           "costPrice": 290,
-          "sellPrice": 320,
+          "sellPrice": 350,
           "addedAt": null,
           "verified": true,
           "verifiedAt": "2026-09-01",
@@ -19198,7 +19198,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:05:43.020Z",
+    "lastSaved": "2026-09-16T18:05:56.036Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
@@ -19281,6 +19281,19 @@
       }
     },
     "shopChanges": [
+      {
+        "id": "chg_izms78jw2pz",
+        "timestamp": "2026-09-16T18:05:56.039Z",
+        "status": "pending",
+        "shopId": "shop_kilkenny",
+        "type": "price_edit",
+        "itemId": "item_44l4y60w69k",
+        "unitId": "unit_clcugevqam8",
+        "itemName": "Samsung A36 5G",
+        "details": "Updated sale price to €350.00 at Kilkenney",
+        "oldValue": 350,
+        "newValue": 350
+      },
       {
         "id": "chg_nuscxn1vsoh",
         "timestamp": "2026-09-16T18:05:43.025Z",
