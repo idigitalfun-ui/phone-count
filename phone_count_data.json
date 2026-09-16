@@ -19360,7 +19360,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T17:25:36.121Z",
+    "lastSaved": "2026-09-16T17:25:51.971Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
@@ -19446,7 +19446,7 @@
       {
         "id": "chg_z2dl5yppj19",
         "timestamp": "2026-09-14T17:01:30.909Z",
-        "status": "pending",
+        "status": "approved",
         "shopId": "shop_thurles",
         "type": "price_edit",
         "itemId": "item_cu1j56ww69k",
@@ -19454,7 +19454,8 @@
         "itemName": "Samsung A37 5G",
         "details": "Updated sale price to €330.00 at Thurles",
         "oldValue": 330,
-        "newValue": 330
+        "newValue": 330,
+        "approvedAt": "2026-09-16T17:25:51.971Z"
       },
       {
         "id": "chg_cjca9vzylpl",
