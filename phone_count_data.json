@@ -4648,7 +4648,7 @@
       },
       "locations": {
         "warehouse": 0,
-        "shop_thurles": 1,
+        "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
@@ -4656,16 +4656,6 @@
         "shop_tullamore": 1
       },
       "units": [
-        {
-          "id": "unit_bpvoz35u5nq",
-          "imei": "350057712554555",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_thurles",
-          "costPrice": 250,
-          "wholesalePrice": 262,
-          "sellPrice": 300
-        },
         {
           "id": "unit_bpr1kq5u5pk",
           "imei": "350057712577051",
@@ -4835,7 +4825,7 @@
       },
       "locations": {
         "warehouse": 0,
-        "shop_thurles": 0,
+        "shop_thurles": 1,
         "shop_kilkenny": 0,
         "shop_maynooth": 0,
         "shop_mullingar": 1,
@@ -4853,6 +4843,24 @@
           "wholesalePrice": 0,
           "sellPrice": 320,
           "batteryPct": null
+        },
+        {
+          "id": "unit_bpvoz35u5nq",
+          "imei": "350057712554555",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_thurles",
+          "costPrice": 250,
+          "wholesalePrice": 262,
+          "sellPrice": 300,
+          "batteryPct": null,
+          "verified": false,
+          "verifiedAt": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
         }
       ],
       "createdAt": "2026-08-28"
@@ -19223,7 +19231,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:03:18.043Z",
+    "lastSaved": "2026-09-16T18:03:42.315Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
