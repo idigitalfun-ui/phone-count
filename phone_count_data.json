@@ -5409,7 +5409,7 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 1,
-        "shop_tullamore": 4
+        "shop_tullamore": 3
       },
       "units": [
         {
@@ -5453,18 +5453,6 @@
         {
           "id": "unit_z4pc6sau5pi",
           "imei": "352371198991548",
-          "color": "",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 400,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        },
-        {
-          "id": "unit_e6bxgfru5pi",
-          "imei": "352371198991514",
           "color": "",
           "condition": "New",
           "location": "shop_tullamore",
@@ -5520,7 +5508,15 @@
           "location": "shop_thurles",
           "costPrice": 330,
           "wholesalePrice": 342,
-          "sellPrice": 330
+          "sellPrice": 330,
+          "batteryPct": null,
+          "verified": false,
+          "verifiedAt": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
         },
         {
           "id": "unit_vuvhkp4u5np",
@@ -12766,6 +12762,60 @@
         }
       ],
       "createdAt": "2026-09-16"
+    },
+    {
+      "id": "item_4k761ohyp43",
+      "name": "Samsung A56",
+      "category": "cat_w56n2ktw69i",
+      "memory": "8GB/128GB",
+      "condition": "New",
+      "colors": [
+        "awesomeOlive",
+        "Awesome Olive",
+        "Awesome Graphi",
+        "Awesome Graphite"
+      ],
+      "costPrice": 1,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 430,
+        "shop_tullamore": 400,
+        "maynooth": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 1
+      },
+      "units": [
+        {
+          "id": "unit_e6bxgfru5pi",
+          "imei": "352371198991514",
+          "color": "",
+          "condition": "New",
+          "location": "shop_tullamore",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 400,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
+          "batteryPct": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        }
+      ],
+      "createdAt": "2026-09-16"
     }
   ],
   "movements": [
@@ -19194,7 +19244,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:07:11.731Z",
+    "lastSaved": "2026-09-16T18:07:58.371Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
