@@ -4924,54 +4924,6 @@
       "wholesalePrice": 242
     },
     {
-      "id": "item_leqc5v1u5pj",
-      "name": "Samsung A37",
-      "category": "cat_w56n2ktw69i",
-      "memory": "256GB",
-      "imei": "",
-      "condition": "New",
-      "colors": [
-        "Awesome White"
-      ],
-      "batteryPct": null,
-      "costPrice": 1,
-      "wholesalePrice": 13,
-      "shopPrices": {
-        "warehouse": 1,
-        "shop_thurles": 1,
-        "shop_kilkenny": 1,
-        "shop_maynooth": 0,
-        "shop_mullingar": 1,
-        "shop_tralee": 1,
-        "shop_tullamore": 1,
-        "maynooth": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 1
-      },
-      "units": [
-        {
-          "id": "unit_ycoxj40u5pj",
-          "imei": "353700230967810",
-          "color": "Awesome White",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 1,
-          "verified": true,
-          "verifiedAt": "2026-09-01"
-        }
-      ],
-      "createdAt": "2026-08-20"
-    },
-    {
       "id": "item_qbvtan1w69k",
       "name": "Samsung A37 5G",
       "category": "cat_w56n2ktw69i",
@@ -5132,7 +5084,7 @@
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 1,
-        "shop_tullamore": 0
+        "shop_tullamore": 1
       },
       "units": [
         {
@@ -5147,6 +5099,24 @@
           "batteryPct": null,
           "verified": true,
           "verifiedAt": "2026-09-01"
+        },
+        {
+          "id": "unit_ycoxj40u5pj",
+          "imei": "353700230967810",
+          "color": "Awesome White",
+          "condition": "New",
+          "location": "shop_tullamore",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 1,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
+          "batteryPct": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
         }
       ],
       "createdAt": "2026-08-20"
@@ -19180,7 +19150,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:06:17.283Z",
+    "lastSaved": "2026-09-16T18:06:23.699Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
