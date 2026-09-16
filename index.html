@@ -24733,6 +24733,7 @@ const NAV = [
   {group:'Reports', items:[
     {id:'weekly', label:'Weekly Report', icon:'▦'},
     {id:'history', label:'History', icon:'📜'},
+    {id:'shopsales', label:'Shop Sales', icon:'💰'},
     {id:'bestsellers', label:'Best Sellers', icon:'★'},
     {id:'reorder', label:'Reorder List', icon:'⤴'},
   ]},
@@ -24751,6 +24752,7 @@ const TITLES = {
   availability:['Shop Availability','Warehouse and shop stock for sending devices'],
   weekly:['Weekly Report','Weekly stock in / out / faulty / deposit / remaining, per shop'],
   history:['History','Date-wise historical records of Stock In and Stock Out'],
+  shopsales:['Shop Sales','Phones sold by shop, time period, model and IMEI'],
   bestsellers:['Best Sellers','What is moving fastest, so you know what to reorder'],
   reorder:['Reorder List','Build and export an order to send your supplier'],
   shops:['Shops','Add or remove shop locations — safe to undo'],
@@ -24875,7 +24877,7 @@ function render(){
     const fns = {
       dashboard: Views.dashboard, inventory: Views.inventory, stockin: Views.stockin,
       transfer: Views.stockview, sales: Views.stockview, weekly: Views.weekly,
-      history: Views.history, stockview: Views.stockview, availability: Views.availability, bestsellers: Views.bestsellers,
+      history: Views.history, shopsales: Views.shopsales, stockview: Views.stockview, availability: Views.availability, bestsellers: Views.bestsellers,
       reorder: Views.reorder, shops: Views.shops, categories: Views.categories,
       portals: Views.portals, portal: () => Views.shopPortal(portalShopId), backup: Views.backup,
     };
@@ -29835,7 +29837,7 @@ Views.history = function(){
           </details>
         </div>
       `;
-    } else if(tab === 'stockout') {
+    } else if(tab === 'stockout' || tab === 'sold' || tab === 'transfer') {
       // Stock Out & Transfers: Model, IMEI, Condition, Color, Qty, From, To, Type, Cost Price, Reference/Note, Action
       html += `
         <div class="card" style="margin-bottom:16px;border:1px solid #E2E8F0;">
@@ -30916,6 +30918,16 @@ Views.exportStockviewCsv = function(){
 
   csvDownload(`stock_list_${locId}_${mode}_${todayISO()}.csv`, rows);
   Toast.show('Stock list exported to CSV.','ok');
+};
+
+/* ---- SHOP SALES ---- */
+Views._shopSalesRange = 7;
+Views._shopSalesShop = 'all';
+Views.shopsales = function(){
+  const range=Views._shopSalesRange||7, shopId=Views._shopSalesShop||'all', since=isoAddDays(todayISO(),-range), shops=activeShops().filter(s=>!s.isWarehouse);
+  const sales=(Store.data.movements||[]).filter(m=>m?.type==='sold'&&m.date>=since&&(shopId==='all'||m.location===shopId)).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  const models={}; sales.forEach(m=>{ const key=m.itemId||m.itemName; if(!models[key])models[key]={name:m.itemName||'—',memory:itemById(m.itemId)?.memory||'—',qty:0}; models[key].qty+=Number(m.qty)||1; });
+  return `<div class="toolbar" style="flex-wrap:wrap;gap:10px;"><div class="chip-select">${['all',...shops.map(s=>s.id)].map(id=>`<button class="${shopId===id?'active':''}" onclick="Views._shopSalesShop='${id}';render()">${id==='all'?'All shops':esc(shopName(id))}</button>`).join('')}</div><div class="spacer"></div><div class="chip-select">${[[7,'Last week'],[30,'Last month'],[365,'Last year']].map(([d,label])=>`<button class="${range===d?'active':''}" onclick="Views._shopSalesRange=${d};render()">${label}</button>`).join('')}</div></div><div class="card card-pad" style="margin-bottom:16px;"><h3 style="margin-top:0;">Models sold</h3><div class="table-wrap"><table><thead><tr><th>Model</th><th>Memory</th><th>Phones sold</th></tr></thead><tbody>${Object.values(models).sort((a,b)=>b.qty-a.qty).map(x=>`<tr><td><b>${esc(x.name)}</b></td><td class="mono">${esc(x.memory)}</td><td><b>${x.qty}</b></td></tr>`).join('')||'<tr><td colspan="3">No sales in this period.</td></tr>'}</tbody></table></div></div><div class="card"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Shop</th><th>Model</th><th>Memory</th><th>IMEI</th><th>Colour</th></tr></thead><tbody>${sales.map(m=>{const it=itemById(m.itemId);return `<tr><td>${esc(m.date||'—')}</td><td><b>${esc(shopName(m.location))}</b></td><td><b>${esc(m.itemName||'—')}</b></td><td class="mono">${esc(it?.memory||'—')}</td><td class="mono" style="font-weight:700;color:var(--teal-dark);">${esc(m.unitData?.imei||'—')}</td><td>${esc(m.unitData?.color||'—')}</td></tr>`;}).join('')||'<tr><td colspan="6">No phones sold in this period.</td></tr>'}</tbody></table></div></div>`;
 };
 
 /* ---- SHOP AVAILABILITY ---- */
