@@ -2729,7 +2729,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 0,
+        "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -2737,7 +2737,20 @@
       },
       "createdAt": "2026-08-20",
       "wholesalePrice": 0,
-      "units": []
+      "units": [
+        {
+          "id": "unit_wvwyzw8wj8d",
+          "imei": "350753208585398",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_kilkenny",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 220,
+          "addedAt": "2026-08-28"
+        }
+      ]
     },
     {
       "id": "item_u3wugxju5ny",
@@ -10052,12 +10065,23 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
-        "shop_maynooth": 0,
+        "shop_maynooth": 1,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [],
+      "units": [
+        {
+          "id": "unit_8id42c4u5ot",
+          "imei": "354933660374566",
+          "color": "Pink",
+          "condition": "New",
+          "location": "shop_maynooth",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 0
+        }
+      ],
       "createdAt": "2026-08-20"
     },
     {
@@ -12771,28 +12795,6 @@
     }
   ],
   "movements": [
-    {
-      "id": "mv_py7d7c6vkag",
-      "type": "faulty",
-      "itemId": "item_43fm6seu5ot",
-      "itemName": "Modio M25 Tablet",
-      "categoryId": "cat_cgd9w36w69i",
-      "location": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-08-25",
-      "note": "stop charging, will send to warehouse as foulty",
-      "sellPrice": 0,
-      "unitData": {
-        "id": "unit_8id42c4u5ot",
-        "imei": "354933660374566",
-        "color": "Pink",
-        "condition": "New",
-        "location": "shop_maynooth",
-        "costPrice": 0,
-        "wholesalePrice": 0,
-        "sellPrice": 0
-      }
-    },
     {
       "id": "mv_cmi7oecbnsl",
       "type": "stock-in",
@@ -16314,30 +16316,6 @@
       "note": "Transferred from Warehouse (Battery: 87%)"
     },
     {
-      "id": "mv_x6wm6vawu9o",
-      "type": "faulty",
-      "itemId": "item_d27dxfiw69l",
-      "itemName": "Samsung A04S",
-      "categoryId": "cat_w56n2ktw69i",
-      "location": "shop_kilkenny",
-      "qty": 1,
-      "date": "2026-08-28",
-      "note": "Faulty, out the back of shop",
-      "sellPrice": 220,
-      "unitData": {
-        "id": "unit_wvwyzw8wj8d",
-        "imei": "350753208585398",
-        "color": "Black",
-        "condition": "New",
-        "batteryPct": null,
-        "location": "shop_kilkenny",
-        "costPrice": 0,
-        "wholesalePrice": 0,
-        "sellPrice": 220,
-        "addedAt": "2026-08-28"
-      }
-    },
-    {
       "id": "mv_j609c71dkax",
       "type": "sold",
       "itemId": "item_14pcuqkw69k",
@@ -19196,7 +19174,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-17T13:00:16.247Z",
+    "lastSaved": "2026-09-17T13:01:19.256Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
