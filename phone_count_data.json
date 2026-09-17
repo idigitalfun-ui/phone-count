@@ -12797,6 +12797,39 @@
       "shopVerifiedAt": {
         "shop_kilkenny": "2026-09-17"
       }
+    },
+    {
+      "id": "item_4az1y4suv16",
+      "name": "Playstation 5",
+      "category": "cat_kftq2c6u5n7",
+      "memory": "",
+      "condition": "New",
+      "batteryPct": null,
+      "imei": "",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 1,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [],
+      "createdAt": "2026-09-17"
     }
   ],
   "movements": [
@@ -19179,7 +19212,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-17T13:12:31.776Z",
+    "lastSaved": "2026-09-17T13:12:43.674Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
