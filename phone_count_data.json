@@ -2748,7 +2748,9 @@
           "costPrice": 0,
           "wholesalePrice": 0,
           "sellPrice": 220,
-          "addedAt": "2026-08-28"
+          "addedAt": "2026-08-28",
+          "verified": true,
+          "verifiedAt": "2026-09-17"
         }
       ]
     },
@@ -19174,7 +19176,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-17T13:01:19.256Z",
+    "lastSaved": "2026-09-17T13:01:33.001Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
@@ -19257,6 +19259,20 @@
       }
     },
     "shopChanges": [
+      {
+        "id": "chg_11atd7vghjd",
+        "timestamp": "2026-09-17T13:01:33.001Z",
+        "status": "pending",
+        "shopId": "shop_kilkenny",
+        "type": "verify",
+        "itemId": "item_d27dxfiw69l",
+        "unitId": "unit_wvwyzw8wj8d",
+        "itemName": "Samsung A04S",
+        "imei": "350753208585398",
+        "details": "Marked IMEI 350753208585398 as Verified / OK",
+        "oldValue": false,
+        "newValue": true
+      },
       {
         "id": "chg_izms78jw2pz",
         "timestamp": "2026-09-16T18:05:56.039Z",
