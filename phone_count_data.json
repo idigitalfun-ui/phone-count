@@ -4760,7 +4760,7 @@
       "colors": [
         "Black"
       ],
-      "costPrice": 0,
+      "costPrice": 250,
       "wholesalePrice": 0,
       "shopPrices": {
         "warehouse": 300,
@@ -5434,6 +5434,202 @@
         }
       ],
       "createdAt": "2026-08-20"
+    },
+    {
+      "id": "item_4k761ohyp43",
+      "name": "Samsung A56",
+      "category": "cat_w56n2ktw69i",
+      "memory": "8GB/128GB",
+      "condition": "New",
+      "colors": [
+        "awesomeOlive",
+        "Awesome Olive",
+        "Awesome Graphi",
+        "Awesome Graphite"
+      ],
+      "costPrice": 1,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 430,
+        "shop_tullamore": 400,
+        "maynooth": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 1,
+        "shop_tullamore": 4
+      },
+      "units": [
+        {
+          "id": "unit_e6bxgfru5pi",
+          "imei": "352371198991514",
+          "color": "",
+          "condition": "New",
+          "location": "shop_tullamore",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 400,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
+          "batteryPct": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        },
+        {
+          "id": "unit_z4pc6sau5pi",
+          "imei": "352371198991548",
+          "color": "",
+          "condition": "New",
+          "location": "shop_tullamore",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 400,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
+          "batteryPct": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        },
+        {
+          "id": "unit_7vudq5vu5ph",
+          "imei": "352371193239158",
+          "color": "",
+          "condition": "New",
+          "location": "shop_tullamore",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 400,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
+          "batteryPct": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        },
+        {
+          "id": "unit_e9pmr5tu5ph",
+          "imei": "352371190244821",
+          "color": "Awesome Graphite",
+          "condition": "New",
+          "location": "shop_tullamore",
+          "costPrice": 1,
+          "wholesalePrice": 13,
+          "sellPrice": 400,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
+          "batteryPct": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        },
+        {
+          "id": "unit_5iotgvcu5p6",
+          "imei": "352371197607293",
+          "color": "Awesome Olive",
+          "condition": "New",
+          "location": "shop_tralee",
+          "costPrice": 0,
+          "wholesalePrice": 0,
+          "sellPrice": 430,
+          "batteryPct": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        }
+      ],
+      "createdAt": "2026-09-16"
+    },
+    {
+      "id": "item_riyucc2xmv7",
+      "name": "Samsung A56 5G",
+      "category": "cat_w56n2ktw69i",
+      "memory": "8GB/256GB",
+      "condition": "New",
+      "colors": [
+        "Olive",
+        "Awesome Lightgray"
+      ],
+      "costPrice": 275,
+      "shopPrices": {
+        "warehouse": 305,
+        "shop_thurles": 330,
+        "shop_kilkenny": 380,
+        "shop_maynooth": 0,
+        "shop_mullingar": 305,
+        "shop_tralee": 380,
+        "shop_tullamore": 305,
+        "maynooth": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 1,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_ksgzfbgu5ok",
+          "imei": "350593640585246",
+          "color": "Olive",
+          "condition": "New",
+          "location": "shop_maynooth",
+          "costPrice": 275,
+          "wholesalePrice": 287,
+          "sellPrice": 0,
+          "verified": false,
+          "verifiedAt": null,
+          "batteryPct": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        },
+        {
+          "id": "unit_pvitd2cafq5",
+          "imei": "350593640564811",
+          "color": "Awesome Lightgray",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_kilkenny",
+          "costPrice": 275,
+          "wholesalePrice": 0,
+          "sellPrice": 380,
+          "addedAt": null,
+          "verified": true,
+          "verifiedAt": "2026-09-01",
+          "purchaseDate": null,
+          "dateAdded": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        }
+      ],
+      "createdAt": "2026-09-16"
     },
     {
       "id": "item_ty1z4kqu5o3",
@@ -12572,202 +12768,6 @@
       "shopVerifiedAt": {
         "shop_tralee": "2026-09-07"
       }
-    },
-    {
-      "id": "item_riyucc2xmv7",
-      "name": "Samsung A56 5G",
-      "category": "cat_w56n2ktw69i",
-      "memory": "8GB/256GB",
-      "condition": "New",
-      "colors": [
-        "Olive",
-        "Awesome Lightgray"
-      ],
-      "costPrice": 275,
-      "shopPrices": {
-        "warehouse": 305,
-        "shop_thurles": 330,
-        "shop_kilkenny": 380,
-        "shop_maynooth": 0,
-        "shop_mullingar": 305,
-        "shop_tralee": 380,
-        "shop_tullamore": 305,
-        "maynooth": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 1,
-        "shop_maynooth": 1,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "units": [
-        {
-          "id": "unit_ksgzfbgu5ok",
-          "imei": "350593640585246",
-          "color": "Olive",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 275,
-          "wholesalePrice": 287,
-          "sellPrice": 0,
-          "verified": false,
-          "verifiedAt": null,
-          "batteryPct": null,
-          "purchaseDate": null,
-          "dateAdded": null,
-          "addedAt": null,
-          "sentToShopDate": null,
-          "transferredAt": null
-        },
-        {
-          "id": "unit_pvitd2cafq5",
-          "imei": "350593640564811",
-          "color": "Awesome Lightgray",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_kilkenny",
-          "costPrice": 275,
-          "wholesalePrice": 0,
-          "sellPrice": 380,
-          "addedAt": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01",
-          "purchaseDate": null,
-          "dateAdded": null,
-          "sentToShopDate": null,
-          "transferredAt": null
-        }
-      ],
-      "createdAt": "2026-09-16"
-    },
-    {
-      "id": "item_4k761ohyp43",
-      "name": "Samsung A56",
-      "category": "cat_w56n2ktw69i",
-      "memory": "8GB/128GB",
-      "condition": "New",
-      "colors": [
-        "awesomeOlive",
-        "Awesome Olive",
-        "Awesome Graphi",
-        "Awesome Graphite"
-      ],
-      "costPrice": 1,
-      "shopPrices": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 430,
-        "shop_tullamore": 400,
-        "maynooth": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 1,
-        "shop_tullamore": 4
-      },
-      "units": [
-        {
-          "id": "unit_e6bxgfru5pi",
-          "imei": "352371198991514",
-          "color": "",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 400,
-          "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": null,
-          "purchaseDate": null,
-          "dateAdded": null,
-          "addedAt": null,
-          "sentToShopDate": null,
-          "transferredAt": null
-        },
-        {
-          "id": "unit_z4pc6sau5pi",
-          "imei": "352371198991548",
-          "color": "",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 400,
-          "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": null,
-          "purchaseDate": null,
-          "dateAdded": null,
-          "addedAt": null,
-          "sentToShopDate": null,
-          "transferredAt": null
-        },
-        {
-          "id": "unit_7vudq5vu5ph",
-          "imei": "352371193239158",
-          "color": "",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 400,
-          "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": null,
-          "purchaseDate": null,
-          "dateAdded": null,
-          "addedAt": null,
-          "sentToShopDate": null,
-          "transferredAt": null
-        },
-        {
-          "id": "unit_e9pmr5tu5ph",
-          "imei": "352371190244821",
-          "color": "Awesome Graphite",
-          "condition": "New",
-          "location": "shop_tullamore",
-          "costPrice": 1,
-          "wholesalePrice": 13,
-          "sellPrice": 400,
-          "verified": true,
-          "verifiedAt": "2026-09-01",
-          "batteryPct": null,
-          "purchaseDate": null,
-          "dateAdded": null,
-          "addedAt": null,
-          "sentToShopDate": null,
-          "transferredAt": null
-        },
-        {
-          "id": "unit_5iotgvcu5p6",
-          "imei": "352371197607293",
-          "color": "Awesome Olive",
-          "condition": "New",
-          "location": "shop_tralee",
-          "costPrice": 0,
-          "wholesalePrice": 0,
-          "sellPrice": 430,
-          "batteryPct": null,
-          "verified": true,
-          "verifiedAt": "2026-09-01",
-          "purchaseDate": null,
-          "dateAdded": null,
-          "addedAt": null,
-          "sentToShopDate": null,
-          "transferredAt": null
-        }
-      ],
-      "createdAt": "2026-09-16"
     }
   ],
   "movements": [
@@ -19196,7 +19196,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-16T18:08:16.627Z",
+    "lastSaved": "2026-09-17T12:59:21.593Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
