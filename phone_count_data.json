@@ -12794,6 +12794,45 @@
       "shopVerifiedAt": {
         "shop_tralee": "2026-09-07"
       }
+    },
+    {
+      "id": "item_k48m8qphuxe",
+      "name": "IDFL i5",
+      "category": "cat_kftq2c6u5n7",
+      "memory": "",
+      "condition": "New",
+      "batteryPct": null,
+      "imei": "",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 1,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [],
+      "createdAt": "2026-09-17",
+      "shopVerified": {
+        "shop_kilkenny": true
+      },
+      "shopVerifiedAt": {
+        "shop_kilkenny": "2026-09-17"
+      }
     }
   ],
   "movements": [
@@ -19176,7 +19215,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-17T13:02:21.257Z",
+    "lastSaved": "2026-09-17T13:02:39.026Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
@@ -19259,6 +19298,18 @@
       }
     },
     "shopChanges": [
+      {
+        "id": "chg_op977bohwhe",
+        "timestamp": "2026-09-17T13:02:39.026Z",
+        "status": "pending",
+        "shopId": "shop_kilkenny",
+        "type": "verify",
+        "itemId": "item_k48m8qphuxe",
+        "itemName": "IDFL i5",
+        "details": "Marked stock as Checked / OK",
+        "oldValue": false,
+        "newValue": true
+      },
       {
         "id": "chg_11atd7vghjd",
         "timestamp": "2026-09-17T13:01:33.001Z",
