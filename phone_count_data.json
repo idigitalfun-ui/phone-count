@@ -10504,24 +10504,12 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
-        "shop_maynooth": 2,
+        "shop_maynooth": 1,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
-      "units": [
-        {
-          "id": "unit_nsmeomlrmxg",
-          "imei": "SDRD2LY66Q2",
-          "color": "White",
-          "condition": "New",
-          "batteryPct": null,
-          "location": "shop_maynooth",
-          "costPrice": 105,
-          "sellPrice": 0,
-          "addedAt": "2026-08-28"
-        }
-      ],
+      "units": [],
       "createdAt": "2026-08-28"
     },
     {
@@ -19191,7 +19179,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-17T13:10:35.047Z",
+    "lastSaved": "2026-09-17T13:10:38.850Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
