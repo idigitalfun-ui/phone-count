@@ -6607,8 +6607,8 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 6,
-        "shop_thurles": 0,
+        "warehouse": 5,
+        "shop_thurles": 1,
         "shop_kilkenny": 1,
         "shop_maynooth": 1,
         "shop_mullingar": 1,
@@ -6671,7 +6671,7 @@
           "imei": "356771220265900",
           "color": "Black",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_thurles",
           "costPrice": 135,
           "wholesalePrice": 147,
           "sellPrice": 155
@@ -19742,6 +19742,30 @@
       "date": "2026-09-21",
       "note": "Transferred Samsung A37 5G from Warehouse to Thurles",
       "id": "mv_uvshqqlt8gp"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_0apjlq8w69k",
+      "itemName": "Blackview BV 4800 SE",
+      "categoryId": "cat_kzhvkkxw69i",
+      "location": "warehouse",
+      "toLocation": "shop_thurles",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred Blackview BV 4800 SE from Warehouse to Thurles",
+      "id": "mv_vp738hrtboo"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_0apjlq8w69k",
+      "itemName": "Blackview BV 4800 SE",
+      "categoryId": "cat_kzhvkkxw69i",
+      "location": "shop_thurles",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred Blackview BV 4800 SE from Warehouse to Thurles",
+      "id": "mv_8turwv0tboo"
     }
   ],
   "reorderList": [
@@ -19754,7 +19778,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:34:05.977Z",
+    "lastSaved": "2026-09-21T16:34:12.438Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
