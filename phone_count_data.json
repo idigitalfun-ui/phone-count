@@ -6530,7 +6530,15 @@
           "location": "shop_thurles",
           "costPrice": 135,
           "wholesalePrice": 147,
-          "sellPrice": 155
+          "sellPrice": 155,
+          "batteryPct": null,
+          "verified": false,
+          "verifiedAt": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": "2026-09-16",
+          "transferredAt": "2026-09-16"
         },
         {
           "id": "unit_5hj01udu5nh",
@@ -19586,7 +19594,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:49:53.864Z",
+    "lastSaved": "2026-09-21T16:49:59.903Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
