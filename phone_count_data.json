@@ -2191,7 +2191,7 @@
         "shop_thurles": 3,
         "shop_kilkenny": 2,
         "shop_maynooth": 4,
-        "shop_mullingar": 2,
+        "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 0
       },
@@ -2202,18 +2202,6 @@
           "id": "unit_m8vxy1d9wih",
           "imei": "354004399337751",
           "color": "Yellow",
-          "condition": "Used",
-          "location": "shop_mullingar",
-          "costPrice": 440,
-          "sellPrice": 550,
-          "batteryPct": null,
-          "dateAdded": "2026-08-25",
-          "wholesalePrice": 0
-        },
-        {
-          "id": "unit_pp2kunya3yu",
-          "imei": "359987258671127",
-          "color": "Blue",
           "condition": "Used",
           "location": "shop_mullingar",
           "costPrice": 440,
@@ -19850,6 +19838,30 @@
         "dateAdded": "2026-08-26",
         "wholesalePrice": 0
       }
+    },
+    {
+      "id": "mv_4wz1ufjx36o",
+      "type": "deposit",
+      "itemId": "item_07lmh0xw69l",
+      "itemName": "iPhone 15",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_mullingar",
+      "qty": 1,
+      "date": "2026-09-15",
+      "note": "Deposit — from Inventory",
+      "sellPrice": 550,
+      "unitData": {
+        "id": "unit_pp2kunya3yu",
+        "imei": "359987258671127",
+        "color": "Blue",
+        "condition": "Used",
+        "location": "shop_mullingar",
+        "costPrice": 440,
+        "sellPrice": 550,
+        "batteryPct": null,
+        "dateAdded": "2026-08-25",
+        "wholesalePrice": 0
+      }
     }
   ],
   "reorderList": [
@@ -19862,7 +19874,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:36:18.565Z",
+    "lastSaved": "2026-09-21T16:37:05.760Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
