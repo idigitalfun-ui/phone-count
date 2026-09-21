@@ -10524,9 +10524,9 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 0,
         "shop_thurles": 1,
-        "shop_kilkenny": 0,
+        "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
@@ -10538,7 +10538,7 @@
           "imei": "SGJQ4LFT70W",
           "color": "",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_kilkenny",
           "costPrice": 199,
           "wholesalePrice": 211,
           "sellPrice": 225
@@ -19286,6 +19286,30 @@
       "date": "2026-09-21",
       "note": "Transferred Nokia 106 from Warehouse to Kilkenney",
       "id": "mv_26kl7nwr4y0"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_6t2ggm3w69k",
+      "itemName": "AirPods Pro 3",
+      "categoryId": "cat_qaxr5vow69i",
+      "location": "warehouse",
+      "toLocation": "shop_kilkenny",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred AirPods Pro 3 from Warehouse to Kilkenney",
+      "id": "mv_kih6jzprb9c"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_6t2ggm3w69k",
+      "itemName": "AirPods Pro 3",
+      "categoryId": "cat_qaxr5vow69i",
+      "location": "shop_kilkenny",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred AirPods Pro 3 from Warehouse to Kilkenney",
+      "id": "mv_b3knt98rb9c"
     }
   ],
   "reorderList": [
@@ -19298,7 +19322,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:32:31.349Z",
+    "lastSaved": "2026-09-21T16:32:38.920Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
