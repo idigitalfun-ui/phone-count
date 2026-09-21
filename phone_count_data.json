@@ -6977,8 +6977,8 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 4,
-        "shop_thurles": 0,
+        "warehouse": 3,
+        "shop_thurles": 1,
         "shop_kilkenny": 1,
         "shop_maynooth": 1,
         "shop_mullingar": 1,
@@ -7011,7 +7011,7 @@
           "imei": "352482910529605",
           "color": "Black",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_thurles",
           "costPrice": 155,
           "wholesalePrice": 167,
           "sellPrice": 180
@@ -19766,6 +19766,30 @@
       "date": "2026-09-21",
       "note": "Transferred Blackview BV 4800 SE from Warehouse to Thurles",
       "id": "mv_8turwv0tboo"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_ccykxiqw69k",
+      "itemName": "Blackview NB 4800 Pro",
+      "categoryId": "cat_kzhvkkxw69i",
+      "location": "warehouse",
+      "toLocation": "shop_thurles",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred Blackview NB 4800 Pro from Warehouse to Thurles",
+      "id": "mv_xvg084rteq8"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_ccykxiqw69k",
+      "itemName": "Blackview NB 4800 Pro",
+      "categoryId": "cat_kzhvkkxw69i",
+      "location": "shop_thurles",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred Blackview NB 4800 Pro from Warehouse to Thurles",
+      "id": "mv_7vvggngteq8"
     }
   ],
   "reorderList": [
@@ -19778,7 +19802,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:34:12.438Z",
+    "lastSaved": "2026-09-21T16:34:14.096Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
