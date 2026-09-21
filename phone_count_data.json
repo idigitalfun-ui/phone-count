@@ -8044,7 +8044,7 @@
         "shop_tullamore": 0
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
         "shop_maynooth": 1,
@@ -19578,7 +19578,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:50:46.482Z",
+    "lastSaved": "2026-09-21T16:50:51.536Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
