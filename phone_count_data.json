@@ -8054,10 +8054,10 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
-        "shop_maynooth": 1,
+        "shop_maynooth": 2,
         "shop_mullingar": 2,
         "shop_tralee": 0,
         "shop_tullamore": 1
@@ -8068,7 +8068,7 @@
           "imei": "355647768278136",
           "color": "",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 15,
           "wholesalePrice": 27,
           "sellPrice": 22
@@ -19454,6 +19454,30 @@
       "date": "2026-09-21",
       "note": "Transferred iPhone 13 from Warehouse to Maynooth",
       "id": "mv_z8mzag0s2ag"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_xil44ciw69k",
+      "itemName": "Nokia 106",
+      "categoryId": "cat_lkhn0qyw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred Nokia 106 from Warehouse to Maynooth",
+      "id": "mv_rd5fmvms60g"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_xil44ciw69k",
+      "itemName": "Nokia 106",
+      "categoryId": "cat_lkhn0qyw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred Nokia 106 from Warehouse to Maynooth",
+      "id": "mv_v154h4ls60g"
     }
   ],
   "reorderList": [
@@ -19466,7 +19490,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:33:13.713Z",
+    "lastSaved": "2026-09-21T16:33:18.303Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
