@@ -1478,12 +1478,12 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 7,
+        "warehouse": 6,
         "shop_thurles": 3,
         "shop_kilkenny": 3,
         "shop_maynooth": 2,
         "shop_mullingar": 2,
-        "shop_tralee": 0,
+        "shop_tralee": 1,
         "shop_tullamore": 0
       },
       "createdAt": "2026-08-20",
@@ -1594,7 +1594,7 @@
           "imei": "352408238803323",
           "color": "Midnight",
           "condition": "Used",
-          "location": "warehouse",
+          "location": "shop_tralee",
           "costPrice": 255,
           "sellPrice": 340,
           "batteryPct": null,
@@ -19190,6 +19190,30 @@
         "verified": true,
         "verifiedAt": "2026-09-07"
       }
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_14pcuqkw69k",
+      "itemName": "iPhone 13",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "warehouse",
+      "toLocation": "shop_tralee",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred iPhone 13 from Warehouse to Tralee",
+      "id": "mv_2z8qdxjqlbs"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_14pcuqkw69k",
+      "itemName": "iPhone 13",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_tralee",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred iPhone 13 from Warehouse to Tralee",
+      "id": "mv_jarp753qlbs"
     }
   ],
   "reorderList": [
@@ -19202,7 +19226,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:31:54.271Z",
+    "lastSaved": "2026-09-21T16:32:02.680Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
