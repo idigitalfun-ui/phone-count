@@ -8033,7 +8033,7 @@
         "Black",
         "Charcoal"
       ],
-      "costPrice": 0,
+      "costPrice": 15,
       "shopPrices": {
         "warehouse": 0,
         "shop_thurles": 0,
@@ -8060,7 +8060,7 @@
           "condition": "New",
           "batteryPct": null,
           "location": "shop_maynooth",
-          "costPrice": 0,
+          "costPrice": 15,
           "sellPrice": 0,
           "addedAt": null,
           "verified": false,
@@ -19578,7 +19578,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:50:51.536Z",
+    "lastSaved": "2026-09-21T16:50:56.514Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
@@ -19661,6 +19661,32 @@
       }
     },
     "shopChanges": [
+      {
+        "id": "chg_ayabbg4ew7f",
+        "timestamp": "2026-09-21T16:50:56.523Z",
+        "status": "pending",
+        "shopId": "shop_maynooth",
+        "type": "price_edit",
+        "itemId": "item_doc1kpw4bx8",
+        "unitId": "unit_ef10ooab5nl",
+        "itemName": "Nokia 106",
+        "details": "Updated cost price to €15.00",
+        "oldValue": 15,
+        "newValue": 15
+      },
+      {
+        "id": "chg_nfmljyneuxr",
+        "timestamp": "2026-09-21T16:50:54.879Z",
+        "status": "pending",
+        "shopId": "shop_maynooth",
+        "type": "price_edit",
+        "itemId": "item_doc1kpw4bx8",
+        "unitId": "unit_ef10ooab5nl",
+        "itemName": "Nokia 106",
+        "details": "Updated cost price to €0.02",
+        "oldValue": 0.02,
+        "newValue": 0.02
+      },
       {
         "id": "chg_op977bohwhe",
         "timestamp": "2026-09-17T13:02:39.026Z",
