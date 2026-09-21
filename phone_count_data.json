@@ -993,10 +993,10 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 5,
+        "warehouse": 3,
         "shop_thurles": 2,
         "shop_kilkenny": 2,
-        "shop_maynooth": 3,
+        "shop_maynooth": 5,
         "shop_mullingar": 2,
         "shop_tralee": 0,
         "shop_tullamore": 1
@@ -1145,7 +1145,7 @@
           "imei": "358503117668385",
           "color": "Black",
           "condition": "Used",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 170,
           "sellPrice": 290,
           "batteryPct": 88,
@@ -1247,7 +1247,7 @@
           "imei": "353049110269842",
           "color": "Black",
           "condition": "Used",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 170,
           "sellPrice": 290,
           "batteryPct": 95,
@@ -19526,6 +19526,54 @@
       "date": "2026-09-21",
       "note": "Transferred iPhone 12 from Warehouse to Maynooth",
       "id": "mv_am7s1qasd1s"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_qw8eo3aw69k",
+      "itemName": "iPhone 12",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred iPhone 12 from Warehouse to Maynooth",
+      "id": "mv_b4k1pxqsgig"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_qw8eo3aw69k",
+      "itemName": "iPhone 12",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred iPhone 12 from Warehouse to Maynooth",
+      "id": "mv_mimd0zasgig"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_qw8eo3aw69k",
+      "itemName": "iPhone 12",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred iPhone 12 from Warehouse to Maynooth",
+      "id": "mv_hhrdfacsjrk"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_qw8eo3aw69k",
+      "itemName": "iPhone 12",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred iPhone 12 from Warehouse to Maynooth",
+      "id": "mv_7dczbfjsjrk"
     }
   ],
   "reorderList": [
@@ -19538,7 +19586,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:33:27.740Z",
+    "lastSaved": "2026-09-21T16:33:33.968Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
