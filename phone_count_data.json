@@ -2816,7 +2816,7 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
-        "shop_maynooth": 2,
+        "shop_maynooth": 1,
         "shop_mullingar": 0,
         "shop_tralee": 1,
         "shop_tullamore": 1
@@ -2835,20 +2835,6 @@
           "wholesalePrice": 0,
           "verified": true,
           "verifiedAt": "2026-09-07"
-        },
-        {
-          "id": "unit_3cnv0ft9lix",
-          "imei": "350584198664103",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 95,
-          "sellPrice": 0,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 0,
-          "verified": false,
-          "verifiedAt": null
         },
         {
           "id": "unit_t509u3l9lj2",
@@ -19978,6 +19964,32 @@
         "verified": false,
         "verifiedAt": null
       }
+    },
+    {
+      "id": "mv_jsy812b19l4",
+      "type": "sold",
+      "itemId": "item_kjnrq5aw69k",
+      "itemName": "Samsung A06",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-17",
+      "note": "Sold from Inventory",
+      "sellPrice": 119,
+      "unitData": {
+        "id": "unit_3cnv0ft9lix",
+        "imei": "350584198664103",
+        "color": "Black",
+        "condition": "New",
+        "location": "shop_maynooth",
+        "costPrice": 95,
+        "sellPrice": 119,
+        "batteryPct": null,
+        "dateAdded": "2026-08-26",
+        "wholesalePrice": 0,
+        "verified": false,
+        "verifiedAt": null
+      }
     }
   ],
   "reorderList": [
@@ -19990,7 +20002,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:40:13.778Z",
+    "lastSaved": "2026-09-21T16:40:20.680Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
