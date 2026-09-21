@@ -4875,10 +4875,10 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 3,
+        "warehouse": 2,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
-        "shop_maynooth": 1,
+        "shop_maynooth": 2,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -4913,7 +4913,7 @@
           "imei": "354380322912823",
           "color": "Awesome Graygreen",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 230,
           "sellPrice": 220,
           "batteryPct": null,
@@ -19646,6 +19646,30 @@
       "date": "2026-09-21",
       "note": "Transferred iPhone 11 from Warehouse to Maynooth",
       "id": "mv_d56g036stl4"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_cu1j56ww69k",
+      "itemName": "Samsung A37 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred Samsung A37 5G from Warehouse to Maynooth",
+      "id": "mv_7mr980osy6o"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_cu1j56ww69k",
+      "itemName": "Samsung A37 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred Samsung A37 5G from Warehouse to Maynooth",
+      "id": "mv_kg62xeasy6o"
     }
   ],
   "reorderList": [
@@ -19658,7 +19682,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:33:46.696Z",
+    "lastSaved": "2026-09-21T16:33:52.656Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
