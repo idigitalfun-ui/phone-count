@@ -1478,10 +1478,10 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 5,
+        "warehouse": 4,
         "shop_thurles": 3,
         "shop_kilkenny": 3,
-        "shop_maynooth": 3,
+        "shop_maynooth": 4,
         "shop_mullingar": 2,
         "shop_tralee": 1,
         "shop_tullamore": 0
@@ -1627,7 +1627,7 @@
           "imei": "355178166968318",
           "color": "Midnight",
           "condition": "Used",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 255,
           "sellPrice": 340,
           "batteryPct": null,
@@ -19430,6 +19430,30 @@
       "date": "2026-09-21",
       "note": "Transferred iPhone 13 from Warehouse to Maynooth",
       "id": "mv_pt5trucrxeg"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_14pcuqkw69k",
+      "itemName": "iPhone 13",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred iPhone 13 from Warehouse to Maynooth",
+      "id": "mv_pstrlbos2ag"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_14pcuqkw69k",
+      "itemName": "iPhone 13",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred iPhone 13 from Warehouse to Maynooth",
+      "id": "mv_z8mzag0s2ag"
     }
   ],
   "reorderList": [
@@ -19442,7 +19466,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:33:07.510Z",
+    "lastSaved": "2026-09-21T16:33:13.713Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
