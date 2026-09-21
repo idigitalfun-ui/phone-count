@@ -1773,7 +1773,7 @@
         "shop_thurles": 2,
         "shop_kilkenny": 4,
         "shop_maynooth": 6,
-        "shop_mullingar": 2,
+        "shop_mullingar": 1,
         "shop_tralee": 1,
         "shop_tullamore": 3
       },
@@ -1862,18 +1862,6 @@
           "id": "unit_ce7qijg9ctz",
           "imei": "350542608935141",
           "color": "Starlight",
-          "condition": "Used",
-          "location": "shop_mullingar",
-          "costPrice": 285,
-          "sellPrice": 460,
-          "batteryPct": null,
-          "dateAdded": "2026-08-25",
-          "wholesalePrice": 0
-        },
-        {
-          "id": "unit_oun0bd59luf",
-          "imei": "355232484711874",
-          "color": "Purple",
           "condition": "Used",
           "location": "shop_mullingar",
           "costPrice": 285,
@@ -19826,6 +19814,30 @@
         "dateAdded": "2026-08-26",
         "wholesalePrice": 172
       }
+    },
+    {
+      "id": "mv_dqfkiflvoeo",
+      "type": "sold",
+      "itemId": "item_8qq0twtnnrm",
+      "itemName": "iPhone 14",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_mullingar",
+      "qty": 1,
+      "date": "2026-09-20",
+      "note": "Sold from Inventory",
+      "sellPrice": 420,
+      "unitData": {
+        "id": "unit_oun0bd59luf",
+        "imei": "355232484711874",
+        "color": "Purple",
+        "condition": "Used",
+        "location": "shop_mullingar",
+        "costPrice": 285,
+        "sellPrice": 420,
+        "batteryPct": null,
+        "dateAdded": "2026-08-25",
+        "wholesalePrice": 0
+      }
     }
   ],
   "reorderList": [
@@ -19838,7 +19850,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:35:46.392Z",
+    "lastSaved": "2026-09-21T16:35:59.952Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
