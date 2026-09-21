@@ -8626,10 +8626,10 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 6,
+        "warehouse": 5,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
-        "shop_maynooth": 0,
+        "shop_maynooth": 1,
         "shop_mullingar": 2,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -8640,7 +8640,7 @@
           "imei": "350769531601421",
           "color": "",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 140,
           "wholesalePrice": 152,
           "sellPrice": 160
@@ -19670,6 +19670,30 @@
       "date": "2026-09-21",
       "note": "Transferred Samsung A37 5G from Warehouse to Maynooth",
       "id": "mv_kg62xeasy6o"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_wqsfklyw69k",
+      "itemName": "Samsung Tab A11",
+      "categoryId": "cat_cgd9w36w69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred Samsung Tab A11 from Warehouse to Maynooth",
+      "id": "mv_gn91krpt1tk"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_wqsfklyw69k",
+      "itemName": "Samsung Tab A11",
+      "categoryId": "cat_cgd9w36w69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred Samsung Tab A11 from Warehouse to Maynooth",
+      "id": "mv_mz6bnnpt1tk"
     }
   ],
   "reorderList": [
@@ -19682,7 +19706,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:33:54.692Z",
+    "lastSaved": "2026-09-21T16:33:59.681Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
