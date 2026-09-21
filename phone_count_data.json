@@ -493,10 +493,10 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 6,
+        "warehouse": 4,
         "shop_thurles": 4,
         "shop_kilkenny": 2,
-        "shop_maynooth": 3,
+        "shop_maynooth": 5,
         "shop_mullingar": 2,
         "shop_tralee": 2,
         "shop_tullamore": 2
@@ -792,7 +792,7 @@
           "imei": "356801112481941",
           "color": "Black",
           "condition": "Used",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 155,
           "sellPrice": 240,
           "batteryPct": 87,
@@ -809,7 +809,7 @@
           "imei": "358845630178032",
           "color": "Black",
           "condition": "Used",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 155,
           "sellPrice": 240,
           "batteryPct": 83,
@@ -19598,6 +19598,54 @@
       "date": "2026-09-21",
       "note": "Transferred iPhone 11 from Warehouse to Maynooth",
       "id": "mv_5ks9x9usn1s"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_zet5u37w69k",
+      "itemName": "iPhone 11",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred iPhone 11 from Warehouse to Maynooth",
+      "id": "mv_s3xierisqdc"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_zet5u37w69k",
+      "itemName": "iPhone 11",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred iPhone 11 from Warehouse to Maynooth",
+      "id": "mv_a9kvjbfsqdc"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_zet5u37w69k",
+      "itemName": "iPhone 11",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred iPhone 11 from Warehouse to Maynooth",
+      "id": "mv_7q1xoc2stl4"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_zet5u37w69k",
+      "itemName": "iPhone 11",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred iPhone 11 from Warehouse to Maynooth",
+      "id": "mv_d56g036stl4"
     }
   ],
   "reorderList": [
@@ -19610,7 +19658,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:33:40.276Z",
+    "lastSaved": "2026-09-21T16:33:46.696Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
