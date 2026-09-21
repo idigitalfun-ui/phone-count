@@ -19578,7 +19578,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:50:56.514Z",
+    "lastSaved": "2026-09-21T16:51:20.399Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
@@ -19661,19 +19661,6 @@
       }
     },
     "shopChanges": [
-      {
-        "id": "chg_ayabbg4ew7f",
-        "timestamp": "2026-09-21T16:50:56.523Z",
-        "status": "pending",
-        "shopId": "shop_maynooth",
-        "type": "price_edit",
-        "itemId": "item_doc1kpw4bx8",
-        "unitId": "unit_ef10ooab5nl",
-        "itemName": "Nokia 106",
-        "details": "Updated cost price to €15.00",
-        "oldValue": 15,
-        "newValue": 15
-      },
       {
         "id": "chg_nfmljyneuxr",
         "timestamp": "2026-09-21T16:50:54.879Z",
