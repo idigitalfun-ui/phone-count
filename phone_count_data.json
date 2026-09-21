@@ -993,9 +993,9 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 8,
+        "warehouse": 7,
         "shop_thurles": 2,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 2,
         "shop_maynooth": 1,
         "shop_mullingar": 2,
         "shop_tralee": 0,
@@ -1162,7 +1162,7 @@
           "imei": "353046114150242",
           "color": "Black",
           "condition": "Used",
-          "location": "warehouse",
+          "location": "shop_kilkenny",
           "costPrice": 170,
           "sellPrice": 290,
           "batteryPct": 99,
@@ -19334,6 +19334,30 @@
       "date": "2026-09-21",
       "note": "Transferred Samsung A17 from Warehouse to Kilkenney",
       "id": "mv_511ef7irhjc"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_qw8eo3aw69k",
+      "itemName": "iPhone 12",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "warehouse",
+      "toLocation": "shop_kilkenny",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred iPhone 12 from Warehouse to Kilkenney",
+      "id": "mv_llh7jihrlx4"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_qw8eo3aw69k",
+      "itemName": "iPhone 12",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_kilkenny",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred iPhone 12 from Warehouse to Kilkenney",
+      "id": "mv_joy6dzvrlx4"
     }
   ],
   "reorderList": [
@@ -19346,7 +19370,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:32:46.897Z",
+    "lastSaved": "2026-09-21T16:32:50.104Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
