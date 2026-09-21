@@ -1238,8 +1238,8 @@
           "verifiedAt": "2026-09-02",
           "purchaseDate": "2026-09-01",
           "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "sentToShopDate": "2026-09-16",
+          "transferredAt": "2026-09-16"
         }
       ],
       "createdAt": "2026-08-20",
@@ -19558,7 +19558,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:48:38.660Z",
+    "lastSaved": "2026-09-21T16:48:42.336Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
