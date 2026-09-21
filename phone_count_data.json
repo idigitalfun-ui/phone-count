@@ -7988,22 +7988,12 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
-        "shop_maynooth": 2,
+        "shop_maynooth": 1,
         "shop_mullingar": 2,
         "shop_tralee": 0,
         "shop_tullamore": 1
       },
       "units": [
-        {
-          "id": "unit_lxl347au5nk",
-          "imei": "355647768278136",
-          "color": "",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 15,
-          "wholesalePrice": 27,
-          "sellPrice": 22
-        },
         {
           "id": "unit_jld6693u5nk",
           "imei": "355647768273236",
@@ -19918,6 +19908,28 @@
         "sellPrice": 630,
         "addedAt": "2026-09-21"
       }
+    },
+    {
+      "id": "mv_il50gcczvuw",
+      "type": "sold",
+      "itemId": "item_xil44ciw69k",
+      "itemName": "Nokia 106",
+      "categoryId": "cat_lkhn0qyw69i",
+      "location": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-19",
+      "note": "Sold from Inventory",
+      "sellPrice": 45,
+      "unitData": {
+        "id": "unit_lxl347au5nk",
+        "imei": "355647768278136",
+        "color": "",
+        "condition": "New",
+        "location": "shop_maynooth",
+        "costPrice": 15,
+        "wholesalePrice": 27,
+        "sellPrice": 45
+      }
     }
   ],
   "reorderList": [
@@ -19930,7 +19942,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:39:01.585Z",
+    "lastSaved": "2026-09-21T16:39:16.232Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
