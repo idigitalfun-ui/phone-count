@@ -1034,8 +1034,8 @@
           "verifiedAt": "2026-09-07",
           "purchaseDate": "2026-09-01",
           "addedAt": "2026-09-01",
-          "sentToShopDate": null,
-          "transferredAt": null
+          "sentToShopDate": "2026-09-16",
+          "transferredAt": "2026-09-16"
         },
         {
           "id": "unit_nkyhdck22i2",
@@ -19552,7 +19552,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:48:16.472Z",
+    "lastSaved": "2026-09-21T16:48:24.040Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
