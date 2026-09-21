@@ -10209,7 +10209,15 @@
           "location": "shop_maynooth",
           "costPrice": 105,
           "wholesalePrice": 117,
-          "sellPrice": 120
+          "sellPrice": 120,
+          "batteryPct": null,
+          "verified": false,
+          "verifiedAt": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": "2026-09-16",
+          "transferredAt": "2026-09-16"
         },
         {
           "id": "unit_82tynzsu5od",
@@ -19496,7 +19504,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:47:14.552Z",
+    "lastSaved": "2026-09-21T16:47:17.360Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
