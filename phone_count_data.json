@@ -496,7 +496,7 @@
         "warehouse": 4,
         "shop_thurles": 4,
         "shop_kilkenny": 2,
-        "shop_maynooth": 5,
+        "shop_maynooth": 4,
         "shop_mullingar": 2,
         "shop_tralee": 2,
         "shop_tullamore": 2
@@ -561,24 +561,6 @@
           "sellPrice": 400,
           "verified": true,
           "verifiedAt": "2026-09-07"
-        },
-        {
-          "id": "unit_8i95lxhu5oh",
-          "imei": "353973107065261",
-          "color": "Purple",
-          "condition": "Used",
-          "location": "shop_maynooth",
-          "costPrice": 170,
-          "wholesalePrice": 200,
-          "sellPrice": 0,
-          "verified": false,
-          "verifiedAt": null,
-          "batteryPct": 89,
-          "purchaseDate": "2025-11-28",
-          "dateAdded": "2025-11-28",
-          "addedAt": "2025-11-28",
-          "sentToShopDate": "2026-05-19",
-          "transferredAt": "2026-05-19"
         },
         {
           "id": "unit_erq6nzhu5ow",
@@ -20002,6 +19984,36 @@
         "verifiedAt": null,
         "batteryPct": null
       }
+    },
+    {
+      "id": "mv_9x362oo1w1c",
+      "type": "sold",
+      "itemId": "item_zet5u37w69k",
+      "itemName": "iPhone 11",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-16",
+      "note": "Sold from Inventory",
+      "sellPrice": 199,
+      "unitData": {
+        "id": "unit_8i95lxhu5oh",
+        "imei": "353973107065261",
+        "color": "Purple",
+        "condition": "Used",
+        "location": "shop_maynooth",
+        "costPrice": 170,
+        "wholesalePrice": 200,
+        "sellPrice": 199,
+        "verified": false,
+        "verifiedAt": null,
+        "batteryPct": 89,
+        "purchaseDate": "2025-11-28",
+        "dateAdded": "2025-11-28",
+        "addedAt": "2025-11-28",
+        "sentToShopDate": "2026-05-19",
+        "transferredAt": "2026-05-19"
+      }
     }
   ],
   "reorderList": [
@@ -20014,7 +20026,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:40:36.852Z",
+    "lastSaved": "2026-09-21T16:40:49.776Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
