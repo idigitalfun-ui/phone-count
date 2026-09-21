@@ -3004,24 +3004,12 @@
         "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
-        "shop_maynooth": 2,
+        "shop_maynooth": 1,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_tfmskz0u5nb",
-          "imei": "352262376794822",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 80,
-          "wholesalePrice": 0,
-          "sellPrice": 0,
-          "verified": false,
-          "verifiedAt": null
-        },
         {
           "id": "unit_3tn3d46u5oq",
           "imei": "352262376794798",
@@ -19954,6 +19942,30 @@
         "verified": false,
         "verifiedAt": null
       }
+    },
+    {
+      "id": "mv_75eypjm0qeo",
+      "type": "sold",
+      "itemId": "item_aua8nirw69j",
+      "itemName": "Samsung A07",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-18",
+      "note": "Sold from Inventory",
+      "sellPrice": 129,
+      "unitData": {
+        "id": "unit_tfmskz0u5nb",
+        "imei": "352262376794822",
+        "color": "Black",
+        "condition": "New",
+        "location": "shop_maynooth",
+        "costPrice": 80,
+        "wholesalePrice": 0,
+        "sellPrice": 129,
+        "verified": false,
+        "verifiedAt": null
+      }
     }
   ],
   "reorderList": [
@@ -19966,7 +19978,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:39:46.299Z",
+    "lastSaved": "2026-09-21T16:39:55.824Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
