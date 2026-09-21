@@ -6836,7 +6836,15 @@
           "location": "shop_kilkenny",
           "costPrice": 155,
           "wholesalePrice": 167,
-          "sellPrice": 180
+          "sellPrice": 180,
+          "batteryPct": null,
+          "verified": false,
+          "verifiedAt": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": "2026-09-16",
+          "transferredAt": "2026-09-16"
         },
         {
           "id": "unit_3bo0y6ju5nf",
@@ -19488,7 +19496,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:47:06.121Z",
+    "lastSaved": "2026-09-21T16:47:11.858Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
