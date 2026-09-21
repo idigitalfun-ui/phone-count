@@ -3127,7 +3127,7 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 3,
+        "warehouse": 2,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
         "shop_maynooth": 2,
@@ -19456,7 +19456,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:45:36.696Z",
+    "lastSaved": "2026-09-21T16:45:41.577Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
