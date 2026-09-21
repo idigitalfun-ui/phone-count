@@ -10354,10 +10354,10 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 1,
+        "warehouse": 0,
         "shop_thurles": 0,
         "shop_kilkenny": 1,
-        "shop_maynooth": 0,
+        "shop_maynooth": 1,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -10368,7 +10368,7 @@
           "imei": "SMWXQXWHC5P",
           "color": "",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 105,
           "wholesalePrice": 117,
           "sellPrice": 120
@@ -19382,6 +19382,30 @@
       "date": "2026-09-21",
       "note": "Transferred Blackview NB 4800 Pro from Warehouse to Kilkenney",
       "id": "mv_h9pmcbgrq20"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_5ugsjjin1dj",
+      "itemName": "AirPods (3rd Generation)",
+      "categoryId": "cat_qaxr5vow69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred AirPods (3rd Generation) from Warehouse to Maynooth",
+      "id": "mv_sk3gou7rtqw"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_5ugsjjin1dj",
+      "itemName": "AirPods (3rd Generation)",
+      "categoryId": "cat_qaxr5vow69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred AirPods (3rd Generation) from Warehouse to Maynooth",
+      "id": "mv_lg4pi4brtqw"
     }
   ],
   "reorderList": [
@@ -19394,7 +19418,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:32:57.696Z",
+    "lastSaved": "2026-09-21T16:33:02.394Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
