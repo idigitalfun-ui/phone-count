@@ -1608,7 +1608,13 @@
           "costPrice": 255,
           "sellPrice": 340,
           "batteryPct": null,
-          "dateAdded": "2026-09-01"
+          "dateAdded": "2026-09-01",
+          "verified": false,
+          "verifiedAt": null,
+          "purchaseDate": "2026-09-01",
+          "addedAt": "2026-09-01",
+          "sentToShopDate": "2026-09-16",
+          "transferredAt": "2026-09-16"
         },
         {
           "id": "unit_ghaj1tv22ho",
@@ -19504,7 +19510,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:47:20.196Z",
+    "lastSaved": "2026-09-21T16:47:25.088Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
