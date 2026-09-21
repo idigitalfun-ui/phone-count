@@ -12751,6 +12751,51 @@
       },
       "units": [],
       "createdAt": "2026-09-17"
+    },
+    {
+      "id": "item_pz198l9yv8p",
+      "name": "Playstation 5 Console",
+      "category": "cat_kftq2c6u5n7",
+      "memory": "",
+      "condition": "New",
+      "batteryPct": null,
+      "imei": "711719021254",
+      "colors": [
+        "Black"
+      ],
+      "costPrice": 0,
+      "shopPrices": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 0,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "locations": {
+        "warehouse": 0,
+        "shop_thurles": 0,
+        "shop_kilkenny": 0,
+        "shop_maynooth": 0,
+        "shop_mullingar": 1,
+        "shop_tralee": 0,
+        "shop_tullamore": 0
+      },
+      "units": [
+        {
+          "id": "unit_cwze7w9yv8p",
+          "imei": "711719021254",
+          "color": "Black",
+          "condition": "New",
+          "batteryPct": null,
+          "location": "shop_mullingar",
+          "costPrice": 0,
+          "sellPrice": 630,
+          "addedAt": "2026-09-21"
+        }
+      ],
+      "createdAt": "2026-09-21"
     }
   ],
   "movements": [
@@ -19874,7 +19919,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:37:44.750Z",
+    "lastSaved": "2026-09-21T16:38:28.777Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
