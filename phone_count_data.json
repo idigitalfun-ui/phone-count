@@ -8044,10 +8044,10 @@
         "shop_tullamore": 0
       },
       "locations": {
-        "warehouse": 0,
+        "warehouse": 1,
         "shop_thurles": 0,
         "shop_kilkenny": 0,
-        "shop_maynooth": 1,
+        "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
@@ -19566,30 +19566,6 @@
         "verified": false,
         "verifiedAt": null
       }
-    },
-    {
-      "type": "transfer-out",
-      "itemId": "item_doc1kpw4bx8",
-      "itemName": "Nokia 106",
-      "categoryId": "cat_lkhn0qyw69i",
-      "location": "warehouse",
-      "toLocation": "shop_maynooth",
-      "qty": 1,
-      "date": "2026-09-21",
-      "note": "Transferred Nokia 106 from Warehouse to Maynooth",
-      "id": "mv_te1x23ybdgw"
-    },
-    {
-      "type": "transfer-in",
-      "itemId": "item_doc1kpw4bx8",
-      "itemName": "Nokia 106",
-      "categoryId": "cat_lkhn0qyw69i",
-      "location": "shop_maynooth",
-      "fromLocation": "warehouse",
-      "qty": 1,
-      "date": "2026-09-21",
-      "note": "Transferred Nokia 106 from Warehouse to Maynooth",
-      "id": "mv_dzw55nabdgw"
     }
   ],
   "reorderList": [
@@ -19602,7 +19578,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:50:06.560Z",
+    "lastSaved": "2026-09-21T16:50:40.391Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
