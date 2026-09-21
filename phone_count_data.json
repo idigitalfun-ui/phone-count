@@ -4276,7 +4276,7 @@
         "warehouse": 2,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 2,
+        "shop_maynooth": 1,
         "shop_mullingar": 2,
         "shop_tralee": 1,
         "shop_tullamore": 0
@@ -4305,20 +4305,6 @@
           "batteryPct": null,
           "dateAdded": "2026-08-26",
           "wholesalePrice": 232
-        },
-        {
-          "id": "unit_mkab6nw9lm9",
-          "imei": "350983933959754",
-          "color": "Blue",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 220,
-          "sellPrice": 0,
-          "batteryPct": null,
-          "dateAdded": "2026-08-26",
-          "wholesalePrice": 232,
-          "verified": false,
-          "verifiedAt": null
         },
         {
           "id": "unit_epcsz5o9lma",
@@ -19942,6 +19928,32 @@
         "dateAdded": "2026-08-26",
         "wholesalePrice": 172
       }
+    },
+    {
+      "id": "mv_a1k2gxw0fps",
+      "type": "sold",
+      "itemId": "item_b3rxt5y9lm5",
+      "itemName": "Samsung A27 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-19",
+      "note": "Sold from Inventory",
+      "sellPrice": 329,
+      "unitData": {
+        "id": "unit_mkab6nw9lm9",
+        "imei": "350983933959754",
+        "color": "Blue",
+        "condition": "New",
+        "location": "shop_maynooth",
+        "costPrice": 220,
+        "sellPrice": 329,
+        "batteryPct": null,
+        "dateAdded": "2026-08-26",
+        "wholesalePrice": 232,
+        "verified": false,
+        "verifiedAt": null
+      }
     }
   ],
   "reorderList": [
@@ -19954,7 +19966,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:39:35.314Z",
+    "lastSaved": "2026-09-21T16:39:41.968Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
