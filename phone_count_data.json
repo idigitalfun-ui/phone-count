@@ -3821,11 +3821,11 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 11,
+        "warehouse": 10,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
         "shop_maynooth": 2,
-        "shop_mullingar": 1,
+        "shop_mullingar": 2,
         "shop_tralee": 1,
         "shop_tullamore": 1
       },
@@ -3883,7 +3883,7 @@
           "imei": "351158945536366",
           "color": "Black",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_mullingar",
           "costPrice": 160,
           "sellPrice": 160,
           "batteryPct": null,
@@ -19238,6 +19238,30 @@
       "date": "2026-09-21",
       "note": "Transferred Samsung A07 from Warehouse to Tralee",
       "id": "mv_zp65162qq2o"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_x587cu6w69k",
+      "itemName": "Samsung A17 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_mullingar",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred Samsung A17 5G from Warehouse to Mullingar",
+      "id": "mv_l7zgs6vqwq8"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_x587cu6w69k",
+      "itemName": "Samsung A17 5G",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_mullingar",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred Samsung A17 5G from Warehouse to Mullingar",
+      "id": "mv_wuipv1bqwq8"
     }
   ],
   "reorderList": [
@@ -19250,7 +19274,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:32:12.469Z",
+    "lastSaved": "2026-09-21T16:32:19.975Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
