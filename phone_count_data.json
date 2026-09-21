@@ -993,10 +993,10 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 7,
+        "warehouse": 6,
         "shop_thurles": 2,
         "shop_kilkenny": 2,
-        "shop_maynooth": 1,
+        "shop_maynooth": 2,
         "shop_mullingar": 2,
         "shop_tralee": 0,
         "shop_tullamore": 1
@@ -1043,7 +1043,7 @@
           "imei": "351365221495890",
           "color": "Blue",
           "condition": "Used",
-          "location": "warehouse",
+          "location": "shop_maynooth",
           "costPrice": 170,
           "sellPrice": 290,
           "batteryPct": 94,
@@ -19478,6 +19478,30 @@
       "date": "2026-09-21",
       "note": "Transferred Nokia 106 from Warehouse to Maynooth",
       "id": "mv_v154h4ls60g"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_qw8eo3aw69k",
+      "itemName": "iPhone 12",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "warehouse",
+      "toLocation": "shop_maynooth",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred iPhone 12 from Warehouse to Maynooth",
+      "id": "mv_1tha998s9mw"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_qw8eo3aw69k",
+      "itemName": "iPhone 12",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_maynooth",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred iPhone 12 from Warehouse to Maynooth",
+      "id": "mv_rm93xk5s9mw"
     }
   ],
   "reorderList": [
@@ -19490,7 +19514,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:33:18.303Z",
+    "lastSaved": "2026-09-21T16:33:22.999Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
