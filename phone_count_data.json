@@ -4082,9 +4082,9 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 11,
+        "warehouse": 10,
         "shop_thurles": 1,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 2,
         "shop_maynooth": 3,
         "shop_mullingar": 2,
         "shop_tralee": 1,
@@ -4276,7 +4276,7 @@
           "imei": "350276232902801",
           "color": "Light Blue",
           "condition": "New",
-          "location": "warehouse",
+          "location": "shop_kilkenny",
           "costPrice": 140,
           "sellPrice": 140,
           "batteryPct": null,
@@ -19310,6 +19310,30 @@
       "date": "2026-09-21",
       "note": "Transferred AirPods Pro 3 from Warehouse to Kilkenney",
       "id": "mv_b3knt98rb9c"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_1tue6b29lkh",
+      "itemName": "Samsung A17",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "warehouse",
+      "toLocation": "shop_kilkenny",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred Samsung A17 from Warehouse to Kilkenney",
+      "id": "mv_86p5hckrhjc"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_1tue6b29lkh",
+      "itemName": "Samsung A17",
+      "categoryId": "cat_w56n2ktw69i",
+      "location": "shop_kilkenny",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-21",
+      "note": "Transferred Samsung A17 from Warehouse to Kilkenney",
+      "id": "mv_511ef7irhjc"
     }
   ],
   "reorderList": [
@@ -19322,7 +19346,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-21T16:32:38.920Z",
+    "lastSaved": "2026-09-21T16:32:46.897Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
