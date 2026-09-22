@@ -1769,11 +1769,11 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 10,
+        "warehouse": 9,
         "shop_thurles": 2,
         "shop_kilkenny": 4,
         "shop_maynooth": 6,
-        "shop_mullingar": 1,
+        "shop_mullingar": 2,
         "shop_tralee": 1,
         "shop_tullamore": 3
       },
@@ -1945,7 +1945,7 @@
           "imei": "351952295992595",
           "color": "Blue",
           "condition": "Used",
-          "location": "warehouse",
+          "location": "shop_mullingar",
           "costPrice": 285,
           "sellPrice": 350,
           "batteryPct": null,
@@ -19566,6 +19566,30 @@
         "verified": false,
         "verifiedAt": null
       }
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_8qq0twtnnrm",
+      "itemName": "iPhone 14",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "warehouse",
+      "toLocation": "shop_mullingar",
+      "qty": 1,
+      "date": "2026-09-22",
+      "note": "Transferred iPhone 14 from Warehouse to Mullingar",
+      "id": "mv_3ml41wu6qgf"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_8qq0twtnnrm",
+      "itemName": "iPhone 14",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_mullingar",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-22",
+      "note": "Transferred iPhone 14 from Warehouse to Mullingar",
+      "id": "mv_fjv651t6qgf"
     }
   ],
   "reorderList": [
@@ -19578,7 +19602,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-22T16:04:10.777Z",
+    "lastSaved": "2026-09-22T16:04:19.243Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
