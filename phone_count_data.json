@@ -2187,11 +2187,11 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 8,
+        "warehouse": 7,
         "shop_thurles": 3,
         "shop_kilkenny": 2,
         "shop_maynooth": 4,
-        "shop_mullingar": 2,
+        "shop_mullingar": 3,
         "shop_tralee": 1,
         "shop_tullamore": 0
       },
@@ -2392,7 +2392,7 @@
           "imei": "353927424379789",
           "color": "Black",
           "condition": "Used",
-          "location": "warehouse",
+          "location": "shop_mullingar",
           "costPrice": 410,
           "sellPrice": 550,
           "batteryPct": null,
@@ -19614,6 +19614,30 @@
       "date": "2026-09-22",
       "note": "Transferred iPhone 15 from Warehouse to Mullingar",
       "id": "mv_1g3fo8y6ui7"
+    },
+    {
+      "type": "transfer-out",
+      "itemId": "item_07lmh0xw69l",
+      "itemName": "iPhone 15",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "warehouse",
+      "toLocation": "shop_mullingar",
+      "qty": 1,
+      "date": "2026-09-22",
+      "note": "Transferred iPhone 15 from Warehouse to Mullingar",
+      "id": "mv_685ksdy6yev"
+    },
+    {
+      "type": "transfer-in",
+      "itemId": "item_07lmh0xw69l",
+      "itemName": "iPhone 15",
+      "categoryId": "cat_7qgen7vw69i",
+      "location": "shop_mullingar",
+      "fromLocation": "warehouse",
+      "qty": 1,
+      "date": "2026-09-22",
+      "note": "Transferred iPhone 15 from Warehouse to Mullingar",
+      "id": "mv_rf7tn1c6yev"
     }
   ],
   "reorderList": [
@@ -19626,7 +19650,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-22T16:04:24.395Z",
+    "lastSaved": "2026-09-22T16:04:26.935Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
