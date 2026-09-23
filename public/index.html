@@ -1155,7 +1155,10 @@ const FileStore = {
 
 /* ---------- Supabase Cloud Sync ---------- */
 const SUPABASE_URL = 'https://mnnccvcbtosqdutkcxoa.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_ltaNA7nnVozoSCOcZIjg';
+// The project is still completing its migration to the new publishable-key
+// format. Use its existing public anon key until the new key becomes active.
+// RLS on stockline_state restricts this browser key to the signed-in owner.
+const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ubmNjdmNidG9zcWR1dGtjeG9hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNjMyNDQsImV4cCI6MjEwNTczOTI0NH0.0E2ImKtrrW-HJMiQrEtfi0t9O2CuahWIH8nEO44CUXM';
 
 const SupabaseStore = {
   _client: null,
