@@ -6403,7 +6403,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 0,
+        "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 1,
         "shop_tralee": 2,
@@ -6453,6 +6453,24 @@
           "addedAt": null,
           "sentToShopDate": null,
           "transferredAt": null
+        },
+        {
+          "id": "unit_wpmqboyu5nf",
+          "imei": "352482910530348",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_kilkenny",
+          "costPrice": 155,
+          "wholesalePrice": 167,
+          "sellPrice": 180,
+          "batteryPct": null,
+          "verified": false,
+          "verifiedAt": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": "2026-09-16",
+          "transferredAt": "2026-09-16"
         }
       ],
       "createdAt": "2026-08-20",
@@ -6869,31 +6887,13 @@
       "locations": {
         "warehouse": 3,
         "shop_thurles": 1,
-        "shop_kilkenny": 1,
+        "shop_kilkenny": 0,
         "shop_maynooth": 1,
         "shop_mullingar": 0,
         "shop_tralee": 0,
         "shop_tullamore": 0
       },
       "units": [
-        {
-          "id": "unit_wpmqboyu5nf",
-          "imei": "352482910530348",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_kilkenny",
-          "costPrice": 155,
-          "wholesalePrice": 167,
-          "sellPrice": 180,
-          "batteryPct": null,
-          "verified": false,
-          "verifiedAt": null,
-          "purchaseDate": null,
-          "dateAdded": null,
-          "addedAt": null,
-          "sentToShopDate": "2026-09-16",
-          "transferredAt": "2026-09-16"
-        },
         {
           "id": "unit_3bo0y6ju5nf",
           "imei": "352482910529605",
@@ -19682,7 +19682,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-23T10:44:33.771Z",
+    "lastSaved": "2026-09-23T10:44:37.130Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
