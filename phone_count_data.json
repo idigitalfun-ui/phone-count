@@ -9761,7 +9761,8 @@
       "colors": [
         "gold",
         "Pink",
-        "Gold"
+        "Gold",
+        "Blue"
       ],
       "batteryPct": null,
       "costPrice": 0,
@@ -9779,7 +9780,7 @@
       "locations": {
         "warehouse": 0,
         "shop_thurles": 0,
-        "shop_kilkenny": 0,
+        "shop_kilkenny": 1,
         "shop_maynooth": 0,
         "shop_mullingar": 0,
         "shop_tralee": 2,
@@ -9816,44 +9817,7 @@
           "addedAt": null,
           "sentToShopDate": null,
           "transferredAt": null
-        }
-      ],
-      "createdAt": "2026-08-20"
-    },
-    {
-      "id": "item_2pgorajw69l",
-      "name": "Modio M25 5G",
-      "category": "cat_cgd9w36w69i",
-      "memory": "512GB",
-      "imei": "",
-      "condition": "New",
-      "colors": [
-        "Blue",
-        "Gold",
-        "Pink"
-      ],
-      "batteryPct": 100,
-      "costPrice": 65,
-      "shopPrices": {
-        "warehouse": 170,
-        "shop_thurles": 170,
-        "shop_kilkenny": 170,
-        "shop_maynooth": 0,
-        "shop_mullingar": 170,
-        "shop_tralee": 170,
-        "shop_tullamore": 170,
-        "maynooth": 0
-      },
-      "locations": {
-        "warehouse": 0,
-        "shop_thurles": 0,
-        "shop_kilkenny": 1,
-        "shop_maynooth": 0,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "units": [
+        },
         {
           "id": "unit_zbqjqctu5oa",
           "imei": "354933660382148",
@@ -9865,11 +9829,15 @@
           "sellPrice": 170,
           "batteryPct": null,
           "verified": true,
-          "verifiedAt": "2026-09-07"
+          "verifiedAt": "2026-09-07",
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
         }
       ],
-      "createdAt": "2026-08-20",
-      "wholesalePrice": 65
+      "createdAt": "2026-08-20"
     },
     {
       "id": "item_43fm6seu5ot",
@@ -19615,7 +19583,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-23T10:53:12.226Z",
+    "lastSaved": "2026-09-23T10:53:29.466Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
