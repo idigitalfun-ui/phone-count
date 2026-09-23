@@ -7187,7 +7187,7 @@
     },
     {
       "id": "item_6iqajsow69m",
-      "name": "Nokia C1",
+      "name": "Nokia C1 2nd Edition",
       "category": "cat_kzhvkkxw69i",
       "memory": "-",
       "imei": "",
@@ -19676,7 +19676,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-23T10:44:52.786Z",
+    "lastSaved": "2026-09-23T10:51:00.381Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
