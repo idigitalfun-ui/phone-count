@@ -40,6 +40,16 @@
         "allowVerify": true,
         "allowAddDevice": true,
         "allowEditActions": true
+      },
+      "shop_tullamore": {
+        "enabled": true,
+        "allowEditName": true,
+        "allowCostPrice": false,
+        "allowSalePrice": true,
+        "allowEditImei": true,
+        "allowVerify": true,
+        "allowAddDevice": true,
+        "allowEditActions": true
       }
     },
     "migratedMaynoothZeroPrices_v3": true,
