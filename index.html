@@ -5879,20 +5879,25 @@ Views.saveEditedUnit = function(itemId, unitId){
   // Handle location change if changed
   const oldLoc = unit.location;
   if(newLoc && newLoc !== oldLoc){
+    // Preserve the exact pre-transfer record.  This lets Activity undo a
+    // transfer as one paired event instead of creating a duplicate device.
+    const sourceUnit = JSON.parse(JSON.stringify(unit));
+    const transferId = uid('tr');
+    const transferDate = newSentDate || todayISO();
     it.locations[oldLoc] = Math.max(0, (it.locations[oldLoc]||0) - 1);
     it.locations[newLoc] = (it.locations[newLoc]||0) + 1;
     unit.location = newLoc;
     Stock.addMovement({
-      type: 'transfer-out',
+      type: 'transfer-out', transferId,
       itemId: it.id, itemName: newName, categoryId: newCat,
       location: oldLoc, toLocation: newLoc, fromLocation: oldLoc,
-      qty: 1, date: todayISO(), note: `Transferred to ${shopName(newLoc)} (${newImei ? 'IMEI ' + newImei : 'Unit ' + unit.id})`
+      qty: 1, date: transferDate, note: `Transferred to ${shopName(newLoc)} (${newImei ? 'IMEI ' + newImei : 'Unit ' + unit.id})`, unitData: sourceUnit
     });
     Stock.addMovement({
-      type: 'transfer-in',
+      type: 'transfer-in', transferId,
       itemId: it.id, itemName: newName, categoryId: newCat,
       location: newLoc, toLocation: newLoc, fromLocation: oldLoc,
-      qty: 1, date: todayISO(), note: `Transferred from ${shopName(oldLoc)} (${newImei ? 'IMEI ' + newImei : 'Unit ' + unit.id})`
+      qty: 1, date: transferDate, note: `Transferred from ${shopName(oldLoc)} (${newImei ? 'IMEI ' + newImei : 'Unit ' + unit.id})`, unitData: sourceUnit
     });
   }
 
@@ -5908,8 +5913,12 @@ Views.saveEditedUnit = function(itemId, unitId){
   unit.purchaseDate = newPurchasedDate;
   unit.dateAdded = newPurchasedDate;
   unit.addedAt = newPurchasedDate;
-  unit.sentToShopDate = newSentDate;
-  unit.transferredAt = newSentDate;
+  // A sent date applies only while the device is at a shop.  Keep a chosen
+  // transfer date when it is moved, and do not leave a stale shop date after
+  // returning it to the warehouse.
+  const destinationShop = Store.data.shops.find(s=>s.id===unit.location);
+  unit.sentToShopDate = destinationShop && !destinationShop.isWarehouse ? (newSentDate || unit.sentToShopDate || todayISO()) : null;
+  unit.transferredAt = unit.sentToShopDate;
 
   const canonOld = (it.name + '|' + it.category + '|' + (it.memory||'')).toLowerCase();
   const canonNew = (newName + '|' + newCat + '|' + newMem).toLowerCase();
