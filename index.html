@@ -1169,6 +1169,12 @@ const SupabaseStore = {
     if(!this._client){
       if(!window.supabase?.createClient) throw new Error('Cloud library could not load. Check your internet connection.');
       this._client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+      // Sessions are stored securely by Supabase in this browser. Whenever a
+      // user signs in (including a returning user after page load), load their
+      // cloud inventory automatically.
+      this._client.auth.onAuthStateChange((_event, session) => {
+        if(session) setTimeout(() => this.syncNow(false), 0);
+      });
     }
     return this._client;
   },
@@ -1190,7 +1196,16 @@ const SupabaseStore = {
         .eq('owner_id', session.user.id).maybeSingle();
       if(error) throw error;
       const localSaved = Store.data?.meta?.lastSaved || '';
-      if(remote?.payload && remote.updated_at > localSaved){
+      const localItemCount = Array.isArray(Store.data?.items) ? Store.data.items.length : 0;
+      const remoteItemCount = Array.isArray(remote?.payload?.items) ? remote.payload.items.length : 0;
+      // A brand-new browser has an empty local store with a fresh timestamp.
+      // Never let it overwrite an existing cloud inventory just because its
+      // timestamp is newer than the cloud record.
+      const shouldLoadCloud = remote?.payload && (
+        (remoteItemCount > 0 && localItemCount === 0) ||
+        (remoteItemCount > 0 && remote.updated_at > localSaved)
+      );
+      if(shouldLoadCloud){
         Store.data = remote.payload;
         Store.migrate();
         localStorage.setItem(STORAGE_KEY, JSON.stringify(Store.data));
