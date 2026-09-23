@@ -6401,10 +6401,10 @@
         "maynooth": 0
       },
       "locations": {
-        "warehouse": 2,
+        "warehouse": 3,
         "shop_thurles": 1,
         "shop_kilkenny": 1,
-        "shop_maynooth": 0,
+        "shop_maynooth": 1,
         "shop_mullingar": 1,
         "shop_tralee": 2,
         "shop_tullamore": 0
@@ -6520,6 +6520,42 @@
           "batteryPct": null,
           "verified": false,
           "verifiedAt": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        },
+        {
+          "id": "unit_qkgoxl3u5ng",
+          "imei": "352482910553142",
+          "color": "Black",
+          "condition": "New",
+          "location": "warehouse",
+          "costPrice": 155,
+          "wholesalePrice": 167,
+          "sellPrice": 180,
+          "batteryPct": null,
+          "verified": false,
+          "verifiedAt": null,
+          "purchaseDate": null,
+          "dateAdded": null,
+          "addedAt": null,
+          "sentToShopDate": null,
+          "transferredAt": null
+        },
+        {
+          "id": "unit_y3a3dlzu5os",
+          "imei": "352482910529761",
+          "color": "Black",
+          "condition": "New",
+          "location": "shop_maynooth",
+          "costPrice": 155,
+          "wholesalePrice": 167,
+          "sellPrice": 0,
+          "verified": false,
+          "verifiedAt": null,
+          "batteryPct": null,
           "purchaseDate": null,
           "dateAdded": null,
           "addedAt": null,
@@ -6915,64 +6951,6 @@
       ],
       "createdAt": "2026-08-20",
       "wholesalePrice": 72
-    },
-    {
-      "id": "item_ccykxiqw69k",
-      "name": "Blackview NB 4800 Pro",
-      "category": "cat_kzhvkkxw69i",
-      "memory": "128GB",
-      "imei": "",
-      "condition": "New",
-      "colors": [
-        "Black"
-      ],
-      "batteryPct": 100,
-      "costPrice": 155,
-      "shopPrices": {
-        "warehouse": 180,
-        "shop_thurles": 180,
-        "shop_kilkenny": 180,
-        "shop_maynooth": 0,
-        "shop_mullingar": 180,
-        "shop_tralee": 180,
-        "shop_tullamore": 180,
-        "maynooth": 0
-      },
-      "locations": {
-        "warehouse": 1,
-        "shop_thurles": 0,
-        "shop_kilkenny": 0,
-        "shop_maynooth": 1,
-        "shop_mullingar": 0,
-        "shop_tralee": 0,
-        "shop_tullamore": 0
-      },
-      "units": [
-        {
-          "id": "unit_qkgoxl3u5ng",
-          "imei": "352482910553142",
-          "color": "Black",
-          "condition": "New",
-          "location": "warehouse",
-          "costPrice": 155,
-          "wholesalePrice": 167,
-          "sellPrice": 180
-        },
-        {
-          "id": "unit_y3a3dlzu5os",
-          "imei": "352482910529761",
-          "color": "Black",
-          "condition": "New",
-          "location": "shop_maynooth",
-          "costPrice": 155,
-          "wholesalePrice": 167,
-          "sellPrice": 0,
-          "verified": false,
-          "verifiedAt": null
-        }
-      ],
-      "createdAt": "2026-08-20",
-      "wholesalePrice": 167
     },
     {
       "id": "item_uyf636uu5pl",
@@ -19698,7 +19676,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-23T10:44:47.266Z",
+    "lastSaved": "2026-09-23T10:44:52.786Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
