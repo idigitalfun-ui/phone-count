@@ -1,0 +1,5 @@
+# Local inventory, imports, and recovery copies must never be committed or served.
+phone_count_data*.json
+*.csv
+*.pdf
+*.before-codex-fix
