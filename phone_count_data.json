@@ -8058,7 +8058,7 @@
         {
           "id": "unit_ef10ooab5nl",
           "imei": "355647768278136",
-          "color": "Black",
+          "color": "Charcoal",
           "condition": "New",
           "batteryPct": null,
           "location": "shop_maynooth",
@@ -19676,7 +19676,7 @@
     "createdAt": "2026-08-20",
     "imeiImportedV3": true,
     "imeiImportedV2": true,
-    "lastSaved": "2026-09-23T10:51:00.381Z",
+    "lastSaved": "2026-09-23T10:51:46.707Z",
     "migratedSamsungPrices": true,
     "migratedTransfers26": true,
     "shopPortals": {
