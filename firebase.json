@@ -8,6 +8,7 @@
       "phone-count.idigitalfun.workers.dev"
     ],
     "providers": {
+      "emailPassword": true,
       "googleSignIn": {
         "oAuthBrandDisplayName": "StockLine",
         "supportEmail": "idigitalfun@gmail.com"
