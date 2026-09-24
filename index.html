@@ -6,6 +6,8 @@
 <title>StockLine — IDFL Device Inventory</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg?v=20260924">
 <link rel="shortcut icon" type="image/svg+xml" href="favicon.svg?v=20260924">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0F766E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script>
@@ -1742,6 +1744,32 @@ const DevicePin = {
   remove(){ localStorage.removeItem(this.key()); Modal.close(); this.hide(); Toast.show('Device PIN removed.','ok'); }
 };
 
+let deferredStockLineInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', event => {
+  event.preventDefault();
+  deferredStockLineInstallPrompt = event;
+  const button = document.getElementById('installAppBtn');
+  if(button) button.style.display = 'inline-flex';
+});
+window.addEventListener('appinstalled', () => {
+  deferredStockLineInstallPrompt = null;
+  const button = document.getElementById('installAppBtn');
+  if(button) button.style.display = 'none';
+  Toast.show('StockLine has been installed as an app.','ok');
+});
+async function installStockLineApp(){
+  if(!deferredStockLineInstallPrompt){
+    Toast.show('In Chrome, use the menu (⋮) and choose Install StockLine.','ok');
+    return;
+  }
+  deferredStockLineInstallPrompt.prompt();
+  await deferredStockLineInstallPrompt.userChoice;
+  deferredStockLineInstallPrompt = null;
+}
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js').catch(() => {}));
+}
+
 /* ---------- Retired GitHub Cloud Sync (kept only for backwards compatibility) ---------- */
 const GITHUB_CONFIG_KEY = 'stockline_gh_config';
 
@@ -2286,6 +2314,7 @@ function renderTopbar(){
       <button class="btn sm no-print" onclick="FileStore.importJson()" title="Load data from a JSON backup file">⬆ Import data</button>
       <button class="btn sm no-print" onclick="Modal.backupQuick()">💾 Quick backup</button>
       <button class="btn sm no-print" onclick="DevicePin.openSettings()" title="Set or use an optional PIN on this device">🔒 PIN</button>
+      <button class="btn sm no-print" id="installAppBtn" style="display:none" onclick="installStockLineApp()" title="Install StockLine as a Windows app">⇩ Install app</button>
       <button class="btn sm no-print" onclick="Router.go('backup')">⚙ Settings</button>
     `;
     actionsEl.innerHTML = actionsHtml;
