@@ -1665,8 +1665,81 @@ const FirebaseStore = {
     if(this._accessUnsubscribe) { this._accessUnsubscribe(); this._accessUnsubscribe = null; }
     this._access = null;
     await fb.signOut(fb.auth);
+    DevicePin.hide();
     Toast.show('Signed out of Firebase.','ok');
   }
+};
+
+/* ---------- Optional device PIN lock ---------- */
+// This is a convenience lock for a browser already authenticated with Firebase.
+// It is deliberately local: it cannot grant cloud access or bypass a revoked link.
+const DevicePin = {
+  keyPrefix: 'stockline_device_pin_',
+  user: null,
+  key(user = this.user){ return user ? this.keyPrefix + user.uid : ''; },
+  record(user = this.user){
+    try { return JSON.parse(localStorage.getItem(this.key(user)) || 'null'); } catch(_){ return null; }
+  },
+  async digest(pin, salt){
+    const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(salt + ':' + pin));
+    return Array.from(new Uint8Array(bytes)).map(value => value.toString(16).padStart(2,'0')).join('');
+  },
+  ensureGate(){
+    let gate = document.getElementById('devicePinGate');
+    if(gate) return gate;
+    gate = document.createElement('div');
+    gate.id = 'devicePinGate';
+    gate.className = 'modal-bg';
+    gate.style.cssText = 'display:none;z-index:99999;background:rgba(255,255,255,.98);backdrop-filter:blur(8px);';
+    gate.innerHTML = `<div class="modal" style="max-width:360px;text-align:center"><div class="modal-head"><h3>🔒 StockLine is locked</h3></div><div class="modal-body"><p>Enter this device's four-digit PIN to continue.</p><div class="field"><input id="devicePinUnlock" inputmode="numeric" maxlength="4" type="password" autocomplete="one-time-code" placeholder="4-digit PIN" style="text-align:center;letter-spacing:.35em;font-size:22px" onkeydown="if(event.key==='Enter')DevicePin.unlock()"></div><p id="devicePinError" style="min-height:18px;color:var(--red);font-size:12px;margin-top:8px"></p></div><div class="modal-foot"><button class="btn primary" style="width:100%" onclick="DevicePin.unlock()">Unlock</button></div></div>`;
+    document.body.appendChild(gate);
+    return gate;
+  },
+  hide(){ const gate = document.getElementById('devicePinGate'); if(gate) gate.style.display = 'none'; },
+  async lockIfEnabled(user){
+    this.user = user || this.user;
+    if(!this.user || !this.record()){ this.hide(); return; }
+    const gate = this.ensureGate();
+    gate.style.display = 'flex';
+    const input = document.getElementById('devicePinUnlock');
+    if(input){ input.value = ''; setTimeout(()=>input.focus(),0); }
+  },
+  async unlock(){
+    const input = document.getElementById('devicePinUnlock');
+    const error = document.getElementById('devicePinError');
+    const record = this.record();
+    const pin = input?.value || '';
+    if(!record || !/^\d{4}$/.test(pin) || await this.digest(pin, record.salt) !== record.hash){
+      if(error) error.textContent = 'Incorrect PIN. Try again.';
+      if(input){ input.value = ''; input.focus(); }
+      return;
+    }
+    this.hide();
+  },
+  async openSettings(){
+    const fb = await FirebaseStore.ready();
+    const user = fb.auth.currentUser;
+    if(!user){ Toast.show('Sign in to Firebase before setting a device PIN.','err'); return; }
+    this.user = user;
+    const record = this.record();
+    const body = record
+      ? `<p>This PIN locks only this browser for the current signed-in user. Firebase still protects the cloud data.</p><div class="field"><label>Current PIN</label><input id="devicePinCurrent" inputmode="numeric" maxlength="4" type="password" autocomplete="one-time-code" placeholder="Current 4-digit PIN"></div><div class="field"><label>New PIN</label><input id="devicePinNew" inputmode="numeric" maxlength="4" type="password" autocomplete="new-password" placeholder="New 4-digit PIN"></div><div class="field"><label>Confirm new PIN</label><input id="devicePinConfirm" inputmode="numeric" maxlength="4" type="password" autocomplete="new-password" placeholder="Confirm new PIN"></div>`
+      : `<p>Optional: use a four-digit PIN to lock this browser after you have signed in. It never replaces your Firebase password or shared-link code.</p><div class="field"><label>New PIN</label><input id="devicePinNew" inputmode="numeric" maxlength="4" type="password" autocomplete="new-password" placeholder="Choose 4 digits"></div><div class="field"><label>Confirm PIN</label><input id="devicePinConfirm" inputmode="numeric" maxlength="4" type="password" autocomplete="new-password" placeholder="Confirm 4 digits"></div>`;
+    Modal.open(`<div class="modal"><div class="modal-head"><h3>🔒 Device PIN</h3><button class="iconbtn" onclick="Modal.close()">✕</button></div><div class="modal-body">${body}</div><div class="modal-foot">${record?'<button class="btn danger" onclick="DevicePin.remove()">Remove PIN</button><button class="btn" onclick="DevicePin.lockNow()">Lock now</button>':''}<button class="btn primary" onclick="DevicePin.save()">${record?'Change PIN':'Save PIN'}</button></div></div>`);
+  },
+  async save(){
+    const current = val('devicePinCurrent');
+    const next = val('devicePinNew');
+    const confirm = val('devicePinConfirm');
+    const record = this.record();
+    if(!/^\d{4}$/.test(next) || next !== confirm){ Toast.show('Use the same four digits in both PIN fields.','err'); return; }
+    if(record && (!/^\d{4}$/.test(current) || await this.digest(current, record.salt) !== record.hash)){ Toast.show('Current PIN is incorrect.','err'); return; }
+    const salt = Array.from(crypto.getRandomValues(new Uint32Array(2))).join('-');
+    localStorage.setItem(this.key(), JSON.stringify({version:1,salt,hash:await this.digest(next,salt)}));
+    Modal.close(); Toast.show('Device PIN saved.','ok');
+  },
+  lockNow(){ Modal.close(); this.lockIfEnabled(); },
+  remove(){ localStorage.removeItem(this.key()); Modal.close(); this.hide(); Toast.show('Device PIN removed.','ok'); }
 };
 
 /* ---------- Retired GitHub Cloud Sync (kept only for backwards compatibility) ---------- */
@@ -2212,6 +2285,7 @@ function renderTopbar(){
       <button class="btn sm no-print" onclick="FileStore.exportJson()" title="Download a backup JSON file right now">⬇ Export data</button>
       <button class="btn sm no-print" onclick="FileStore.importJson()" title="Load data from a JSON backup file">⬆ Import data</button>
       <button class="btn sm no-print" onclick="Modal.backupQuick()">💾 Quick backup</button>
+      <button class="btn sm no-print" onclick="DevicePin.openSettings()" title="Set or use an optional PIN on this device">🔒 PIN</button>
       <button class="btn sm no-print" onclick="Router.go('backup')">⚙ Settings</button>
     `;
     actionsEl.innerHTML = actionsHtml;
@@ -9040,6 +9114,10 @@ Store.load();
 render();
 FileStore.init(); // restore file handle from IndexedDB and sync data if file is newer
 FirebaseStore.ready();
+window.FirebasePhoneReady.then(fb => fb.onAuthStateChanged(fb.auth, user => {
+  if(!user) { DevicePin.hide(); return; }
+  DevicePin.lockIfEnabled(user);
+}));
 setTimeout(() => FirebaseStore.syncNow(false), 500);
 </script>
 </body>
