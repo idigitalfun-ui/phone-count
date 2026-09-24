@@ -1,0 +1,17 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "auth": {
+    "authorizedDomains": [
+      "phone-count.idigitalfun.workers.dev"
+    ],
+    "providers": {
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "StockLine",
+        "supportEmail": "idigitalfun@gmail.com"
+      }
+    }
+  }
+}

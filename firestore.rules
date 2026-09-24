@@ -1,0 +1,48 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    // phone_count_workspaces/main: immutable ownerUid (an audit marker), a bounded JSON
+    // payload string (<= 900,000 characters), schemaVersion, monotonically
+    // increasing revision, immutable createdAt, recent updatedAt, and updatedBy.
+    // The payload can include sensitive inventory/customer-workflow data, so it
+    // is never readable by anyone except the verified owner.
+    // ===============================================================
+
+    function isVerifiedOwner() {
+      return request.auth != null &&
+        request.auth.token.email == 'idigitalfun@gmail.com' &&
+        request.auth.token.email_verified == true;
+    }
+
+    function isRecent(time) {
+      return time is timestamp && time >= request.time - duration.value(5, 'm') &&
+        time <= request.time + duration.value(1, 'm');
+    }
+
+    function validWorkspace(data) {
+      return data.keys().hasOnly(['ownerUid', 'payload', 'schemaVersion', 'revision', 'createdAt', 'updatedAt', 'updatedBy']) &&
+        data.keys().hasAll(['ownerUid', 'payload', 'schemaVersion', 'revision', 'createdAt', 'updatedAt', 'updatedBy']) &&
+        data.ownerUid is string && data.ownerUid.size() > 0 && data.ownerUid.size() <= 128 &&
+        data.payload is string && data.payload.size() <= 900000 &&
+        data.schemaVersion is int && data.schemaVersion >= 1 && data.schemaVersion <= 20 &&
+        data.revision is int && data.revision >= 0 && data.revision <= 2147483647 &&
+        data.createdAt is timestamp && isRecent(data.updatedAt) &&
+        data.updatedBy == request.auth.uid;
+    }
+
+    match /phone_count_workspaces/main {
+      allow read: if isVerifiedOwner();
+      allow create: if isVerifiedOwner() && validWorkspace(request.resource.data) &&
+        request.resource.data.revision == 0 &&
+        request.resource.data.createdAt == request.resource.data.updatedAt;
+      allow update: if isVerifiedOwner() && validWorkspace(request.resource.data) &&
+        request.resource.data.ownerUid == resource.data.ownerUid &&
+        request.resource.data.createdAt == resource.data.createdAt &&
+        request.resource.data.revision == resource.data.revision + 1;
+      allow delete: if false;
+    }
+  }
+}
