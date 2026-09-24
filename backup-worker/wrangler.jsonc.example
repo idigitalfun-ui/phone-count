@@ -1,0 +1,16 @@
+{
+  "$schema": "https://unpkg.com/wrangler@4/config-schema.json",
+  "name": "idfl-inventory-backups",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-24",
+  "triggers": {
+    "crons": ["0 1 * * 0"]
+  },
+  "d1_databases": [
+    {
+      "binding": "BACKUPS",
+      "database_name": "idfl-inventory-backups",
+      "database_id": "REPLACE_WITH_THE_D1_DATABASE_ID"
+    }
+  ]
+}

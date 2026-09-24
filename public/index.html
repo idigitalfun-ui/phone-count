@@ -3,34 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StockLine — Multi-Shop Device Inventory</title>
+<title>StockLine — IDFL Device Inventory</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script>
   window.FirebasePhoneReady = new Promise(resolve => { window.__resolveFirebasePhone = resolve; });
 </script>
 <script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
-  import { getFirestore, doc, getDoc, runTransaction, serverTimestamp, onSnapshot } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
+  import { initializeApp, deleteApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+  import { getFirestore, collection, doc, getDoc, getDocs, setDoc, query, orderBy, runTransaction, serverTimestamp, onSnapshot } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
 
-  const app = initializeApp({
+  const firebaseConfig = {
     apiKey: 'AIzaSyBalMDTx0wLtNPE-0zbjcfC-bTdU3W8qQY',
     authDomain: 'phone-count.firebaseapp.com',
     projectId: 'phone-count',
     storageBucket: 'phone-count.firebasestorage.app',
     messagingSenderId: '696692176127',
     appId: '1:696692176127:web:be4b462bb8671b668588ca'
-  });
+  };
+  const app = initializeApp(firebaseConfig);
   window.__resolveFirebasePhone({
-    auth: getAuth(app),
-    db: getFirestore(app),
+    app, config: firebaseConfig, auth: getAuth(app), db: getFirestore(app), getAuth, initializeApp, deleteApp,
     googleProvider: new GoogleAuthProvider(),
     signInWithPopup,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    sendEmailVerification,
     signOut,
     onAuthStateChanged,
+    collection,
     doc,
     getDoc,
+    getDocs,
+    setDoc,
+    query,
+    orderBy,
     runTransaction,
     serverTimestamp,
     onSnapshot
@@ -1309,7 +1318,10 @@ const FirebaseStore = {
   _syncing: false,
   _revision: null,
   _unsubscribe: null,
+  _accessUnsubscribe: null,
   _started: false,
+  _access: null,
+  OWNER_EMAIL: 'idigitalfun@gmail.com',
 
   async ready(){
     if(!this._fb) this._fb = await window.FirebasePhoneReady;
@@ -1329,6 +1341,32 @@ const FirebaseStore = {
   },
 
   workspaceRef(fb){ return fb.doc(fb.db, 'phone_count_workspaces', 'main'); },
+  accessRef(fb, uid){ return fb.doc(fb.db, 'phone_count_access', uid); },
+
+  async isAdmin(user){
+    if(!user) return false;
+    const token = await user.getIdTokenResult(true);
+    return token.claims?.email === this.OWNER_EMAIL && token.claims?.email_verified === true;
+  },
+
+  accessEmailFromLink(){
+    return new URLSearchParams(location.hash.replace(/^#/, '')).get('access')?.trim().toLowerCase() || '';
+  },
+
+  async loadAccess(fb, user){
+    const snapshot = await fb.getDoc(this.accessRef(fb, user.uid));
+    if(!snapshot.exists()) return null;
+    const access = snapshot.data();
+    const expiresAt = access.expiresAt?.toDate?.() || null;
+    if(!access.active || access.role !== 'all_shops_editor' || (expiresAt && expiresAt.getTime() <= Date.now())) return null;
+    return { id:snapshot.id, ...access };
+  },
+
+  async canUseWorkspace(fb, user){
+    if(await this.isAdmin(user)){ this._access = null; return true; }
+    this._access = await this.loadAccess(fb, user);
+    return !!this._access;
+  },
 
   adoptRemote(remote, notify=false){
     Store.data = JSON.parse(remote.payload);
@@ -1346,12 +1384,14 @@ const FirebaseStore = {
       if(this._syncing) return;
       this._syncing = true;
       const fb = await this.ready();
+      if(!await this.canUseWorkspace(fb, user)) throw new Error('This access link is expired, revoked, or not authorised. Ask the administrator for a new link.');
       const ref = this.workspaceRef(fb);
       const snapshot = await fb.getDoc(ref);
       if(snapshot.exists()){
         this.adoptRemote(snapshot.data(), manual);
         this.startListener(ref);
       } else {
+        if(!await this.isAdmin(user)) throw new Error('The shared workspace has not been created by the administrator yet.');
         await this.saveRemote(manual, user, true);
       }
     }catch(error){
@@ -1376,6 +1416,18 @@ const FirebaseStore = {
       this._revision = revision;
       updateSaveIndicator();
     }, error => console.error('Firebase listener error:', error));
+    this.user().then(async user => {
+      const fb = await this.ready();
+      if(!user || await this.isAdmin(user) || this._accessUnsubscribe) return;
+      this._accessUnsubscribe = fb.onSnapshot(this.accessRef(fb, user.uid), snapshot => {
+        const access = snapshot.exists() ? snapshot.data() : null;
+        const expiresAt = access?.expiresAt?.toDate?.();
+        if(!access?.active || access.role !== 'all_shops_editor' || (expiresAt && expiresAt.getTime() <= Date.now())){
+          Toast.show('This shared access has ended.','err');
+          this.signOut();
+        }
+      });
+    }).catch(error => console.error('Firebase access listener error:', error));
   },
 
   async saveRemote(manual=false, knownUser=null, creating=false){
@@ -1387,6 +1439,10 @@ const FirebaseStore = {
       return;
     }
     const fb = await this.ready();
+    if(!await this.canUseWorkspace(fb, user)){
+      if(manual) Toast.show('Your Firebase access has ended.','err');
+      return;
+    }
     const ref = this.workspaceRef(fb);
     try{
       this._syncing = true;
@@ -1442,24 +1498,171 @@ const FirebaseStore = {
   },
 
   openSignIn(){
-    Modal.open(`<div class="modal"><div class="modal-head"><h3>☁️ Connect StockLine Cloud</h3><button class="iconbtn" onclick="Modal.close()">✕</button></div>
-      <div class="modal-body"><p>Sign in with the verified Google account that owns StockLine. The same account automatically opens this shared inventory on another PC.</p>
-      <p style="font-size:12px;color:var(--muted);">Only the owner account can access this Firebase workspace.</p></div>
-      <div class="modal-foot"><button class="btn" onclick="Modal.close()">Cancel</button><button class="btn primary" onclick="FirebaseStore.signIn()">Sign in with Google</button></div></div>`);
+    const accessEmail = this.accessEmailFromLink();
+    const isLink = !!accessEmail;
+    Modal.open(`<div class="modal"><div class="modal-head"><h3>☁️ StockLine sign in</h3><button class="iconbtn" onclick="Modal.close()">✕</button></div>
+      <div class="modal-body">${isLink
+        ? '<p>This is a shared all-shops link. Enter the eight-digit code from the administrator.</p><div class="field"><label>Access code</label><input id="firebase_access_code" inputmode="numeric" maxlength="12" type="password" autocomplete="one-time-code" placeholder="Eight-digit code" onkeydown="if(event.key===\'Enter\')FirebaseStore.signInWithAccessCode()"></div>'
+        : '<p>Administrator access opens every shop. Sign in with the verified administrator email and password, or use the verified Google account.</p><div class="field"><label>Administrator email</label><input id="firebase_owner_email" type="email" autocomplete="email" placeholder="Administrator email"></div><div class="field"><label>Password</label><input id="firebase_owner_password" type="password" autocomplete="current-password" placeholder="Password" onkeydown="if(event.key===\'Enter\')FirebaseStore.signInWithPassword()"></div><p style="font-size:12px;color:var(--muted);">For a temporary staff link, open the complete link sent by the administrator.</p>'
+      }</div>
+      <div class="modal-foot"><button class="btn" onclick="Modal.close()">Cancel</button>${isLink
+        ? '<button class="btn primary" onclick="FirebaseStore.signInWithAccessCode()">Open shared inventory</button>'
+        : '<button class="btn" onclick="FirebaseStore.signInWithPassword()">Sign in</button><button class="btn primary" onclick="FirebaseStore.signIn()">Continue with Google</button>'
+      }</div></div>`);
   },
 
   async signIn(){
     try{
       const fb = await this.ready();
-      await fb.signInWithPopup(fb.auth, fb.googleProvider);
+      fb.googleProvider.setCustomParameters({prompt:'select_account'});
+      const result = await fb.signInWithPopup(fb.auth, fb.googleProvider);
+      if(!await this.isAdmin(result.user)){
+        await fb.signOut(fb.auth);
+        throw new Error('Use the verified administrator Google account.');
+      }
       Modal.close();
       await this.syncNow(true);
     }catch(error){ Toast.show('Google sign-in error: ' + error.message, 'err'); }
   },
 
+  async signInWithPassword(){
+    try{
+      const fb = await this.ready();
+      const email = val('firebase_owner_email').trim().toLowerCase();
+      const password = val('firebase_owner_password');
+      if(!email || !password) throw new Error('Enter the administrator email and password.');
+      const result = await fb.signInWithEmailAndPassword(fb.auth, email, password);
+      if(!await this.isAdmin(result.user)){
+        if(email === this.OWNER_EMAIL && !result.user.emailVerified){
+          await fb.sendEmailVerification(result.user);
+          await fb.signOut(fb.auth);
+          throw new Error('Check your email and verify it once, then sign in again.');
+        }
+        await fb.signOut(fb.auth);
+        throw new Error('Use the verified administrator account.');
+      }
+      Modal.close();
+      await this.syncNow(true);
+    }catch(error){ Toast.show('Sign-in error: ' + error.message, 'err'); }
+  },
+
+  async signInWithAccessCode(){
+    try{
+      const fb = await this.ready();
+      const email = this.accessEmailFromLink();
+      const code = val('firebase_access_code').trim();
+      if(!email || !/^\d{8}$/.test(code)) throw new Error('Open the complete link and enter its eight-digit code.');
+      await fb.signInWithEmailAndPassword(fb.auth, email, code);
+      if(!await this.syncNow(true)) return;
+      Modal.close();
+    }catch(error){ Toast.show('Shared access error: ' + error.message, 'err'); }
+  },
+
+  accessDuration(value){
+    const ms = {hour:3600000, day:86400000, week:604800000, month:2592000000}[value];
+    return ms ? new Date(Date.now() + ms) : null;
+  },
+
+  accessDurationLabel(value){
+    return ({hour:'1 hour', day:'1 day', week:'1 week', month:'1 month', permanent:'permanent'})[value] || 'permanent';
+  },
+
+  accessCode(){
+    return Array.from(crypto.getRandomValues(new Uint32Array(2)))
+      .map(value => String(value % 10000).padStart(4, '0')).join('');
+  },
+
+  accessMessage(email, code, duration){
+    const link = location.origin + location.pathname + '#access=' + encodeURIComponent(email);
+    return 'StockLine all-shops access\nLink: ' + link + '\nAccess code: ' + code +
+      '\nAccess: ' + this.accessDurationLabel(duration) +
+      '\n\nOpen the link and enter the code. Do not forward either one.';
+  },
+
+  async openAccessManager(){
+    try{
+      const fb = await this.ready();
+      const user = fb.auth.currentUser;
+      if(!user || !await this.isAdmin(user)) throw new Error('Only the verified administrator can manage shared links.');
+      Modal.open(`<div class="modal"><div class="modal-head"><h3>🔗 Share all-shops access</h3><button class="iconbtn" onclick="Modal.close()">✕</button></div>
+        <div class="modal-body"><p>Create one secure link and code for a colleague who needs to view and update every shop. You can extend, make permanent, or revoke it whenever you want.</p>
+        <div class="field"><label>Access length</label><select id="phone_access_duration"><option value="hour">1 hour</option><option value="day">1 day</option><option value="week" selected>1 week</option><option value="month">1 month</option><option value="permanent">Permanent</option></select></div>
+        <textarea id="phone_access_message" readonly rows="5" style="width:100%;resize:vertical;padding:8px;border:1px solid var(--line);border-radius:6px;font:12px/1.45 var(--font);" placeholder="The ready-to-send message appears here."></textarea>
+        <div id="phone_access_list" style="margin-top:14px;font-size:12px;color:var(--muted);">Loading current links…</div></div>
+        <div class="modal-foot"><button class="btn" onclick="Modal.close()">Close</button><button class="btn primary" onclick="FirebaseStore.createAccessLink()">Create &amp; copy link</button></div></div>`);
+      await this.renderAccessList();
+    }catch(error){ Toast.show(error.message || 'Could not open access controls.','err'); }
+  },
+
+  async createAccessLink(){
+    try{
+      const fb = await this.ready();
+      const user = fb.auth.currentUser;
+      if(!user || !await this.isAdmin(user)) throw new Error('Only the verified administrator can create links.');
+      const duration = val('phone_access_duration') || 'week';
+      const code = this.accessCode();
+      const key = crypto.randomUUID().replace(/-/g, '');
+      const email = 'access-' + key + '@phone-count.firebaseapp.com';
+      const temporaryApp = fb.initializeApp(fb.config, 'phone-access-' + key);
+      const temporaryAuth = fb.getAuth(temporaryApp);
+      let created;
+      try{
+        created = await fb.createUserWithEmailAndPassword(temporaryAuth, email, code);
+        await fb.setDoc(this.accessRef(fb, created.user.uid), {
+          accessEmail: email, role: 'all_shops_editor', active: true,
+          expiresAt: this.accessDuration(duration), createdAt: fb.serverTimestamp(),
+          updatedAt: fb.serverTimestamp(), createdBy: user.uid
+        });
+      }finally{
+        try{ await fb.signOut(temporaryAuth); }catch(_){ }
+        try{ await fb.deleteApp(temporaryApp); }catch(_){ }
+      }
+      const message = this.accessMessage(email, code, duration);
+      const output = document.getElementById('phone_access_message');
+      if(output) output.value = message;
+      await navigator.clipboard.writeText(message);
+      await this.renderAccessList();
+      Toast.show('Secure all-shops link and code copied.','ok');
+    }catch(error){ Toast.show('Could not create access link: ' + error.message,'err'); }
+  },
+
+  async updateAccess(accessId, patch){
+    try{
+      const fb = await this.ready();
+      const user = fb.auth.currentUser;
+      if(!user || !await this.isAdmin(user)) throw new Error('Only the administrator can change shared links.');
+      await fb.setDoc(this.accessRef(fb, accessId), {...patch, updatedAt:fb.serverTimestamp()}, {merge:true});
+      await this.renderAccessList();
+      Toast.show('Shared access updated.','ok');
+    }catch(error){ Toast.show('Could not update access: ' + error.message,'err'); }
+  },
+
+  async renderAccessList(){
+    const target = document.getElementById('phone_access_list');
+    if(!target) return;
+    try{
+      const fb = await this.ready();
+      const snapshot = await fb.getDocs(fb.query(fb.collection(fb.db, 'phone_count_access'), fb.orderBy('createdAt', 'desc')));
+      if(snapshot.empty){ target.textContent = 'No shared links yet.'; return; }
+      target.innerHTML = '<b>Current access links</b>' + snapshot.docs.map(document => {
+        const access = document.data();
+        const expires = access.expiresAt?.toDate?.();
+        const expired = expires && expires.getTime() <= Date.now();
+        const status = !access.active ? 'Revoked' : (expired ? 'Expired' : (expires ? 'Active until ' + expires.toLocaleString() : 'Permanent'));
+        return '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px;padding:8px;border:1px solid var(--line);border-radius:7px;">' +
+          '<span>' + status + '</span>' +
+          '<button class="btn sm" onclick="FirebaseStore.updateAccess(\'' + document.id + '\',{expiresAt:new Date(Date.now()+7*24*60*60*1000),active:true})">Extend 1 week</button>' +
+          '<button class="btn sm" onclick="FirebaseStore.updateAccess(\'' + document.id + '\',{expiresAt:null,active:true})">Permanent</button>' +
+          '<button class="btn sm danger" onclick="FirebaseStore.updateAccess(\'' + document.id + '\',{active:false})">Revoke</button></div>';
+      }).join('');
+    }catch(error){ target.textContent = 'Could not load shared links: ' + error.message; }
+  },
+
   async signOut(){
     const fb = await this.ready();
     if(this._unsubscribe) { this._unsubscribe(); this._unsubscribe = null; }
+    if(this._accessUnsubscribe) { this._accessUnsubscribe(); this._accessUnsubscribe = null; }
+    this._access = null;
     await fb.signOut(fb.auth);
     Toast.show('Signed out of Firebase.','ok');
   }
@@ -8662,8 +8865,12 @@ Views.backup = function(){
 
         <div class="card card-pad" style="border-left:4px solid var(--teal);">
           <h3 style="margin-top:0;">☁️ Firebase Cloud</h3>
-          <p style="color:var(--muted);font-size:13px;line-height:1.55;">Firebase is now the shared source of truth. Changes save automatically after you sign in with the owner Google account. Use <b>Refresh Firebase</b> to discard this browser’s local view and load the newest cloud version.</p>
-          <p style="color:var(--muted);font-size:12px;margin-bottom:0;">Export and Quick backup only create recovery copies; they never overwrite Firebase by themselves.</p>
+          <p style="color:var(--muted);font-size:13px;line-height:1.55;">Firebase is the shared source of truth. Changes save automatically after a verified administrator or approved all-shops user signs in. <b>Refresh Firebase</b> only downloads the newest cloud version; it never uploads or overwrites it.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            <button class="btn primary" onclick="FirebaseStore.openAccessManager()">🔗 Share all-shops access</button>
+            <span style="font-size:12px;color:var(--muted);">Create, extend, or revoke private time-limited links.</span>
+          </div>
+          <p style="color:var(--muted);font-size:12px;margin:12px 0 0;">Export and Quick backup make recovery copies only. They never overwrite Firebase automatically.</p>
         </div>
 
         <div class="card card-pad" style="margin-top:16px;">
