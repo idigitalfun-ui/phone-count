@@ -3,8 +3,7 @@
 The app must load a verified Firebase revision for the signed-in account before
 it can save. Missing workspaces are never created automatically. Empty inventory,
 empty movement history, shortened movement history and large bulk item losses
-are blocked. Google and verified email/password login allow the two named
-administrator accounts already present in Firebase Authentication.
+are blocked. Google and verified email/password login allow only idigitalfun@gmail.com, using the same linked Firebase account.
 
 Every successful cloud save atomically preserves the exact previous workspace
 in phone_count_workspaces/main/versions/{revision}. Firestore rules require that
@@ -29,8 +28,9 @@ between scheduled backups.
 3. Merge the workflow onto main, run it manually, and verify the first snapshot
    and then an unchanged run before relying on nightly backups.
 4. Publish firestore.rules and deploy index.html and public/index.html together.
-5. Test Google login and the existing email/password user. Email verification is
-   required; the app sends a verification email on an unverified login attempt.
+5. Sign in with Google as idigitalfun@gmail.com. In Backup settings, use
+   Enable email/password sign-in to set a password on that same Firebase account.
+   Test both methods. No other email account is authorized.
 
 Versions increase Firestore storage and read/write usage; monitor the project's
 quota. They are intentionally not automatically purged. Administrator server
