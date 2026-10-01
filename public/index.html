@@ -307,6 +307,32 @@ body.access-pending #app{visibility:hidden;pointer-events:none;}
 .availability-scroll thead th{position:sticky;top:0;z-index:3;background:#F0F4F8;box-shadow:0 1px 0 var(--line);}
 @media(max-width:700px){.inv-imei-scan{flex-wrap:wrap;}.inv-imei-scan input{flex-basis:180px;}.availability-scroll{max-height:65dvh;}}
 
+/* Phone navigation and panels stay within the screen; wide tables swipe locally. */
+.mobile-only,#navBackdrop{display:none;}
+@media(max-width:900px){
+  #sidebar{overflow-y:auto;overscroll-behavior:contain;padding-bottom:calc(18px + env(safe-area-inset-bottom));}
+  #navBackdrop.open{display:block;position:fixed;inset:0;border:0;background:rgba(20,26,34,.45);z-index:40;}
+  .mobile-only{display:inline-flex;min-height:44px;align-items:center;}
+  #topbar{padding:10px 12px;gap:8px;flex-wrap:wrap;}
+  .page-heading{flex:1;min-width:0;}
+  #topbar h1{font-size:17px;overflow-wrap:anywhere;}
+  #topbar .sub{font-size:11px;}
+  #topbarActions{display:none!important;width:100%;max-height:45dvh;overflow-y:auto;}
+  #topbar.tools-open #topbarActions{display:flex!important;}
+  #content{padding:14px 12px 32px;}
+  .card-pad{padding:14px 12px;}
+  .toolbar>*{max-width:100%;}
+  .search-input,.search-input input{max-width:100%;min-width:0;width:100%;}
+  .stat-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+  .stat-card{padding:12px 10px;}.stat-card .n{font-size:22px;overflow-wrap:anywhere;}
+  .field input,.field select,.field textarea{font-size:16px;min-height:44px;}
+  .modal-bg{padding:10px;}.modal,.modal.modal-lg,.modal.modal-xl{width:100%!important;max-height:calc(100dvh - 20px)!important;}
+  .modal-head,.modal-body,.modal-foot{padding:14px 12px;}.modal-foot{flex-wrap:wrap;}
+  .toast-wrap{left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));pointer-events:none;}
+  .toast{max-width:100%;overflow-wrap:anywhere;}
+  .availability-scroll{max-height:60dvh;}.table-wrap{overscroll-behavior-x:contain;}
+}
+
 </style>
 </head>
 <body class="access-pending">
@@ -315,13 +341,16 @@ body.access-pending #app{visibility:hidden;pointer-events:none;}
 </div>
 
 <div id="app">
-  <nav id="sidebar"></nav>
+  <button id="navBackdrop" aria-label="Close menu" onclick="MobileNav.close()"></button>
+  <nav id="sidebar" aria-label="Main navigation"></nav>
   <div id="main">
     <div id="topbar">
-      <div>
+      <div class="page-heading">
+        <button id="mobileMenuButton" class="btn mobile-only" aria-controls="sidebar" aria-expanded="false" onclick="MobileNav.toggle()">☰ Menu</button>
         <h1 id="pageTitle">Dashboard</h1>
         <div class="sub" id="pageSub"></div>
       </div>
+      <button class="btn mobile-only" aria-controls="topbarActions" aria-expanded="false" onclick="MobileNav.toggleTools(this)">Tools</button>
       <div class="row" id="topbarActions" style="gap:8px;align-items:center;flex-wrap:wrap;">
         <button class="btn sm no-print" onclick="FirebaseStore.syncNow(true)" title="Load the newest protected Firebase inventory" style="background:#0F766E;color:#fff;font-weight:700;border:none;box-shadow:0 1px 3px rgba(0,0,0,0.15);cursor:pointer;padding:4px 12px;">☁️ Refresh Firebase</button>
         <div id="save_indicator" style="display:flex;align-items:center;gap:4px;font-size:12px;"></div>
@@ -1500,7 +1529,7 @@ const FirebaseStore = {
       const revision = Number(remote.revision) || 0;
       if(this._revision !== null && revision > this._revision){
         Store.snapshotToBackups('Before receiving newer Firebase data');
-        this.adoptRemote(remote, true);
+        this.adoptRemote(remote, false);
       }
       this._revision = revision;
       updateSaveIndicator();
@@ -2457,9 +2486,28 @@ const Router = {
     // until server-side, per-shop authorization is implemented.
     return null;
   },
-  go(id){ this.current=id; render(); }
+  go(id){ this.current=id; MobileNav.close(); render(); }
 };
 const STOCKLINE_MARK = `<svg class="stockline-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="screen" x="5" y="3.5" width="17" height="25" rx="4"/><path class="line" d="M10 8.5h7M10 12h7M13 24h2"/><path class="box" d="M18.5 13.5 27 17.5v8l-8.5 4-8.5-4v-8z"/><path class="line" d="m18.5 13.5 8.5 4-8.5 4-8.5-4M18.5 21.5v8"/></svg>`;
+
+const MobileNav = {
+  toggle(){
+    const open = !document.getElementById('sidebar').classList.contains('open');
+    document.getElementById('sidebar').classList.toggle('open',open);
+    document.getElementById('navBackdrop').classList.toggle('open',open);
+    document.getElementById('mobileMenuButton').setAttribute('aria-expanded',String(open));
+  },
+  close(){
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('navBackdrop').classList.remove('open');
+    document.getElementById('mobileMenuButton').setAttribute('aria-expanded','false');
+  },
+  toggleTools(button){
+    const open=document.getElementById('topbar').classList.toggle('tools-open');
+    button.setAttribute('aria-expanded',String(open));
+  }
+};
+document.addEventListener('keydown',event=>{if(event.key==='Escape')MobileNav.close();});
 
 function renderTopbar(){
   const topbar = document.getElementById('topbar');
@@ -2829,7 +2877,7 @@ function displayModelGroups(items){
   const groups=new Map();
   for(const it of items){
     const memory=displayModelMemory(it);
-    const key=[it.category,String(it.name||'').trim().replace(/\s+/g,' ').toLowerCase(),memory].join('|');
+    const key=[String(it.name||'').trim().replace(/\s+/g,' ').toLowerCase(),memory].join('|');
     if(!groups.has(key))groups.set(key,{id:it.id,name:it.name,memory,category:it.category,members:[],locations:{}});
     const group=groups.get(key);group.members.push(it);
     for(const [shop,qty] of Object.entries(it.locations||{}))group.locations[shop]=(group.locations[shop]||0)+(Number(qty)||0);
@@ -4811,6 +4859,8 @@ Views.confirmTransferUnitModal = function(itemId, unitId, fromLoc){
   if(!toLoc || toLoc === fromLoc){ Toast.show('Pick a different destination store.','err'); return; }
 
   const result = Stock.transferUnit(itemId, unitId, toLoc, date, note);
+  if(!result)return;
+  if(!result)return;
   if(!result)return;
   if(!result)return;
   if(!result)return;
@@ -8525,7 +8575,7 @@ Views.stockview = function(){
   const locId = Views._svLoc;
   const mode = Views._svMode || 'totals';
   let items = Store.data.items.filter(it=> locId==='all' ? totalQty(it)>0 : ((it.locations&&it.locations[locId])||0)>0);
-  const groups = groupByCategory(items);
+  const groups = groupByCategory(mode==='totals'?displayModelGroups(items):items);
   const dateStr = new Date().toLocaleDateString('en-IE');
 
   function renderRow(it){
@@ -8712,7 +8762,7 @@ Views.stockview = function(){
             ${mode==='totals' ? `<th>Device</th><th>Memory</th><th>Colours</th><th>Qty</th><th>Cost Price</th><th>Sale Price</th><th>Condition</th><th></th>` : `<th>Device</th><th>IMEI</th><th>Colour</th><th>Qty</th><th>Cost</th><th>Sale</th><th>Location</th><th class="no-print"></th>`}
           </tr></thead>
           <tbody>
-            ${mode==='totals'?displayModelGroups(g.items).map(renderGroupedRow).join(''):g.items.map(renderImeiRows).join('')}
+            ${mode==='totals'?g.items.map(renderGroupedRow).join(''):g.items.map(renderImeiRows).join('')}
           </tbody>
         </table></div>
       </div>
