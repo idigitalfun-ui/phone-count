@@ -15,7 +15,7 @@
 </script>
 <script type="module">
   import { initializeApp, deleteApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+  import { getAuth, GoogleAuthProvider, EmailAuthProvider, linkWithCredential, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
   import { getFirestore, collection, doc, getDoc, getDocs, setDoc, query, orderBy, runTransaction, serverTimestamp, onSnapshot } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
 
   const firebaseConfig = {
@@ -31,7 +31,7 @@
     app, config: firebaseConfig, auth: getAuth(app), db: getFirestore(app), getAuth, initializeApp, deleteApp,
     googleProvider: new GoogleAuthProvider(),
     signInWithPopup,
-    signInWithEmailAndPassword,
+    signInWithEmailAndPassword, EmailAuthProvider, linkWithCredential,
     createUserWithEmailAndPassword,
     sendEmailVerification,
     signOut,
@@ -295,6 +295,13 @@ tbody tr:hover{filter:brightness(0.97);}
         <button class="btn sm no-print" onclick="Views.showActivityModal()" title="View recent activity log and undo any action" style="border:1.5px solid var(--teal);color:var(--teal-dark);font-weight:700;display:inline-flex;align-items:center;gap:4px;">📋 Activity</button>
         <button class="btn sm no-print" onclick="FileStore.exportJson()" title="Download a backup JSON file right now">⬇ Export data</button>
         <button class="btn sm no-print" onclick="FileStore.importJson()" title="Load data from a JSON backup file">⬆ Import data</button>
+        <button class="btn sm no-print" onclick="InventoryCsv.open()" title="Preview and import transfers or sales CSV">Upload CSV</button>
+        
+        
+        
+        
+        
+        
         <button class="btn sm no-print" onclick="Modal.backupQuick()">💾 Quick backup</button>
         <button class="btn sm no-print" onclick="Router.go('backup')">⚙ Settings</button>
       </div>
@@ -1283,6 +1290,7 @@ const SupabaseStore = {
 
   triggerDebouncedSave(){
     clearTimeout(this._timer);
+    if(this._revision === null || !this._loadedUid) return;
     this._timer = setTimeout(()=>this.saveRemote(false), 1500);
   },
 
@@ -1325,6 +1333,9 @@ const FirebaseStore = {
   _started: false,
   _access: null,
   OWNER_EMAIL: 'idigitalfun@gmail.com',
+  ADMIN_EMAILS: ['idigitalfun@gmail.com', 'ranakaharian1@gmail.com'],
+  _loadedUid: null,
+  _lastSaveError: null,
 
   async ready(){
     if(!this._fb) this._fb = await window.FirebasePhoneReady;
@@ -1332,7 +1343,14 @@ const FirebaseStore = {
       this._started = true;
       this._fb.onAuthStateChanged(this._fb.auth, user => {
         if(user) this.syncNow(false);
-        else { this._revision = null; updateSaveIndicator(); }
+        else {
+          clearTimeout(this._timer);
+          this._revision = null;
+          this._loadedUid = null;
+          this._unsubscribe?.(); this._unsubscribe = null;
+          this._accessUnsubscribe?.(); this._accessUnsubscribe = null;
+          updateSaveIndicator();
+        }
       });
     }
     return this._fb;
@@ -1349,7 +1367,7 @@ const FirebaseStore = {
   async isAdmin(user){
     if(!user) return false;
     const token = await user.getIdTokenResult(true);
-    return token.claims?.email === this.OWNER_EMAIL && token.claims?.email_verified === true;
+    return this.ADMIN_EMAILS.includes(token.claims?.email) && token.claims?.email_verified === true;
   },
 
   accessEmailFromLink(){
@@ -1371,8 +1389,18 @@ const FirebaseStore = {
     return !!this._access;
   },
 
+  validateInventory(data){
+    if(!data || !['shops','categories','items','movements'].every(key => Array.isArray(data[key])))
+      throw new Error('Invalid inventory format. Cloud data was not changed.');
+    return data;
+  },
+
   adoptRemote(remote, notify=false){
-    Store.data = JSON.parse(remote.payload);
+    const incoming = this.validateInventory(JSON.parse(remote.payload));
+    if(Store.data?.items?.length && !incoming.items.length){
+      Store.snapshotToBackups('Local inventory before empty cloud inventory');
+    }
+    Store.data = incoming;
     Store.migrate();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(Store.data));
     this._revision = Number(remote.revision) || 0;
@@ -1392,10 +1420,11 @@ const FirebaseStore = {
       const snapshot = await fb.getDoc(ref);
       if(snapshot.exists()){
         this.adoptRemote(snapshot.data(), manual);
+        this._loadedUid = user.uid;
         this.startListener(ref);
       } else {
         if(!await this.isAdmin(user)) throw new Error('The shared workspace has not been created by the administrator yet.');
-        await this.saveRemote(manual, user, true);
+        throw new Error('Cloud inventory is missing. Automatic creation is disabled to protect recovery.');
       }
     }catch(error){
       if(manual) Toast.show('Firebase sync error: ' + error.message, 'err');
@@ -1409,7 +1438,7 @@ const FirebaseStore = {
   startListener(ref){
     if(this._unsubscribe) return;
     this._unsubscribe = this._fb.onSnapshot(ref, snapshot => {
-      if(!snapshot.exists() || this._syncing) return;
+      if(!snapshot.exists() || this._syncing || this._loadedUid !== this._fb.auth.currentUser?.uid) return;
       const remote = snapshot.data();
       const revision = Number(remote.revision) || 0;
       if(this._revision !== null && revision > this._revision){
@@ -1436,6 +1465,18 @@ const FirebaseStore = {
   async saveRemote(manual=false, knownUser=null, creating=false){
     const user = knownUser || await this.user();
     if(!user) return;
+    if(this._revision === null || this._loadedUid !== user.uid){
+      this._lastSaveError = 'Load Firebase inventory before saving.';
+      updateSaveIndicator();
+      if(manual) Toast.show(this._lastSaveError,'err');
+      return;
+    }
+    if(this._syncing){
+      clearTimeout(this._timer);
+      this._timer = setTimeout(()=>this.saveRemote(manual), 500);
+      return;
+    }
+    this.validateInventory(Store.data);
     const payload = JSON.stringify(Store.data);
     if(payload.length > 900000){
       Toast.show('This backup is too large for Firebase. Export it before continuing.','err');
@@ -1452,25 +1493,27 @@ const FirebaseStore = {
       let savedRevision = this._revision;
       await fb.runTransaction(fb.db, async tx => {
         const current = await tx.get(ref);
-        if(!current.exists()){
-          if(!creating && this._revision !== null) throw new Error('Cloud workspace was removed. Refresh before saving.');
-          savedRevision = 0;
-          tx.set(ref, {
-            ownerUid: user.uid,
-            payload,
-            schemaVersion: 1,
-            revision: 0,
-            createdAt: fb.serverTimestamp(),
-            updatedAt: fb.serverTimestamp(),
-            updatedBy: user.uid
-          });
-          return;
-        }
+        if(!current.exists()) throw new Error('Cloud inventory is missing. Automatic creation is disabled.');
         const remote = current.data();
         const remoteRevision = Number(remote.revision) || 0;
         if(this._revision !== null && remoteRevision !== this._revision){
           throw new Error('Cloud data changed on another device. Your local copy was backed up and the newer cloud version was kept.');
         }
+        const previous = this.validateInventory(JSON.parse(remote.payload));
+        const next = JSON.parse(payload);
+        if(previous.items.length && !next.items.length)
+          throw new Error('Blocked: saving this would erase all inventory.');
+        if(previous.movements.length && !next.movements.length)
+          throw new Error('Blocked: saving this would erase all movement history.');
+        if(previous.items.length >= 10 && next.items.length < previous.items.length / 2)
+          throw new Error('Blocked: this save would remove more than half the inventory. Review the import first.');
+        if(previous.movements.length && next.movements.length < previous.movements.length)
+          throw new Error('Blocked: movement history cannot be shortened by an automatic save.');
+        const historyRef = fb.doc(fb.db, 'phone_count_workspaces', 'main', 'versions', String(remoteRevision));
+        const history = await tx.get(historyRef);
+        if(!history.exists()) tx.set(historyRef, remote);
+        else if(history.data().payload !== remote.payload)
+          throw new Error('Recovery history conflict. Cloud data was not changed.');
         savedRevision = remoteRevision + 1;
         tx.update(ref, {
           payload,
@@ -1480,6 +1523,7 @@ const FirebaseStore = {
         });
       });
       this._revision = savedRevision;
+      this._lastSaveError = null;
       if(manual) Toast.show('Saved securely to Firebase.','ok');
     }catch(error){
       if(/Cloud data changed/.test(error.message || '')){
@@ -1487,7 +1531,8 @@ const FirebaseStore = {
         this._syncing = false;
         await this.syncNow(false);
       }
-      if(manual || /Cloud data changed/.test(error.message || '')) Toast.show('Firebase save error: ' + error.message, 'err');
+      Toast.show('Firebase save error: ' + error.message, 'err');
+      this._lastSaveError = error.message;
       console.error('Firebase save error:', error);
     }finally{
       this._syncing = false;
@@ -1497,6 +1542,7 @@ const FirebaseStore = {
 
   triggerDebouncedSave(){
     clearTimeout(this._timer);
+    if(this._revision === null || !this._loadedUid) return;
     this._timer = setTimeout(()=>this.saveRemote(false), 1200);
   },
 
@@ -1536,7 +1582,7 @@ const FirebaseStore = {
       if(!email || !password) throw new Error('Enter the administrator email and password.');
       const result = await fb.signInWithEmailAndPassword(fb.auth, email, password);
       if(!await this.isAdmin(result.user)){
-        if(email === this.OWNER_EMAIL && !result.user.emailVerified){
+        if(this.ADMIN_EMAILS.includes(email) && !result.user.emailVerified){
           await fb.sendEmailVerification(result.user);
           await fb.signOut(fb.auth);
           throw new Error('Check your email and verify it once, then sign in again.');
@@ -1547,6 +1593,38 @@ const FirebaseStore = {
       Modal.close();
       await this.syncNow(true);
     }catch(error){ Toast.show('Sign-in error: ' + error.message, 'err'); }
+  },
+
+
+  async openPasswordSetup(){
+    const user=await this.user();
+    if(!await this.isAdmin(user) || user.email !== this.OWNER_EMAIL){
+      Toast.show('Sign in with the idigitalfun@gmail.com Google account first.','err');
+      return;
+    }
+    if(user.providerData.some(provider=>provider.providerId==='password')){
+      Toast.show('Email/password login is already linked to idigitalfun@gmail.com.','ok');
+      return;
+    }
+    Modal.open('<div class="modal"><div class="modal-head"><h3>Enable email/password sign-in</h3><button class="btn" onclick="Modal.close()">Close</button></div><div class="modal-body"><p>Add a Firebase password to idigitalfun@gmail.com. Google sign-in will continue to use the same account and inventory.</p><label>New Firebase password<input id="ownerSetupPassword" type="password" autocomplete="new-password"></label><label>Confirm password<input id="ownerSetupConfirm" type="password" autocomplete="new-password"></label></div><div class="modal-foot"><button class="btn" onclick="Modal.close()">Cancel</button><button class="btn primary" onclick="FirebaseStore.linkOwnerPassword()">Enable password sign-in</button></div></div>');
+  },
+
+  async linkOwnerPassword(){
+    try{
+      const fb=await this.ready(),user=fb.auth.currentUser;
+      if(!await this.isAdmin(user) || user.email !== this.OWNER_EMAIL)throw new Error('Sign in with the owner Google account first.');
+      const password=val('ownerSetupPassword'),confirm=val('ownerSetupConfirm');
+      if(password.length<8||password!==confirm)throw new Error('Use at least eight characters and matching passwords.');
+      await fb.linkWithCredential(user,fb.EmailAuthProvider.credential(this.OWNER_EMAIL,password));
+      await user.getIdToken(true);
+      Modal.close();
+      Toast.show('Google and email/password now open the same Firebase account.','ok');
+    }catch(error){
+      const message=error.code==='auth/requires-recent-login'
+        ? 'Sign in with Google again, then enable password sign-in.'
+        : error.message;
+      Toast.show('Password setup: '+message,'err');
+    }
   },
 
   async signInWithAccessCode(){
@@ -2164,7 +2242,9 @@ function updateSaveIndicator(state){
     }
   }
 
-  const firebaseHtml = FirebaseStore._syncing
+  const firebaseHtml = FirebaseStore._lastSaveError
+    ? '<span style="color:var(--red);font-size:11.5px;">Cloud save blocked — check Activity or refresh Firebase</span>'
+    : FirebaseStore._syncing
     ? '<span style="color:var(--teal-dark);font-size:11.5px;font-weight:600;">☁️ Saving to Firebase…</span>'
     : (FirebaseStore._revision === null
       ? '<span style="color:var(--muted);font-size:11.5px;">☁️ Sign in to Firebase</span>'
@@ -2312,6 +2392,13 @@ function renderTopbar(){
       <button class="btn sm no-print" onclick="Views.showActivityModal()" title="View recent activity log and undo any action" style="border:1.5px solid var(--teal);color:var(--teal-dark);font-weight:700;display:inline-flex;align-items:center;gap:4px;">📋 Activity</button>
       <button class="btn sm no-print" onclick="FileStore.exportJson()" title="Download a backup JSON file right now">⬇ Export data</button>
       <button class="btn sm no-print" onclick="FileStore.importJson()" title="Load data from a JSON backup file">⬆ Import data</button>
+        <button class="btn sm no-print" onclick="InventoryCsv.open()" title="Preview and import transfers or sales CSV">Upload CSV</button>
+        
+        
+        
+        
+        
+        
       <button class="btn sm no-print" onclick="Modal.backupQuick()">💾 Quick backup</button>
       <button class="btn sm no-print" onclick="DevicePin.openSettings()" title="Set or use an optional PIN on this device">🔒 PIN</button>
       <button class="btn sm no-print" id="installAppBtn" style="display:none" onclick="installStockLineApp()" title="Install StockLine as a Windows app">⇩ Install app</button>
@@ -3185,6 +3272,14 @@ const Stock = {
         if(it.locations && it.locations[m.location]){
           it.locations[m.location] = Math.max(0, (it.locations[m.location] || 0) - qty);
         }
+      } else if(m.type === 'sold' && m.qty < 0){
+        const returned = (it.units||[]).find(u=>u.id===m.unitData?.id);
+        if(!returned || returned.location!==m.location){
+          Toast.show('This returned phone has later activity. Revert that activity first.','err');
+          return false;
+        }
+        it.units=it.units.filter(u=>u.id!==returned.id);
+        it.locations[m.location]=Math.max(0,(it.locations[m.location]||0)-1);
       } else if(m.type === 'sold' || m.type === 'faulty' || m.type === 'deposit'){
         if(m.type === 'faulty' && m.faultyStatus === 'in_shop'){
           if(m.unitData && m.unitData.imei && Array.isArray(it.units)){
@@ -3600,7 +3695,7 @@ Views.dashboard = function(){
   const salesRange = Views._dashboardSalesRange || 7;
   const periodSales = Store.data.movements.filter(m=>m?.type==='sold' && m.date>=isoAddDays(todayISO(),-salesRange));
   let periodUnits=0, periodRevenue=0, periodCost=0, estimatedCount=0;
-  periodSales.forEach(m=>{ const q=Number(m.qty)||1, it=itemById(m.itemId); const sale=Number(m.sellPrice)||Number(m.unitData?.sellPrice)||Number(it?.shopPrices?.[m.location])||0; let cost=Number(m.unitData?.costPrice)||Number(it?.costPrice)||0; if(!cost && sale){ cost=sale*.65; estimatedCount+=q; } periodUnits+=q; periodRevenue+=sale*q; periodCost+=cost*q; });
+  periodSales.forEach(m=>{ const q=Number(m.qty)||1, it=itemById(m.itemId); const sale=Number(m.sellPrice)||Number(m.unitData?.sellPrice)||Number(it?.shopPrices?.[m.location])||0; let cost=m.unitData?.costPriceUnknown?0:(Number(m.unitData?.costPrice)||Number(it?.costPrice)||0); if(!cost && sale){ cost=sale*.65; estimatedCount+=q; } periodUnits+=q; periodRevenue+=sale*q; periodCost+=cost*q; });
 
   const byCat = {};
   Store.data.categories.forEach(c=>byCat[c.id]=0);
@@ -8971,6 +9066,7 @@ Views.backup = function(){
           <h3 style="margin-top:0;">☁️ Firebase Cloud</h3>
           <p style="color:var(--muted);font-size:13px;line-height:1.55;">Firebase is the shared source of truth. Changes save automatically after a verified administrator or approved all-shops user signs in. <b>Refresh Firebase</b> only downloads the newest cloud version; it never uploads or overwrites it.</p>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            <button class="btn" onclick="FirebaseStore.openPasswordSetup()">Enable email/password sign-in</button>
             <button class="btn primary" onclick="FirebaseStore.openAccessManager()">🔗 Share all-shops access</button>
             <span style="font-size:12px;color:var(--muted);">Create, extend, or revoke private time-limited links.</span>
           </div>
@@ -8984,6 +9080,11 @@ Views.backup = function(){
           <div style="height:14px;"></div>
           <p style="color:var(--muted);font-size:13px;">Restore from a downloaded backup file:</p>
           <input type="file" id="restoreFile" accept=".json" onchange="Views.restoreFromFile(this)">
+        </div>
+        <div class="card card-pad" style="margin-top:16px;">
+          <h3 style="margin-top:0;">Import transfers and sales CSV</h3>
+          <p>Upload a CSV, review matches and conflicts, then apply valid rows. Re-uploading the same records will not duplicate them.</p>
+          <button class="btn primary" onclick="InventoryCsv.open()">Upload transfers or sales CSV</button>
         </div>
         <div class="card card-pad" style="margin-top:16px;">
           <h3 style="margin-top:0;">Import IMEIs from shop CSV files</h3>
@@ -9149,5 +9250,7 @@ window.FirebasePhoneReady.then(fb => fb.onAuthStateChanged(fb.auth, user => {
 }));
 setTimeout(() => FirebaseStore.syncNow(false), 500);
 </script>
+<script src="inventory-csv.js"></script>
 </body>
 </html>
+
