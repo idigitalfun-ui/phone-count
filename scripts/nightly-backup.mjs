@@ -9,7 +9,11 @@ export function parseInventory(document) {
   const data = JSON.parse(payload);
   if (!data || !['shops', 'categories', 'items', 'movements'].every(k => Array.isArray(data[k])))
     throw new Error('Invalid inventory: no backup pointers were changed.');
-  return { data, payload, hash: createHash('sha256').update(payload).digest('hex') };
+  const comparable = structuredClone(data);
+  if (comparable.meta) delete comparable.meta.lastSaved;
+  const stable = value => Array.isArray(value) ? value.map(stable) :
+    value && typeof value === 'object' ? Object.fromEntries(Object.keys(value).sort().map(key=>[key,stable(value[key])])) : value;
+  return { data, payload, hash: createHash('sha256').update(JSON.stringify(stable(comparable))).digest('hex') };
 }
 
 export async function saveSnapshot(document, directory) {
