@@ -76,6 +76,8 @@ test('existing verified email administrator is accepted', async () => {
   assert.equal(await subject.isAdmin(user),true);
   user.getIdTokenResult=async()=>({claims:{email:'unknown@example.com',email_verified:true}});
   assert.equal(await subject.isAdmin(user),false);
+  user.getIdTokenResult=async()=>({claims:{email:'ranakaharian1@gmail.com',email_verified:true}});
+  assert.equal(await subject.isAdmin(user),true);
   user.getIdTokenResult=async()=>({claims:{email:'ranakaharian1@gmail.com',email_verified:false}});
   assert.equal(await subject.isAdmin(user),false);
 });
