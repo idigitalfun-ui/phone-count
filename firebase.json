@@ -14,5 +14,14 @@
         "supportEmail": "idigitalfun@gmail.com"
       }
     }
+  },
+  "emulators": {
+    "firestore": {
+      "port": 8188
+    },
+    "ui": {
+      "enabled": false
+    },
+    "singleProjectMode": true
   }
 }
