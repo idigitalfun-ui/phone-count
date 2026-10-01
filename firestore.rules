@@ -1,1 +1,117 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed data model
+    // ===============================================================
+    // phone_count_workspaces/main: immutable ownerUid audit marker, JSON
+    // payload (<= 900000 characters), schemaVersion, monotonic revision,
+    // immutable createdAt, recent updatedAt and current-user updatedBy.
+    // The payload can contain sensitive phone inventory and movement records.
+    // phone_count_access/{firebaseUid}: private administrator-created access
+    // record for a generated Firebase Authentication account. It has an
+    // internal accessEmail, role 'all_shops_editor', active, nullable expiresAt,
+    // createdAt, updatedAt and createdBy. It is readable only by its owner or
+    // the verified administrator.
+    // ===============================================================
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // The owner must use the verified administrator email, whether through
+    // Google or through a verified email/password provider.
+    function isAdmin() {
+      return signedIn() &&
+        request.auth.token.email in ['idigitalfun@gmail.com', 'ranakaharian1@gmail.com'] &&
+        request.auth.token.email_verified == true;
+    }
+
+    function isRecent(value) {
+      return value is timestamp &&
+        value >= request.time - duration.value(5, 'm') &&
+        value <= request.time + duration.value(1, 'm');
+    }
+
+    function validText(value, maxLength) {
+      return value is string && value.size() > 0 && value.size() <= maxLength;
+    }
+
+    function accessDocument() {
+      return get(/databases/$(database)/documents/phone_count_access/$(request.auth.uid));
+    }
+
+    function hasLiveAllShopsAccess() {
+      return signedIn() &&
+        exists(/databases/$(database)/documents/phone_count_access/$(request.auth.uid)) &&
+        accessDocument().data.active == true &&
+        accessDocument().data.role == 'all_shops_editor' &&
+        (accessDocument().data.expiresAt == null ||
+          accessDocument().data.expiresAt > request.time);
+    }
+
+    function canUseWorkspace() {
+      return isAdmin() || hasLiveAllShopsAccess();
+    }
+
+    // This domain validator is called for both workspace creates and updates.
+    function validWorkspace(data) {
+      return data.keys().hasOnly(['ownerUid', 'payload', 'schemaVersion', 'revision', 'createdAt', 'updatedAt', 'updatedBy']) &&
+        data.keys().hasAll(['ownerUid', 'payload', 'schemaVersion', 'revision', 'createdAt', 'updatedAt', 'updatedBy']) &&
+        validText(data.ownerUid, 128) &&
+        data.payload is string && data.payload.size() <= 900000 &&
+        data.schemaVersion is int && data.schemaVersion >= 1 && data.schemaVersion <= 20 &&
+        data.revision is int && data.revision >= 0 && data.revision <= 2147483647 &&
+        data.createdAt is timestamp && isRecent(data.updatedAt) &&
+        data.updatedBy == request.auth.uid;
+    }
+
+    // This domain validator is called for both access creates and updates.
+    function validAccess(data) {
+      return data.keys().hasOnly(['accessEmail', 'role', 'active', 'expiresAt', 'createdAt', 'updatedAt', 'createdBy']) &&
+        data.keys().hasAll(['accessEmail', 'role', 'active', 'expiresAt', 'createdAt', 'updatedAt', 'createdBy']) &&
+        validText(data.accessEmail, 160) && data.role == 'all_shops_editor' &&
+        data.active is bool && (data.expiresAt == null || data.expiresAt is timestamp) &&
+        data.createdAt is timestamp && isRecent(data.updatedAt) &&
+        data.createdBy == request.auth.uid;
+    }
+
+    // Every update must preserve the exact previous document atomically.
+    function previousVersionPreserved() {
+      let version = getAfter(/databases/$(database)/documents/phone_count_workspaces/main/versions/$(string(resource.data.revision)));
+      return version.data == resource.data;
+    }
+
+    match /phone_count_workspaces/main {
+      match /versions/{versionId} {
+        allow read: if canUseWorkspace();
+        allow create: if canUseWorkspace() &&
+          versionId == string(get(/databases/$(database)/documents/phone_count_workspaces/main).data.revision) &&
+          request.resource.data == get(/databases/$(database)/documents/phone_count_workspaces/main).data;
+        allow update, delete: if false;
+      }
+      allow read: if canUseWorkspace();
+      allow create: if false; // Bootstrap/recovery requires a deliberate administrator operation.
+      allow update: if canUseWorkspace() && validWorkspace(request.resource.data) &&
+        request.resource.data.ownerUid == resource.data.ownerUid &&
+        request.resource.data.createdAt == resource.data.createdAt &&
+        request.resource.data.revision == resource.data.revision + 1 &&
+        previousVersionPreserved();
+      allow delete: if false;
+    }
+
+    match /phone_count_access/{accessUid} {
+      allow get: if isAdmin() || (signedIn() && accessUid == request.auth.uid);
+      allow list: if isAdmin();
+      allow create: if isAdmin() && validAccess(request.resource.data) &&
+        request.resource.data.createdAt == request.resource.data.updatedAt;
+      allow update: if isAdmin() && validAccess(request.resource.data) &&
+        request.resource.data.accessEmail == resource.data.accessEmail &&
+        request.resource.data.role == resource.data.role &&
+        request.resource.data.createdAt == resource.data.createdAt &&
+        request.resource.data.createdBy == resource.data.createdBy;
+      allow delete: if false;
+    }
+  }
+}
 
