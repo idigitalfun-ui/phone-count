@@ -49,3 +49,22 @@ test('destination options carry real shop IDs and preserve the selected shop',()
  vm.runInContext(html.slice(start,end),ctx);const view=ctx.Views.transfer();
  assert.match(view,/<option value="maynooth" selected>Maynooth/);
 });
+test('refresh waits for authentication restoration before reading currentUser',async()=>{
+ let resolve;const user={uid:'existing'};
+ const restored=new Promise(r=>resolve=r);
+ const auth=object('FirebaseStore');auth.ready=async()=>({auth:{authStateReady:()=>restored,currentUser:user}});
+ const pending=auth.user();resolve();
+ assert.equal(await pending,user);
+});
+test('overlapping sync does not clear the first request lock',async()=>{
+ const auth=object('FirebaseStore',{AccessScreen:{show(){},hide(){}},updateSaveIndicator(){}});
+ auth.user=async()=>({uid:'existing'});auth._syncing=true;
+ await auth.syncNow();assert.equal(auth._syncing,true);
+});
+test('sign out during a read cannot reopen the private inventory',async()=>{
+ let adopted=false,hidden=false;
+ const auth=object('FirebaseStore',{AccessScreen:{show(){},hide(){hidden=true;}},updateSaveIndicator(){}});
+ auth.user=async()=>({uid:'existing'});auth.canUseWorkspace=async()=>true;auth.workspaceRef=()=>({});auth.adoptRemote=()=>adopted=true;
+ auth.ready=async()=>({auth:{currentUser:null},getDoc:async()=>({exists:()=>true,data:()=>({})})});
+ await auth.syncNow();assert.equal(adopted,false);assert.equal(hidden,false);assert.equal(auth._syncing,false);
+});

@@ -1448,15 +1448,17 @@ const FirebaseStore = {
   },
 
   async syncNow(manual=false){
+    let ownsSync=false;
     try{
       const user = await this.user();
       if(!user){ AccessScreen.show('Sign in to open your private inventory.',true); if(manual)this.openSignIn(); return; }
       if(this._syncing) return;
-      this._syncing = true;
+      this._syncing = true; ownsSync=true;
       const fb = await this.ready();
       if(!await this.canUseWorkspace(fb, user)) throw new Error('This access link is expired, revoked, or not authorised. Ask the administrator for a new link.');
       const ref = this.workspaceRef(fb);
       const snapshot = await fb.getDoc(ref);
+      if(fb.auth.currentUser?.uid!==user.uid)return;
       if(snapshot.exists()){
         this.adoptRemote(snapshot.data(), manual);
         this._loadedUid = user.uid;
@@ -1471,7 +1473,7 @@ const FirebaseStore = {
       if(manual) Toast.show('Firebase sync error: ' + error.message, 'err');
       console.error('Firebase sync error:', error);
     }finally{
-      this._syncing = false;
+      if(ownsSync)this._syncing = false;
       updateSaveIndicator();
     }
   },
@@ -4244,16 +4246,6 @@ Views.inventory = function(){
       .inv-imei-scan select { padding:8px 10px;border:none;border-radius:6px;font-size:13px;background:#fff;color:var(--ink); }
       .inv-imei-scan button { white-space:nowrap; }
     
-body.access-pending #app{visibility:hidden;pointer-events:none;}
-#accessScreen{position:fixed;inset:0;z-index:900;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:24px;}
-#accessScreen[hidden]{display:none;}#modalBg{z-index:1000;}
-.access-card{text-align:center;max-width:420px;color:#163342;}
-.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo{font-size:48px;color:#0f766e;animation:stockline-spin 1.4s linear infinite;}
-@keyframes stockline-spin{to{transform:rotate(360deg)}}
-@media(prefers-reduced-motion:reduce){.loading-logo{animation:none;}}
-.password-row{display:flex;gap:8px;align-items:center;}.password-row input{flex:1;min-width:0;}
-.tab-help{font-size:12px;color:#526574;margin:0 0 12px;}.tab-help summary{cursor:pointer;display:inline-block;}.tab-help p{margin:6px 0;max-width:700px;}
-.signin-error{color:#a12622;font-size:13px;min-height:18px;}
 </style>
 
     ${catSummaryHtml}
@@ -4792,6 +4784,8 @@ Views.confirmTransferUnitModal = function(itemId, unitId, fromLoc){
   const result = Stock.transferUnit(itemId, unitId, toLoc, date, note);
   if(!result)return;
   if(!result)return;
+  if(!result)return;
+  if(!result)return;
   if(result){
     Toast.show(`✓ ${it.name} ${unit.imei ? '(IMEI ' + unit.imei + ')' : ''} moved to ${shopName(toLoc)}. <button class="btn sm" style="margin-left:8px;padding:2px 10px;font-size:11px;background:#fff;color:var(--ink);border:none;" onclick="Views.undoSale('${result.movementId}')">↩ Undo</button>`, 'ok');
   }
@@ -5180,16 +5174,6 @@ Views.generateInventoryPdf = function(){
       .no-print { display: none !important; }
     }
   
-body.access-pending #app{visibility:hidden;pointer-events:none;}
-#accessScreen{position:fixed;inset:0;z-index:900;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:24px;}
-#accessScreen[hidden]{display:none;}#modalBg{z-index:1000;}
-.access-card{text-align:center;max-width:420px;color:#163342;}
-.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo{font-size:48px;color:#0f766e;animation:stockline-spin 1.4s linear infinite;}
-@keyframes stockline-spin{to{transform:rotate(360deg)}}
-@media(prefers-reduced-motion:reduce){.loading-logo{animation:none;}}
-.password-row{display:flex;gap:8px;align-items:center;}.password-row input{flex:1;min-width:0;}
-.tab-help{font-size:12px;color:#526574;margin:0 0 12px;}.tab-help summary{cursor:pointer;display:inline-block;}.tab-help p{margin:6px 0;max-width:700px;}
-.signin-error{color:#a12622;font-size:13px;min-height:18px;}
 </style>
 </head>
 <body class="access-pending">
@@ -8964,16 +8948,6 @@ Views.printReorderOrder = function(){
   const rows=Store.data.reorderList.map(r=>({...r,item:itemById(r.itemId)})).filter(r=>r.item);
   const w=window.open('','_blank'); if(!w){ Toast.show('Allow pop-ups to create the purchase order PDF.','err'); return; }
   w.document.write(`<!doctype html><html><head><title>I Digital Fun Purchase Order</title><style>body{font-family:Arial,sans-serif;color:#172033;margin:38px}header{display:flex;justify-content:space-between;border-bottom:3px solid #1D6F8C;padding-bottom:18px;margin-bottom:26px}h1{margin:0;color:#154F63;font-size:28px}small{color:#64748b}table{width:100%;border-collapse:collapse;margin-top:18px}th{background:#154F63;color:#fff;text-align:left;padding:10px;font-size:12px}td{border-bottom:1px solid #dbe2ea;padding:10px;font-size:13px}.qty{text-align:center;font-weight:bold}.foot{margin-top:40px;border-top:1px solid #dbe2ea;padding-top:14px;font-size:12px;color:#64748b}@media print{body{margin:18px}}
-body.access-pending #app{visibility:hidden;pointer-events:none;}
-#accessScreen{position:fixed;inset:0;z-index:900;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:24px;}
-#accessScreen[hidden]{display:none;}#modalBg{z-index:1000;}
-.access-card{text-align:center;max-width:420px;color:#163342;}
-.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo{font-size:48px;color:#0f766e;animation:stockline-spin 1.4s linear infinite;}
-@keyframes stockline-spin{to{transform:rotate(360deg)}}
-@media(prefers-reduced-motion:reduce){.loading-logo{animation:none;}}
-.password-row{display:flex;gap:8px;align-items:center;}.password-row input{flex:1;min-width:0;}
-.tab-help{font-size:12px;color:#526574;margin:0 0 12px;}.tab-help summary{cursor:pointer;display:inline-block;}.tab-help p{margin:6px 0;max-width:700px;}
-.signin-error{color:#a12622;font-size:13px;min-height:18px;}
 </style></head><body class="access-pending">
 <div id="accessScreen" role="status" aria-live="polite">
   <div class="access-card"><div class="loading-logo" aria-hidden="true"><svg class="stockline-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="screen" x="5" y="3.5" width="17" height="25" rx="4"/><path class="line" d="M10 8.5h7M10 12h7M13 24h2"/><path class="box" d="M18.5 13.5 27 17.5v8l-8.5 4-8.5-4v-8z"/><path class="line" d="m18.5 13.5 8.5 4-8.5 4-8.5-4M18.5 21.5v8"/></svg></div><h1>StockLine</h1><p id="accessMessage">Opening your secure inventory…</p><div id="accessActions"></div></div>
