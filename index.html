@@ -308,7 +308,7 @@ body.access-pending #app{visibility:hidden;pointer-events:none;}
 @media(max-width:700px){.inv-imei-scan{flex-wrap:wrap;}.inv-imei-scan input{flex-basis:180px;}.availability-scroll{max-height:65dvh;}}
 
 /* Phone navigation and panels stay within the screen; wide tables swipe locally. */
-.mobile-only,#navBackdrop{display:none;}
+.stock-color{display:inline-flex;align-items:center;white-space:nowrap;margin-right:6px;}.stock-missing{color:var(--muted);font-family:inherit;}.mobile-only,#navBackdrop{display:none;}
 @media(max-width:900px){
   #sidebar{overflow-y:auto;overscroll-behavior:contain;padding-bottom:calc(18px + env(safe-area-inset-bottom));}
   #navBackdrop.open{display:block;position:fixed;inset:0;border:0;background:rgba(20,26,34,.45);z-index:40;}
@@ -2885,6 +2885,26 @@ function displayModelGroups(items){
   return [...groups.values()];
 }
 
+function displayStockColors(items,locId){
+  const colors=[];
+  for(const it of items){
+    const units=(it.units||[]).filter(u=>locId==='all'||u.location===locId);
+    const current=units.map(u=>String(u.color||'').trim()).filter(c=>c&&!/^[-–—]+$/.test(c));
+    for(const color of (current.length?current:(it.colors||[]))){
+      const text=String(color||'').trim();
+      if(text&&!/^[-–—]+$/.test(text)&&!colors.some(c=>c.toLowerCase()===text.toLowerCase()))colors.push(text);
+    }
+  }
+  return colors;
+}
+function displayColorChips(colors){
+  return colors.length?colors.map(c=>`<span class="stock-color"><span class="color-swatch" style="background:${cssColor(c)}" aria-hidden="true"></span>${esc(c)}</span>`).join(' '):'<span class="stock-missing">—</span>';
+}
+function displayMemoryCell(it){
+  const memory=displayModelMemory(it);
+  return memory?`<span class="mono" style="font-size:12px;font-weight:700;color:var(--teal-dark);">${esc(memory)}</span>`:'<span class="stock-missing">—</span>';
+}
+
 function groupByCategory(list){
   const groups = {};
   Store.data.categories.forEach(c=>groups[c.id]=[]);
@@ -2911,7 +2931,7 @@ function cssColor(name){
     red:'#ff3b30', '(product)red':'#e00421', yellow:'#ffd60a', orange:'#ff9500', pink:'#ff2d55', coral:'#ff6b4a'
   };
   const key = String(name).toLowerCase().trim();
-  return map[key] || '#9aa0a6';
+  return map[key] || (key.includes('black')?'#1a1a1a':'#9aa0a6');
 }
 function signalClass(q){ if(q<=0) return 's0'; if(q<=2) return 's1'; if(q<=5) return 's2'; if(q<=10) return 's3'; return 's4'; }
 function signalHtml(q){
@@ -3286,6 +3306,7 @@ const Stock = {
     const idx = (it.units||[]).findIndex(u=>u.id===unitId);
     if(idx<0) return false;
     const unit = it.units[idx];
+    if(!['sold','faulty','deposit'].includes(status)||(it.locations[unit.location]||0)<1){Toast.show('Device stock is out of date. Refresh before recording this action.','err');return false;}
     it.units.splice(idx,1);
     it.locations[unit.location] = Math.max(0,(it.locations[unit.location]||0)-1);
     const mv = {
@@ -3309,6 +3330,9 @@ const Stock = {
   // at that location (so IMEI records stay accurate without the person having to pick one manually).
   sell(itemId, shopId, qty, date, note, unitId){
     const it = itemById(itemId); if(!it||qty<=0) return false;
+    if(!Number.isSafeInteger(qty)||!activeShops().some(s=>s.id===shopId)){Toast.show('Select a valid shop and whole quantity.','err');return false;}
+    if(unitId && ((it.units||[]).find(u=>u.id===unitId)?.location!==shopId||qty!==1)){Toast.show('This device is not at the selected shop.','err');return false;}
+    if(qty>1 && untrackedQtyAt(it,shopId)<qty){Toast.show('Select IMEI devices individually. Quantity actions only apply to untracked stock.','err');return false;}
     if((it.locations[shopId]||0) < qty){ Toast.show('Not enough stock at that shop.','err'); return false; }
     if(unitId) return this.removeUnit(itemId, unitId, 'sold', date, note);
     if(qty===1){ const u = unitsAt(it, shopId)[0]; if(u) return this.removeUnit(itemId, u.id, 'sold', date, note); }
@@ -3330,6 +3354,9 @@ const Stock = {
   },
   faulty(itemId, shopId, qty, date, note, unitId){
     const it = itemById(itemId); if(!it||qty<=0) return false;
+    if(!Number.isSafeInteger(qty)||!activeShops().some(s=>s.id===shopId)){Toast.show('Select a valid shop and whole quantity.','err');return false;}
+    if(unitId && ((it.units||[]).find(u=>u.id===unitId)?.location!==shopId||qty!==1)){Toast.show('This device is not at the selected shop.','err');return false;}
+    if(qty>1 && untrackedQtyAt(it,shopId)<qty){Toast.show('Select IMEI devices individually. Quantity actions only apply to untracked stock.','err');return false;}
     if((it.locations[shopId]||0) < qty){ Toast.show('Not enough stock at that shop.','err'); return false; }
     if(unitId) return this.removeUnit(itemId, unitId, 'faulty', date, note);
     if(qty===1){ const u = unitsAt(it, shopId)[0]; if(u) return this.removeUnit(itemId, u.id, 'faulty', date, note); }
@@ -3351,6 +3378,9 @@ const Stock = {
   },
   deposit(itemId, shopId, qty, date, note, unitId){
     const it = itemById(itemId); if(!it||qty<=0) return false;
+    if(!Number.isSafeInteger(qty)||!activeShops().some(s=>s.id===shopId)){Toast.show('Select a valid shop and whole quantity.','err');return false;}
+    if(unitId && ((it.units||[]).find(u=>u.id===unitId)?.location!==shopId||qty!==1)){Toast.show('This device is not at the selected shop.','err');return false;}
+    if(qty>1 && untrackedQtyAt(it,shopId)<qty){Toast.show('Select IMEI devices individually. Quantity actions only apply to untracked stock.','err');return false;}
     if((it.locations[shopId]||0) < qty){ Toast.show('Not enough stock at that shop.','err'); return false; }
     if(unitId) return this.removeUnit(itemId, unitId, 'deposit', date, note);
     if(qty===1){ const u = unitsAt(it, shopId)[0]; if(u) return this.removeUnit(itemId, u.id, 'deposit', date, note); }
@@ -3461,6 +3491,7 @@ const Stock = {
             }
           }
         } else {
+          if(m.unitData && Store.data.items.some(item=>(item.units||[]).some(u=>u.id===m.unitData.id||(m.unitData.imei&&String(u.imei||'').trim().toLowerCase()===String(m.unitData.imei).trim().toLowerCase())))){Toast.show('This device is already in stock. Refresh and review its history before reverting.','err');return false;}
           if(it.locations){
             it.locations[m.location] = (it.locations[m.location] || 0) + qty;
           }
@@ -3483,6 +3514,7 @@ const Stock = {
         const isOut = m.type === 'transfer-out';
         const from = isOut ? m.location : m.fromLocation;
         const to = isOut ? m.toLocation : m.location;
+        if(m.unitData?.id && !(it.units||[]).some(u=>u.id===m.unitData.id&&u.location===to)){Toast.show('This device has later activity. Revert that activity first.','err');return false;}
 
         if(from && it.locations){
           it.locations[from] = (it.locations[from] || 0) + qty;
@@ -4859,6 +4891,7 @@ Views.confirmTransferUnitModal = function(itemId, unitId, fromLoc){
   if(!toLoc || toLoc === fromLoc){ Toast.show('Pick a different destination store.','err'); return; }
 
   const result = Stock.transferUnit(itemId, unitId, toLoc, date, note);
+  if(!result)return;
   if(!result)return;
   if(!result)return;
   if(!result)return;
@@ -8585,8 +8618,7 @@ Views.stockview = function(){
     const salePrice = locId==='all' ? ((it.shopPrices && it.shopPrices[defaultShopId])||it.costPrice||0) : ((it.shopPrices && it.shopPrices[locId])||it.costPrice||0);
 
     const relUnits = locId==='all' ? (it.units||[]) : unitsAt(it, locId);
-    const unitCols = [...new Set(relUnits.map(u=>u.color).filter(Boolean))];
-    const colorsToShow = unitCols.length > 0 ? unitCols : (it.colors||[]);
+    const colorsToShow = displayStockColors([it],locId);
 
     const rowCost = (relUnits.find(u=>u.costPrice!=null && u.costPrice>1)?.costPrice) || (it.units?.find(u=>u.costPrice!=null && u.costPrice>1)?.costPrice) || it.costPrice || 0;
 
@@ -8596,10 +8628,10 @@ Views.stockview = function(){
         <b>${esc(it.name)}</b>
       </td>
       <td>
-        ${it.memory ? `<span class="mono" style="font-size:12px;font-weight:700;color:var(--teal-dark);">${esc(it.memory)}</span>` : `<span style="color:var(--muted);">—</span>`}
+        ${displayMemoryCell(it)}
       </td>
       <td>
-        ${colorsToShow.map(c=>`<span class="color-swatch" style="background:${cssColor(c)}" title="${esc(c)}"></span>`).join('')}${esc(colorsToShow.join(', ')||'—')}
+        ${displayColorChips(colorsToShow)}
       </td>
       <td><b style="font-size:14px;color:var(--teal-dark);">${qty}</b></td>
       <td>
@@ -8665,13 +8697,13 @@ Views.stockview = function(){
     if(group.members.length===1)return renderRow(group.members[0]);
     const groupId='group_'+group.id,expanded=!!Views._svExpanded[groupId];
     const units=group.members.flatMap(it=>locId==='all'?(it.units||[]):unitsAt(it,locId));
-    const colors=[...new Set(group.members.flatMap(it=>it.colors||[]).concat(units.map(u=>u.color)).filter(Boolean))];
+    const colors=displayStockColors(group.members,locId);
     const qty=locId==='all'?Object.values(group.locations).reduce((a,n)=>a+n,0):(group.locations[locId]||0);
     const prices=values=>{const list=[...new Set(values.map(Number).filter(Number.isFinite))];return list.length===1?euro(list[0]):'Varies — expand';};
     const cost=prices(group.members.map(it=>it.costPrice||0));
     const sale=prices(group.members.map(it=>(it.shopPrices||{})[locId==='all'?(activeShops()[0]?.id||'warehouse'):locId]||it.costPrice||0));
     const conditions=[...new Set(group.members.map(it=>it.condition||'Used'))];
-    return `<tr><td><button class="btn ghost sm" onclick="Views.toggleSvExpand('${groupId}')">${expanded?'▾':'▸'}</button><b>${esc(group.name)}</b></td><td class="mono">${esc(group.memory||'—')}</td><td>${esc(colors.join(', ')||'—')}</td><td><b>${qty}</b></td><td>${esc(cost)}</td><td>${esc(sale)}</td><td>${esc(conditions.join(', '))}</td><td><button class="btn sm ghost" onclick="Views.toggleSvExpand('${groupId}')">${expanded?'Collapse':'Expand'}</button></td></tr>`+
+    return `<tr><td><button class="btn ghost sm" onclick="Views.toggleSvExpand('${groupId}')">${expanded?'▾':'▸'}</button><b>${esc(group.name)}</b></td><td>${displayMemoryCell(group)}</td><td>${displayColorChips(colors)}</td><td><b>${qty}</b></td><td>${esc(cost)}</td><td>${esc(sale)}</td><td>${conditions.map(c=>`<span class="pill ${c==='New'?'green':'gray'}">${esc(c)}</span>`).join(' ')}</td><td><button class="btn sm ghost" onclick="Views.toggleSvExpand('${groupId}')">${expanded?'Collapse':'Expand'}</button></td></tr>`+
       (expanded?`<tr><td colspan="8" style="background:#F0F4F8;color:var(--muted);">${group.members.length} source records. Expand a record to edit its original devices and prices.</td></tr>`+group.members.map(renderRow).join(''):'');
   }
   function renderImeiRows(it){
