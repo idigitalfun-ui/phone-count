@@ -1333,7 +1333,7 @@ const FirebaseStore = {
   _started: false,
   _access: null,
   OWNER_EMAIL: 'idigitalfun@gmail.com',
-  ADMIN_EMAILS: ['idigitalfun@gmail.com'],
+  ADMIN_EMAILS: ['idigitalfun@gmail.com', 'ranakaharian1@gmail.com'],
   _loadedUid: null,
   _lastSaveError: null,
 
@@ -1598,7 +1598,7 @@ const FirebaseStore = {
 
   async openPasswordSetup(){
     const user=await this.user();
-    if(!await this.isAdmin(user)){
+    if(!await this.isAdmin(user) || user.email !== this.OWNER_EMAIL){
       Toast.show('Sign in with the idigitalfun@gmail.com Google account first.','err');
       return;
     }
@@ -1612,7 +1612,7 @@ const FirebaseStore = {
   async linkOwnerPassword(){
     try{
       const fb=await this.ready(),user=fb.auth.currentUser;
-      if(!await this.isAdmin(user))throw new Error('Sign in with the owner Google account first.');
+      if(!await this.isAdmin(user) || user.email !== this.OWNER_EMAIL)throw new Error('Sign in with the owner Google account first.');
       const password=val('ownerSetupPassword'),confirm=val('ownerSetupConfirm');
       if(password.length<8||password!==confirm)throw new Error('Use at least eight characters and matching passwords.');
       await fb.linkWithCredential(user,fb.EmailAuthProvider.credential(this.OWNER_EMAIL,password));
