@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test tests/safety.test.mjs tests/csv.test.mjs",
+    "test": "node scripts/check-app.mjs && node --test tests/safety.test.mjs tests/csv.test.mjs tests/usability.test.mjs",
     "test:rules": "firebase emulators:exec --only firestore --project demo-phone-count-safety \"node --test tests/rules.test.mjs\""
   },
   "devDependencies": {

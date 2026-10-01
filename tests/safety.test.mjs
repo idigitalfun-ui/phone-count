@@ -18,7 +18,7 @@ function setup({ revision = 10, loaded = true, remote = inventory(), next = inve
   const context = vm.createContext({
     Store: { data: next, snapshotToBackups(){} }, Toast: { show: (...args) => messages.push(args) },
     console: { error(){} }, setTimeout, clearTimeout, updateSaveIndicator(){},
-    window: {}, localStorage: { setItem(){} }, STORAGE_KEY: 'test', render(){}
+    window: {}, localStorage: { setItem(){} }, STORAGE_KEY: 'test', render(){}, AccessScreen: {show(){},hide(){}}
   });
   const start = html.indexOf('const FirebaseStore = {');
   const end = html.indexOf('\n};', start) + 3;
