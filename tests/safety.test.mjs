@@ -84,20 +84,49 @@ test('approved password account is pinned by UID without email verification', as
   user.uid='another-user';
   assert.equal(await subject.isAdmin(user),false);
 });
-test('backup is change-only and empty snapshots retain last nonempty pointer', async () => {
+test('backup is change-only, once per UTC night, and blocks empty inventory loss', async () => {
   const directory=await mkdtemp(join(tmpdir(),'phone-count-test-'));
   const doc=data=>({fields:{payload:{stringValue:JSON.stringify(data)},revision:{integerValue:'10'}}});
   try {
     const good=doc(inventory());
-    assert.equal(await saveSnapshot(good,directory),true);
+    const night = day => ({now:new Date(`2026-10-${String(day).padStart(2,'0')}T01:17:00Z`)});
+    assert.equal(await saveSnapshot(good,directory,night(1)),true);
     const pointer=await readFile(join(directory,'latest-nonempty.json'),'utf8');
-    assert.equal(await saveSnapshot(good,directory),false);
+    assert.equal(await saveSnapshot(good,directory,night(1)),false);
+    const changed=doc(inventory(21,6));
+    assert.equal(await saveSnapshot(changed,directory,night(1)),false);
+    assert.equal(await readFile(join(directory,'latest-nonempty.json'),'utf8'),pointer);
     const sameWithSaveTime=doc({...inventory(),meta:{lastSaved:'2026-10-02T00:00:00Z'}});
     const a=parseInventory(doc({...inventory(),meta:{lastSaved:'2026-10-01T00:00:00Z'}})).hash;
     assert.equal(parseInventory(sameWithSaveTime).hash,a);
+    assert.equal(await saveSnapshot(sameWithSaveTime,directory,night(2)),false);
     assert.equal((await readdir(join(directory,'snapshots'))).length,1);
-    assert.equal(await saveSnapshot(doc(inventory(0,0)),directory),true);
+    await assert.rejects(saveSnapshot(doc(inventory(0,0)),directory,night(2)),/Empty inventory blocked/);
     assert.equal(await readFile(join(directory,'latest-nonempty.json'),'utf8'),pointer);
+    assert.equal(await saveSnapshot(changed,directory,night(2)),true);
+    assert.equal(await saveSnapshot(changed,directory,night(3)),false);
     assert.throws(()=>parseInventory(doc({items:[]})),/Invalid inventory/);
+  } finally { await rm(directory,{recursive:true,force:true}); }
+});
+
+test('backup retains only three snapshots and keeps both recovery pointers valid', async () => {
+  const directory=await mkdtemp(join(tmpdir(),'phone-count-retention-'));
+  const doc=count=>({fields:{payload:{stringValue:JSON.stringify(inventory(count))},revision:{integerValue:String(count)}}});
+  try {
+    for (let day=1;day<=5;day++) {
+      assert.equal(await saveSnapshot(doc(day),directory,{now:new Date(`2026-10-0${day}T01:17:00Z`)}),true);
+      assert.equal((await readdir(join(directory,'snapshots'))).length,Math.min(day,3));
+    }
+    const files=await readdir(join(directory,'snapshots'));
+    assert.ok(files.every(name=>/2026-10-0[345]T/.test(name)));
+    for (const name of ['latest.json','latest-nonempty.json']) {
+      const pointer=JSON.parse(await readFile(join(directory,name),'utf8'));
+      const snapshot=JSON.parse(await readFile(join(directory,pointer.filename),'utf8'));
+      assert.equal(snapshot.hash,pointer.hash);
+      assert.equal(snapshot.inventory.items.length,5);
+    }
+    await assert.rejects(saveSnapshot({fields:{payload:doc(6).fields.payload}},directory,{now:new Date('2026-10-06T01:17:00Z')}),/Missing revision/);
+    assert.equal(await saveSnapshot(doc(6),directory,{now:new Date('2026-10-06T01:17:00Z')}),true);
+    assert.equal((await readdir(join(directory,'snapshots'))).length,3);
   } finally { await rm(directory,{recursive:true,force:true}); }
 });
