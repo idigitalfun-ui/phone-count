@@ -14,7 +14,7 @@ function inventory(count = 20, moves = 5) {
 function setup({ revision = 10, loaded = true, remote = inventory(), next = inventory(), history = null } = {}) {
   const writes = [], messages = [];
   const previous = { payload: JSON.stringify(remote), revision: 10 };
-  const user = { uid: 'admin', getIdTokenResult: async () => ({ claims: { email: 'ranakaharian1@gmail.com', email_verified: true } }) };
+  const user = { uid: 'admin', getIdTokenResult: async () => ({ claims: { email: 'idigitalfun@gmail.com', email_verified: true } }) };
   const context = vm.createContext({
     Store: { data: next, snapshotToBackups(){} }, Toast: { show: (...args) => messages.push(args) },
     console: { error(){} }, setTimeout, clearTimeout, updateSaveIndicator(){},
@@ -87,6 +87,9 @@ test('backup is change-only and empty snapshots retain last nonempty pointer', a
     assert.equal(await saveSnapshot(good,directory),true);
     const pointer=await readFile(join(directory,'latest-nonempty.json'),'utf8');
     assert.equal(await saveSnapshot(good,directory),false);
+    const sameWithSaveTime=doc({...inventory(),meta:{lastSaved:'2026-10-02T00:00:00Z'}});
+    const a=parseInventory(doc({...inventory(),meta:{lastSaved:'2026-10-01T00:00:00Z'}})).hash;
+    assert.equal(parseInventory(sameWithSaveTime).hash,a);
     assert.equal((await readdir(join(directory,'snapshots'))).length,1);
     assert.equal(await saveSnapshot(doc(inventory(0,0)),directory),true);
     assert.equal(await readFile(join(directory,'latest-nonempty.json'),'utf8'),pointer);
