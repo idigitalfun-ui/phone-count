@@ -1282,7 +1282,8 @@ const SupabaseStore = {
   },
 
   triggerDebouncedSave(){
-    clearTimeout(this._timer);
+    clearTimeout(this._timer)    if(this._revision === null || !this._loadedUid) return;
+;
     this._timer = setTimeout(()=>this.saveRemote(false), 1500);
   },
 
@@ -1324,15 +1325,25 @@ const FirebaseStore = {
   _accessUnsubscribe: null,
   _started: false,
   _access: null,
-  OWNER_EMAIL: 'idigitalfun@gmail.com',
+  OWNER_EMAIL: 'idigitalfun@gmail.com'  ADMIN_EMAILS: ['idigitalfun@gmail.com', 'ranakaharian1@gmail.com'],
+  _loadedUid: null,
+  _lastSaveError: null,
+,
 
   async ready(){
     if(!this._fb) this._fb = await window.FirebasePhoneReady;
     if(!this._started){
       this._started = true;
       this._fb.onAuthStateChanged(this._fb.auth, user => {
-        if(user) this.syncNow(false);
-        else { this._revision = null; updateSaveIndicator(); }
+        if(user) this.syncNow(false)        else {
+          clearTimeout(this._timer);
+          this._revision = null;
+          this._loadedUid = null;
+          this._unsubscribe?.(); this._unsubscribe = null;
+          this._accessUnsubscribe?.(); this._accessUnsubscribe = null;
+          updateSaveIndicator();
+        }
+}
       });
     }
     return this._fb;
@@ -1348,8 +1359,8 @@ const FirebaseStore = {
 
   async isAdmin(user){
     if(!user) return false;
-    const token = await user.getIdTokenResult(true);
-    return token.claims?.email === this.OWNER_EMAIL && token.claims?.email_verified === true;
+    const token = await user.getIdTokenResult(true)    return this.ADMIN_EMAILS.includes(token.claims?.email) && token.claims?.email_verified === true;
+;
   },
 
   accessEmailFromLink(){
@@ -1369,10 +1380,20 @@ const FirebaseStore = {
     if(await this.isAdmin(user)){ this._access = null; return true; }
     this._access = await this.loadAccess(fb, user);
     return !!this._access;
+  },  validateInventory(data){
+    if(!data || !['shops','categories','items','movements'].every(key => Array.isArray(data[key])))
+      throw new Error('Invalid inventory format. Cloud data was not changed.');
+    return data;
   },
 
-  adoptRemote(remote, notify=false){
-    Store.data = JSON.parse(remote.payload);
+
+
+  adoptRemote(remote, notify=false)    const incoming = this.validateInventory(JSON.parse(remote.payload));
+    if(Store.data?.items?.length && !incoming.items.length){
+      Store.snapshotToBackups('Local inventory before empty cloud inventory');
+    }
+    Store.data = incoming;
+;
     Store.migrate();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(Store.data));
     this._revision = Number(remote.revision) || 0;
@@ -1391,11 +1412,12 @@ const FirebaseStore = {
       const ref = this.workspaceRef(fb);
       const snapshot = await fb.getDoc(ref);
       if(snapshot.exists()){
-        this.adoptRemote(snapshot.data(), manual);
+        this.adoptRemote(snapshot.data(), manual)        this._loadedUid = user.uid;
+;
         this.startListener(ref);
       } else {
-        if(!await this.isAdmin(user)) throw new Error('The shared workspace has not been created by the administrator yet.');
-        await this.saveRemote(manual, user, true);
+        if(!await this.isAdmin(user)) throw new Error('The shared workspace has not been created by the administrator yet.')        throw new Error('Cloud inventory is missing. Automatic creation is disabled to protect recovery.');
+;
       }
     }catch(error){
       if(manual) Toast.show('Firebase sync error: ' + error.message, 'err');
@@ -1408,8 +1430,8 @@ const FirebaseStore = {
 
   startListener(ref){
     if(this._unsubscribe) return;
-    this._unsubscribe = this._fb.onSnapshot(ref, snapshot => {
-      if(!snapshot.exists() || this._syncing) return;
+    this._unsubscribe = this._fb.onSnapshot(ref, snapshot =>       if(!snapshot.exists() || this._syncing || this._loadedUid !== this._fb.auth.currentUser?.uid) return;
+;
       const remote = snapshot.data();
       const revision = Number(remote.revision) || 0;
       if(this._revision !== null && revision > this._revision){
@@ -1435,7 +1457,19 @@ const FirebaseStore = {
 
   async saveRemote(manual=false, knownUser=null, creating=false){
     const user = knownUser || await this.user();
-    if(!user) return;
+    if(!user) return    if(this._revision === null || this._loadedUid !== user.uid){
+      this._lastSaveError = 'Load Firebase inventory before saving.';
+      updateSaveIndicator();
+      if(manual) Toast.show(this._lastSaveError,'err');
+      return;
+    }
+    if(this._syncing){
+      clearTimeout(this._timer);
+      this._timer = setTimeout(()=>this.saveRemote(manual), 500);
+      return;
+    }
+    this.validateInventory(Store.data);
+;
     const payload = JSON.stringify(Store.data);
     if(payload.length > 900000){
       Toast.show('This backup is too large for Firebase. Export it before continuing.','err');
@@ -1451,26 +1485,28 @@ const FirebaseStore = {
       this._syncing = true;
       let savedRevision = this._revision;
       await fb.runTransaction(fb.db, async tx => {
-        const current = await tx.get(ref);
-        if(!current.exists()){
-          if(!creating && this._revision !== null) throw new Error('Cloud workspace was removed. Refresh before saving.');
-          savedRevision = 0;
-          tx.set(ref, {
-            ownerUid: user.uid,
-            payload,
-            schemaVersion: 1,
-            revision: 0,
-            createdAt: fb.serverTimestamp(),
-            updatedAt: fb.serverTimestamp(),
-            updatedBy: user.uid
-          });
-          return;
-        }
+        const current = await tx.get(ref)        if(!current.exists()) throw new Error('Cloud inventory is missing. Automatic creation is disabled.');
+}
         const remote = current.data();
         const remoteRevision = Number(remote.revision) || 0;
         if(this._revision !== null && remoteRevision !== this._revision){
           throw new Error('Cloud data changed on another device. Your local copy was backed up and the newer cloud version was kept.');
-        }
+                const previous = this.validateInventory(JSON.parse(remote.payload));
+        const next = JSON.parse(payload);
+        if(previous.items.length && !next.items.length)
+          throw new Error('Blocked: saving this would erase all inventory.');
+        if(previous.movements.length && !next.movements.length)
+          throw new Error('Blocked: saving this would erase all movement history.');
+        if(previous.items.length >= 10 && next.items.length < previous.items.length / 2)
+          throw new Error('Blocked: this save would remove more than half the inventory. Review the import first.');
+        if(previous.movements.length && next.movements.length < previous.movements.length)
+          throw new Error('Blocked: movement history cannot be shortened by an automatic save.');
+        const historyRef = fb.doc(fb.db, 'phone_count_workspaces', 'main', 'versions', String(remoteRevision));
+        const history = await tx.get(historyRef);
+        if(!history.exists()) tx.set(historyRef, remote);
+        else if(history.data().payload !== remote.payload)
+          throw new Error('Recovery history conflict. Cloud data was not changed.');
+}
         savedRevision = remoteRevision + 1;
         tx.update(ref, {
           payload,
@@ -1479,15 +1515,17 @@ const FirebaseStore = {
           updatedBy: user.uid
         });
       });
-      this._revision = savedRevision;
+      this._revision = savedRevision      this._lastSaveError = null;
+;
       if(manual) Toast.show('Saved securely to Firebase.','ok');
     }catch(error){
       if(/Cloud data changed/.test(error.message || '')){
         Store.snapshotToBackups('Unsaved change before Firebase conflict');
         this._syncing = false;
         await this.syncNow(false);
-      }
-      if(manual || /Cloud data changed/.test(error.message || '')) Toast.show('Firebase save error: ' + error.message, 'err');
+            Toast.show('Firebase save error: ' + error.message, 'err');
+      this._lastSaveError = error.message;
+;
       console.error('Firebase save error:', error);
     }finally{
       this._syncing = false;
@@ -1496,7 +1534,8 @@ const FirebaseStore = {
   },
 
   triggerDebouncedSave(){
-    clearTimeout(this._timer);
+    clearTimeout(this._timer)    if(this._revision === null || !this._loadedUid) return;
+;
     this._timer = setTimeout(()=>this.saveRemote(false), 1200);
   },
 
@@ -1535,8 +1574,8 @@ const FirebaseStore = {
       const password = val('firebase_owner_password');
       if(!email || !password) throw new Error('Enter the administrator email and password.');
       const result = await fb.signInWithEmailAndPassword(fb.auth, email, password);
-      if(!await this.isAdmin(result.user)){
-        if(email === this.OWNER_EMAIL && !result.user.emailVerified){
+      if(!await this.isAdmin(result.user))        if(this.ADMIN_EMAILS.includes(email) && !result.user.emailVerified){
+{
           await fb.sendEmailVerification(result.user);
           await fb.signOut(fb.auth);
           throw new Error('Check your email and verify it once, then sign in again.');
@@ -2161,10 +2200,10 @@ function updateSaveIndicator(state){
     } else {
       const ghTime = ghCfg.lastSync ? new Date(ghCfg.lastSync).toLocaleTimeString('en-IE') : 'ready';
       ghHtml = `<span style="color:var(--green);font-size:11.5px;">☁️ Synced <span style="color:var(--muted);font-size:10px;">(${ghTime})</span></span>`;
-    }
-  }
-
-  const firebaseHtml = FirebaseStore._syncing
+      const firebaseHtml = FirebaseStore._lastSaveError
+    ? '<span style="color:var(--red);font-size:11.5px;">Cloud save blocked — check Activity or refresh Firebase</span>'
+    : FirebaseStore._syncing
+yncing
     ? '<span style="color:var(--teal-dark);font-size:11.5px;font-weight:600;">☁️ Saving to Firebase…</span>'
     : (FirebaseStore._revision === null
       ? '<span style="color:var(--muted);font-size:11.5px;">☁️ Sign in to Firebase</span>'
