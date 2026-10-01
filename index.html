@@ -15,7 +15,7 @@
 </script>
 <script type="module">
   import { initializeApp, deleteApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
-  import { getAuth, GoogleAuthProvider, EmailAuthProvider, linkWithCredential, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+  import { getAuth, GoogleAuthProvider, EmailAuthProvider, linkWithCredential, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
   import { getFirestore, collection, doc, getDoc, getDocs, setDoc, query, orderBy, runTransaction, serverTimestamp, onSnapshot } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
 
   const firebaseConfig = {
@@ -27,8 +27,14 @@
     appId: '1:696692176127:web:be4b462bb8671b668588ca'
   };
   const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  // Finish restoring the saved session before any view decides to request login.
+  let persistenceError = null;
+  try { await setPersistence(auth, browserLocalPersistence); }
+  catch(error) { persistenceError = error.message; }
+  await auth.authStateReady();
   window.__resolveFirebasePhone({
-    app, config: firebaseConfig, auth: getAuth(app), db: getFirestore(app), getAuth, initializeApp, deleteApp,
+    app, config: firebaseConfig, auth, persistenceError, sendPasswordResetEmail, db: getFirestore(app), getAuth, initializeApp, deleteApp,
     googleProvider: new GoogleAuthProvider(),
     signInWithPopup,
     signInWithEmailAndPassword, EmailAuthProvider, linkWithCredential,
@@ -277,9 +283,23 @@ tbody tr:hover{filter:brightness(0.97);}
   #main{width:100%;}
   .navlabel{display:block;}
 }
+
+body.access-pending #app{visibility:hidden;pointer-events:none;}
+#accessScreen{position:fixed;inset:0;z-index:900;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:24px;}
+#accessScreen[hidden]{display:none;}#modalBg{z-index:1000;}
+.access-card{text-align:center;max-width:420px;color:#163342;}
+.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo{font-size:48px;color:#0f766e;animation:stockline-spin 1.4s linear infinite;}
+@keyframes stockline-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.loading-logo{animation:none;}}
+.password-row{display:flex;gap:8px;align-items:center;}.password-row input{flex:1;min-width:0;}
+.tab-help{font-size:12px;color:#526574;margin:0 0 12px;}.tab-help summary{cursor:pointer;display:inline-block;}.tab-help p{margin:6px 0;max-width:700px;}
+.signin-error{color:#a12622;font-size:13px;min-height:18px;}
 </style>
 </head>
-<body>
+<body class="access-pending">
+<div id="accessScreen" role="status" aria-live="polite">
+  <div class="access-card"><div class="loading-logo" aria-hidden="true"><svg class="stockline-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="screen" x="5" y="3.5" width="17" height="25" rx="4"/><path class="line" d="M10 8.5h7M10 12h7M13 24h2"/><path class="box" d="M18.5 13.5 27 17.5v8l-8.5 4-8.5-4v-8z"/><path class="line" d="m18.5 13.5 8.5 4-8.5 4-8.5-4M18.5 21.5v8"/></svg></div><h1>StockLine</h1><p id="accessMessage">Opening your secure inventory…</p><div id="accessActions"></div></div>
+</div>
 
 <div id="app">
   <nav id="sidebar"></nav>
@@ -303,7 +323,7 @@ tbody tr:hover{filter:brightness(0.97);}
         
         
         <button class="btn sm no-print" onclick="Modal.backupQuick()">💾 Quick backup</button>
-        <button class="btn sm no-print" onclick="Router.go('backup')">⚙ Settings</button>
+        <button class="btn sm no-print" onclick="Router.go('backup')">⚙ Settings</button><button class="btn sm no-print" onclick="FirebaseStore.signOut()">Sign out</button>
       </div>
     </div>
     <div id="content"></div>
@@ -320,6 +340,23 @@ tbody tr:hover{filter:brightness(0.97);}
    Single-file app. Data persists to localStorage on this device/browser.
    ========================================================================= */
 
+const AccessScreen = {
+  show(message, offerSignIn=false){
+    document.body.classList.add('access-pending');
+    document.getElementById('app').inert = true;
+    const screen=document.getElementById('accessScreen'); screen.hidden=false;
+    document.getElementById('accessMessage').textContent=message;
+    screen.querySelector('.loading-logo').style.animationPlayState=offerSignIn?'paused':'running';
+    document.getElementById('accessActions').innerHTML=offerSignIn?'<button class="btn primary" onclick="FirebaseStore.openSignIn()">Sign in to open inventory</button>':'';
+  },
+  hide(){ document.body.classList.remove('access-pending'); document.getElementById('app').inert=false; document.getElementById('accessScreen').hidden=true; }
+};
+function togglePassword(id, button){
+  const input=document.getElementById(id); if(!input)return;
+  input.type=input.type==='password'?'text':'password';
+  button.textContent=input.type==='password'?'Show':'Hide';
+  button.setAttribute('aria-pressed',String(input.type==='text'));
+}
 const STORAGE_KEY = 'stockline_data_v2';
 const BACKUP_KEY  = 'stockline_backups_v2';
 
@@ -1349,6 +1386,7 @@ const FirebaseStore = {
           this._loadedUid = null;
           this._unsubscribe?.(); this._unsubscribe = null;
           this._accessUnsubscribe?.(); this._accessUnsubscribe = null;
+          AccessScreen.show('Sign in to open your private inventory.', true);
           updateSaveIndicator();
         }
       });
@@ -1358,6 +1396,7 @@ const FirebaseStore = {
 
   async user(){
     const fb = await this.ready();
+    await fb.auth.authStateReady();
     return fb.auth.currentUser;
   },
 
@@ -1366,7 +1405,7 @@ const FirebaseStore = {
 
   async isAdmin(user){
     if(!user) return false;
-    const token = await user.getIdTokenResult(true);
+    const token = await user.getIdTokenResult();
     return this.ADMIN_EMAILS.includes(token.claims?.email) && token.claims?.email_verified === true;
   },
 
@@ -1411,7 +1450,7 @@ const FirebaseStore = {
   async syncNow(manual=false){
     try{
       const user = await this.user();
-      if(!user){ this.openSignIn(); return; }
+      if(!user){ AccessScreen.show('Sign in to open your private inventory.',true); if(manual)this.openSignIn(); return; }
       if(this._syncing) return;
       this._syncing = true;
       const fb = await this.ready();
@@ -1422,11 +1461,13 @@ const FirebaseStore = {
         this.adoptRemote(snapshot.data(), manual);
         this._loadedUid = user.uid;
         this.startListener(ref);
+        AccessScreen.hide();
       } else {
         if(!await this.isAdmin(user)) throw new Error('The shared workspace has not been created by the administrator yet.');
         throw new Error('Cloud inventory is missing. Automatic creation is disabled to protect recovery.');
       }
     }catch(error){
+      AccessScreen.show('Inventory could not be opened. Check your connection or sign in again.',true);
       if(manual) Toast.show('Firebase sync error: ' + error.message, 'err');
       console.error('Firebase sync error:', error);
     }finally{
@@ -1447,7 +1488,7 @@ const FirebaseStore = {
       }
       this._revision = revision;
       updateSaveIndicator();
-    }, error => console.error('Firebase listener error:', error));
+    }, error => { this._loadedUid=null;this._revision=null;AccessScreen.show('Inventory connection ended. Sign in or check your connection.',true);console.error('Firebase listener error:',error); });
     this.user().then(async user => {
       const fb = await this.ready();
       if(!user || await this.isAdmin(user) || this._accessUnsubscribe) return;
@@ -1552,11 +1593,11 @@ const FirebaseStore = {
     Modal.open(`<div class="modal"><div class="modal-head"><h3>☁️ StockLine sign in</h3><button class="iconbtn" onclick="Modal.close()">✕</button></div>
       <div class="modal-body">${isLink
         ? '<p>This is a shared all-shops link. Enter the eight-digit code from the administrator.</p><div class="field"><label>Access code</label><input id="firebase_access_code" inputmode="numeric" maxlength="12" type="password" autocomplete="one-time-code" placeholder="Eight-digit code" onkeydown="if(event.key===\'Enter\')FirebaseStore.signInWithAccessCode()"></div>'
-        : '<p>Administrator access opens every shop. Sign in with the verified administrator email and password, or use the verified Google account.</p><div class="field"><label>Administrator email</label><input id="firebase_owner_email" type="email" autocomplete="email" placeholder="Administrator email"></div><div class="field"><label>Password</label><input id="firebase_owner_password" type="password" autocomplete="current-password" placeholder="Password" onkeydown="if(event.key===\'Enter\')FirebaseStore.signInWithPassword()"></div><p style="font-size:12px;color:var(--muted);">For a temporary staff link, open the complete link sent by the administrator.</p>'
+        : '<p>Administrator access opens every shop. Sign in with the verified administrator email and password, or use the verified Google account.</p><div class="field"><label>Administrator email</label><input id="firebase_owner_email" type="email" autocomplete="email" placeholder="Administrator email"></div><div class="field"><label>Password</label><div class="password-row"><input id="firebase_owner_password" type="password" autocomplete="current-password" placeholder="Password" onkeydown="if(event.key===\'Enter\')FirebaseStore.signInWithPassword()"><button type="button" class="btn" aria-pressed="false" onclick="togglePassword(\'firebase_owner_password\',this)">Show</button></div></div><p style="font-size:12px;color:var(--muted);">Google users: use Continue with Google. Add a password later in Settings. On your own phone, your sign-in stays saved.</p><button class="btn ghost sm" onclick="FirebaseStore.resetPassword()">Forgot password?</button><p id="signin_error" class="signin-error" role="alert"></p>'
       }</div>
       <div class="modal-foot"><button class="btn" onclick="Modal.close()">Cancel</button>${isLink
         ? '<button class="btn primary" onclick="FirebaseStore.signInWithAccessCode()">Open shared inventory</button>'
-        : '<button class="btn" onclick="FirebaseStore.signInWithPassword()">Sign in</button><button class="btn primary" onclick="FirebaseStore.signIn()">Continue with Google</button>'
+        : '<button id="passwordSignInButton" class="btn" onclick="FirebaseStore.signInWithPassword()">Sign in</button><button class="btn primary" onclick="FirebaseStore.signIn()">Continue with Google</button>'
       }</div></div>`);
   },
 
@@ -1575,6 +1616,12 @@ const FirebaseStore = {
   },
 
   async signInWithPassword(){
+    if(this._signingIn)return;
+    const remaining=Math.ceil(((this._loginRetryAt||0)-Date.now())/1000);
+    if(remaining>0){ this.showLoginError('Please wait '+remaining+' seconds before another attempt.');return; }
+    this._signingIn=true;
+    const button=document.getElementById('passwordSignInButton');
+    if(button){button.disabled=true;button.textContent='Signing in…';}
     try{
       const fb = await this.ready();
       const email = val('firebase_owner_email').trim().toLowerCase();
@@ -1592,7 +1639,27 @@ const FirebaseStore = {
       }
       Modal.close();
       await this.syncNow(true);
-    }catch(error){ Toast.show('Sign-in error: ' + error.message, 'err'); }
+    }catch(error){
+      if(error.code==='auth/too-many-requests')this._loginRetryAt=Date.now()+60000;
+      const message=error.code==='auth/too-many-requests'
+        ? 'Firebase has temporarily limited sign-in attempts. Pause and try later. If you use Google, choose Continue with Google.'
+        : ['auth/invalid-credential','auth/wrong-password','auth/user-not-found'].includes(error.code)
+          ? 'Email or password was not accepted. Google users should choose Continue with Google; existing password users can use Forgot password.' : error.message;
+      this.showLoginError(message);
+    }finally{this._signingIn=false;if(button){button.disabled=false;button.textContent='Sign in';}}
+  },
+  showLoginError(message){
+    const target=document.getElementById('signin_error');
+    if(target)target.textContent=message;else Toast.show(message,'err');
+  },
+  async resetPassword(){
+    if(this._resetting)return;
+    const email=val('firebase_owner_email').trim().toLowerCase();
+    if(!this.ADMIN_EMAILS.includes(email)){this.showLoginError('Enter your approved administrator email first.');return;}
+    this._resetting=true;
+    try{ const fb=await this.ready();await fb.sendPasswordResetEmail(fb.auth,email);this.showLoginError('If this email has a password account, check its inbox for the reset link.'); }
+    catch(error){this.showLoginError(error.code==='auth/too-many-requests'?'Too many reset requests. Please wait before requesting another link.':error.message);}
+    finally{this._resetting=false;}
   },
 
 
@@ -1746,6 +1813,8 @@ const FirebaseStore = {
     this._access = null;
     await fb.signOut(fb.auth);
     DevicePin.hide();
+    Modal.close();
+    AccessScreen.show('Signed out. Sign in to open your private inventory.',true);
     Toast.show('Signed out of Firebase.','ok');
   }
 };
@@ -2314,6 +2383,7 @@ const NAV = [
     {id:'dashboard', label:'Dashboard', icon:'◆'},
   ]},
   {group:'Stock', items:[
+    {id:'transfer',label:'Transfers',icon:'⇄'},
     {id:'inventory', label:'Inventory', icon:'▤'},
     {id:'stockin', label:'Stock In', icon:'⬇'},
     {id:'stockview', label:'Stock List View', icon:'▥'},
@@ -2334,6 +2404,7 @@ const NAV = [
   ]},
 ];
 const TITLES = {
+  transfer:['Transfers','Move one device between shops, keeping its IMEI and history'],
   dashboard:['Dashboard','Overview across all shops'],
   inventory:['Inventory','Every device you stock, across all locations'],
   stockin:['Stock In','Receive new stock or import batch list'],
@@ -2351,6 +2422,23 @@ const TITLES = {
   backup:['Backup & Settings','Backups, restore, and full data export'],
 };
 
+const TAB_HELP = {
+ dashboard:'Check totals and shop stock. Click a count to see the devices behind it.',
+ inventory:'Search by model or IMEI. Check a device, edit its details, or choose a shop and Transfer. Each IMEI represents one phone.',
+ stockin:'Receive devices into the correct shop. Use a unique IMEI or serial for each device; preview CSV uploads before applying them.',
+ transfer:'Choose From and To first. Check the IMEI and source shop, then move one device. The destination stays selected for the next transfer.',
+ stockview:'Compare device prices and shop quantities. Open a device to record its sale or movement.',
+ availability:'Check which shop has a model before arranging a transfer.',
+ weekly:'Choose the week and shop to review received, sold, transferred and remaining stock. Print or export for the stock count.',
+ history:'Filter dates, shops and movement types. Transfers have paired outgoing and incoming records; undo from Activity when needed.',
+ shopsales:'Filter by shop and date to review sold phones, IMEIs and sale amounts.',
+ bestsellers:'Compare sales by model and period to help plan the next order.',
+ reorder:'Add models and quantities, then export the supplier order. This list does not change inventory.',
+ shops:'Maintain shop names and active locations. Review existing stock before archiving a shop.',
+ portals:'Create or review authorised shared links. A shop URL alone does not grant access; expired or revoked links stop working.',
+ categories:'Group devices by product type to make searching and reports easier.',
+ backup:'Export a backup, preview CSV imports or manage recovery. Owner Google users can enable password login here; never share a backup credential.'
+};
 const Router = {
   current:'dashboard',
   getPortalShopId(){
@@ -2402,7 +2490,7 @@ function renderTopbar(){
       <button class="btn sm no-print" onclick="Modal.backupQuick()">💾 Quick backup</button>
       <button class="btn sm no-print" onclick="DevicePin.openSettings()" title="Set or use an optional PIN on this device">🔒 PIN</button>
       <button class="btn sm no-print" id="installAppBtn" style="display:none" onclick="installStockLineApp()" title="Install StockLine as a Windows app">⇩ Install app</button>
-      <button class="btn sm no-print" onclick="Router.go('backup')">⚙ Settings</button>
+      <button class="btn sm no-print" onclick="Router.go('backup')">⚙ Settings</button><button class="btn sm no-print" onclick="FirebaseStore.signOut()">Sign out</button>
     `;
     actionsEl.innerHTML = actionsHtml;
   }
@@ -2475,12 +2563,12 @@ function render(){
 
     const fns = {
       dashboard: Views.dashboard, inventory: Views.inventory, stockin: Views.stockin,
-      transfer: Views.stockview, sales: Views.stockview, weekly: Views.weekly,
+      transfer: Views.transfer, sales: Views.stockview, weekly: Views.weekly,
       history: Views.history, shopsales: Views.shopsales, stockview: Views.stockview, availability: Views.availability, bestsellers: Views.bestsellers,
       reorder: Views.reorder, shops: Views.shops, categories: Views.categories,
       portals: Views.portals, portal: () => Views.shopPortal(portalShopId), backup: Views.backup,
     };
-    c.innerHTML = (fns[Router.current]||(()=>'<p>Not found</p>'))();
+    c.innerHTML = '<details class="tab-help no-print"><summary>ⓘ How to use this tab</summary><p>'+esc(TAB_HELP[Router.current]||sub)+'</p></details>'+(fns[Router.current]||(()=>'<p>Not found</p>'))();
     if(Views.after && Views.after[Router.current]) Views.after[Router.current]();
 
     // RESTORE FOCUSED INPUT & CARET POSITION
@@ -3068,6 +3156,8 @@ const Stock = {
   transferGeneric(itemId, fromLoc, toLoc, qty, date, note){
     const it = itemById(itemId); if(!it||qty<=0) return false;
     if(fromLoc===toLoc){ Toast.show('Pick two different locations.','err'); return false; }
+    if(!Number.isInteger(qty)||!activeShops().some(s=>s.id===toLoc)){Toast.show('Select a valid destination and whole quantity.','err');return false;}
+    if(untrackedQtyAt(it,fromLoc)<qty){Toast.show('Move IMEI-tracked devices individually. Only untracked stock can use a quantity transfer.','err');return false;}
     if((it.locations[fromLoc]||0) < qty){ Toast.show(`Not enough stock at ${shopName(fromLoc)} for that transfer.`,'err'); return false; }
     it.locations[fromLoc] -= qty;
     it.locations[toLoc] = (it.locations[toLoc]||0) + qty;
@@ -3083,6 +3173,8 @@ const Stock = {
     const it = itemById(itemId); if(!it) return false;
     const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return false;
     const fromLoc = unit.location;
+    if(!activeShops().some(s=>s.id===toLoc)){Toast.show('Select a valid destination shop.','err');return false;}
+    if((it.locations[fromLoc]||0)<1){Toast.show('Source stock no longer matches this device. Refresh inventory before transferring.','err');return false;}
     if(fromLoc===toLoc){ Toast.show('That device is already at '+shopName(toLoc)+'.','err'); return false; }
     // Keep the pre-transfer device state so reverting either history row restores
     // the phone once, without a duplicate/ghost entry or incorrect location.
@@ -4151,7 +4243,18 @@ Views.inventory = function(){
       .inv-imei-scan input { flex:1;padding:8px 12px;border:none;border-radius:6px;font-size:14px;font-family:'IBM Plex Mono',monospace;background:#fff;color:var(--ink);min-width:0; }
       .inv-imei-scan select { padding:8px 10px;border:none;border-radius:6px;font-size:13px;background:#fff;color:var(--ink); }
       .inv-imei-scan button { white-space:nowrap; }
-    </style>
+    
+body.access-pending #app{visibility:hidden;pointer-events:none;}
+#accessScreen{position:fixed;inset:0;z-index:900;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:24px;}
+#accessScreen[hidden]{display:none;}#modalBg{z-index:1000;}
+.access-card{text-align:center;max-width:420px;color:#163342;}
+.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo{font-size:48px;color:#0f766e;animation:stockline-spin 1.4s linear infinite;}
+@keyframes stockline-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.loading-logo{animation:none;}}
+.password-row{display:flex;gap:8px;align-items:center;}.password-row input{flex:1;min-width:0;}
+.tab-help{font-size:12px;color:#526574;margin:0 0 12px;}.tab-help summary{cursor:pointer;display:inline-block;}.tab-help p{margin:6px 0;max-width:700px;}
+.signin-error{color:#a12622;font-size:13px;min-height:18px;}
+</style>
 
     ${catSummaryHtml}
 
@@ -4634,10 +4737,10 @@ Views.confirmInvUntrackedAction = function(itemId, locId, kind){
 
 // Inline transfer of a tracked IMEI unit — reads the inline <select> for destination
 
-Views.openTransferUnitModal = function(itemId, unitId, fromLoc){
+Views.openTransferUnitModal = function(itemId, unitId, fromLoc, selectedTo=null){
   const it = itemById(itemId); if(!it) return;
   const unit = (it.units||[]).find(u => u.id === unitId); if(!unit) return;
-  const fromShopId = fromLoc || unit.location || 'warehouse';
+  const fromShopId = unit.location || 'warehouse';
   const shops = activeShops().filter(s => s.id !== fromShopId);
   
   Modal.open(`
@@ -4656,7 +4759,7 @@ Views.openTransferUnitModal = function(itemId, unitId, fromLoc){
           <div class="field">
             <label>Transfer to Store / Warehouse</label>
             <select id="tu_to_loc">
-              ${shops.map(s => `<option value="${s.id}">${esc(s.name)}</option>`).join('')}
+              ${shops.map(s => `<option value="${s.id}" ${selectedTo===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}
             </select>
           </div>
           <div class="field">
@@ -4687,6 +4790,8 @@ Views.confirmTransferUnitModal = function(itemId, unitId, fromLoc){
   if(!toLoc || toLoc === fromLoc){ Toast.show('Pick a different destination store.','err'); return; }
 
   const result = Stock.transferUnit(itemId, unitId, toLoc, date, note);
+  if(!result)return;
+  if(!result)return;
   if(result){
     Toast.show(`✓ ${it.name} ${unit.imei ? '(IMEI ' + unit.imei + ')' : ''} moved to ${shopName(toLoc)}. <button class="btn sm" style="margin-left:8px;padding:2px 10px;font-size:11px;background:#fff;color:var(--ink);border:none;" onclick="Views.undoSale('${result.movementId}')">↩ Undo</button>`, 'ok');
   }
@@ -4695,7 +4800,7 @@ Views.confirmTransferUnitModal = function(itemId, unitId, fromLoc){
 };
 
 Views.doInlineTransfer = function(itemId, unitId, fromLoc){
-  Views.openTransferUnitModal(itemId, unitId, fromLoc);
+  Views.openTransferUnitModal(itemId, unitId, fromLoc, val('inv_to_'+unitId));
 };
 
 // Action on a specific IMEI unit directly from Inventory (Sold / Faulty / Deposit)
@@ -5074,9 +5179,23 @@ Views.generateInventoryPdf = function(){
       body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .no-print { display: none !important; }
     }
-  </style>
+  
+body.access-pending #app{visibility:hidden;pointer-events:none;}
+#accessScreen{position:fixed;inset:0;z-index:900;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:24px;}
+#accessScreen[hidden]{display:none;}#modalBg{z-index:1000;}
+.access-card{text-align:center;max-width:420px;color:#163342;}
+.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo{font-size:48px;color:#0f766e;animation:stockline-spin 1.4s linear infinite;}
+@keyframes stockline-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.loading-logo{animation:none;}}
+.password-row{display:flex;gap:8px;align-items:center;}.password-row input{flex:1;min-width:0;}
+.tab-help{font-size:12px;color:#526574;margin:0 0 12px;}.tab-help summary{cursor:pointer;display:inline-block;}.tab-help p{margin:6px 0;max-width:700px;}
+.signin-error{color:#a12622;font-size:13px;min-height:18px;}
+</style>
 </head>
-<body>
+<body class="access-pending">
+<div id="accessScreen" role="status" aria-live="polite">
+  <div class="access-card"><div class="loading-logo" aria-hidden="true"><svg class="stockline-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="screen" x="5" y="3.5" width="17" height="25" rx="4"/><path class="line" d="M10 8.5h7M10 12h7M13 24h2"/><path class="box" d="M18.5 13.5 27 17.5v8l-8.5 4-8.5-4v-8z"/><path class="line" d="m18.5 13.5 8.5 4-8.5 4-8.5-4M18.5 21.5v8"/></svg></div><h1>StockLine</h1><p id="accessMessage">Opening your secure inventory…</p><div id="accessActions"></div></div>
+</div>
   <div class="no-print" style="background:#1E293B;color:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-radius:6px;">
     <div style="font-weight:600;font-size:13px;">🖨️ Ready to Print / Save to PDF</div>
     <div>
@@ -7813,7 +7932,9 @@ Views._trDate = Views._trDate || todayISO();
 
 Views.transfer = function(){
   const locs = activeShops();
-  if(!Views._trTo) Views._trTo = locs.find(s=>!s.isWarehouse)?.id || locs[1]?.id;
+  if(!locs.length)return '<div class="empty">Add a shop in Settings first.</div>';
+  if(!locs.some(s=>s.id===Views._trFrom))Views._trFrom=locs[0].id;
+  if(!locs.some(s=>s.id===Views._trTo)||Views._trTo===Views._trFrom)Views._trTo=locs.find(s=>s.id!==Views._trFrom)?.id||null;
   const from = Views._trFrom || locs[0].id;
   const to = Views._trTo;
   const units = allUnitsWithImei(from);
@@ -7837,7 +7958,7 @@ Views.transfer = function(){
     <div class="card card-pad" style="margin-bottom:16px;">
       <div class="field-grid">
         <div class="field"><label>From</label><select id="tr_from" onchange="Views._trFrom=this.value;render()">${locs.map(s=>`<option value="${s.id}" ${from===s.id?'selected':''}>${esc(s.name)}${s.isWarehouse?' (warehouse)':''}</option>`).join('')}</select></div>
-        <div class="field"><label>To</label><select id="tr_to" onchange="Views._trTo=this.value">${locs.map(s=>`<option value="${to===s.id?'selected':''}>${esc(s.name)}${s.isWarehouse?' (warehouse)':''}</option>`).join('')}</select></div>
+        <div class="field"><label>To</label><select id="tr_to" onchange="Views._trTo=this.value">${locs.map(s=>`<option value="${s.id}" ${to===s.id?'selected':''}>${esc(s.name)}${s.isWarehouse?' (warehouse)':''}</option>`).join('')}</select></div>
         <div class="field"><label>Transfer date</label><input id="tr_date" type="date" value="${Views._trDate}" onchange="Views._trDate=this.value"></div>
       </div>
       <div class="field-grid" style="margin-top:8px;">
@@ -7871,7 +7992,7 @@ Views.transfer = function(){
       <div class="table-wrap"><table><thead><tr><th>Date</th><th>Item</th><th>IMEI</th><th>From</th><th>To</th></tr></thead><tbody>
         ${Store.data.movements.filter(m=>m.type==='transfer-out').slice(-20).reverse().map(m=>{
           const imeiMatch = (m.note||'').match(/IMEI\s+(\S+)/i);
-          return `<tr><td>${m.date}</td><td>${esc(m.itemName)}</td><td class="mono">${imeiMatch?esc(imeiMatch[1]):'—'}</td><td>${esc(shopName(m.location))}</td><td>${esc(shopName(m.toLocation))}</td></tr>`;
+          return `<tr><td>${m.date}</td><td>${esc(m.itemName)}</td><td class="mono">${esc(movementImei(m))}</td><td>${esc(shopName(m.location))}</td><td>${esc(shopName(m.toLocation))}</td></tr>`;
         }).join('') || '<tr><td colspan="5"><div class="empty">No transfers yet.</div></td></tr>'}
       </tbody></table></div>
     </div>
@@ -7888,6 +8009,9 @@ Views.doTransferOneImei = function(unitId){
     if(u){ imei = u.imei; break; }
   }
   if(!imei){ Toast.show('Device not found.','err'); return; }
+  Views._trTo=to;
+  const source=val('tr_from');
+  if(findUnitByImei(imei)?.unit.location!==source){Toast.show('This IMEI is not at the selected source shop. Refresh and check From.','err');return;}
   const result = Stock.transferUnitByImei(imei, to, date, 'Transferred by IMEI');
   if(result){ Toast.show(`${result.item.name} (IMEI ${imei}) → ${shopName(to)}`,'ok'); render(); }
 };
@@ -7898,6 +8022,9 @@ Views.doTransferByImei = function(){
   Views._trDate = date;
   if(!imei){ Toast.show('Enter an IMEI.','err'); return; }
   if(!to){ Toast.show('Select a destination store.','err'); return; }
+  Views._trTo=to;
+  const source=val('tr_from');
+  if(findUnitByImei(imei)?.unit.location!==source){Toast.show('This IMEI is not at the selected source shop. Refresh and check From.','err');return;}
   const result = Stock.transferUnitByImei(imei, to, date, 'Transferred by IMEI');
   if(result){ Toast.show(`${result.item.name} moved to ${shopName(to)}.`,'ok'); render(); }
 };
@@ -8836,7 +8963,21 @@ Views.printReorderOrder = function(){
   const since=reorderPeriodStart(), date=new Date().toLocaleDateString('en-IE');
   const rows=Store.data.reorderList.map(r=>({...r,item:itemById(r.itemId)})).filter(r=>r.item);
   const w=window.open('','_blank'); if(!w){ Toast.show('Allow pop-ups to create the purchase order PDF.','err'); return; }
-  w.document.write(`<!doctype html><html><head><title>I Digital Fun Purchase Order</title><style>body{font-family:Arial,sans-serif;color:#172033;margin:38px}header{display:flex;justify-content:space-between;border-bottom:3px solid #1D6F8C;padding-bottom:18px;margin-bottom:26px}h1{margin:0;color:#154F63;font-size:28px}small{color:#64748b}table{width:100%;border-collapse:collapse;margin-top:18px}th{background:#154F63;color:#fff;text-align:left;padding:10px;font-size:12px}td{border-bottom:1px solid #dbe2ea;padding:10px;font-size:13px}.qty{text-align:center;font-weight:bold}.foot{margin-top:40px;border-top:1px solid #dbe2ea;padding-top:14px;font-size:12px;color:#64748b}@media print{body{margin:18px}}</style></head><body><header><div><h1>I Digital Fun</h1><div>Purchase Order</div></div><div style="text-align:right"><b>Order date:</b> ${date}<br><small>For supplier fulfilment</small></div></header><table><thead><tr><th>Model</th><th>Category</th><th>Memory / Size</th><th>Colours / Notes</th><th class="qty">Qty to order</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.item.name)}</b></td><td>${esc(catName(r.item.category))}</td><td>${esc(r.memory||r.item.memory||'—')}</td><td>${esc(r.colors||r.item.colors?.join(', ')||'—')}</td><td class="qty">${r.qty}</td></tr>`).join('')}</tbody></table><div class="foot">I Digital Fun · Generated from StockLine · Sales period: ${esc({since_last:'Since last order','7':'Last 7 days','30':'Last 30 days','90':'Last 90 days'}[Views._reorderPeriod]||'Custom')}</div><script>window.onload=()=>window.print()<\/script></body></html>`); w.document.close();
+  w.document.write(`<!doctype html><html><head><title>I Digital Fun Purchase Order</title><style>body{font-family:Arial,sans-serif;color:#172033;margin:38px}header{display:flex;justify-content:space-between;border-bottom:3px solid #1D6F8C;padding-bottom:18px;margin-bottom:26px}h1{margin:0;color:#154F63;font-size:28px}small{color:#64748b}table{width:100%;border-collapse:collapse;margin-top:18px}th{background:#154F63;color:#fff;text-align:left;padding:10px;font-size:12px}td{border-bottom:1px solid #dbe2ea;padding:10px;font-size:13px}.qty{text-align:center;font-weight:bold}.foot{margin-top:40px;border-top:1px solid #dbe2ea;padding-top:14px;font-size:12px;color:#64748b}@media print{body{margin:18px}}
+body.access-pending #app{visibility:hidden;pointer-events:none;}
+#accessScreen{position:fixed;inset:0;z-index:900;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:24px;}
+#accessScreen[hidden]{display:none;}#modalBg{z-index:1000;}
+.access-card{text-align:center;max-width:420px;color:#163342;}
+.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo{font-size:48px;color:#0f766e;animation:stockline-spin 1.4s linear infinite;}
+@keyframes stockline-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.loading-logo{animation:none;}}
+.password-row{display:flex;gap:8px;align-items:center;}.password-row input{flex:1;min-width:0;}
+.tab-help{font-size:12px;color:#526574;margin:0 0 12px;}.tab-help summary{cursor:pointer;display:inline-block;}.tab-help p{margin:6px 0;max-width:700px;}
+.signin-error{color:#a12622;font-size:13px;min-height:18px;}
+</style></head><body class="access-pending">
+<div id="accessScreen" role="status" aria-live="polite">
+  <div class="access-card"><div class="loading-logo" aria-hidden="true"><svg class="stockline-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="screen" x="5" y="3.5" width="17" height="25" rx="4"/><path class="line" d="M10 8.5h7M10 12h7M13 24h2"/><path class="box" d="M18.5 13.5 27 17.5v8l-8.5 4-8.5-4v-8z"/><path class="line" d="m18.5 13.5 8.5 4-8.5 4-8.5-4M18.5 21.5v8"/></svg></div><h1>StockLine</h1><p id="accessMessage">Opening your secure inventory…</p><div id="accessActions"></div></div>
+</div><header><div><h1>I Digital Fun</h1><div>Purchase Order</div></div><div style="text-align:right"><b>Order date:</b> ${date}<br><small>For supplier fulfilment</small></div></header><table><thead><tr><th>Model</th><th>Category</th><th>Memory / Size</th><th>Colours / Notes</th><th class="qty">Qty to order</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.item.name)}</b></td><td>${esc(catName(r.item.category))}</td><td>${esc(r.memory||r.item.memory||'—')}</td><td>${esc(r.colors||r.item.colors?.join(', ')||'—')}</td><td class="qty">${r.qty}</td></tr>`).join('')}</tbody></table><div class="foot">I Digital Fun · Generated from StockLine · Sales period: ${esc({since_last:'Since last order','7':'Last 7 days','30':'Last 30 days','90':'Last 90 days'}[Views._reorderPeriod]||'Custom')}</div><script>window.onload=()=>window.print()<\/script></body></html>`); w.document.close();
 };
 
 /* ---- SHOPS ---- */
@@ -9248,7 +9389,7 @@ window.FirebasePhoneReady.then(fb => fb.onAuthStateChanged(fb.auth, user => {
   if(!user) { DevicePin.hide(); return; }
   DevicePin.lockIfEnabled(user);
 }));
-setTimeout(() => FirebaseStore.syncNow(false), 500);
+FirebaseStore.user().then(()=>FirebaseStore.syncNow(false)).catch(()=>AccessScreen.show('Could not connect. Check your internet connection and reload.',true));
 </script>
 <script src="inventory-csv.js"></script>
 </body>
