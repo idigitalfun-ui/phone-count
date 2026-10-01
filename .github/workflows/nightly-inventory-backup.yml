@@ -19,9 +19,9 @@ jobs:
           node-version: '24'
       - name: Open backup branch
         run: |
-          git fetch origin inventory-backups
+          git fetch origin refs/heads/inventory-backups:refs/remotes/origin/inventory-backups
           git worktree add backup-state origin/inventory-backups
-      - name: Snapshot Firebase only when changed
+      - name: Save changed inventory once per UTC night and keep three backups
         env:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: node scripts/nightly-backup.mjs backup-state/backups/phone-count
@@ -31,6 +31,9 @@ jobs:
           git config user.name 'Phone Count Backup'
           git config user.email 'phone-count-backup@users.noreply.github.com'
           git add backups/phone-count
-          if git diff --cached --quiet; then exit 0; fi
+          if git diff --cached --quiet; then
+            echo 'No backup changes to commit.'
+            exit 0
+          fi
           git commit -m "Back up changed Firebase inventory"
           git push origin HEAD:inventory-backups
