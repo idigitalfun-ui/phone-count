@@ -288,7 +288,7 @@ body.access-pending #app{visibility:hidden;pointer-events:none;}
 #accessScreen{position:fixed;inset:0;z-index:900;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:24px;}
 #accessScreen[hidden]{display:none;}#modalBg{z-index:1000;}
 .access-card{text-align:center;max-width:420px;color:#163342;}
-.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo{font-size:48px;color:#0f766e;animation:stockline-spin 1.4s linear infinite;}
+.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo{font-size:48px;color:#0f766e;animation:stockline-spin 1.4s linear infinite;}
 @keyframes stockline-spin{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.loading-logo{animation:none;}}
 .password-row{display:flex;gap:8px;align-items:center;}.password-row input{flex:1;min-width:0;}
@@ -1595,22 +1595,22 @@ const FirebaseStore = {
     Modal.open(`<div class="modal"><div class="modal-head"><h3>☁️ StockLine sign in</h3><button class="iconbtn" onclick="Modal.close()">✕</button></div>
       <div class="modal-body">${isLink
         ? '<p>This is a shared all-shops link. Enter the eight-digit code from the administrator.</p><div class="field"><label>Access code</label><input id="firebase_access_code" inputmode="numeric" maxlength="12" type="password" autocomplete="one-time-code" placeholder="Eight-digit code" onkeydown="if(event.key===\'Enter\')FirebaseStore.signInWithAccessCode()"></div>'
-        : '<p>Administrator access opens every shop. Sign in with the verified administrator email and password, or use the verified Google account.</p><div class="field"><label>Administrator email</label><input id="firebase_owner_email" type="email" autocomplete="email" placeholder="Administrator email"></div><div class="field"><label>Password</label><div class="password-row"><input id="firebase_owner_password" type="password" autocomplete="current-password" placeholder="Password" onkeydown="if(event.key===\'Enter\')FirebaseStore.signInWithPassword()"><button type="button" class="btn" aria-pressed="false" onclick="togglePassword(\'firebase_owner_password\',this)">Show</button></div></div><p style="font-size:12px;color:var(--muted);">Google users: use Continue with Google. Add a password later in Settings. On your own phone, your sign-in stays saved.</p><button class="btn ghost sm" onclick="FirebaseStore.resetPassword()">Forgot password?</button><p id="signin_error" class="signin-error" role="alert"></p>'
+        : '<p>Administrator access opens every shop. Use ranakaharian1@gmail.com with your existing password, or choose Google for idigitalfun@gmail.com.</p><div class="field"><label>Administrator email</label><input id="firebase_owner_email" type="email" autocomplete="username" value="ranakaharian1@gmail.com" placeholder="ranakaharian1@gmail.com"></div><div class="field"><label>Password</label><div class="password-row"><input id="firebase_owner_password" type="password" autocomplete="current-password" placeholder="Password" onkeydown="if(event.key===\'Enter\')FirebaseStore.signInWithPassword()"><button type="button" class="btn" aria-pressed="false" onclick="togglePassword(\'firebase_owner_password\',this)">Show</button></div></div><p style="font-size:12px;color:var(--muted);">Google: idigitalfun@gmail.com. Email/password: ranakaharian1@gmail.com. On your own phone, your sign-in stays saved.</p><button class="btn ghost sm" onclick="FirebaseStore.resetPassword()">Forgot password?</button><p id="signin_error" class="signin-error" role="alert"></p>'
       }</div>
       <div class="modal-foot"><button class="btn" onclick="Modal.close()">Cancel</button>${isLink
         ? '<button class="btn primary" onclick="FirebaseStore.signInWithAccessCode()">Open shared inventory</button>'
-        : '<button id="passwordSignInButton" class="btn" onclick="FirebaseStore.signInWithPassword()">Sign in</button><button class="btn primary" onclick="FirebaseStore.signIn()">Continue with Google</button>'
+        : '<button id="passwordSignInButton" class="btn" onclick="FirebaseStore.signInWithPassword()">Sign in</button><button class="btn primary" onclick="FirebaseStore.signIn()">Google: idigitalfun@gmail.com</button>'
       }</div></div>`);
   },
 
   async signIn(){
     try{
       const fb = await this.ready();
-      fb.googleProvider.setCustomParameters({prompt:'select_account'});
+      fb.googleProvider.setCustomParameters({prompt:'select_account',login_hint:'idigitalfun@gmail.com'});
       const result = await fb.signInWithPopup(fb.auth, fb.googleProvider);
-      if(!await this.isAdmin(result.user)){
+      if(String(result.user.email||'').toLowerCase()!=='idigitalfun@gmail.com' || !await this.isAdmin(result.user)){
         await fb.signOut(fb.auth);
-        throw new Error('Use the verified administrator Google account.');
+        throw new Error('Choose idigitalfun@gmail.com for Google sign-in. Use ranakaharian1@gmail.com in the email/password form.');
       }
       Modal.close();
       await this.syncNow(true);
@@ -1630,7 +1630,7 @@ const FirebaseStore = {
       const password = val('firebase_owner_password');
       if(!email || !password) throw new Error('Enter the administrator email and password.');
       const result = await fb.signInWithEmailAndPassword(fb.auth, email, password);
-      if(!await this.isAdmin(result.user)){
+      if(String(result.user.email||'').toLowerCase()!=='idigitalfun@gmail.com' || !await this.isAdmin(result.user)){
         if(this.ADMIN_EMAILS.includes(email) && !result.user.emailVerified){
           await fb.sendEmailVerification(result.user);
           await fb.signOut(fb.auth);
@@ -4782,6 +4782,7 @@ Views.confirmTransferUnitModal = function(itemId, unitId, fromLoc){
   if(!toLoc || toLoc === fromLoc){ Toast.show('Pick a different destination store.','err'); return; }
 
   const result = Stock.transferUnit(itemId, unitId, toLoc, date, note);
+  if(!result)return;
   if(!result)return;
   if(!result)return;
   if(!result)return;
