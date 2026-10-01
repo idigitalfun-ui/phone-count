@@ -2877,7 +2877,7 @@ function displayModelGroups(items){
   const groups=new Map();
   for(const it of items){
     const memory=displayModelMemory(it);
-    const key=[it.category,String(it.name||'').trim().replace(/\s+/g,' ').toLowerCase(),memory].join('|');
+    const key=[String(it.name||'').trim().replace(/\s+/g,' ').toLowerCase(),memory].join('|');
     if(!groups.has(key))groups.set(key,{id:it.id,name:it.name,memory,category:it.category,members:[],locations:{}});
     const group=groups.get(key);group.members.push(it);
     for(const [shop,qty] of Object.entries(it.locations||{}))group.locations[shop]=(group.locations[shop]||0)+(Number(qty)||0);
@@ -4859,6 +4859,7 @@ Views.confirmTransferUnitModal = function(itemId, unitId, fromLoc){
   if(!toLoc || toLoc === fromLoc){ Toast.show('Pick a different destination store.','err'); return; }
 
   const result = Stock.transferUnit(itemId, unitId, toLoc, date, note);
+  if(!result)return;
   if(!result)return;
   if(!result)return;
   if(!result)return;
@@ -8574,7 +8575,7 @@ Views.stockview = function(){
   const locId = Views._svLoc;
   const mode = Views._svMode || 'totals';
   let items = Store.data.items.filter(it=> locId==='all' ? totalQty(it)>0 : ((it.locations&&it.locations[locId])||0)>0);
-  const groups = groupByCategory(items);
+  const groups = groupByCategory(mode==='totals'?displayModelGroups(items):items);
   const dateStr = new Date().toLocaleDateString('en-IE');
 
   function renderRow(it){
@@ -8761,7 +8762,7 @@ Views.stockview = function(){
             ${mode==='totals' ? `<th>Device</th><th>Memory</th><th>Colours</th><th>Qty</th><th>Cost Price</th><th>Sale Price</th><th>Condition</th><th></th>` : `<th>Device</th><th>IMEI</th><th>Colour</th><th>Qty</th><th>Cost</th><th>Sale</th><th>Location</th><th class="no-print"></th>`}
           </tr></thead>
           <tbody>
-            ${mode==='totals'?displayModelGroups(g.items).map(renderGroupedRow).join(''):g.items.map(renderImeiRows).join('')}
+            ${mode==='totals'?g.items.map(renderGroupedRow).join(''):g.items.map(renderImeiRows).join('')}
           </tbody>
         </table></div>
       </div>
