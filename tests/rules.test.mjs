@@ -17,7 +17,7 @@ function batchSave(db,backup=previous){
   return batch.commit();
 }
 test('named Google and email administrators can read and save with exact prior version',async()=>{
-  for(const email of ['idigitalfun@gmail.com']){
+  for(const email of ['idigitalfun@gmail.com','ranakaharian1@gmail.com']){
     await seed();const db=admin(email);
     await assertSucceeds(getDoc(doc(db,main)));
     await assertSucceeds(batchSave(db));
@@ -37,7 +37,7 @@ test('recovery copies and cloud workspace cannot be deleted',async()=>{
 });
 test('unknown and unverified accounts cannot access inventory',async()=>{
   await seed();
-  for(const db of [admin('outside@example.com'),admin('idigitalfun@gmail.com',false),admin('ranakaharian1@gmail.com',true),env.unauthenticatedContext().firestore()])
+  for(const db of [admin('outside@example.com'),admin('idigitalfun@gmail.com',false),admin('ranakaharian1@gmail.com',false),env.unauthenticatedContext().firestore()])
     await assertFails(getDoc(doc(db,main)));
 });
 test('missing workspace cannot be automatically created by the browser',async()=>{
