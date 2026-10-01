@@ -71,14 +71,17 @@ test('stale revisions and conflicting recovery copies cannot write', async () =>
     assert.equal(writes.length,0);
   }
 });
-test('existing verified email administrator is accepted', async () => {
+test('approved password account is pinned by UID without email verification', async () => {
   const {subject,user}=setup();
   assert.equal(await subject.isAdmin(user),true);
   user.getIdTokenResult=async()=>({claims:{email:'unknown@example.com',email_verified:true}});
   assert.equal(await subject.isAdmin(user),false);
+  user.uid='zXvU1cxgtoMSnyqL7FIGDZ4oh7i2';
   user.getIdTokenResult=async()=>({claims:{email:'ranakaharian1@gmail.com',email_verified:true}});
   assert.equal(await subject.isAdmin(user),true);
   user.getIdTokenResult=async()=>({claims:{email:'ranakaharian1@gmail.com',email_verified:false}});
+  assert.equal(await subject.isAdmin(user),true);
+  user.uid='another-user';
   assert.equal(await subject.isAdmin(user),false);
 });
 test('backup is change-only and empty snapshots retain last nonempty pointer', async () => {

@@ -1406,7 +1406,8 @@ const FirebaseStore = {
   async isAdmin(user){
     if(!user) return false;
     const token = await user.getIdTokenResult();
-    return this.ADMIN_EMAILS.includes(token.claims?.email) && token.claims?.email_verified === true;
+    return (token.claims?.email === 'idigitalfun@gmail.com' && token.claims?.email_verified === true) ||
+      (user.uid === 'zXvU1cxgtoMSnyqL7FIGDZ4oh7i2' && token.claims?.email === 'ranakaharian1@gmail.com');
   },
 
   accessEmailFromLink(){
@@ -1630,14 +1631,9 @@ const FirebaseStore = {
       const password = val('firebase_owner_password');
       if(!email || !password) throw new Error('Enter the administrator email and password.');
       const result = await fb.signInWithEmailAndPassword(fb.auth, email, password);
-      if(String(result.user.email||'').toLowerCase()!=='idigitalfun@gmail.com' || !await this.isAdmin(result.user)){
-        if(this.ADMIN_EMAILS.includes(email) && !result.user.emailVerified){
-          await fb.sendEmailVerification(result.user);
-          await fb.signOut(fb.auth);
-          throw new Error('Check your email and verify it once, then sign in again.');
-        }
+      if(!await this.isAdmin(result.user)){
         await fb.signOut(fb.auth);
-        throw new Error('Use the verified administrator account.');
+        throw new Error('Use your approved administrator account.');
       }
       Modal.close();
       await this.syncNow(true);
@@ -4782,6 +4778,8 @@ Views.confirmTransferUnitModal = function(itemId, unitId, fromLoc){
   if(!toLoc || toLoc === fromLoc){ Toast.show('Pick a different destination store.','err'); return; }
 
   const result = Stock.transferUnit(itemId, unitId, toLoc, date, note);
+  if(!result)return;
+  if(!result)return;
   if(!result)return;
   if(!result)return;
   if(!result)return;
