@@ -24,7 +24,7 @@ service cloud.firestore {
     function isAdmin() {
       return signedIn() && (
         (request.auth.token.email == 'idigitalfun@gmail.com' && request.auth.token.email_verified == true) ||
-        (request.auth.uid == 'sLXIVoGcEGU95V5uzdpByhvHyfk2' && request.auth.token.email == 'ranakaharian1@gmail.com')
+        (request.auth.uid == 'zXvU1cxgtoMSnyqL7FIGDZ4oh7i2' && request.auth.token.email == 'ranakaharian1@gmail.com')
       );
     }
 

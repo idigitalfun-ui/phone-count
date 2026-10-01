@@ -76,7 +76,7 @@ test('approved password account is pinned by UID without email verification', as
   assert.equal(await subject.isAdmin(user),true);
   user.getIdTokenResult=async()=>({claims:{email:'unknown@example.com',email_verified:true}});
   assert.equal(await subject.isAdmin(user),false);
-  user.uid='sLXIVoGcEGU95V5uzdpByhvHyfk2';
+  user.uid='zXvU1cxgtoMSnyqL7FIGDZ4oh7i2';
   user.getIdTokenResult=async()=>({claims:{email:'ranakaharian1@gmail.com',email_verified:true}});
   assert.equal(await subject.isAdmin(user),true);
   user.getIdTokenResult=async()=>({claims:{email:'ranakaharian1@gmail.com',email_verified:false}});

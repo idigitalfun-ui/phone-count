@@ -1407,7 +1407,7 @@ const FirebaseStore = {
     if(!user) return false;
     const token = await user.getIdTokenResult();
     return (token.claims?.email === 'idigitalfun@gmail.com' && token.claims?.email_verified === true) ||
-      (user.uid === 'sLXIVoGcEGU95V5uzdpByhvHyfk2' && token.claims?.email === 'ranakaharian1@gmail.com');
+      (user.uid === 'zXvU1cxgtoMSnyqL7FIGDZ4oh7i2' && token.claims?.email === 'ranakaharian1@gmail.com');
   },
 
   accessEmailFromLink(){
@@ -4778,6 +4778,7 @@ Views.confirmTransferUnitModal = function(itemId, unitId, fromLoc){
   if(!toLoc || toLoc === fromLoc){ Toast.show('Pick a different destination store.','err'); return; }
 
   const result = Stock.transferUnit(itemId, unitId, toLoc, date, note);
+  if(!result)return;
   if(!result)return;
   if(!result)return;
   if(!result)return;

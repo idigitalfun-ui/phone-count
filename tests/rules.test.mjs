@@ -9,7 +9,7 @@ async function seed(){
   await env.clearFirestore();
   await env.withSecurityRulesDisabled(async context=>setDoc(doc(context.firestore(),main),previous));
 }
-function admin(email='idigitalfun@gmail.com',verified=true,uid=email==='ranakaharian1@gmail.com'?'sLXIVoGcEGU95V5uzdpByhvHyfk2':'admin'){return env.authenticatedContext(uid,{email,email_verified:verified}).firestore();}
+function admin(email='idigitalfun@gmail.com',verified=true,uid=email==='ranakaharian1@gmail.com'?'zXvU1cxgtoMSnyqL7FIGDZ4oh7i2':'admin'){return env.authenticatedContext(uid,{email,email_verified:verified}).firestore();}
 function batchSave(db,backup=previous,uid='admin'){
   const batch=writeBatch(db);
   batch.set(doc(db,main+'/versions/10'),backup);
@@ -20,7 +20,7 @@ test('named Google and email administrators can read and save with exact prior v
   for(const email of ['idigitalfun@gmail.com','ranakaharian1@gmail.com']){
     await seed();const db=admin(email,email!=='ranakaharian1@gmail.com');
     await assertSucceeds(getDoc(doc(db,main)));
-    await assertSucceeds(batchSave(db,previous,email==='ranakaharian1@gmail.com'?'sLXIVoGcEGU95V5uzdpByhvHyfk2':'admin'));
+    await assertSucceeds(batchSave(db,previous,email==='ranakaharian1@gmail.com'?'zXvU1cxgtoMSnyqL7FIGDZ4oh7i2':'admin'));
     await assertSucceeds(getDoc(doc(db,main+'/versions/10')));
   }
 });
