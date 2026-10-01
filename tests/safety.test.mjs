@@ -5,9 +5,16 @@ import { readFileSync } from 'node:fs';
 import { mkdtemp, readFile, readdir, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { parseInventory, saveSnapshot } from '../scripts/nightly-backup.mjs';
+import { parseInventory, saveSnapshot, parseServiceAccount } from '../scripts/nightly-backup.mjs';
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+test('backup credential validation rejects wrong accounts and never prints malformed secret text', () => {
+  const account={type:'service_account',project_id:'phone-count',client_email:'phone-count-inventory-backup@phone-count.iam.gserviceaccount.com',private_key:'-----BEGIN PRIVATE KEY-----\\nTEST ONLY'};
+  assert.deepEqual(parseServiceAccount('\uFEFF'+JSON.stringify(account)),account);
+  for (const text of ['private-secret-invalid', JSON.stringify({...account,client_email:'another@example.com'}),JSON.stringify({...account,project_id:'another-project'})]) {
+    assert.throws(()=>parseServiceAccount(text),error=>error.message.includes('GOOGLE_SERVICE_ACCOUNT_JSON')&&!error.message.includes('private-secret-invalid')&&!error.message.includes('TEST ONLY'));
+  }
+});
 function inventory(count = 20, moves = 5) {
   return { shops: [], categories: [], items: Array.from({ length: count }, (_, id) => ({ id })), movements: Array.from({ length: moves }, (_, id) => ({ id })) };
 }

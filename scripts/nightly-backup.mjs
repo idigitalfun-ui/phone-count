@@ -3,6 +3,17 @@ import { mkdir, readFile, writeFile, readdir, unlink } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+export function parseServiceAccount(value) {
+  let account;
+  try { account = JSON.parse(String(value).replace(/^\uFEFF/, '').trim()); }
+  catch { throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON must contain the complete downloaded JSON file contents, not its filename or path.'); }
+  if (account?.type !== 'service_account' || account.project_id !== 'phone-count' ||
+      account.client_email !== 'phone-count-inventory-backup@phone-count.iam.gserviceaccount.com' ||
+      typeof account.private_key !== 'string' || !account.private_key.includes('-----BEGIN PRIVATE KEY-----'))
+    throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON must be the dedicated phone-count inventory backup service account key.');
+  return account;
+}
+
 export function parseInventory(document) {
   const payload = document?.fields?.payload?.stringValue;
   if (!payload) throw new Error('Firebase document has no inventory payload.');
@@ -69,7 +80,7 @@ export async function saveSnapshot(document, directory, { now = new Date(), repo
 
 async function run() {
   if (!process.env.GOOGLE_SERVICE_ACCOUNT_JSON) throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON secret is not configured.');
-  const account = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
+  const account = parseServiceAccount(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
   const now = Math.floor(Date.now() / 1000);
   const base64 = value => Buffer.from(JSON.stringify(value)).toString('base64url');
   const unsigned = base64({ alg: 'RS256', typ: 'JWT' }) + '.' + base64({
