@@ -9,18 +9,18 @@ async function seed(){
   await env.clearFirestore();
   await env.withSecurityRulesDisabled(async context=>setDoc(doc(context.firestore(),main),previous));
 }
-function admin(email='idigitalfun@gmail.com',verified=true){return env.authenticatedContext('admin',{email,email_verified:verified}).firestore();}
-function batchSave(db,backup=previous){
+function admin(email='idigitalfun@gmail.com',verified=true,uid=email==='ranakaharian1@gmail.com'?'sLXIVoGcEGU95V5uzdpByhvHyfk2':'admin'){return env.authenticatedContext(uid,{email,email_verified:verified}).firestore();}
+function batchSave(db,backup=previous,uid='admin'){
   const batch=writeBatch(db);
   batch.set(doc(db,main+'/versions/10'),backup);
-  batch.update(doc(db,main),{payload:'{"shops":[],"categories":[],"items":[{},{}],"movements":[]}',revision:11,updatedAt:serverTimestamp(),updatedBy:'admin'});
+  batch.update(doc(db,main),{payload:'{"shops":[],"categories":[],"items":[{},{}],"movements":[]}',revision:11,updatedAt:serverTimestamp(),updatedBy:uid});
   return batch.commit();
 }
 test('named Google and email administrators can read and save with exact prior version',async()=>{
   for(const email of ['idigitalfun@gmail.com','ranakaharian1@gmail.com']){
-    await seed();const db=admin(email);
+    await seed();const db=admin(email,email!=='ranakaharian1@gmail.com');
     await assertSucceeds(getDoc(doc(db,main)));
-    await assertSucceeds(batchSave(db));
+    await assertSucceeds(batchSave(db,previous,email==='ranakaharian1@gmail.com'?'sLXIVoGcEGU95V5uzdpByhvHyfk2':'admin'));
     await assertSucceeds(getDoc(doc(db,main+'/versions/10')));
   }
 });
@@ -35,9 +35,9 @@ test('recovery copies and cloud workspace cannot be deleted',async()=>{
   await assertFails(updateDoc(doc(db,main+'/versions/10'),{payload:'wrong'}));
   await assertFails(deleteDoc(doc(db,main)));
 });
-test('unknown and unverified accounts cannot access inventory',async()=>{
+test('unknown accounts, wrong password UID and unverified Google cannot access inventory',async()=>{
   await seed();
-  for(const db of [admin('outside@example.com'),admin('idigitalfun@gmail.com',false),admin('ranakaharian1@gmail.com',false),env.unauthenticatedContext().firestore()])
+  for(const db of [admin('outside@example.com'),admin('idigitalfun@gmail.com',false),admin('ranakaharian1@gmail.com',false,'different-uid'),env.unauthenticatedContext().firestore()])
     await assertFails(getDoc(doc(db,main)));
 });
 test('missing workspace cannot be automatically created by the browser',async()=>{

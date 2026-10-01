@@ -19,12 +19,13 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // The owner must use the verified administrator email, whether through
-    // Google or through a verified email/password provider.
+    // Google remains verified. The existing password account is pinned by UID
+    // and does not require email verification.
     function isAdmin() {
-      return signedIn() &&
-        request.auth.token.email in ['idigitalfun@gmail.com', 'ranakaharian1@gmail.com'] &&
-        request.auth.token.email_verified == true;
+      return signedIn() && (
+        (request.auth.token.email == 'idigitalfun@gmail.com' && request.auth.token.email_verified == true) ||
+        (request.auth.uid == 'sLXIVoGcEGU95V5uzdpByhvHyfk2' && request.auth.token.email == 'ranakaharian1@gmail.com')
+      );
     }
 
     function isRecent(value) {

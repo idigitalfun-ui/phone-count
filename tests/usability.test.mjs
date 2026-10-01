@@ -15,7 +15,7 @@ test('overlapping password requests issue one Firebase call and restore the butt
  auth.isAdmin=async()=>true;auth.syncNow=async()=>{};auth.showLoginError=m=>errors.push(m);
  const first=auth.signInWithPassword();await Promise.resolve();await Promise.resolve();
  await auth.signInWithPassword();assert.equal(calls,1);assert.equal(button.disabled,true);
- resolve({user:{}});await first;assert.equal(button.disabled,false);
+ resolve({user:{email:'ranakaharian1@gmail.com',emailVerified:false}});await first;assert.equal(button.disabled,false);assert.deepEqual(errors,[]);
 });
 test('rate-limited login sets a local pause and no second request is sent',async()=>{
  let calls=0;const errors=[];
