@@ -68,3 +68,21 @@ test('sign out during a read cannot reopen the private inventory',async()=>{
  auth.ready=async()=>({auth:{currentUser:null},getDoc:async()=>({exists:()=>true,data:()=>({})})});
  await auth.syncNow();assert.equal(adopted,false);assert.equal(hidden,false);assert.equal(auth._syncing,false);
 });
+
+function grouping(){
+ const start=html.indexOf('function displayModelMemory('),end=html.indexOf('function groupByCategory(',start);
+ const ctx=vm.createContext({});vm.runInContext(html.slice(start,end)+';this.group=displayModelGroups;',ctx);return ctx.group;
+}
+test('display grouping combines confirmed memory aliases, dash placeholders and colours without changing devices',()=>{
+ const group=grouping();
+ const rows=[['Blackview N1000','4GB','Black'],['Blackview N1000','1GB/4GB','Black'],['Nokia 106','-','Charcoal'],['Nokia 106','—','Charcoal'],['AirPods Pro 3','-','White'],['AirPods Pro 3','—','Black'],['Hoco Y22','','Black'],['Hoco Y22','—','Rose Gold'],['Hoco Y25','-',''],['Hoco Y25','—','Silver'],['Hoco Y27','-',''],['Hoco Y27','—','Black']].map(([name,memory,color],i)=>({id:'m'+i,name,memory,category:name.split(' ')[0],locations:{warehouse:1,maynooth:2},units:[{id:'u'+i,imei:'imei'+i,color,location:'warehouse'}]}));
+ const before=JSON.stringify(rows),groups=group(rows);
+ assert.equal(groups.length,6);assert.equal(groups[0].memory,'4GB');
+ assert.ok(groups.every(g=>g.members.length===2&&g.locations.warehouse===2&&g.locations.maynooth===4));
+ assert.equal(groups.flatMap(g=>g.members.flatMap(it=>it.units)).length,12);
+ assert.equal(JSON.stringify(rows),before);
+});
+test('display grouping keeps different phone capacities, watch sizes and model generations separate',()=>{
+ const group=grouping();const rows=[['iPhone 11','64GB'],['iPhone 11','128GB'],['Apple Watch 41mm',''],['Apple Watch 45mm',''],['AirPods Pro 2',''],['AirPods Pro 3','']].map(([name,memory],i)=>({id:String(i),name,memory,category:'devices',locations:{warehouse:1}}));
+ assert.equal(group(rows).length,6);
+});

@@ -294,6 +294,19 @@ body.access-pending #app{visibility:hidden;pointer-events:none;}
 .password-row{display:flex;gap:8px;align-items:center;}.password-row input{flex:1;min-width:0;}
 .tab-help{font-size:12px;color:#526574;margin:0 0 12px;}.tab-help summary{cursor:pointer;display:inline-block;}.tab-help p{margin:6px 0;max-width:700px;}
 .signin-error{color:#a12622;font-size:13px;min-height:18px;}
+
+/* Keep tables inside their panel and allow their actions to wrap. */
+#content{min-width:0;max-width:100%;}
+.table-wrap{max-width:100%;}
+.inv-flat{min-width:1250px;}
+.inv-flat td:last-child{white-space:normal!important;min-width:210px;}
+.inv-flat td:last-child>div{flex-wrap:wrap;}
+.inv-flat td:last-child select{max-width:100%;}
+.availability-scroll{max-height:calc(100dvh - 220px);overflow:auto;position:relative;}
+.availability-scroll table{min-width:1050px;}
+.availability-scroll thead th{position:sticky;top:0;z-index:3;background:#F0F4F8;box-shadow:0 1px 0 var(--line);}
+@media(max-width:700px){.inv-imei-scan{flex-wrap:wrap;}.inv-imei-scan input{flex-basis:180px;}.availability-scroll{max-height:65dvh;}}
+
 </style>
 </head>
 <body class="access-pending">
@@ -2804,6 +2817,26 @@ function sortedItems(list){
     return compareDeviceNames(a, b);
   });
 }
+
+// Display-only groups. Original records and device IDs remain the edit targets.
+function displayModelMemory(it){
+  const memory=String(it.memory||'').trim().replace(/\s+/g,'');
+  if(/^[\-–—]*$/.test(memory))return '';
+  if(/^blackview\s*n1000$/i.test(String(it.name||'').trim()) && /^(?:1GB\/)?4GB$/i.test(memory))return '4GB';
+  return memory.toUpperCase();
+}
+function displayModelGroups(items){
+  const groups=new Map();
+  for(const it of items){
+    const memory=displayModelMemory(it);
+    const key=[it.category,String(it.name||'').trim().replace(/\s+/g,' ').toLowerCase(),memory].join('|');
+    if(!groups.has(key))groups.set(key,{id:it.id,name:it.name,memory,category:it.category,members:[],locations:{}});
+    const group=groups.get(key);group.members.push(it);
+    for(const [shop,qty] of Object.entries(it.locations||{}))group.locations[shop]=(group.locations[shop]||0)+(Number(qty)||0);
+  }
+  return [...groups.values()];
+}
+
 function groupByCategory(list){
   const groups = {};
   Store.data.categories.forEach(c=>groups[c.id]=[]);
@@ -4778,6 +4811,7 @@ Views.confirmTransferUnitModal = function(itemId, unitId, fromLoc){
   if(!toLoc || toLoc === fromLoc){ Toast.show('Pick a different destination store.','err'); return; }
 
   const result = Stock.transferUnit(itemId, unitId, toLoc, date, note);
+  if(!result)return;
   if(!result)return;
   if(!result)return;
   if(!result)return;
@@ -8576,6 +8610,20 @@ Views.stockview = function(){
     return mainRow + subRows;
   }
 
+
+  function renderGroupedRow(group){
+    if(group.members.length===1)return renderRow(group.members[0]);
+    const groupId='group_'+group.id,expanded=!!Views._svExpanded[groupId];
+    const units=group.members.flatMap(it=>locId==='all'?(it.units||[]):unitsAt(it,locId));
+    const colors=[...new Set(group.members.flatMap(it=>it.colors||[]).concat(units.map(u=>u.color)).filter(Boolean))];
+    const qty=locId==='all'?Object.values(group.locations).reduce((a,n)=>a+n,0):(group.locations[locId]||0);
+    const prices=values=>{const list=[...new Set(values.map(Number).filter(Number.isFinite))];return list.length===1?euro(list[0]):'Varies — expand';};
+    const cost=prices(group.members.map(it=>it.costPrice||0));
+    const sale=prices(group.members.map(it=>(it.shopPrices||{})[locId==='all'?(activeShops()[0]?.id||'warehouse'):locId]||it.costPrice||0));
+    const conditions=[...new Set(group.members.map(it=>it.condition||'Used'))];
+    return `<tr><td><button class="btn ghost sm" onclick="Views.toggleSvExpand('${groupId}')">${expanded?'▾':'▸'}</button><b>${esc(group.name)}</b></td><td class="mono">${esc(group.memory||'—')}</td><td>${esc(colors.join(', ')||'—')}</td><td><b>${qty}</b></td><td>${esc(cost)}</td><td>${esc(sale)}</td><td>${esc(conditions.join(', '))}</td><td><button class="btn sm ghost" onclick="Views.toggleSvExpand('${groupId}')">${expanded?'Collapse':'Expand'}</button></td></tr>`+
+      (expanded?`<tr><td colspan="8" style="background:#F0F4F8;color:var(--muted);">${group.members.length} source records. Expand a record to edit its original devices and prices.</td></tr>`+group.members.map(renderRow).join(''):'');
+  }
   function renderImeiRows(it){
     const relevantUnits = locId==='all' ? (it.units||[]) : unitsAt(it, locId);
     const rows = relevantUnits.map(u=>`<tr>
@@ -8664,7 +8712,7 @@ Views.stockview = function(){
             ${mode==='totals' ? `<th>Device</th><th>Memory</th><th>Colours</th><th>Qty</th><th>Cost Price</th><th>Sale Price</th><th>Condition</th><th></th>` : `<th>Device</th><th>IMEI</th><th>Colour</th><th>Qty</th><th>Cost</th><th>Sale</th><th>Location</th><th class="no-print"></th>`}
           </tr></thead>
           <tbody>
-            ${g.items.map(mode==='totals' ? renderRow : renderImeiRows).join('')}
+            ${mode==='totals'?displayModelGroups(g.items).map(renderGroupedRow).join(''):g.items.map(renderImeiRows).join('')}
           </tbody>
         </table></div>
       </div>
@@ -8718,10 +8766,14 @@ Views.shopsales = function(){
 
 /* ---- SHOP AVAILABILITY ---- */
 Views.availability = function(){
-  const shops=activeShops(), items=sortedItems().filter(it=>totalQty(it)>0);
-  return `<div class="helpbox" style="margin-bottom:16px;">See Warehouse and shop quantities before sending stock. <b>View devices</b> shows model, memory and IMEI.</div><div class="card"><div class="table-wrap"><table><thead><tr><th>Model</th><th>Memory</th>${shops.map(s=>`<th>${esc(s.name)}</th>`).join('')}<th>Total</th><th></th></tr></thead><tbody>${items.map(it=>`<tr><td><b>${esc(it.name)}</b></td><td class="mono">${esc(it.memory||'—')}</td>${shops.map(s=>`<td>${it.locations?.[s.id]||'—'}</td>`).join('')}<td><b>${totalQty(it)}</b></td><td><button class="btn sm" onclick="Views.openAvailabilityDevices('${it.id}')">View devices</button></td></tr>`).join('')||'<tr><td colspan="10">No stock available.</td></tr>'}</tbody></table></div></div>`;
+  const shops=activeShops(),groups=displayModelGroups(sortedItems().filter(it=>totalQty(it)>0));
+  return `<div class="helpbox" style="margin-bottom:16px;">See Warehouse and shop quantities before sending stock. <b>View devices</b> shows model, memory and IMEI. Scroll inside the table to keep shop names visible.</div><div class="card"><div class="table-wrap availability-scroll"><table><thead><tr><th>Model</th><th>Memory</th>${shops.map(s=>`<th>${esc(s.name)}</th>`).join('')}<th>Total</th><th></th></tr></thead><tbody>${groups.map(group=>`<tr><td><b>${esc(group.name)}</b></td><td class="mono">${esc(group.memory||'—')}</td>${shops.map(s=>`<td>${group.locations[s.id]||'—'}</td>`).join('')}<td><b>${Object.values(group.locations).reduce((a,n)=>a+n,0)}</b></td><td><button class="btn sm" onclick="Views.openAvailabilityDevices('${group.members.map(it=>it.id).join(',')}')">View devices</button></td></tr>`).join('')||`<tr><td colspan="${shops.length+4}">No stock available.</td></tr>`}</tbody></table></div></div>`;
 };
-Views.openAvailabilityDevices = function(itemId){ const it=itemById(itemId); if(!it)return; const units=it.units||[]; Modal.open(`<div class="modal modal-xl"><div class="modal-head"><h3>${esc(it.name)} · ${esc(it.memory||'Memory not recorded')}</h3><button class="btn ghost sm" onclick="Modal.close()">✕</button></div><div class="modal-body"><div class="table-wrap"><table><thead><tr><th>Model</th><th>Memory</th><th>IMEI</th><th>Colour</th><th>Location</th></tr></thead><tbody>${units.map(u=>`<tr><td>${esc(it.name)}</td><td class="mono">${esc(it.memory||'—')}</td><td class="mono">${esc(u.imei||'No IMEI')}</td><td>${esc(u.color||'—')}</td><td>${esc(shopName(u.location))}</td></tr>`).join('')||'<tr><td colspan="5">No IMEI devices recorded.</td></tr>'}</tbody></table></div></div></div>`,'modal-xl'); };
+Views.openAvailabilityDevices = function(itemIds){
+  const items=String(itemIds).split(',').map(itemById).filter(Boolean);if(!items.length)return;
+  const rows=items.flatMap(it=>(it.units||[]).map(u=>`<tr><td>${esc(it.name)}</td><td class="mono">${esc(it.memory||'—')}</td><td class="mono">${esc(u.imei||'No IMEI')}</td><td>${esc(u.color||'—')}</td><td>${esc(shopName(u.location))}</td></tr>`));
+  Modal.open(`<div class="modal modal-xl"><div class="modal-head"><h3>${esc(items[0].name)} · ${esc(displayModelMemory(items[0])||'Memory not recorded')}</h3><button class="btn ghost sm" onclick="Modal.close()">✕</button></div><div class="modal-body"><div class="table-wrap"><table><thead><tr><th>Model</th><th>Memory</th><th>IMEI</th><th>Colour</th><th>Location</th></tr></thead><tbody>${rows.join('')||'<tr><td colspan="5">No IMEI devices recorded.</td></tr>'}</tbody></table></div></div></div>`,'modal-xl');
+};
 
 /* ---- BEST SELLERS ---- */
 Views._bsRange = 30;
