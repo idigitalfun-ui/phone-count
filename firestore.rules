@@ -19,12 +19,13 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // The owner must use the verified administrator email, whether through
-    // Google or through a verified email/password provider.
+    // Google remains verified. The existing password account is pinned by UID
+    // and does not require email verification.
     function isAdmin() {
-      return signedIn() &&
-        request.auth.token.email == 'idigitalfun@gmail.com' &&
-        request.auth.token.email_verified == true;
+      return signedIn() && (
+        (request.auth.token.email == 'idigitalfun@gmail.com' && request.auth.token.email_verified == true) ||
+        (request.auth.uid == 'zXvU1cxgtoMSnyqL7FIGDZ4oh7i2' && request.auth.token.email == 'ranakaharian1@gmail.com')
+      );
     }
 
     function isRecent(value) {
@@ -76,15 +77,27 @@ service cloud.firestore {
         data.createdBy == request.auth.uid;
     }
 
+    // Every update must preserve the exact previous document atomically.
+    function previousVersionPreserved() {
+      let version = getAfter(/databases/$(database)/documents/phone_count_workspaces/main/versions/$(string(resource.data.revision)));
+      return version.data == resource.data;
+    }
+
     match /phone_count_workspaces/main {
+      match /versions/{versionId} {
+        allow read: if canUseWorkspace();
+        allow create: if canUseWorkspace() &&
+          versionId == string(get(/databases/$(database)/documents/phone_count_workspaces/main).data.revision) &&
+          request.resource.data == get(/databases/$(database)/documents/phone_count_workspaces/main).data;
+        allow update, delete: if false;
+      }
       allow read: if canUseWorkspace();
-      allow create: if isAdmin() && validWorkspace(request.resource.data) &&
-        request.resource.data.revision == 0 &&
-        request.resource.data.createdAt == request.resource.data.updatedAt;
+      allow create: if false; // Bootstrap/recovery requires a deliberate administrator operation.
       allow update: if canUseWorkspace() && validWorkspace(request.resource.data) &&
         request.resource.data.ownerUid == resource.data.ownerUid &&
         request.resource.data.createdAt == resource.data.createdAt &&
-        request.resource.data.revision == resource.data.revision + 1;
+        request.resource.data.revision == resource.data.revision + 1 &&
+        previousVersionPreserved();
       allow delete: if false;
     }
 
@@ -102,3 +115,4 @@ service cloud.firestore {
     }
   }
 }
+

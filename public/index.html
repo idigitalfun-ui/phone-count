@@ -15,7 +15,7 @@
 </script>
 <script type="module">
   import { initializeApp, deleteApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+  import { getAuth, GoogleAuthProvider, EmailAuthProvider, linkWithCredential, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
   import { getFirestore, collection, doc, getDoc, getDocs, setDoc, query, orderBy, runTransaction, serverTimestamp, onSnapshot } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
 
   const firebaseConfig = {
@@ -27,11 +27,17 @@
     appId: '1:696692176127:web:be4b462bb8671b668588ca'
   };
   const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  // Finish restoring the saved session before any view decides to request login.
+  let persistenceError = null;
+  try { await setPersistence(auth, browserLocalPersistence); }
+  catch(error) { persistenceError = error.message; }
+  await auth.authStateReady();
   window.__resolveFirebasePhone({
-    app, config: firebaseConfig, auth: getAuth(app), db: getFirestore(app), getAuth, initializeApp, deleteApp,
+    app, config: firebaseConfig, auth, persistenceError, sendPasswordResetEmail, db: getFirestore(app), getAuth, initializeApp, deleteApp,
     googleProvider: new GoogleAuthProvider(),
     signInWithPopup,
-    signInWithEmailAndPassword,
+    signInWithEmailAndPassword, EmailAuthProvider, linkWithCredential,
     createUserWithEmailAndPassword,
     sendEmailVerification,
     signOut,
@@ -49,7 +55,6 @@
   });
 </script>
 <style>
-body.auth-locked #app { visibility:hidden; pointer-events:none; user-select:none; }
 :root{
   --ink:#1B2430;
   --muted:#6B7686;
@@ -278,26 +283,89 @@ tbody tr:hover{filter:brightness(0.97);}
   #main{width:100%;}
   .navlabel{display:block;}
 }
+
+body.access-pending #app{visibility:hidden;pointer-events:none;}
+#accessScreen{position:fixed;inset:0;z-index:900;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:24px;}
+#accessScreen[hidden]{display:none;}#modalBg{z-index:1000;}
+.access-card{text-align:center;max-width:420px;color:#163342;}
+.loading-logo svg{width:56px;height:56px;}.loading-logo .screen{fill:#1d6f8c;stroke:#8ed1e5;stroke-width:1.5;}.loading-logo{font-size:48px;color:#0f766e;animation:stockline-spin 1.4s linear infinite;}
+@keyframes stockline-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.loading-logo{animation:none;}}
+.password-row{display:flex;gap:8px;align-items:center;}.password-row input{flex:1;min-width:0;}
+.tab-help{font-size:12px;color:#526574;margin:0 0 12px;}.tab-help summary{cursor:pointer;display:inline-block;}.tab-help p{margin:6px 0;max-width:700px;}
+.signin-error{color:#a12622;font-size:13px;min-height:18px;}
+
+/* Keep tables inside their panel and allow their actions to wrap. */
+#content{min-width:0;max-width:100%;}
+.table-wrap{max-width:100%;}
+.inv-flat{min-width:1250px;}
+.inv-flat td:last-child{white-space:normal!important;min-width:210px;}
+.inv-flat td:last-child>div{flex-wrap:wrap;}
+.inv-flat td:last-child select{max-width:100%;}
+.availability-scroll{max-height:calc(100dvh - 220px);overflow:auto;position:relative;}
+.availability-scroll table{min-width:1050px;}
+.availability-scroll thead th{position:sticky;top:0;z-index:3;background:#F0F4F8;box-shadow:0 1px 0 var(--line);}
+@media(max-width:700px){.inv-imei-scan{flex-wrap:wrap;}.inv-imei-scan input{flex-basis:180px;}.availability-scroll{max-height:65dvh;}}
+
+/* Phone navigation and panels stay within the screen; wide tables swipe locally. */
+.stock-color{display:inline-flex;align-items:center;white-space:nowrap;margin-right:6px;}.stock-missing{color:var(--muted);font-family:inherit;}.mobile-only,#navBackdrop{display:none;}
+@media(max-width:900px){
+  #sidebar{overflow-y:auto;overscroll-behavior:contain;padding-bottom:calc(18px + env(safe-area-inset-bottom));}
+  #navBackdrop.open{display:block;position:fixed;inset:0;border:0;background:rgba(20,26,34,.45);z-index:40;}
+  .mobile-only{display:inline-flex;min-height:44px;align-items:center;}
+  #topbar{padding:10px 12px;gap:8px;flex-wrap:wrap;}
+  .page-heading{flex:1;min-width:0;}
+  #topbar h1{font-size:17px;overflow-wrap:anywhere;}
+  #topbar .sub{font-size:11px;}
+  #topbarActions{display:none!important;width:100%;max-height:45dvh;overflow-y:auto;}
+  #topbar.tools-open #topbarActions{display:flex!important;}
+  #content{padding:14px 12px 32px;}
+  .card-pad{padding:14px 12px;}
+  .toolbar>*{max-width:100%;}
+  .search-input,.search-input input{max-width:100%;min-width:0;width:100%;}
+  .stat-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+  .stat-card{padding:12px 10px;}.stat-card .n{font-size:22px;overflow-wrap:anywhere;}
+  .field input,.field select,.field textarea{font-size:16px;min-height:44px;}
+  .modal-bg{padding:10px;}.modal,.modal.modal-lg,.modal.modal-xl{width:100%!important;max-height:calc(100dvh - 20px)!important;}
+  .modal-head,.modal-body,.modal-foot{padding:14px 12px;}.modal-foot{flex-wrap:wrap;}
+  .toast-wrap{left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));pointer-events:none;}
+  .toast{max-width:100%;overflow-wrap:anywhere;}
+  .availability-scroll{max-height:60dvh;}.table-wrap{overscroll-behavior-x:contain;}
+}
+
 </style>
 </head>
-<body class="auth-locked">
+<body class="access-pending">
+<div id="accessScreen" role="status" aria-live="polite">
+  <div class="access-card"><div class="loading-logo" aria-hidden="true"><svg class="stockline-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="screen" x="5" y="3.5" width="17" height="25" rx="4"/><path class="line" d="M10 8.5h7M10 12h7M13 24h2"/><path class="box" d="M18.5 13.5 27 17.5v8l-8.5 4-8.5-4v-8z"/><path class="line" d="m18.5 13.5 8.5 4-8.5 4-8.5-4M18.5 21.5v8"/></svg></div><h1>StockLine</h1><p id="accessMessage">Opening your secure inventory…</p><div id="accessActions"></div></div>
+</div>
 
 <div id="app">
-  <nav id="sidebar"></nav>
+  <button id="navBackdrop" aria-label="Close menu" onclick="MobileNav.close()"></button>
+  <nav id="sidebar" aria-label="Main navigation"></nav>
   <div id="main">
     <div id="topbar">
-      <div>
+      <div class="page-heading">
+        <button id="mobileMenuButton" class="btn mobile-only" aria-controls="sidebar" aria-expanded="false" onclick="MobileNav.toggle()">☰ Menu</button>
         <h1 id="pageTitle">Dashboard</h1>
         <div class="sub" id="pageSub"></div>
       </div>
+      <button class="btn mobile-only" aria-controls="topbarActions" aria-expanded="false" onclick="MobileNav.toggleTools(this)">Tools</button>
       <div class="row" id="topbarActions" style="gap:8px;align-items:center;flex-wrap:wrap;">
         <button class="btn sm no-print" onclick="FirebaseStore.syncNow(true)" title="Load the newest protected Firebase inventory" style="background:#0F766E;color:#fff;font-weight:700;border:none;box-shadow:0 1px 3px rgba(0,0,0,0.15);cursor:pointer;padding:4px 12px;">☁️ Refresh Firebase</button>
         <div id="save_indicator" style="display:flex;align-items:center;gap:4px;font-size:12px;"></div>
         <button class="btn sm no-print" onclick="Views.showActivityModal()" title="View recent activity log and undo any action" style="border:1.5px solid var(--teal);color:var(--teal-dark);font-weight:700;display:inline-flex;align-items:center;gap:4px;">📋 Activity</button>
         <button class="btn sm no-print" onclick="FileStore.exportJson()" title="Download a backup JSON file right now">⬇ Export data</button>
         <button class="btn sm no-print" onclick="FileStore.importJson()" title="Load data from a JSON backup file">⬆ Import data</button>
+        <button class="btn sm no-print" onclick="InventoryCsv.open()" title="Preview and import transfers or sales CSV">Upload CSV</button>
+        
+        
+        
+        
+        
+        
         <button class="btn sm no-print" onclick="Modal.backupQuick()">💾 Quick backup</button>
-        <button class="btn sm no-print" onclick="Router.go('backup')">⚙ Settings</button>
+        <button class="btn sm no-print" onclick="Router.go('backup')">⚙ Settings</button><button class="btn sm no-print" onclick="FirebaseStore.signOut()">Sign out</button>
       </div>
     </div>
     <div id="content"></div>
@@ -314,6 +382,23 @@ tbody tr:hover{filter:brightness(0.97);}
    Single-file app. Data persists to localStorage on this device/browser.
    ========================================================================= */
 
+const AccessScreen = {
+  show(message, offerSignIn=false){
+    document.body.classList.add('access-pending');
+    document.getElementById('app').inert = true;
+    const screen=document.getElementById('accessScreen'); screen.hidden=false;
+    document.getElementById('accessMessage').textContent=message;
+    screen.querySelector('.loading-logo').style.animationPlayState=offerSignIn?'paused':'running';
+    document.getElementById('accessActions').innerHTML=offerSignIn?'<button class="btn primary" onclick="FirebaseStore.openSignIn()">Sign in to open inventory</button>':'';
+  },
+  hide(){ document.body.classList.remove('access-pending'); document.getElementById('app').inert=false; document.getElementById('accessScreen').hidden=true; }
+};
+function togglePassword(id, button){
+  const input=document.getElementById(id); if(!input)return;
+  input.type=input.type==='password'?'text':'password';
+  button.textContent=input.type==='password'?'Show':'Hide';
+  button.setAttribute('aria-pressed',String(input.type==='text'));
+}
 const STORAGE_KEY = 'stockline_data_v2';
 const BACKUP_KEY  = 'stockline_backups_v2';
 
@@ -943,9 +1028,7 @@ const Store = {
       });
     }
 
-    // Loading or normalizing cached data is not a user edit. Persist locally
-    // without scheduling a cloud write from a stale tab.
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
+    this.save();
   },
   logShopChange(change){
     if(!this.data) return;
@@ -1286,6 +1369,7 @@ const SupabaseStore = {
 
   triggerDebouncedSave(){
     clearTimeout(this._timer);
+    if(this._revision === null || !this._loadedUid) return;
     this._timer = setTimeout(()=>this.saveRemote(false), 1500);
   },
 
@@ -1327,9 +1411,10 @@ const FirebaseStore = {
   _accessUnsubscribe: null,
   _started: false,
   _access: null,
-  _dirty: false,
-  _changeVersion: 0,
   OWNER_EMAIL: 'idigitalfun@gmail.com',
+  ADMIN_EMAILS: ['idigitalfun@gmail.com', 'ranakaharian1@gmail.com'],
+  _loadedUid: null,
+  _lastSaveError: null,
 
   async ready(){
     if(!this._fb) this._fb = await window.FirebasePhoneReady;
@@ -1338,10 +1423,12 @@ const FirebaseStore = {
       this._fb.onAuthStateChanged(this._fb.auth, user => {
         if(user) this.syncNow(false);
         else {
+          clearTimeout(this._timer);
           this._revision = null;
-          this._access = null;
-          this.setLocked(true);
-          this.openSignIn(true);
+          this._loadedUid = null;
+          this._unsubscribe?.(); this._unsubscribe = null;
+          this._accessUnsubscribe?.(); this._accessUnsubscribe = null;
+          AccessScreen.show('Sign in to open your private inventory.', true);
           updateSaveIndicator();
         }
       });
@@ -1351,17 +1438,18 @@ const FirebaseStore = {
 
   async user(){
     const fb = await this.ready();
+    await fb.auth.authStateReady();
     return fb.auth.currentUser;
   },
 
   workspaceRef(fb){ return fb.doc(fb.db, 'phone_count_workspaces', 'main'); },
   accessRef(fb, uid){ return fb.doc(fb.db, 'phone_count_access', uid); },
-  setLocked(locked){ document.body.classList.toggle('auth-locked', !!locked); },
 
   async isAdmin(user){
     if(!user) return false;
-    const token = await user.getIdTokenResult(true);
-    return token.claims?.email === this.OWNER_EMAIL && token.claims?.email_verified === true;
+    const token = await user.getIdTokenResult();
+    return (token.claims?.email === 'idigitalfun@gmail.com' && token.claims?.email_verified === true) ||
+      (user.uid === 'zXvU1cxgtoMSnyqL7FIGDZ4oh7i2' && token.claims?.email === 'ranakaharian1@gmail.com');
   },
 
   accessEmailFromLink(){
@@ -1383,48 +1471,52 @@ const FirebaseStore = {
     return !!this._access;
   },
 
+  validateInventory(data){
+    if(!data || !['shops','categories','items','movements'].every(key => Array.isArray(data[key])))
+      throw new Error('Invalid inventory format. Cloud data was not changed.');
+    return data;
+  },
+
   adoptRemote(remote, notify=false){
-    Store.data = JSON.parse(remote.payload);
+    const incoming = this.validateInventory(JSON.parse(remote.payload));
+    if(Store.data?.items?.length && !incoming.items.length){
+      Store.snapshotToBackups('Local inventory before empty cloud inventory');
+    }
+    Store.data = incoming;
     Store.migrate();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(Store.data));
     this._revision = Number(remote.revision) || 0;
-    this._dirty = false;
     if(notify) Toast.show('Firebase data loaded.','ok');
     render();
   },
 
   async syncNow(manual=false){
+    let ownsSync=false;
     try{
       const user = await this.user();
-      if(!user){ this.openSignIn(true); return false; }
-      if(this._syncing) return false;
-      this._syncing = true;
+      if(!user){ AccessScreen.show('Sign in to open your private inventory.',true); if(manual)this.openSignIn(); return; }
+      if(this._syncing) return;
+      this._syncing = true; ownsSync=true;
       const fb = await this.ready();
       if(!await this.canUseWorkspace(fb, user)) throw new Error('This access link is expired, revoked, or not authorised. Ask the administrator for a new link.');
-      this.setLocked(false);
-      if(document.getElementById('firebase_access_code') || document.getElementById('firebase_owner_email')) Modal.close();
       const ref = this.workspaceRef(fb);
       const snapshot = await fb.getDoc(ref);
+      if(fb.auth.currentUser?.uid!==user.uid)return;
       if(snapshot.exists()){
-        // Keep queued local edits from being replaced by a refresh or focus event.
-        if(this._dirty){
-          await this.saveRemote(manual, user);
-          return !this._dirty;
-        }
         this.adoptRemote(snapshot.data(), manual);
+        this._loadedUid = user.uid;
         this.startListener(ref);
-        return true;
+        AccessScreen.hide();
       } else {
         if(!await this.isAdmin(user)) throw new Error('The shared workspace has not been created by the administrator yet.');
-        await this.saveRemote(manual, user, true);
-        return !this._dirty;
+        throw new Error('Cloud inventory is missing. Automatic creation is disabled to protect recovery.');
       }
     }catch(error){
+      AccessScreen.show('Inventory could not be opened. Check your connection or sign in again.',true);
       if(manual) Toast.show('Firebase sync error: ' + error.message, 'err');
       console.error('Firebase sync error:', error);
-      return false;
     }finally{
-      this._syncing = false;
+      if(ownsSync)this._syncing = false;
       updateSaveIndicator();
     }
   },
@@ -1432,20 +1524,16 @@ const FirebaseStore = {
   startListener(ref){
     if(this._unsubscribe) return;
     this._unsubscribe = this._fb.onSnapshot(ref, snapshot => {
-      if(!snapshot.exists() || this._syncing) return;
+      if(!snapshot.exists() || this._syncing || this._loadedUid !== this._fb.auth.currentUser?.uid) return;
       const remote = snapshot.data();
       const revision = Number(remote.revision) || 0;
       if(this._revision !== null && revision > this._revision){
-        if(this._dirty){
-          this.saveRemote(false);
-          return;
-        }
         Store.snapshotToBackups('Before receiving newer Firebase data');
-        this.adoptRemote(remote, true);
+        this.adoptRemote(remote, false);
       }
       this._revision = revision;
       updateSaveIndicator();
-    }, error => console.error('Firebase listener error:', error));
+    }, error => { this._loadedUid=null;this._revision=null;AccessScreen.show('Inventory connection ended. Sign in or check your connection.',true);console.error('Firebase listener error:',error); });
     this.user().then(async user => {
       const fb = await this.ready();
       if(!user || await this.isAdmin(user) || this._accessUnsubscribe) return;
@@ -1462,17 +1550,28 @@ const FirebaseStore = {
 
   async saveRemote(manual=false, knownUser=null, creating=false){
     const user = knownUser || await this.user();
-    if(!user) return false;
+    if(!user) return;
+    if(this._revision === null || this._loadedUid !== user.uid){
+      this._lastSaveError = 'Load Firebase inventory before saving.';
+      updateSaveIndicator();
+      if(manual) Toast.show(this._lastSaveError,'err');
+      return;
+    }
+    if(this._syncing){
+      clearTimeout(this._timer);
+      this._timer = setTimeout(()=>this.saveRemote(manual), 500);
+      return;
+    }
+    this.validateInventory(Store.data);
+    const payload = JSON.stringify(Store.data);
+    if(payload.length > 900000){
+      Toast.show('This backup is too large for Firebase. Export it before continuing.','err');
+      return;
+    }
     const fb = await this.ready();
     if(!await this.canUseWorkspace(fb, user)){
       if(manual) Toast.show('Your Firebase access has ended.','err');
-      return false;
-    }
-    const payload = JSON.stringify(Store.data);
-    const saveVersion = this._changeVersion;
-    if(payload.length > 900000){
-      Toast.show('This backup is too large for Firebase. Export it before continuing.','err');
-      return false;
+      return;
     }
     const ref = this.workspaceRef(fb);
     try{
@@ -1480,25 +1579,27 @@ const FirebaseStore = {
       let savedRevision = this._revision;
       await fb.runTransaction(fb.db, async tx => {
         const current = await tx.get(ref);
-        if(!current.exists()){
-          if(!creating && this._revision !== null) throw new Error('Cloud workspace was removed. Refresh before saving.');
-          savedRevision = 0;
-          tx.set(ref, {
-            ownerUid: user.uid,
-            payload,
-            schemaVersion: 1,
-            revision: 0,
-            createdAt: fb.serverTimestamp(),
-            updatedAt: fb.serverTimestamp(),
-            updatedBy: user.uid
-          });
-          return;
-        }
+        if(!current.exists()) throw new Error('Cloud inventory is missing. Automatic creation is disabled.');
         const remote = current.data();
         const remoteRevision = Number(remote.revision) || 0;
         if(this._revision !== null && remoteRevision !== this._revision){
           throw new Error('Cloud data changed on another device. Your local copy was backed up and the newer cloud version was kept.');
         }
+        const previous = this.validateInventory(JSON.parse(remote.payload));
+        const next = JSON.parse(payload);
+        if(previous.items.length && !next.items.length)
+          throw new Error('Blocked: saving this would erase all inventory.');
+        if(previous.movements.length && !next.movements.length)
+          throw new Error('Blocked: saving this would erase all movement history.');
+        if(previous.items.length >= 10 && next.items.length < previous.items.length / 2)
+          throw new Error('Blocked: this save would remove more than half the inventory. Review the import first.');
+        if(previous.movements.length && next.movements.length < previous.movements.length)
+          throw new Error('Blocked: movement history cannot be shortened by an automatic save.');
+        const historyRef = fb.doc(fb.db, 'phone_count_workspaces', 'main', 'versions', String(remoteRevision));
+        const history = await tx.get(historyRef);
+        if(!history.exists()) tx.set(historyRef, remote);
+        else if(history.data().payload !== remote.payload)
+          throw new Error('Recovery history conflict. Cloud data was not changed.');
         savedRevision = remoteRevision + 1;
         tx.update(ref, {
           payload,
@@ -1508,61 +1609,51 @@ const FirebaseStore = {
         });
       });
       this._revision = savedRevision;
-      if(this._changeVersion === saveVersion){
-        this._dirty = false;
-      } else {
-        this._dirty = true;
-        this.triggerDebouncedSave(false);
-      }
+      this._lastSaveError = null;
       if(manual) Toast.show('Saved securely to Firebase.','ok');
-      return true;
     }catch(error){
       if(/Cloud data changed/.test(error.message || '')){
         Store.snapshotToBackups('Unsaved change before Firebase conflict');
-        this._dirty = false;
         this._syncing = false;
         await this.syncNow(false);
       }
-      if(manual || /Cloud data changed/.test(error.message || '')) Toast.show('Firebase save error: ' + error.message, 'err');
+      Toast.show('Firebase save error: ' + error.message, 'err');
+      this._lastSaveError = error.message;
       console.error('Firebase save error:', error);
-      return false;
     }finally{
       this._syncing = false;
       updateSaveIndicator();
     }
   },
 
-  triggerDebouncedSave(markDirty=true){
-    if(markDirty){
-      this._dirty = true;
-      this._changeVersion += 1;
-    }
+  triggerDebouncedSave(){
     clearTimeout(this._timer);
+    if(this._revision === null || !this._loadedUid) return;
     this._timer = setTimeout(()=>this.saveRemote(false), 1200);
   },
 
-  openSignIn(required=false){
+  openSignIn(){
     const accessEmail = this.accessEmailFromLink();
     const isLink = !!accessEmail;
-    Modal.open(`<div class="modal"><div class="modal-head"><h3>☁️ StockLine sign in</h3>${required ? '' : '<button class="iconbtn" onclick="Modal.close()">✕</button>'}</div>
+    Modal.open(`<div class="modal"><div class="modal-head"><h3>☁️ StockLine sign in</h3><button class="iconbtn" onclick="Modal.close()">✕</button></div>
       <div class="modal-body">${isLink
         ? '<p>This is a shared all-shops link. Enter the eight-digit code from the administrator.</p><div class="field"><label>Access code</label><input id="firebase_access_code" inputmode="numeric" maxlength="12" type="password" autocomplete="one-time-code" placeholder="Eight-digit code" onkeydown="if(event.key===\'Enter\')FirebaseStore.signInWithAccessCode()"></div>'
-        : '<p>Administrator access opens every shop. Sign in with the verified administrator email and password, or use the verified Google account.</p><div class="field"><label>Administrator email</label><input id="firebase_owner_email" type="email" autocomplete="email" placeholder="Administrator email"></div><div class="field"><label>Password</label><input id="firebase_owner_password" type="password" autocomplete="current-password" placeholder="Password" onkeydown="if(event.key===\'Enter\')FirebaseStore.signInWithPassword()"></div><p style="font-size:12px;color:var(--muted);">For a temporary staff link, open the complete link sent by the administrator.</p>'
+        : '<p>Administrator access opens every shop. Use ranakaharian1@gmail.com with your existing password, or choose Google for idigitalfun@gmail.com.</p><div class="field"><label>Administrator email</label><input id="firebase_owner_email" type="email" autocomplete="username" value="ranakaharian1@gmail.com" placeholder="ranakaharian1@gmail.com"></div><div class="field"><label>Password</label><div class="password-row"><input id="firebase_owner_password" type="password" autocomplete="current-password" placeholder="Password" onkeydown="if(event.key===\'Enter\')FirebaseStore.signInWithPassword()"><button type="button" class="btn" aria-pressed="false" onclick="togglePassword(\'firebase_owner_password\',this)">Show</button></div></div><p style="font-size:12px;color:var(--muted);">Google: idigitalfun@gmail.com. Email/password: ranakaharian1@gmail.com. On your own phone, your sign-in stays saved.</p><button class="btn ghost sm" onclick="FirebaseStore.resetPassword()">Forgot password?</button><p id="signin_error" class="signin-error" role="alert"></p>'
       }</div>
-      <div class="modal-foot">${required ? '' : '<button class="btn" onclick="Modal.close()">Cancel</button>'}${isLink
+      <div class="modal-foot"><button class="btn" onclick="Modal.close()">Cancel</button>${isLink
         ? '<button class="btn primary" onclick="FirebaseStore.signInWithAccessCode()">Open shared inventory</button>'
-        : '<button class="btn" onclick="FirebaseStore.signInWithPassword()">Sign in</button><button class="btn primary" onclick="FirebaseStore.signIn()">Continue with Google</button>'
+        : '<button id="passwordSignInButton" class="btn" onclick="FirebaseStore.signInWithPassword()">Sign in</button><button class="btn primary" onclick="FirebaseStore.signIn()">Google: idigitalfun@gmail.com</button>'
       }</div></div>`);
   },
 
   async signIn(){
     try{
       const fb = await this.ready();
-      fb.googleProvider.setCustomParameters({prompt:'select_account'});
+      fb.googleProvider.setCustomParameters({prompt:'select_account',login_hint:'idigitalfun@gmail.com'});
       const result = await fb.signInWithPopup(fb.auth, fb.googleProvider);
-      if(!await this.isAdmin(result.user)){
+      if(String(result.user.email||'').toLowerCase()!=='idigitalfun@gmail.com' || !await this.isAdmin(result.user)){
         await fb.signOut(fb.auth);
-        throw new Error('Use the verified administrator Google account.');
+        throw new Error('Choose idigitalfun@gmail.com for Google sign-in. Use ranakaharian1@gmail.com in the email/password form.');
       }
       Modal.close();
       await this.syncNow(true);
@@ -1570,6 +1661,12 @@ const FirebaseStore = {
   },
 
   async signInWithPassword(){
+    if(this._signingIn)return;
+    const remaining=Math.ceil(((this._loginRetryAt||0)-Date.now())/1000);
+    if(remaining>0){ this.showLoginError('Please wait '+remaining+' seconds before another attempt.');return; }
+    this._signingIn=true;
+    const button=document.getElementById('passwordSignInButton');
+    if(button){button.disabled=true;button.textContent='Signing in…';}
     try{
       const fb = await this.ready();
       const email = val('firebase_owner_email').trim().toLowerCase();
@@ -1577,17 +1674,64 @@ const FirebaseStore = {
       if(!email || !password) throw new Error('Enter the administrator email and password.');
       const result = await fb.signInWithEmailAndPassword(fb.auth, email, password);
       if(!await this.isAdmin(result.user)){
-        if(email === this.OWNER_EMAIL && !result.user.emailVerified){
-          await fb.sendEmailVerification(result.user);
-          await fb.signOut(fb.auth);
-          throw new Error('Check your email and verify it once, then sign in again.');
-        }
         await fb.signOut(fb.auth);
-        throw new Error('Use the verified administrator account.');
+        throw new Error('Use your approved administrator account.');
       }
       Modal.close();
       await this.syncNow(true);
-    }catch(error){ Toast.show('Sign-in error: ' + error.message, 'err'); }
+    }catch(error){
+      if(error.code==='auth/too-many-requests')this._loginRetryAt=Date.now()+60000;
+      const message=error.code==='auth/too-many-requests'
+        ? 'Firebase has temporarily limited sign-in attempts. Pause and try later. If you use Google, choose Continue with Google.'
+        : ['auth/invalid-credential','auth/wrong-password','auth/user-not-found'].includes(error.code)
+          ? 'Email or password was not accepted. Google users should choose Continue with Google; existing password users can use Forgot password.' : error.message;
+      this.showLoginError(message);
+    }finally{this._signingIn=false;if(button){button.disabled=false;button.textContent='Sign in';}}
+  },
+  showLoginError(message){
+    const target=document.getElementById('signin_error');
+    if(target)target.textContent=message;else Toast.show(message,'err');
+  },
+  async resetPassword(){
+    if(this._resetting)return;
+    const email=val('firebase_owner_email').trim().toLowerCase();
+    if(!this.ADMIN_EMAILS.includes(email)){this.showLoginError('Enter your approved administrator email first.');return;}
+    this._resetting=true;
+    try{ const fb=await this.ready();await fb.sendPasswordResetEmail(fb.auth,email);this.showLoginError('If this email has a password account, check its inbox for the reset link.'); }
+    catch(error){this.showLoginError(error.code==='auth/too-many-requests'?'Too many reset requests. Please wait before requesting another link.':error.message);}
+    finally{this._resetting=false;}
+  },
+
+
+  async openPasswordSetup(){
+    const user=await this.user();
+    if(!await this.isAdmin(user) || user.email !== this.OWNER_EMAIL){
+      Toast.show('Sign in with the idigitalfun@gmail.com Google account first.','err');
+      return;
+    }
+    if(user.providerData.some(provider=>provider.providerId==='password')){
+      Toast.show('Email/password login is already linked to idigitalfun@gmail.com.','ok');
+      return;
+    }
+    Modal.open('<div class="modal"><div class="modal-head"><h3>Enable email/password sign-in</h3><button class="btn" onclick="Modal.close()">Close</button></div><div class="modal-body"><p>Add a Firebase password to idigitalfun@gmail.com. Google sign-in will continue to use the same account and inventory.</p><label>New Firebase password<input id="ownerSetupPassword" type="password" autocomplete="new-password"></label><label>Confirm password<input id="ownerSetupConfirm" type="password" autocomplete="new-password"></label></div><div class="modal-foot"><button class="btn" onclick="Modal.close()">Cancel</button><button class="btn primary" onclick="FirebaseStore.linkOwnerPassword()">Enable password sign-in</button></div></div>');
+  },
+
+  async linkOwnerPassword(){
+    try{
+      const fb=await this.ready(),user=fb.auth.currentUser;
+      if(!await this.isAdmin(user) || user.email !== this.OWNER_EMAIL)throw new Error('Sign in with the owner Google account first.');
+      const password=val('ownerSetupPassword'),confirm=val('ownerSetupConfirm');
+      if(password.length<8||password!==confirm)throw new Error('Use at least eight characters and matching passwords.');
+      await fb.linkWithCredential(user,fb.EmailAuthProvider.credential(this.OWNER_EMAIL,password));
+      await user.getIdToken(true);
+      Modal.close();
+      Toast.show('Google and email/password now open the same Firebase account.','ok');
+    }catch(error){
+      const message=error.code==='auth/requires-recent-login'
+        ? 'Sign in with Google again, then enable password sign-in.'
+        : error.message;
+      Toast.show('Password setup: '+message,'err');
+    }
   },
 
   async signInWithAccessCode(){
@@ -1707,10 +1851,10 @@ const FirebaseStore = {
     if(this._unsubscribe) { this._unsubscribe(); this._unsubscribe = null; }
     if(this._accessUnsubscribe) { this._accessUnsubscribe(); this._accessUnsubscribe = null; }
     this._access = null;
-    this.setLocked(true);
     await fb.signOut(fb.auth);
     DevicePin.hide();
-    this.openSignIn(true);
+    Modal.close();
+    AccessScreen.show('Signed out. Sign in to open your private inventory.',true);
     Toast.show('Signed out of Firebase.','ok');
   }
 };
@@ -2207,7 +2351,9 @@ function updateSaveIndicator(state){
     }
   }
 
-  const firebaseHtml = FirebaseStore._syncing
+  const firebaseHtml = FirebaseStore._lastSaveError
+    ? '<span style="color:var(--red);font-size:11.5px;">Cloud save blocked — check Activity or refresh Firebase</span>'
+    : FirebaseStore._syncing
     ? '<span style="color:var(--teal-dark);font-size:11.5px;font-weight:600;">☁️ Saving to Firebase…</span>'
     : (FirebaseStore._revision === null
       ? '<span style="color:var(--muted);font-size:11.5px;">☁️ Sign in to Firebase</span>'
@@ -2277,6 +2423,7 @@ const NAV = [
     {id:'dashboard', label:'Dashboard', icon:'◆'},
   ]},
   {group:'Stock', items:[
+    {id:'transfer',label:'Transfers',icon:'⇄'},
     {id:'inventory', label:'Inventory', icon:'▤'},
     {id:'stockin', label:'Stock In', icon:'⬇'},
     {id:'stockview', label:'Stock List View', icon:'▥'},
@@ -2297,6 +2444,7 @@ const NAV = [
   ]},
 ];
 const TITLES = {
+  transfer:['Transfers','Move one device between shops, keeping its IMEI and history'],
   dashboard:['Dashboard','Overview across all shops'],
   inventory:['Inventory','Every device you stock, across all locations'],
   stockin:['Stock In','Receive new stock or import batch list'],
@@ -2314,6 +2462,23 @@ const TITLES = {
   backup:['Backup & Settings','Backups, restore, and full data export'],
 };
 
+const TAB_HELP = {
+ dashboard:'Check totals and shop stock. Click a count to see the devices behind it.',
+ inventory:'Search by model or IMEI. Check a device, edit its details, or choose a shop and Transfer. Each IMEI represents one phone.',
+ stockin:'Receive devices into the correct shop. Use a unique IMEI or serial for each device; preview CSV uploads before applying them.',
+ transfer:'Choose From and To first. Check the IMEI and source shop, then move one device. The destination stays selected for the next transfer.',
+ stockview:'Compare device prices and shop quantities. Open a device to record its sale or movement.',
+ availability:'Check which shop has a model before arranging a transfer.',
+ weekly:'Choose the week and shop to review received, sold, transferred and remaining stock. Print or export for the stock count.',
+ history:'Filter dates, shops and movement types. Transfers have paired outgoing and incoming records; undo from Activity when needed.',
+ shopsales:'Filter by shop and date to review sold phones, IMEIs and sale amounts.',
+ bestsellers:'Compare sales by model and period to help plan the next order.',
+ reorder:'Add models and quantities, then export the supplier order. This list does not change inventory.',
+ shops:'Maintain shop names and active locations. Review existing stock before archiving a shop.',
+ portals:'Create or review authorised shared links. A shop URL alone does not grant access; expired or revoked links stop working.',
+ categories:'Group devices by product type to make searching and reports easier.',
+ backup:'Export a backup, preview CSV imports or manage recovery. Owner Google users can enable password login here; never share a backup credential.'
+};
 const Router = {
   current:'dashboard',
   getPortalShopId(){
@@ -2321,9 +2486,28 @@ const Router = {
     // until server-side, per-shop authorization is implemented.
     return null;
   },
-  go(id){ this.current=id; render(); }
+  go(id){ this.current=id; MobileNav.close(); render(); }
 };
 const STOCKLINE_MARK = `<svg class="stockline-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="screen" x="5" y="3.5" width="17" height="25" rx="4"/><path class="line" d="M10 8.5h7M10 12h7M13 24h2"/><path class="box" d="M18.5 13.5 27 17.5v8l-8.5 4-8.5-4v-8z"/><path class="line" d="m18.5 13.5 8.5 4-8.5 4-8.5-4M18.5 21.5v8"/></svg>`;
+
+const MobileNav = {
+  toggle(){
+    const open = !document.getElementById('sidebar').classList.contains('open');
+    document.getElementById('sidebar').classList.toggle('open',open);
+    document.getElementById('navBackdrop').classList.toggle('open',open);
+    document.getElementById('mobileMenuButton').setAttribute('aria-expanded',String(open));
+  },
+  close(){
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('navBackdrop').classList.remove('open');
+    document.getElementById('mobileMenuButton').setAttribute('aria-expanded','false');
+  },
+  toggleTools(button){
+    const open=document.getElementById('topbar').classList.toggle('tools-open');
+    button.setAttribute('aria-expanded',String(open));
+  }
+};
+document.addEventListener('keydown',event=>{if(event.key==='Escape')MobileNav.close();});
 
 function renderTopbar(){
   const topbar = document.getElementById('topbar');
@@ -2355,10 +2539,17 @@ function renderTopbar(){
       <button class="btn sm no-print" onclick="Views.showActivityModal()" title="View recent activity log and undo any action" style="border:1.5px solid var(--teal);color:var(--teal-dark);font-weight:700;display:inline-flex;align-items:center;gap:4px;">📋 Activity</button>
       <button class="btn sm no-print" onclick="FileStore.exportJson()" title="Download a backup JSON file right now">⬇ Export data</button>
       <button class="btn sm no-print" onclick="FileStore.importJson()" title="Load data from a JSON backup file">⬆ Import data</button>
+        <button class="btn sm no-print" onclick="InventoryCsv.open()" title="Preview and import transfers or sales CSV">Upload CSV</button>
+        
+        
+        
+        
+        
+        
       <button class="btn sm no-print" onclick="Modal.backupQuick()">💾 Quick backup</button>
       <button class="btn sm no-print" onclick="DevicePin.openSettings()" title="Set or use an optional PIN on this device">🔒 PIN</button>
       <button class="btn sm no-print" id="installAppBtn" style="display:none" onclick="installStockLineApp()" title="Install StockLine as a Windows app">⇩ Install app</button>
-      <button class="btn sm no-print" onclick="Router.go('backup')">⚙ Settings</button>
+      <button class="btn sm no-print" onclick="Router.go('backup')">⚙ Settings</button><button class="btn sm no-print" onclick="FirebaseStore.signOut()">Sign out</button>
     `;
     actionsEl.innerHTML = actionsHtml;
   }
@@ -2431,12 +2622,12 @@ function render(){
 
     const fns = {
       dashboard: Views.dashboard, inventory: Views.inventory, stockin: Views.stockin,
-      transfer: Views.stockview, sales: Views.stockview, weekly: Views.weekly,
+      transfer: Views.transfer, sales: Views.stockview, weekly: Views.weekly,
       history: Views.history, shopsales: Views.shopsales, stockview: Views.stockview, availability: Views.availability, bestsellers: Views.bestsellers,
       reorder: Views.reorder, shops: Views.shops, categories: Views.categories,
       portals: Views.portals, portal: () => Views.shopPortal(portalShopId), backup: Views.backup,
     };
-    c.innerHTML = (fns[Router.current]||(()=>'<p>Not found</p>'))();
+    c.innerHTML = '<details class="tab-help no-print"><summary>ⓘ How to use this tab</summary><p>'+esc(TAB_HELP[Router.current]||sub)+'</p></details>'+(fns[Router.current]||(()=>'<p>Not found</p>'))();
     if(Views.after && Views.after[Router.current]) Views.after[Router.current]();
 
     // RESTORE FOCUSED INPUT & CARET POSITION
@@ -2674,6 +2865,46 @@ function sortedItems(list){
     return compareDeviceNames(a, b);
   });
 }
+
+// Display-only groups. Original records and device IDs remain the edit targets.
+function displayModelMemory(it){
+  const memory=String(it.memory||'').trim().replace(/\s+/g,'');
+  if(/^[\-–—]*$/.test(memory))return '';
+  if(/^blackview\s*n1000$/i.test(String(it.name||'').trim()) && /^(?:1GB\/)?4GB$/i.test(memory))return '4GB';
+  return memory.toUpperCase();
+}
+function displayModelGroups(items){
+  const groups=new Map();
+  for(const it of items){
+    const memory=displayModelMemory(it);
+    const key=[String(it.name||'').trim().replace(/\s+/g,' ').toLowerCase(),memory].join('|');
+    if(!groups.has(key))groups.set(key,{id:it.id,name:it.name,memory,category:it.category,members:[],locations:{}});
+    const group=groups.get(key);group.members.push(it);
+    for(const [shop,qty] of Object.entries(it.locations||{}))group.locations[shop]=(group.locations[shop]||0)+(Number(qty)||0);
+  }
+  return [...groups.values()];
+}
+
+function displayStockColors(items,locId){
+  const colors=[];
+  for(const it of items){
+    const units=(it.units||[]).filter(u=>locId==='all'||u.location===locId);
+    const current=units.map(u=>String(u.color||'').trim()).filter(c=>c&&!/^[-–—]+$/.test(c));
+    for(const color of (current.length?current:(it.colors||[]))){
+      const text=String(color||'').trim();
+      if(text&&!/^[-–—]+$/.test(text)&&!colors.some(c=>c.toLowerCase()===text.toLowerCase()))colors.push(text);
+    }
+  }
+  return colors;
+}
+function displayColorChips(colors){
+  return colors.length?colors.map(c=>`<span class="stock-color"><span class="color-swatch" style="background:${cssColor(c)}" aria-hidden="true"></span>${esc(c)}</span>`).join(' '):'<span class="stock-missing">—</span>';
+}
+function displayMemoryCell(it){
+  const memory=displayModelMemory(it);
+  return memory?`<span class="mono" style="font-size:12px;font-weight:700;color:var(--teal-dark);">${esc(memory)}</span>`:'<span class="stock-missing">—</span>';
+}
+
 function groupByCategory(list){
   const groups = {};
   Store.data.categories.forEach(c=>groups[c.id]=[]);
@@ -2700,7 +2931,7 @@ function cssColor(name){
     red:'#ff3b30', '(product)red':'#e00421', yellow:'#ffd60a', orange:'#ff9500', pink:'#ff2d55', coral:'#ff6b4a'
   };
   const key = String(name).toLowerCase().trim();
-  return map[key] || '#9aa0a6';
+  return map[key] || (key.includes('black')?'#1a1a1a':'#9aa0a6');
 }
 function signalClass(q){ if(q<=0) return 's0'; if(q<=2) return 's1'; if(q<=5) return 's2'; if(q<=10) return 's3'; return 's4'; }
 function signalHtml(q){
@@ -3024,6 +3255,8 @@ const Stock = {
   transferGeneric(itemId, fromLoc, toLoc, qty, date, note){
     const it = itemById(itemId); if(!it||qty<=0) return false;
     if(fromLoc===toLoc){ Toast.show('Pick two different locations.','err'); return false; }
+    if(!Number.isInteger(qty)||!activeShops().some(s=>s.id===toLoc)){Toast.show('Select a valid destination and whole quantity.','err');return false;}
+    if(untrackedQtyAt(it,fromLoc)<qty){Toast.show('Move IMEI-tracked devices individually. Only untracked stock can use a quantity transfer.','err');return false;}
     if((it.locations[fromLoc]||0) < qty){ Toast.show(`Not enough stock at ${shopName(fromLoc)} for that transfer.`,'err'); return false; }
     it.locations[fromLoc] -= qty;
     it.locations[toLoc] = (it.locations[toLoc]||0) + qty;
@@ -3039,6 +3272,8 @@ const Stock = {
     const it = itemById(itemId); if(!it) return false;
     const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return false;
     const fromLoc = unit.location;
+    if(!activeShops().some(s=>s.id===toLoc)){Toast.show('Select a valid destination shop.','err');return false;}
+    if((it.locations[fromLoc]||0)<1){Toast.show('Source stock no longer matches this device. Refresh inventory before transferring.','err');return false;}
     if(fromLoc===toLoc){ Toast.show('That device is already at '+shopName(toLoc)+'.','err'); return false; }
     // Keep the pre-transfer device state so reverting either history row restores
     // the phone once, without a duplicate/ghost entry or incorrect location.
@@ -3071,6 +3306,7 @@ const Stock = {
     const idx = (it.units||[]).findIndex(u=>u.id===unitId);
     if(idx<0) return false;
     const unit = it.units[idx];
+    if(!['sold','faulty','deposit'].includes(status)||(it.locations[unit.location]||0)<1){Toast.show('Device stock is out of date. Refresh before recording this action.','err');return false;}
     it.units.splice(idx,1);
     it.locations[unit.location] = Math.max(0,(it.locations[unit.location]||0)-1);
     const mv = {
@@ -3094,6 +3330,9 @@ const Stock = {
   // at that location (so IMEI records stay accurate without the person having to pick one manually).
   sell(itemId, shopId, qty, date, note, unitId){
     const it = itemById(itemId); if(!it||qty<=0) return false;
+    if(!Number.isSafeInteger(qty)||!activeShops().some(s=>s.id===shopId)){Toast.show('Select a valid shop and whole quantity.','err');return false;}
+    if(unitId && ((it.units||[]).find(u=>u.id===unitId)?.location!==shopId||qty!==1)){Toast.show('This device is not at the selected shop.','err');return false;}
+    if(qty>1 && untrackedQtyAt(it,shopId)<qty){Toast.show('Select IMEI devices individually. Quantity actions only apply to untracked stock.','err');return false;}
     if((it.locations[shopId]||0) < qty){ Toast.show('Not enough stock at that shop.','err'); return false; }
     if(unitId) return this.removeUnit(itemId, unitId, 'sold', date, note);
     if(qty===1){ const u = unitsAt(it, shopId)[0]; if(u) return this.removeUnit(itemId, u.id, 'sold', date, note); }
@@ -3115,6 +3354,9 @@ const Stock = {
   },
   faulty(itemId, shopId, qty, date, note, unitId){
     const it = itemById(itemId); if(!it||qty<=0) return false;
+    if(!Number.isSafeInteger(qty)||!activeShops().some(s=>s.id===shopId)){Toast.show('Select a valid shop and whole quantity.','err');return false;}
+    if(unitId && ((it.units||[]).find(u=>u.id===unitId)?.location!==shopId||qty!==1)){Toast.show('This device is not at the selected shop.','err');return false;}
+    if(qty>1 && untrackedQtyAt(it,shopId)<qty){Toast.show('Select IMEI devices individually. Quantity actions only apply to untracked stock.','err');return false;}
     if((it.locations[shopId]||0) < qty){ Toast.show('Not enough stock at that shop.','err'); return false; }
     if(unitId) return this.removeUnit(itemId, unitId, 'faulty', date, note);
     if(qty===1){ const u = unitsAt(it, shopId)[0]; if(u) return this.removeUnit(itemId, u.id, 'faulty', date, note); }
@@ -3136,6 +3378,9 @@ const Stock = {
   },
   deposit(itemId, shopId, qty, date, note, unitId){
     const it = itemById(itemId); if(!it||qty<=0) return false;
+    if(!Number.isSafeInteger(qty)||!activeShops().some(s=>s.id===shopId)){Toast.show('Select a valid shop and whole quantity.','err');return false;}
+    if(unitId && ((it.units||[]).find(u=>u.id===unitId)?.location!==shopId||qty!==1)){Toast.show('This device is not at the selected shop.','err');return false;}
+    if(qty>1 && untrackedQtyAt(it,shopId)<qty){Toast.show('Select IMEI devices individually. Quantity actions only apply to untracked stock.','err');return false;}
     if((it.locations[shopId]||0) < qty){ Toast.show('Not enough stock at that shop.','err'); return false; }
     if(unitId) return this.removeUnit(itemId, unitId, 'deposit', date, note);
     if(qty===1){ const u = unitsAt(it, shopId)[0]; if(u) return this.removeUnit(itemId, u.id, 'deposit', date, note); }
@@ -3228,6 +3473,14 @@ const Stock = {
         if(it.locations && it.locations[m.location]){
           it.locations[m.location] = Math.max(0, (it.locations[m.location] || 0) - qty);
         }
+      } else if(m.type === 'sold' && m.qty < 0){
+        const returned = (it.units||[]).find(u=>u.id===m.unitData?.id);
+        if(!returned || returned.location!==m.location){
+          Toast.show('This returned phone has later activity. Revert that activity first.','err');
+          return false;
+        }
+        it.units=it.units.filter(u=>u.id!==returned.id);
+        it.locations[m.location]=Math.max(0,(it.locations[m.location]||0)-1);
       } else if(m.type === 'sold' || m.type === 'faulty' || m.type === 'deposit'){
         if(m.type === 'faulty' && m.faultyStatus === 'in_shop'){
           if(m.unitData && m.unitData.imei && Array.isArray(it.units)){
@@ -3238,6 +3491,7 @@ const Stock = {
             }
           }
         } else {
+          if(m.unitData && Store.data.items.some(item=>(item.units||[]).some(u=>u.id===m.unitData.id||(m.unitData.imei&&String(u.imei||'').trim().toLowerCase()===String(m.unitData.imei).trim().toLowerCase())))){Toast.show('This device is already in stock. Refresh and review its history before reverting.','err');return false;}
           if(it.locations){
             it.locations[m.location] = (it.locations[m.location] || 0) + qty;
           }
@@ -3260,6 +3514,7 @@ const Stock = {
         const isOut = m.type === 'transfer-out';
         const from = isOut ? m.location : m.fromLocation;
         const to = isOut ? m.toLocation : m.location;
+        if(m.unitData?.id && !(it.units||[]).some(u=>u.id===m.unitData.id&&u.location===to)){Toast.show('This device has later activity. Revert that activity first.','err');return false;}
 
         if(from && it.locations){
           it.locations[from] = (it.locations[from] || 0) + qty;
@@ -3643,7 +3898,7 @@ Views.dashboard = function(){
   const salesRange = Views._dashboardSalesRange || 7;
   const periodSales = Store.data.movements.filter(m=>m?.type==='sold' && m.date>=isoAddDays(todayISO(),-salesRange));
   let periodUnits=0, periodRevenue=0, periodCost=0, estimatedCount=0;
-  periodSales.forEach(m=>{ const q=Number(m.qty)||1, it=itemById(m.itemId); const sale=Number(m.sellPrice)||Number(m.unitData?.sellPrice)||Number(it?.shopPrices?.[m.location])||0; let cost=Number(m.unitData?.costPrice)||Number(it?.costPrice)||0; if(!cost && sale){ cost=sale*.65; estimatedCount+=q; } periodUnits+=q; periodRevenue+=sale*q; periodCost+=cost*q; });
+  periodSales.forEach(m=>{ const q=Number(m.qty)||1, it=itemById(m.itemId); const sale=Number(m.sellPrice)||Number(m.unitData?.sellPrice)||Number(it?.shopPrices?.[m.location])||0; let cost=m.unitData?.costPriceUnknown?0:(Number(m.unitData?.costPrice)||Number(it?.costPrice)||0); if(!cost && sale){ cost=sale*.65; estimatedCount+=q; } periodUnits+=q; periodRevenue+=sale*q; periodCost+=cost*q; });
 
   const byCat = {};
   Store.data.categories.forEach(c=>byCat[c.id]=0);
@@ -4099,7 +4354,8 @@ Views.inventory = function(){
       .inv-imei-scan input { flex:1;padding:8px 12px;border:none;border-radius:6px;font-size:14px;font-family:'IBM Plex Mono',monospace;background:#fff;color:var(--ink);min-width:0; }
       .inv-imei-scan select { padding:8px 10px;border:none;border-radius:6px;font-size:13px;background:#fff;color:var(--ink); }
       .inv-imei-scan button { white-space:nowrap; }
-    </style>
+    
+</style>
 
     ${catSummaryHtml}
 
@@ -4582,10 +4838,10 @@ Views.confirmInvUntrackedAction = function(itemId, locId, kind){
 
 // Inline transfer of a tracked IMEI unit — reads the inline <select> for destination
 
-Views.openTransferUnitModal = function(itemId, unitId, fromLoc){
+Views.openTransferUnitModal = function(itemId, unitId, fromLoc, selectedTo=null){
   const it = itemById(itemId); if(!it) return;
   const unit = (it.units||[]).find(u => u.id === unitId); if(!unit) return;
-  const fromShopId = fromLoc || unit.location || 'warehouse';
+  const fromShopId = unit.location || 'warehouse';
   const shops = activeShops().filter(s => s.id !== fromShopId);
   
   Modal.open(`
@@ -4604,7 +4860,7 @@ Views.openTransferUnitModal = function(itemId, unitId, fromLoc){
           <div class="field">
             <label>Transfer to Store / Warehouse</label>
             <select id="tu_to_loc">
-              ${shops.map(s => `<option value="${s.id}">${esc(s.name)}</option>`).join('')}
+              ${shops.map(s => `<option value="${s.id}" ${selectedTo===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}
             </select>
           </div>
           <div class="field">
@@ -4635,6 +4891,17 @@ Views.confirmTransferUnitModal = function(itemId, unitId, fromLoc){
   if(!toLoc || toLoc === fromLoc){ Toast.show('Pick a different destination store.','err'); return; }
 
   const result = Stock.transferUnit(itemId, unitId, toLoc, date, note);
+  if(!result)return;
+  if(!result)return;
+  if(!result)return;
+  if(!result)return;
+  if(!result)return;
+  if(!result)return;
+  if(!result)return;
+  if(!result)return;
+  if(!result)return;
+  if(!result)return;
+  if(!result)return;
   if(result){
     Toast.show(`✓ ${it.name} ${unit.imei ? '(IMEI ' + unit.imei + ')' : ''} moved to ${shopName(toLoc)}. <button class="btn sm" style="margin-left:8px;padding:2px 10px;font-size:11px;background:#fff;color:var(--ink);border:none;" onclick="Views.undoSale('${result.movementId}')">↩ Undo</button>`, 'ok');
   }
@@ -4643,15 +4910,7 @@ Views.confirmTransferUnitModal = function(itemId, unitId, fromLoc){
 };
 
 Views.doInlineTransfer = function(itemId, unitId, fromLoc){
-  const it = itemById(itemId); if(!it) return;
-  const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
-  const source = unit.location || fromLoc || 'warehouse';
-  const toLoc = document.getElementById(`inv_to_${unitId}`)?.value;
-  if(!toLoc || toLoc === source){ Toast.show('Pick a different destination store.','err'); return; }
-  const result = Stock.transferUnit(itemId, unitId, toLoc, todayISO(), 'Transferred from Inventory quick actions');
-  if(!result) return;
-  Toast.show(`✓ ${it.name} ${unit.imei ? '(IMEI ' + unit.imei + ')' : ''} moved to ${shopName(toLoc)}.`, 'ok');
-  render();
+  Views.openTransferUnitModal(itemId, unitId, fromLoc, val('inv_to_'+unitId));
 };
 
 // Action on a specific IMEI unit directly from Inventory (Sold / Faulty / Deposit)
@@ -5030,9 +5289,13 @@ Views.generateInventoryPdf = function(){
       body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .no-print { display: none !important; }
     }
-  </style>
+  
+</style>
 </head>
-<body>
+<body class="access-pending">
+<div id="accessScreen" role="status" aria-live="polite">
+  <div class="access-card"><div class="loading-logo" aria-hidden="true"><svg class="stockline-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="screen" x="5" y="3.5" width="17" height="25" rx="4"/><path class="line" d="M10 8.5h7M10 12h7M13 24h2"/><path class="box" d="M18.5 13.5 27 17.5v8l-8.5 4-8.5-4v-8z"/><path class="line" d="m18.5 13.5 8.5 4-8.5 4-8.5-4M18.5 21.5v8"/></svg></div><h1>StockLine</h1><p id="accessMessage">Opening your secure inventory…</p><div id="accessActions"></div></div>
+</div>
   <div class="no-print" style="background:#1E293B;color:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-radius:6px;">
     <div style="font-weight:600;font-size:13px;">🖨️ Ready to Print / Save to PDF</div>
     <div>
@@ -7769,7 +8032,9 @@ Views._trDate = Views._trDate || todayISO();
 
 Views.transfer = function(){
   const locs = activeShops();
-  if(!Views._trTo) Views._trTo = locs.find(s=>!s.isWarehouse)?.id || locs[1]?.id;
+  if(!locs.length)return '<div class="empty">Add a shop in Settings first.</div>';
+  if(!locs.some(s=>s.id===Views._trFrom))Views._trFrom=locs[0].id;
+  if(!locs.some(s=>s.id===Views._trTo)||Views._trTo===Views._trFrom)Views._trTo=locs.find(s=>s.id!==Views._trFrom)?.id||null;
   const from = Views._trFrom || locs[0].id;
   const to = Views._trTo;
   const units = allUnitsWithImei(from);
@@ -7793,7 +8058,7 @@ Views.transfer = function(){
     <div class="card card-pad" style="margin-bottom:16px;">
       <div class="field-grid">
         <div class="field"><label>From</label><select id="tr_from" onchange="Views._trFrom=this.value;render()">${locs.map(s=>`<option value="${s.id}" ${from===s.id?'selected':''}>${esc(s.name)}${s.isWarehouse?' (warehouse)':''}</option>`).join('')}</select></div>
-        <div class="field"><label>To</label><select id="tr_to" onchange="Views._trTo=this.value">${locs.map(s=>`<option value="${to===s.id?'selected':''}>${esc(s.name)}${s.isWarehouse?' (warehouse)':''}</option>`).join('')}</select></div>
+        <div class="field"><label>To</label><select id="tr_to" onchange="Views._trTo=this.value">${locs.map(s=>`<option value="${s.id}" ${to===s.id?'selected':''}>${esc(s.name)}${s.isWarehouse?' (warehouse)':''}</option>`).join('')}</select></div>
         <div class="field"><label>Transfer date</label><input id="tr_date" type="date" value="${Views._trDate}" onchange="Views._trDate=this.value"></div>
       </div>
       <div class="field-grid" style="margin-top:8px;">
@@ -7827,7 +8092,7 @@ Views.transfer = function(){
       <div class="table-wrap"><table><thead><tr><th>Date</th><th>Item</th><th>IMEI</th><th>From</th><th>To</th></tr></thead><tbody>
         ${Store.data.movements.filter(m=>m.type==='transfer-out').slice(-20).reverse().map(m=>{
           const imeiMatch = (m.note||'').match(/IMEI\s+(\S+)/i);
-          return `<tr><td>${m.date}</td><td>${esc(m.itemName)}</td><td class="mono">${imeiMatch?esc(imeiMatch[1]):'—'}</td><td>${esc(shopName(m.location))}</td><td>${esc(shopName(m.toLocation))}</td></tr>`;
+          return `<tr><td>${m.date}</td><td>${esc(m.itemName)}</td><td class="mono">${esc(movementImei(m))}</td><td>${esc(shopName(m.location))}</td><td>${esc(shopName(m.toLocation))}</td></tr>`;
         }).join('') || '<tr><td colspan="5"><div class="empty">No transfers yet.</div></td></tr>'}
       </tbody></table></div>
     </div>
@@ -7844,6 +8109,9 @@ Views.doTransferOneImei = function(unitId){
     if(u){ imei = u.imei; break; }
   }
   if(!imei){ Toast.show('Device not found.','err'); return; }
+  Views._trTo=to;
+  const source=val('tr_from');
+  if(findUnitByImei(imei)?.unit.location!==source){Toast.show('This IMEI is not at the selected source shop. Refresh and check From.','err');return;}
   const result = Stock.transferUnitByImei(imei, to, date, 'Transferred by IMEI');
   if(result){ Toast.show(`${result.item.name} (IMEI ${imei}) → ${shopName(to)}`,'ok'); render(); }
 };
@@ -7854,6 +8122,9 @@ Views.doTransferByImei = function(){
   Views._trDate = date;
   if(!imei){ Toast.show('Enter an IMEI.','err'); return; }
   if(!to){ Toast.show('Select a destination store.','err'); return; }
+  Views._trTo=to;
+  const source=val('tr_from');
+  if(findUnitByImei(imei)?.unit.location!==source){Toast.show('This IMEI is not at the selected source shop. Refresh and check From.','err');return;}
   const result = Stock.transferUnitByImei(imei, to, date, 'Transferred by IMEI');
   if(result){ Toast.show(`${result.item.name} moved to ${shopName(to)}.`,'ok'); render(); }
 };
@@ -8337,7 +8608,7 @@ Views.stockview = function(){
   const locId = Views._svLoc;
   const mode = Views._svMode || 'totals';
   let items = Store.data.items.filter(it=> locId==='all' ? totalQty(it)>0 : ((it.locations&&it.locations[locId])||0)>0);
-  const groups = groupByCategory(items);
+  const groups = groupByCategory(mode==='totals'?displayModelGroups(items):items);
   const dateStr = new Date().toLocaleDateString('en-IE');
 
   function renderRow(it){
@@ -8347,8 +8618,7 @@ Views.stockview = function(){
     const salePrice = locId==='all' ? ((it.shopPrices && it.shopPrices[defaultShopId])||it.costPrice||0) : ((it.shopPrices && it.shopPrices[locId])||it.costPrice||0);
 
     const relUnits = locId==='all' ? (it.units||[]) : unitsAt(it, locId);
-    const unitCols = [...new Set(relUnits.map(u=>u.color).filter(Boolean))];
-    const colorsToShow = unitCols.length > 0 ? unitCols : (it.colors||[]);
+    const colorsToShow = displayStockColors([it],locId);
 
     const rowCost = (relUnits.find(u=>u.costPrice!=null && u.costPrice>1)?.costPrice) || (it.units?.find(u=>u.costPrice!=null && u.costPrice>1)?.costPrice) || it.costPrice || 0;
 
@@ -8358,10 +8628,10 @@ Views.stockview = function(){
         <b>${esc(it.name)}</b>
       </td>
       <td>
-        ${it.memory ? `<span class="mono" style="font-size:12px;font-weight:700;color:var(--teal-dark);">${esc(it.memory)}</span>` : `<span style="color:var(--muted);">—</span>`}
+        ${displayMemoryCell(it)}
       </td>
       <td>
-        ${colorsToShow.map(c=>`<span class="color-swatch" style="background:${cssColor(c)}" title="${esc(c)}"></span>`).join('')}${esc(colorsToShow.join(', ')||'—')}
+        ${displayColorChips(colorsToShow)}
       </td>
       <td><b style="font-size:14px;color:var(--teal-dark);">${qty}</b></td>
       <td>
@@ -8422,6 +8692,20 @@ Views.stockview = function(){
     return mainRow + subRows;
   }
 
+
+  function renderGroupedRow(group){
+    if(group.members.length===1)return renderRow(group.members[0]);
+    const groupId='group_'+group.id,expanded=!!Views._svExpanded[groupId];
+    const units=group.members.flatMap(it=>locId==='all'?(it.units||[]):unitsAt(it,locId));
+    const colors=displayStockColors(group.members,locId);
+    const qty=locId==='all'?Object.values(group.locations).reduce((a,n)=>a+n,0):(group.locations[locId]||0);
+    const prices=values=>{const list=[...new Set(values.map(Number).filter(Number.isFinite))];return list.length===1?euro(list[0]):'Varies — expand';};
+    const cost=prices(group.members.map(it=>it.costPrice||0));
+    const sale=prices(group.members.map(it=>(it.shopPrices||{})[locId==='all'?(activeShops()[0]?.id||'warehouse'):locId]||it.costPrice||0));
+    const conditions=[...new Set(group.members.map(it=>it.condition||'Used'))];
+    return `<tr><td><button class="btn ghost sm" onclick="Views.toggleSvExpand('${groupId}')">${expanded?'▾':'▸'}</button><b>${esc(group.name)}</b></td><td>${displayMemoryCell(group)}</td><td>${displayColorChips(colors)}</td><td><b>${qty}</b></td><td>${esc(cost)}</td><td>${esc(sale)}</td><td>${conditions.map(c=>`<span class="pill ${c==='New'?'green':'gray'}">${esc(c)}</span>`).join(' ')}</td><td><button class="btn sm ghost" onclick="Views.toggleSvExpand('${groupId}')">${expanded?'Collapse':'Expand'}</button></td></tr>`+
+      (expanded?`<tr><td colspan="8" style="background:#F0F4F8;color:var(--muted);">${group.members.length} source records. Expand a record to edit its original devices and prices.</td></tr>`+group.members.map(renderRow).join(''):'');
+  }
   function renderImeiRows(it){
     const relevantUnits = locId==='all' ? (it.units||[]) : unitsAt(it, locId);
     const rows = relevantUnits.map(u=>`<tr>
@@ -8510,7 +8794,7 @@ Views.stockview = function(){
             ${mode==='totals' ? `<th>Device</th><th>Memory</th><th>Colours</th><th>Qty</th><th>Cost Price</th><th>Sale Price</th><th>Condition</th><th></th>` : `<th>Device</th><th>IMEI</th><th>Colour</th><th>Qty</th><th>Cost</th><th>Sale</th><th>Location</th><th class="no-print"></th>`}
           </tr></thead>
           <tbody>
-            ${g.items.map(mode==='totals' ? renderRow : renderImeiRows).join('')}
+            ${mode==='totals'?g.items.map(renderGroupedRow).join(''):g.items.map(renderImeiRows).join('')}
           </tbody>
         </table></div>
       </div>
@@ -8564,10 +8848,14 @@ Views.shopsales = function(){
 
 /* ---- SHOP AVAILABILITY ---- */
 Views.availability = function(){
-  const shops=activeShops(), items=sortedItems().filter(it=>totalQty(it)>0);
-  return `<div class="helpbox" style="margin-bottom:16px;">See Warehouse and shop quantities before sending stock. <b>View devices</b> shows model, memory and IMEI.</div><div class="card"><div class="table-wrap"><table><thead><tr><th>Model</th><th>Memory</th>${shops.map(s=>`<th>${esc(s.name)}</th>`).join('')}<th>Total</th><th></th></tr></thead><tbody>${items.map(it=>`<tr><td><b>${esc(it.name)}</b></td><td class="mono">${esc(it.memory||'—')}</td>${shops.map(s=>`<td>${it.locations?.[s.id]||'—'}</td>`).join('')}<td><b>${totalQty(it)}</b></td><td><button class="btn sm" onclick="Views.openAvailabilityDevices('${it.id}')">View devices</button></td></tr>`).join('')||'<tr><td colspan="10">No stock available.</td></tr>'}</tbody></table></div></div>`;
+  const shops=activeShops(),groups=displayModelGroups(sortedItems().filter(it=>totalQty(it)>0));
+  return `<div class="helpbox" style="margin-bottom:16px;">See Warehouse and shop quantities before sending stock. <b>View devices</b> shows model, memory and IMEI. Scroll inside the table to keep shop names visible.</div><div class="card"><div class="table-wrap availability-scroll"><table><thead><tr><th>Model</th><th>Memory</th>${shops.map(s=>`<th>${esc(s.name)}</th>`).join('')}<th>Total</th><th></th></tr></thead><tbody>${groups.map(group=>`<tr><td><b>${esc(group.name)}</b></td><td class="mono">${esc(group.memory||'—')}</td>${shops.map(s=>`<td>${group.locations[s.id]||'—'}</td>`).join('')}<td><b>${Object.values(group.locations).reduce((a,n)=>a+n,0)}</b></td><td><button class="btn sm" onclick="Views.openAvailabilityDevices('${group.members.map(it=>it.id).join(',')}')">View devices</button></td></tr>`).join('')||`<tr><td colspan="${shops.length+4}">No stock available.</td></tr>`}</tbody></table></div></div>`;
 };
-Views.openAvailabilityDevices = function(itemId){ const it=itemById(itemId); if(!it)return; const units=it.units||[]; Modal.open(`<div class="modal modal-xl"><div class="modal-head"><h3>${esc(it.name)} · ${esc(it.memory||'Memory not recorded')}</h3><button class="btn ghost sm" onclick="Modal.close()">✕</button></div><div class="modal-body"><div class="table-wrap"><table><thead><tr><th>Model</th><th>Memory</th><th>IMEI</th><th>Colour</th><th>Location</th></tr></thead><tbody>${units.map(u=>`<tr><td>${esc(it.name)}</td><td class="mono">${esc(it.memory||'—')}</td><td class="mono">${esc(u.imei||'No IMEI')}</td><td>${esc(u.color||'—')}</td><td>${esc(shopName(u.location))}</td></tr>`).join('')||'<tr><td colspan="5">No IMEI devices recorded.</td></tr>'}</tbody></table></div></div></div>`,'modal-xl'); };
+Views.openAvailabilityDevices = function(itemIds){
+  const items=String(itemIds).split(',').map(itemById).filter(Boolean);if(!items.length)return;
+  const rows=items.flatMap(it=>(it.units||[]).map(u=>`<tr><td>${esc(it.name)}</td><td class="mono">${esc(it.memory||'—')}</td><td class="mono">${esc(u.imei||'No IMEI')}</td><td>${esc(u.color||'—')}</td><td>${esc(shopName(u.location))}</td></tr>`));
+  Modal.open(`<div class="modal modal-xl"><div class="modal-head"><h3>${esc(items[0].name)} · ${esc(displayModelMemory(items[0])||'Memory not recorded')}</h3><button class="btn ghost sm" onclick="Modal.close()">✕</button></div><div class="modal-body"><div class="table-wrap"><table><thead><tr><th>Model</th><th>Memory</th><th>IMEI</th><th>Colour</th><th>Location</th></tr></thead><tbody>${rows.join('')||'<tr><td colspan="5">No IMEI devices recorded.</td></tr>'}</tbody></table></div></div></div>`,'modal-xl');
+};
 
 /* ---- BEST SELLERS ---- */
 Views._bsRange = 30;
@@ -8792,7 +9080,11 @@ Views.printReorderOrder = function(){
   const since=reorderPeriodStart(), date=new Date().toLocaleDateString('en-IE');
   const rows=Store.data.reorderList.map(r=>({...r,item:itemById(r.itemId)})).filter(r=>r.item);
   const w=window.open('','_blank'); if(!w){ Toast.show('Allow pop-ups to create the purchase order PDF.','err'); return; }
-  w.document.write(`<!doctype html><html><head><title>I Digital Fun Purchase Order</title><style>body{font-family:Arial,sans-serif;color:#172033;margin:38px}header{display:flex;justify-content:space-between;border-bottom:3px solid #1D6F8C;padding-bottom:18px;margin-bottom:26px}h1{margin:0;color:#154F63;font-size:28px}small{color:#64748b}table{width:100%;border-collapse:collapse;margin-top:18px}th{background:#154F63;color:#fff;text-align:left;padding:10px;font-size:12px}td{border-bottom:1px solid #dbe2ea;padding:10px;font-size:13px}.qty{text-align:center;font-weight:bold}.foot{margin-top:40px;border-top:1px solid #dbe2ea;padding-top:14px;font-size:12px;color:#64748b}@media print{body{margin:18px}}</style></head><body><header><div><h1>I Digital Fun</h1><div>Purchase Order</div></div><div style="text-align:right"><b>Order date:</b> ${date}<br><small>For supplier fulfilment</small></div></header><table><thead><tr><th>Model</th><th>Category</th><th>Memory / Size</th><th>Colours / Notes</th><th class="qty">Qty to order</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.item.name)}</b></td><td>${esc(catName(r.item.category))}</td><td>${esc(r.memory||r.item.memory||'—')}</td><td>${esc(r.colors||r.item.colors?.join(', ')||'—')}</td><td class="qty">${r.qty}</td></tr>`).join('')}</tbody></table><div class="foot">I Digital Fun · Generated from StockLine · Sales period: ${esc({since_last:'Since last order','7':'Last 7 days','30':'Last 30 days','90':'Last 90 days'}[Views._reorderPeriod]||'Custom')}</div><script>window.onload=()=>window.print()<\/script></body></html>`); w.document.close();
+  w.document.write(`<!doctype html><html><head><title>I Digital Fun Purchase Order</title><style>body{font-family:Arial,sans-serif;color:#172033;margin:38px}header{display:flex;justify-content:space-between;border-bottom:3px solid #1D6F8C;padding-bottom:18px;margin-bottom:26px}h1{margin:0;color:#154F63;font-size:28px}small{color:#64748b}table{width:100%;border-collapse:collapse;margin-top:18px}th{background:#154F63;color:#fff;text-align:left;padding:10px;font-size:12px}td{border-bottom:1px solid #dbe2ea;padding:10px;font-size:13px}.qty{text-align:center;font-weight:bold}.foot{margin-top:40px;border-top:1px solid #dbe2ea;padding-top:14px;font-size:12px;color:#64748b}@media print{body{margin:18px}}
+</style></head><body class="access-pending">
+<div id="accessScreen" role="status" aria-live="polite">
+  <div class="access-card"><div class="loading-logo" aria-hidden="true"><svg class="stockline-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="screen" x="5" y="3.5" width="17" height="25" rx="4"/><path class="line" d="M10 8.5h7M10 12h7M13 24h2"/><path class="box" d="M18.5 13.5 27 17.5v8l-8.5 4-8.5-4v-8z"/><path class="line" d="m18.5 13.5 8.5 4-8.5 4-8.5-4M18.5 21.5v8"/></svg></div><h1>StockLine</h1><p id="accessMessage">Opening your secure inventory…</p><div id="accessActions"></div></div>
+</div><header><div><h1>I Digital Fun</h1><div>Purchase Order</div></div><div style="text-align:right"><b>Order date:</b> ${date}<br><small>For supplier fulfilment</small></div></header><table><thead><tr><th>Model</th><th>Category</th><th>Memory / Size</th><th>Colours / Notes</th><th class="qty">Qty to order</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.item.name)}</b></td><td>${esc(catName(r.item.category))}</td><td>${esc(r.memory||r.item.memory||'—')}</td><td>${esc(r.colors||r.item.colors?.join(', ')||'—')}</td><td class="qty">${r.qty}</td></tr>`).join('')}</tbody></table><div class="foot">I Digital Fun · Generated from StockLine · Sales period: ${esc({since_last:'Since last order','7':'Last 7 days','30':'Last 30 days','90':'Last 90 days'}[Views._reorderPeriod]||'Custom')}</div><script>window.onload=()=>window.print()<\/script></body></html>`); w.document.close();
 };
 
 /* ---- SHOPS ---- */
@@ -9022,6 +9314,7 @@ Views.backup = function(){
           <h3 style="margin-top:0;">☁️ Firebase Cloud</h3>
           <p style="color:var(--muted);font-size:13px;line-height:1.55;">Firebase is the shared source of truth. Changes save automatically after a verified administrator or approved all-shops user signs in. <b>Refresh Firebase</b> only downloads the newest cloud version; it never uploads or overwrites it.</p>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            <button class="btn" onclick="FirebaseStore.openPasswordSetup()">Enable email/password sign-in</button>
             <button class="btn primary" onclick="FirebaseStore.openAccessManager()">🔗 Share all-shops access</button>
             <span style="font-size:12px;color:var(--muted);">Create, extend, or revoke private time-limited links.</span>
           </div>
@@ -9035,6 +9328,11 @@ Views.backup = function(){
           <div style="height:14px;"></div>
           <p style="color:var(--muted);font-size:13px;">Restore from a downloaded backup file:</p>
           <input type="file" id="restoreFile" accept=".json" onchange="Views.restoreFromFile(this)">
+        </div>
+        <div class="card card-pad" style="margin-top:16px;">
+          <h3 style="margin-top:0;">Import transfers and sales CSV</h3>
+          <p>Upload a CSV, review matches and conflicts, then apply valid rows. Re-uploading the same records will not duplicate them.</p>
+          <button class="btn primary" onclick="InventoryCsv.open()">Upload transfers or sales CSV</button>
         </div>
         <div class="card card-pad" style="margin-top:16px;">
           <h3 style="margin-top:0;">Import IMEIs from shop CSV files</h3>
@@ -9173,12 +9471,15 @@ window.addEventListener('storage', (e) => {
 window.addEventListener('visibilitychange', () => {
   if (!document.hidden) {
     if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
+    Store.load();
+    render();
     FirebaseStore.syncNow(false);
   }
 });
 window.addEventListener('focus', () => {
   if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
-  FirebaseStore.syncNow(false);
+  Store.load();
+  render();
 });
 
 // Do not publish operational inventory as the default data for new visitors.
@@ -9195,7 +9496,9 @@ window.FirebasePhoneReady.then(fb => fb.onAuthStateChanged(fb.auth, user => {
   if(!user) { DevicePin.hide(); return; }
   DevicePin.lockIfEnabled(user);
 }));
-setTimeout(() => FirebaseStore.syncNow(false), 500);
+FirebaseStore.user().then(()=>FirebaseStore.syncNow(false)).catch(()=>AccessScreen.show('Could not connect. Check your internet connection and reload.',true));
 </script>
+<script src="inventory-csv.js"></script>
 </body>
 </html>
+

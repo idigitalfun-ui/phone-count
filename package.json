@@ -1,0 +1,14 @@
+{
+  "name": "phone-count-safety",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node scripts/check-app.mjs && node --test tests/safety.test.mjs tests/csv.test.mjs tests/usability.test.mjs",
+    "test:rules": "firebase emulators:exec --only firestore --project demo-phone-count-safety \"node --test tests/rules.test.mjs\""
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "5.0.2",
+    "firebase": "12.19.0",
+    "firebase-tools": "15.32.0"
+  }
+}
