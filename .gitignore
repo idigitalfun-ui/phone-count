@@ -3,3 +3,6 @@ phone_count_data*.json
 *.csv
 *.pdf
 *.before-codex-fix
+
+# Cloudflare CLI account cache
+.wrangler/

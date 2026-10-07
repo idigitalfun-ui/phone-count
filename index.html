@@ -49,6 +49,7 @@
   });
 </script>
 <style>
+body.auth-locked #app { visibility:hidden; pointer-events:none; user-select:none; }
 :root{
   --ink:#1B2430;
   --muted:#6B7686;
@@ -279,7 +280,7 @@ tbody tr:hover{filter:brightness(0.97);}
 }
 </style>
 </head>
-<body>
+<body class="auth-locked">
 
 <div id="app">
   <nav id="sidebar"></nav>
@@ -942,7 +943,10 @@ const Store = {
       });
     }
 
-    this.save();
+    // Loading or normalizing cached data is not a user edit. Persist the
+    // normalized local copy without scheduling a cloud write; otherwise a
+    // stale tab can overwrite Firebase merely by regaining focus.
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
   },
   logShopChange(change){
     if(!this.data) return;
@@ -1324,6 +1328,8 @@ const FirebaseStore = {
   _accessUnsubscribe: null,
   _started: false,
   _access: null,
+  _dirty: false,
+  _changeVersion: 0,
   OWNER_EMAIL: 'idigitalfun@gmail.com',
 
   async ready(){
@@ -1332,7 +1338,13 @@ const FirebaseStore = {
       this._started = true;
       this._fb.onAuthStateChanged(this._fb.auth, user => {
         if(user) this.syncNow(false);
-        else { this._revision = null; updateSaveIndicator(); }
+        else {
+          this._revision = null;
+          this._access = null;
+          this.setLocked(true);
+          this.openSignIn(true);
+          updateSaveIndicator();
+        }
       });
     }
     return this._fb;
@@ -1345,6 +1357,7 @@ const FirebaseStore = {
 
   workspaceRef(fb){ return fb.doc(fb.db, 'phone_count_workspaces', 'main'); },
   accessRef(fb, uid){ return fb.doc(fb.db, 'phone_count_access', uid); },
+  setLocked(locked){ document.body.classList.toggle('auth-locked', !!locked); },
 
   async isAdmin(user){
     if(!user) return false;
@@ -1376,6 +1389,7 @@ const FirebaseStore = {
     Store.migrate();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(Store.data));
     this._revision = Number(remote.revision) || 0;
+    this._dirty = false;
     if(notify) Toast.show('Firebase data loaded.','ok');
     render();
   },
@@ -1383,23 +1397,35 @@ const FirebaseStore = {
   async syncNow(manual=false){
     try{
       const user = await this.user();
-      if(!user){ this.openSignIn(); return; }
-      if(this._syncing) return;
+      if(!user){ this.openSignIn(true); return false; }
+      if(this._syncing) return false;
       this._syncing = true;
       const fb = await this.ready();
       if(!await this.canUseWorkspace(fb, user)) throw new Error('This access link is expired, revoked, or not authorised. Ask the administrator for a new link.');
+      this.setLocked(false);
+      if(document.getElementById('firebase_access_code') || document.getElementById('firebase_owner_email')) Modal.close();
       const ref = this.workspaceRef(fb);
       const snapshot = await fb.getDoc(ref);
       if(snapshot.exists()){
+        // Never let a focus event or manual refresh replace an edit that is
+        // still in this browser's save queue. Save it against the revision it
+        // began from, which keeps the transaction conflict protection intact.
+        if(this._dirty){
+          await this.saveRemote(manual, user);
+          return !this._dirty;
+        }
         this.adoptRemote(snapshot.data(), manual);
         this.startListener(ref);
+        return true;
       } else {
         if(!await this.isAdmin(user)) throw new Error('The shared workspace has not been created by the administrator yet.');
         await this.saveRemote(manual, user, true);
+        return !this._dirty;
       }
     }catch(error){
       if(manual) Toast.show('Firebase sync error: ' + error.message, 'err');
       console.error('Firebase sync error:', error);
+      return false;
     }finally{
       this._syncing = false;
       updateSaveIndicator();
@@ -1413,6 +1439,10 @@ const FirebaseStore = {
       const remote = snapshot.data();
       const revision = Number(remote.revision) || 0;
       if(this._revision !== null && revision > this._revision){
+        if(this._dirty){
+          this.saveRemote(false);
+          return;
+        }
         Store.snapshotToBackups('Before receiving newer Firebase data');
         this.adoptRemote(remote, true);
       }
@@ -1435,16 +1465,17 @@ const FirebaseStore = {
 
   async saveRemote(manual=false, knownUser=null, creating=false){
     const user = knownUser || await this.user();
-    if(!user) return;
-    const payload = JSON.stringify(Store.data);
-    if(payload.length > 900000){
-      Toast.show('This backup is too large for Firebase. Export it before continuing.','err');
-      return;
-    }
+    if(!user) return false;
     const fb = await this.ready();
     if(!await this.canUseWorkspace(fb, user)){
       if(manual) Toast.show('Your Firebase access has ended.','err');
-      return;
+      return false;
+    }
+    const payload = JSON.stringify(Store.data);
+    const saveVersion = this._changeVersion;
+    if(payload.length > 900000){
+      Toast.show('This backup is too large for Firebase. Export it before continuing.','err');
+      return false;
     }
     const ref = this.workspaceRef(fb);
     try{
@@ -1480,35 +1511,51 @@ const FirebaseStore = {
         });
       });
       this._revision = savedRevision;
+      if(this._changeVersion === saveVersion){
+        this._dirty = false;
+      } else {
+        this._dirty = true;
+        this.triggerDebouncedSave(false);
+      }
       if(manual) Toast.show('Saved securely to Firebase.','ok');
+      return true;
     }catch(error){
       if(/Cloud data changed/.test(error.message || '')){
         Store.snapshotToBackups('Unsaved change before Firebase conflict');
+        // The transaction detected a newer cloud revision. Preserve the local
+        // edit in Backups, then deliberately load the authoritative revision.
+        // Clearing the dirty flag here prevents a conflict retry loop.
+        this._dirty = false;
         this._syncing = false;
         await this.syncNow(false);
       }
       if(manual || /Cloud data changed/.test(error.message || '')) Toast.show('Firebase save error: ' + error.message, 'err');
       console.error('Firebase save error:', error);
+      return false;
     }finally{
       this._syncing = false;
       updateSaveIndicator();
     }
   },
 
-  triggerDebouncedSave(){
+  triggerDebouncedSave(markDirty=true){
+    if(markDirty){
+      this._dirty = true;
+      this._changeVersion += 1;
+    }
     clearTimeout(this._timer);
     this._timer = setTimeout(()=>this.saveRemote(false), 1200);
   },
 
-  openSignIn(){
+  openSignIn(required=false){
     const accessEmail = this.accessEmailFromLink();
     const isLink = !!accessEmail;
-    Modal.open(`<div class="modal"><div class="modal-head"><h3>☁️ StockLine sign in</h3><button class="iconbtn" onclick="Modal.close()">✕</button></div>
+    Modal.open(`<div class="modal"><div class="modal-head"><h3>☁️ StockLine sign in</h3>${required ? '' : '<button class="iconbtn" onclick="Modal.close()">✕</button>'}</div>
       <div class="modal-body">${isLink
         ? '<p>This is a shared all-shops link. Enter the eight-digit code from the administrator.</p><div class="field"><label>Access code</label><input id="firebase_access_code" inputmode="numeric" maxlength="12" type="password" autocomplete="one-time-code" placeholder="Eight-digit code" onkeydown="if(event.key===\'Enter\')FirebaseStore.signInWithAccessCode()"></div>'
         : '<p>Administrator access opens every shop. Sign in with the verified administrator email and password, or use the verified Google account.</p><div class="field"><label>Administrator email</label><input id="firebase_owner_email" type="email" autocomplete="email" placeholder="Administrator email"></div><div class="field"><label>Password</label><input id="firebase_owner_password" type="password" autocomplete="current-password" placeholder="Password" onkeydown="if(event.key===\'Enter\')FirebaseStore.signInWithPassword()"></div><p style="font-size:12px;color:var(--muted);">For a temporary staff link, open the complete link sent by the administrator.</p>'
       }</div>
-      <div class="modal-foot"><button class="btn" onclick="Modal.close()">Cancel</button>${isLink
+      <div class="modal-foot">${required ? '' : '<button class="btn" onclick="Modal.close()">Cancel</button>'}${isLink
         ? '<button class="btn primary" onclick="FirebaseStore.signInWithAccessCode()">Open shared inventory</button>'
         : '<button class="btn" onclick="FirebaseStore.signInWithPassword()">Sign in</button><button class="btn primary" onclick="FirebaseStore.signIn()">Continue with Google</button>'
       }</div></div>`);
@@ -1666,8 +1713,10 @@ const FirebaseStore = {
     if(this._unsubscribe) { this._unsubscribe(); this._unsubscribe = null; }
     if(this._accessUnsubscribe) { this._accessUnsubscribe(); this._accessUnsubscribe = null; }
     this._access = null;
+    this.setLocked(true);
     await fb.signOut(fb.auth);
     DevicePin.hide();
+    this.openSignIn(true);
     Toast.show('Signed out of Firebase.','ok');
   }
 };
@@ -4600,7 +4649,15 @@ Views.confirmTransferUnitModal = function(itemId, unitId, fromLoc){
 };
 
 Views.doInlineTransfer = function(itemId, unitId, fromLoc){
-  Views.openTransferUnitModal(itemId, unitId, fromLoc);
+  const it = itemById(itemId); if(!it) return;
+  const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
+  const source = unit.location || fromLoc || 'warehouse';
+  const toLoc = document.getElementById(`inv_to_${unitId}`)?.value;
+  if(!toLoc || toLoc === source){ Toast.show('Pick a different destination store.','err'); return; }
+  const result = Stock.transferUnit(itemId, unitId, toLoc, todayISO(), 'Transferred from Inventory quick actions');
+  if(!result) return;
+  Toast.show(`✓ ${it.name} ${unit.imei ? '(IMEI ' + unit.imei + ')' : ''} moved to ${shopName(toLoc)}.`, 'ok');
+  render();
 };
 
 // Action on a specific IMEI unit directly from Inventory (Sold / Faulty / Deposit)
@@ -9122,15 +9179,12 @@ window.addEventListener('storage', (e) => {
 window.addEventListener('visibilitychange', () => {
   if (!document.hidden) {
     if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
-    Store.load();
-    render();
     FirebaseStore.syncNow(false);
   }
 });
 window.addEventListener('focus', () => {
   if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
-  Store.load();
-  render();
+  FirebaseStore.syncNow(false);
 });
 
 // Do not publish operational inventory as the default data for new visitors.
