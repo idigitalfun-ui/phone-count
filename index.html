@@ -355,6 +355,7 @@ body.access-pending #app{visibility:hidden;pointer-events:none;}
         <button class="btn sm no-print" onclick="FirebaseStore.syncNow(true)" title="Load the newest protected Firebase inventory" style="background:#0F766E;color:#fff;font-weight:700;border:none;box-shadow:0 1px 3px rgba(0,0,0,0.15);cursor:pointer;padding:4px 12px;">☁️ Refresh Firebase</button>
         <div id="save_indicator" style="display:flex;align-items:center;gap:4px;font-size:12px;"></div>
         <button class="btn sm no-print" onclick="Views.showActivityModal()" title="View recent activity log and undo any action" style="border:1.5px solid var(--teal);color:var(--teal-dark);font-weight:700;display:inline-flex;align-items:center;gap:4px;">📋 Activity</button>
+        <button class="btn sm no-print" onclick="Views.exportCurrentReportCsv()" title="Download the current availability, sales, best-sellers, weekly or stock report as a CSV file">⬇ Export report</button>
         <button class="btn sm no-print" onclick="FileStore.exportJson()" title="Download a backup JSON file right now">⬇ Export data</button>
         <button class="btn sm no-print" onclick="FileStore.importJson()" title="Load data from a JSON backup file">⬆ Import data</button>
         <button class="btn sm no-print" onclick="InventoryCsv.open()" title="Preview and import transfers or sales CSV">Upload CSV</button>
@@ -2537,6 +2538,7 @@ function renderTopbar(){
       <button class="btn sm no-print" onclick="FirebaseStore.syncNow(true)" title="Load the newest protected Firebase inventory" style="background:#0F766E;color:#fff;font-weight:700;border:none;box-shadow:0 1px 3px rgba(0,0,0,0.15);cursor:pointer;padding:4px 12px;">☁️ Refresh Firebase</button>
       <div id="save_indicator" style="display:flex;align-items:center;gap:4px;font-size:12px;"></div>
       <button class="btn sm no-print" onclick="Views.showActivityModal()" title="View recent activity log and undo any action" style="border:1.5px solid var(--teal);color:var(--teal-dark);font-weight:700;display:inline-flex;align-items:center;gap:4px;">📋 Activity</button>
+      <button class="btn sm no-print" onclick="Views.exportCurrentReportCsv()" title="Download the current availability, sales, best-sellers, weekly or stock report as a CSV file">⬇ Export report</button>
       <button class="btn sm no-print" onclick="FileStore.exportJson()" title="Download a backup JSON file right now">⬇ Export data</button>
       <button class="btn sm no-print" onclick="FileStore.importJson()" title="Load data from a JSON backup file">⬆ Import data</button>
         <button class="btn sm no-print" onclick="InventoryCsv.open()" title="Preview and import transfers or sales CSV">Upload CSV</button>
@@ -2974,6 +2976,62 @@ function csvDownload(filename, rows){
   a.href = URL.createObjectURL(blob); a.download = filename;
   document.body.appendChild(a); a.click(); a.remove();
 }
+
+/* ---------- Report exports ---------- */
+Views.exportAvailabilityCsv = function(){
+  const shops = activeShops();
+  const groups = displayModelGroups(sortedItems().filter(it=>totalQty(it)>0));
+  const rows = [['Model','Memory','Category',...shops.map(shop=>shop.name),'Total']];
+  groups.forEach(group=>{
+    const total = Object.values(group.locations).reduce((sum, qty)=>sum+(Number(qty)||0),0);
+    rows.push([group.name, group.memory||'', catName(group.category), ...shops.map(shop=>group.locations[shop.id]||0), total]);
+  });
+  csvDownload(`shop_availability_${todayISO()}.csv`, rows);
+  Toast.show('Shop availability exported to CSV.','ok');
+};
+
+Views.exportShopSalesCsv = function(){
+  const range = Views._shopSalesRange || 7;
+  const shopId = Views._shopSalesShop || 'all';
+  const start = range==='custom' ? (Views._shopSalesStart||'0000-01-01') : isoAddDays(todayISO(),-range);
+  const end = range==='custom' ? (Views._shopSalesEnd||todayISO()) : todayISO();
+  const rows = [['Date','Shop','Model','Memory','Category','IMEI','Colour','Quantity','Note']];
+  (Store.data.movements||[])
+    .filter(move=>move?.type==='sold'&&move.date>=start&&move.date<=end&&(shopId==='all'||move.location===shopId))
+    .sort((a,b)=>(b.date||'').localeCompare(a.date||''))
+    .forEach(move=>{
+      const item = itemById(move.itemId);
+      rows.push([move.date||'', shopName(move.location), move.itemName||item?.name||'', item?.memory||'', catName(move.categoryId||item?.category), move.unitData?.imei||'', move.unitData?.color||'', move.qty||1, move.note||'']);
+    });
+  csvDownload(`shop_sales_${start}_to_${end}.csv`, rows);
+  Toast.show('Shop sales exported to CSV.','ok');
+};
+
+Views.exportBestSellersCsv = function(){
+  const range = Views._bsRange || 30;
+  const since = isoAddDays(todayISO(),-range);
+  const sold = {};
+  (Store.data.movements||[]).filter(move=>move?.type==='sold'&&move.date>=since).forEach(move=>{
+    sold[move.itemId] = (sold[move.itemId]||0)+(Number(move.qty)||1);
+  });
+  const rows = [['Model','Memory','Category','Sold in period','Currently in stock']];
+  Object.entries(sold).map(([id,quantity])=>({item:itemById(id),quantity})).filter(row=>row.item)
+    .sort((a,b)=>b.quantity-a.quantity)
+    .forEach(row=>rows.push([row.item.name,row.item.memory||'',catName(row.item.category),row.quantity,totalQty(row.item)]));
+  csvDownload(`best_sellers_last_${range}_days_${todayISO()}.csv`, rows);
+  Toast.show('Best sellers exported to CSV.','ok');
+};
+
+Views.exportCurrentReportCsv = function(){
+  switch(Router.current){
+    case 'availability': return Views.exportAvailabilityCsv();
+    case 'shopsales': return Views.exportShopSalesCsv();
+    case 'bestsellers': return Views.exportBestSellersCsv();
+    case 'weekly': return Views.exportWeeklyCsv();
+    case 'stockview': return Views.exportStockviewCsv();
+    default: Toast.show('Open Shop Availability, Shop Sales, Best Sellers, Weekly Report, or Stock List View before exporting.','err');
+  }
+};
 
 /* ---------- CSV IMEI import (reads your shop count spreadsheets) ---------- */
 const CsvImport = {
