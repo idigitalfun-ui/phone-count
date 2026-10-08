@@ -1,12 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import '../public/inventory-csv.js';
 const {decode,plan,parseCsv}=globalThis.InventoryCsv;
+const importerSource=readFileSync(new URL('../public/inventory-csv.js',import.meta.url),'utf8');
 const stock=()=>({shops:[{id:'warehouse',name:'Warehouse'},{id:'shop_maynooth',name:'Maynooth'},{id:'shop_tullamore',name:'Tullamore'}],categories:[],items:[{id:'phone',name:'iPhone 15',memory:'128GB',category:'phones',locations:{warehouse:1,shop_maynooth:0,shop_tullamore:0},units:[{id:'u1',imei:'351522600826588',location:'warehouse',costPrice:410,sellPrice:485}]}],movements:[],meta:{}});
 const header='date,type,imei,from,to,sale_price,cost_price,reference\n';
 test('CSV preserves quoted commas, multiline cells and leading-zero serials',()=>{
   assert.deepEqual(parseCsv('a,b\n"x,y","two\nlines"'),[['a','b'],['x,y','two\nlines']]);
   assert.equal(decode(header+'30/09/2026,transfer,001522600826588,warehouse,Maynooth,,,T1')[0].imei,'001522600826588');
+});
+test('transfer importer offers a paste-to-preview route when file upload is unavailable',()=>{
+  assert.match(importerSource,/api\.previewText=async function\(text\)/);
+  assert.match(importerSource,/Paste transfer CSV/);
+  assert.match(importerSource,/Preview pasted CSV/);
 });
 test('duplicate uploads preserve counts and history',()=>{
   const rows=decode(header+'30/09/2026,transfer,351522600826588,warehouse,Maynooth,,,T1');

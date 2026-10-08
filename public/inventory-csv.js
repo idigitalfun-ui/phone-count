@@ -198,7 +198,7 @@
   const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   let preview=null;
   api.open=function(){
-    Modal.open('<div class="modal"><div class="modal-head"><h3>Import transfers and sales</h3><button class="btn" onclick="Modal.close()">Close</button></div><div class="modal-body"><p>Choose your transfer CSV or sales CSV with an IMEI for each phone. You will see a preview before anything changes.</p><input aria-label="Transfer or sales CSV files" type="file" accept=".csv" multiple onchange="InventoryCsv.previewFiles(this.files)"><p>CSV columns: date, type, imei, from, to, sale_price, cost_price, reference. Use one phone per row. For a phone received and sold directly in a shop, use store-sale with its model and memory.</p><button class="btn" onclick="InventoryCsv.template()">Download CSV template</button><div id="inventoryCsvPreview" aria-live="polite"></div></div><div class="modal-foot"><button class="btn" onclick="Modal.close()">Cancel</button><button id="inventoryCsvApply" class="btn primary" disabled onclick="InventoryCsv.apply()">Apply valid rows</button></div></div>');
+    Modal.open('<div class="modal"><div class="modal-head"><h3>Import transfers and sales</h3><button class="btn" onclick="Modal.close()">Close</button></div><div class="modal-body"><p>Choose your transfer CSV or sales CSV with an IMEI for each phone. You will see a preview before anything changes.</p><input aria-label="Transfer or sales CSV files" type="file" accept=".csv" multiple onchange="InventoryCsv.previewFiles(this.files)"><p style="margin-top:14px;"><b>Or paste CSV data</b> when you have copied a transfer list from Excel.</p><textarea id="inventoryCsvPaste" aria-label="Paste transfer CSV" rows="7" style="width:100%;font-family:var(--mono);font-size:12px;" placeholder="date,type,imei,from,to,reference"></textarea><button class="btn" style="margin-top:8px;" onclick="InventoryCsv.previewText(document.getElementById(\'inventoryCsvPaste\').value)">Preview pasted CSV</button><p>CSV columns: date, type, imei, from, to, sale_price, cost_price, reference. Use one phone per row. For a phone received and sold directly in a shop, use store-sale with its model and memory.</p><button class="btn" onclick="InventoryCsv.template()">Download CSV template</button><div id="inventoryCsvPreview" aria-live="polite"></div></div><div class="modal-foot"><button class="btn" onclick="Modal.close()">Cancel</button><button id="inventoryCsvApply" class="btn primary" disabled onclick="InventoryCsv.apply()">Apply valid rows</button></div></div>');
   };
   api.template=function(){
     const text='date,type,imei,from,to,sale_price,cost_price,reference,model,memory,color,condition,battery\n';
@@ -223,6 +223,22 @@
       const conflicts=planned.results.filter(r=>r.status==='conflict').length;
       target.innerHTML='<p><b>'+planned.changed+' valid rows</b>, '+skipped+' skipped, '+conflicts+' conflicts. Conflicts will not be applied.</p><div style="max-height:360px;overflow:auto"><table><thead><tr><th>File / row</th><th>IMEI</th><th>Result</th></tr></thead><tbody>'+
         planned.results.map(r=>'<tr><td>'+escape(r.filename)+' / '+r.line+'</td><td>'+escape(r.imei)+'</td><td>'+escape(r.status+': '+r.message)+'</td></tr>').join('')+'</tbody></table></div>';
+      button.disabled=!planned.changed;
+    }catch(error){target.textContent=error.message;}
+  };
+  api.previewText=async function(text){
+    const target=document.getElementById('inventoryCsvPreview'),button=document.getElementById('inventoryCsvApply');
+    preview=null;button.disabled=true;
+    try{
+      if(FirebaseStore._revision===null||!FirebaseStore._loadedUid)throw new Error('Load Firebase inventory before importing.');
+      if(FirebaseStore._syncing)throw new Error('Wait for the current cloud save to finish.');
+      const rows=decode(text).map(row=>({...row,filename:'Pasted CSV'}));
+      if(rows.length>5000)throw new Error('Use at most 5,000 rows per import.');
+      const baseline=JSON.stringify(Store.data),revision=FirebaseStore._revision,planned=plan(Store.data,rows);
+      preview={baseline,revision,rows,planned};
+      const skipped=planned.results.filter(r=>r.status==='skip').length;
+      const conflicts=planned.results.filter(r=>r.status==='conflict').length;
+      target.innerHTML='<p><b>'+planned.changed+' valid rows</b>, '+skipped+' skipped, '+conflicts+' conflicts. Conflicts will not be applied.</p><div style="max-height:360px;overflow:auto"><table><thead><tr><th>File / row</th><th>IMEI</th><th>Result</th></tr></thead><tbody>'+planned.results.map(r=>'<tr><td>'+escape(r.filename)+' / '+r.line+'</td><td>'+escape(r.imei)+'</td><td>'+escape(r.status+': '+r.message)+'</td></tr>').join('')+'</tbody></table></div>';
       button.disabled=!planned.changed;
     }catch(error){target.textContent=error.message;}
   };
