@@ -2977,6 +2977,12 @@ function csvDownload(filename, rows){
   document.body.appendChild(a); a.click(); a.remove();
 }
 
+/* ---------- Views ---------- */
+// The report-export helpers are installed below, so initialise this shared
+// object before attaching them. Keeping this above the helpers prevents the
+// application script from stopping during startup.
+const Views = {};
+
 /* ---------- Report exports ---------- */
 Views.exportAvailabilityCsv = function(){
   const shops = activeShops();
@@ -3617,7 +3623,6 @@ const Stock = {
 /* =========================================================================
    VIEWS
    ========================================================================= */
-const Views = {};
 Views.after = {};
 
 /* =========================================================================

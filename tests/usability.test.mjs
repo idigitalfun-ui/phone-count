@@ -8,6 +8,12 @@ function object(name,extra={}){
  const ctx=vm.createContext({console,setTimeout,clearTimeout,...extra});
  vm.runInContext(html.slice(start,end)+';this.subject='+name,ctx);return ctx.subject;
 }
+test('report export helpers are attached only after Views is initialized',()=>{
+ const viewsStart=html.indexOf('const Views = {}');
+ const exportStart=html.indexOf('Views.exportAvailabilityCsv =');
+ assert.ok(viewsStart>=0,'Views must be initialized');
+ assert.ok(exportStart>viewsStart,'report helpers must not run before Views exists');
+});
 test('overlapping password requests issue one Firebase call and restore the button',async()=>{
  let calls=0,resolve;const button={disabled:false,textContent:'Sign in'};const errors=[];
  const auth=object('FirebaseStore',{document:{getElementById:id=>id==='passwordSignInButton'?button:null},val:id=>id.includes('email')?'ranakaharian1@gmail.com':'example',Toast:{show(){}},Modal:{close(){}}});
