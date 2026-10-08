@@ -14,6 +14,12 @@ test('report export helpers are attached only after Views is initialized',()=>{
  assert.ok(viewsStart>=0,'Views must be initialized');
  assert.ok(exportStart>viewsStart,'report helpers must not run before Views exists');
 });
+test('shop availability has its own CSV export button',()=>{
+ const start=html.indexOf('Views.availability =');
+ const end=html.indexOf('\nViews.openAvailabilityDevices =',start);
+ assert.match(html.slice(start,end),/Export shop availability \(CSV\)/);
+ assert.match(html.slice(start,end),/Views\.exportAvailabilityCsv\(\)/);
+});
 test('overlapping password requests issue one Firebase call and restore the button',async()=>{
  let calls=0,resolve;const button={disabled:false,textContent:'Sign in'};const errors=[];
  const auth=object('FirebaseStore',{document:{getElementById:id=>id==='passwordSignInButton'?button:null},val:id=>id.includes('email')?'ranakaharian1@gmail.com':'example',Toast:{show(){}},Modal:{close(){}}});
