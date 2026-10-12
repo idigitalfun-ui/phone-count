@@ -20,6 +20,32 @@ test('shop availability has its own CSV export button',()=>{
  assert.match(html.slice(start,end),/Export shop availability \(CSV\)/);
  assert.match(html.slice(start,end),/Views\.exportAvailabilityCsv\(\)/);
 });
+test('shop availability provides a print-friendly PDF report',()=>{
+ const exportStart=html.indexOf('Views.printAvailabilityPdf =');
+ const viewStart=html.indexOf('Views.availability =');
+ const viewEnd=html.indexOf('\nViews.openAvailabilityDevices =',viewStart);
+ assert.ok(exportStart>=0,'PDF report helper must be available');
+ assert.match(html.slice(exportStart,viewStart),/@page\{size:A4 landscape/);
+ assert.match(html.slice(exportStart,viewStart),/reportWindow\.print\(\)/);
+ assert.match(html.slice(viewStart,viewEnd),/Print \/ Save PDF/);
+ assert.match(html.slice(viewStart,viewEnd),/Views\.printAvailabilityPdf\(\)/);
+});
+test('availability PDF report renders summary and quantity table before printing',()=>{
+ const start=html.indexOf('Views.printAvailabilityPdf =');
+ const end=html.indexOf('\nViews.exportShopSalesCsv =',start);
+ let printed=false,written='';
+ const popup={focus(){},print(){printed=true;},document:{open(){},write:text=>{written=text;},close(){}}};
+ const ctx=vm.createContext({
+  Views:{},window:{open:()=>popup},setTimeout:fn=>fn(),Toast:{show(){}},todayISO:()=> '2026-10-12',
+  activeShops:()=>[{id:'warehouse',name:'Warehouse'},{id:'shop_thurles',name:'Thurles'}],
+  sortedItems:()=>[{id:'item',name:'Demo Phone'}],totalQty:()=>1,
+  displayModelGroups:()=>[{name:'Demo Phone',memory:'128GB',category:'iphone',locations:{warehouse:1,shop_thurles:2}}],
+  catName:()=> 'iPhone',esc:value=>String(value),Date,
+ });
+ vm.runInContext('const Views = {};'+html.slice(start,end)+';this.subject=Views.printAvailabilityPdf;',ctx);
+ ctx.subject();
+ assert.equal(printed,true);assert.match(written,/Shop Availability/);assert.match(written,/Demo Phone/);assert.match(written,/Devices in stock/);assert.match(written,/A4 landscape/);
+});
 test('overlapping password requests issue one Firebase call and restore the button',async()=>{
  let calls=0,resolve;const button={disabled:false,textContent:'Sign in'};const errors=[];
  const auth=object('FirebaseStore',{document:{getElementById:id=>id==='passwordSignInButton'?button:null},val:id=>id.includes('email')?'ranakaharian1@gmail.com':'example',Toast:{show(){}},Modal:{close(){}}});
