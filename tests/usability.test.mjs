@@ -46,6 +46,22 @@ test('availability PDF report renders summary and quantity table before printing
  ctx.subject();
  assert.equal(printed,true);assert.match(written,/Shop Availability/);assert.match(written,/Demo Phone/);assert.match(written,/Devices in stock/);assert.match(written,/A4 landscape/);
 });
+test('reorder rows include custom supplier lines and sort every line by item name',()=>{
+ const start=html.indexOf('function reorderKey('),end=html.indexOf('\nViews.reorder =',start);
+ const items={a:{id:'a',name:'Apple A15',memory:'64GB',colors:['Black'],category:'phones',locations:{warehouse:2}},b:{id:'b',name:'Samsung A17',memory:'128GB',colors:['Blue'],category:'phones',locations:{warehouse:1}}};
+ const ctx=vm.createContext({Store:{data:{reorderList:[{itemId:'b',qty:10},{id:'custom',name:'Samsung S Series',memory:'Up to you',colors:'Mixed colours',qty:20,custom:true},{itemId:'a',qty:5}]}},itemById:id=>items[id],catName:()=> 'Samsung',totalQty:item=>item.locations.warehouse,soldInPeriod:()=>0});
+ vm.runInContext(html.slice(start,end)+';this.rows=reorderRows("2026-10-01");',ctx);
+ assert.deepEqual(Array.from(ctx.rows,row=>row.name),['Apple A15','Samsung A17','Samsung S Series']);
+ assert.deepEqual({...ctx.rows[2],item:undefined},{id:'custom',name:'Samsung S Series',memory:'Up to you',colors:'Mixed colours',qty:20,custom:true,key:'custom',category:'',stock:0,sold:0,item:undefined});
+});
+test('supplier PDF defaults to only order-ready columns',()=>{
+ const start=html.indexOf('Views.printReorderOrder ='),end=html.indexOf('\n/* ---- SHOPS ---- */',start);
+ let written='';const popup={document:{open(){},write:text=>{written=text;},close(){}}};
+ const ctx=vm.createContext({Views:{_reorderPeriod:'30'},window:{open:()=>popup},Toast:{show(){}},reorderPeriodStart:()=> '2026-10-01',reorderPdfColumns:()=>({category:false,stock:false,sold:false}),reorderRows:()=>[{name:'Samsung S Series',memory:'Up to you',colors:'Mixed colours',qty:20,item:null,category:'',stock:0,sold:0}],esc:value=>String(value),Date});
+ vm.runInContext(html.slice(start,end)+';this.subject=Views.printReorderOrder;',ctx);ctx.subject();
+ assert.match(written,/>Item<\/th>/);assert.match(written,/>Memory \/ Size<\/th>/);assert.match(written,/>Colours \/ Notes<\/th>/);assert.match(written,/>Qty to order<\/th>/);
+ assert.doesNotMatch(written,/>Category<\/th>/);assert.doesNotMatch(written,/>Current stock<\/th>/);assert.doesNotMatch(written,/>Sold \(Last 30 days\)<\/th>/);
+});
 test('overlapping password requests issue one Firebase call and restore the button',async()=>{
  let calls=0,resolve;const button={disabled:false,textContent:'Sign in'};const errors=[];
  const auth=object('FirebaseStore',{document:{getElementById:id=>id==='passwordSignInButton'?button:null},val:id=>id.includes('email')?'ranakaharian1@gmail.com':'example',Toast:{show(){}},Modal:{close(){}}});

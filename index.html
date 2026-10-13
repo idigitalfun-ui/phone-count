@@ -9009,11 +9009,32 @@ function reorderPeriodStart(){
 function soldInPeriod(item, sinceDate){
   return Store.data.movements.filter(m=>m.itemId===item.id && m.type==='sold' && m.date>=sinceDate).reduce((a,m)=>a+m.qty,0);
 }
+function reorderKey(entry){ return String(entry?.id || entry?.itemId || ''); }
+function reorderRows(sinceDate = reorderPeriodStart()){
+  return (Store.data.reorderList||[]).map(entry=>{
+    const item = entry.itemId ? itemById(entry.itemId) : null;
+    const name = String(entry.name || item?.name || '').trim();
+    if(!name) return null;
+    return {
+      ...entry, key:reorderKey(entry), item, name,
+      memory:entry.memory || item?.memory || '',
+      colors:entry.colors || item?.colors?.join(', ') || '',
+      category:item ? catName(item.category) : '',
+      stock:item ? totalQty(item) : 0,
+      sold:item ? soldInPeriod(item, sinceDate) : 0
+    };
+  }).filter(Boolean).sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true,sensitivity:'base'})||a.memory.localeCompare(b.memory,undefined,{numeric:true,sensitivity:'base'}));
+}
+function reorderPdfColumns(){
+  const columns = Store.data.reorderMeta?.pdfColumns || {};
+  return { category:!!columns.category, stock:!!columns.stock, sold:!!columns.sold };
+}
 Views.reorder = function(){
-  const rows = Store.data.reorderList.map(r=>({...r, item:itemById(r.itemId)})).filter(r=>r.item);
   const since = reorderPeriodStart();
+  const rows = reorderRows(since);
   const lastOrder = Store.data.reorderMeta.lastOrderDate;
   const periodLabel = {since_last:'Since last order', '7':'Last 7 days', '30':'Last 30 days', '90':'Last 90 days'}[Views._reorderPeriod];
+  const pdfColumns = reorderPdfColumns();
   return `
     <div class="toolbar">
       <div class="chip-select">
@@ -9025,20 +9046,20 @@ Views.reorder = function(){
       <div class="spacer"></div>
       <button class="btn" onclick="Views.markOrdered()">✓ Mark list as ordered</button>
       <button class="btn" onclick="Views.exportReorderCsv()">⬇ Export order for supplier (CSV)</button>
-      <button class="btn" onclick="Views.printPage()">🖨 Export PDF</button>
-      <button class="btn primary" onclick="Views.addAnyToReorder()">+ Add item</button>
+      <button class="btn" onclick="Views.printReorderOrder()">🖨 Print / Save PDF</button>
+      <button class="btn primary" onclick="Views.addAnyToReorder()">+ Add order line</button>
     </div>
-    <div class="helpbox no-print">Sold quantity is counted "${esc(periodLabel)}" — switch the range above to see how demand looks over a different window. "Mark list as ordered" resets the "since last order" clock to today.</div>
+    <div class="helpbox no-print">Sold quantity is counted "${esc(periodLabel)}" — switch the range above to see how demand looks over a different window. "Mark list as ordered" resets the "since last order" clock to today.<div style="margin-top:10px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;"><b>PDF includes by default:</b> Item, memory / size, colours / notes and quantity. <label><input type="checkbox" ${pdfColumns.category?'checked':''} onchange="Views.setReorderPdfColumn('category',this.checked)"> Category</label><label><input type="checkbox" ${pdfColumns.stock?'checked':''} onchange="Views.setReorderPdfColumn('stock',this.checked)"> Current stock</label><label><input type="checkbox" ${pdfColumns.sold?'checked':''} onchange="Views.setReorderPdfColumn('sold',this.checked)"> Sold (${esc(periodLabel)})</label></div></div>
     <div class="card">
       <div class="table-wrap"><table>
         <thead><tr><th>Item</th><th>Memory / Size</th><th>Colours / Notes</th><th>Category</th><th>Currently in stock</th><th>Sold (${esc(periodLabel)})</th><th>Qty to order</th><th></th></tr></thead>
         <tbody>
           ${rows.length? rows.map(r=>`<tr>
-            <td><b>${esc(r.item.name)}</b></td><td><input value="${esc(r.memory||r.item.memory||'')}" placeholder="e.g. 128GB" style="width:110px;padding:5px;" onchange="Views.setReorderSpec('${r.itemId}','memory',this.value)"></td><td><input value="${esc(r.colors||r.item.colors?.join(', ')||'')}" placeholder="e.g. Black, Blue" style="width:155px;padding:5px;" onchange="Views.setReorderSpec('${r.itemId}','colors',this.value)"></td><td><span class="pill teal">${esc(catName(r.item.category))}</span></td>
-            <td>${totalQty(r.item)}</td>
-            <td><b>${soldInPeriod(r.item, since)}</b></td>
-            <td><input type="number" min="1" value="${r.qty}" style="width:80px;padding:5px 8px;border:1px solid var(--line);border-radius:6px;" onchange="Views.setReorderQty('${r.itemId}',this.value)"></td>
-            <td><button class="btn sm danger" onclick="Views.removeReorder('${r.itemId}')">Remove</button></td>
+            <td><b>${esc(r.name)}</b>${r.item?'':' <span class="pill" style="margin-left:6px;">Custom</span>'}</td><td><input value="${esc(r.memory)}" placeholder="e.g. 128GB" style="width:110px;padding:5px;" onchange="Views.setReorderSpec('${r.key}','memory',this.value)"></td><td><input value="${esc(r.colors)}" placeholder="e.g. Black, Blue" style="width:155px;padding:5px;" onchange="Views.setReorderSpec('${r.key}','colors',this.value)"></td><td>${r.category?`<span class="pill teal">${esc(r.category)}</span>`:'—'}</td>
+            <td>${r.item?r.stock:'—'}</td>
+            <td><b>${r.item?r.sold:'—'}</b></td>
+            <td><input type="number" min="1" value="${r.qty}" style="width:80px;padding:5px 8px;border:1px solid var(--line);border-radius:6px;" onchange="Views.setReorderQty('${r.key}',this.value)"></td>
+            <td><button class="btn sm danger" onclick="Views.removeReorder('${r.key}')">Remove</button></td>
           </tr>`).join('') : `<tr><td colspan="8"><div class="empty"><div class="big">Reorder list is empty</div>Add items from Best Sellers or click "+ Add item".</div></td></tr>`}
         </tbody>
       </table></div>
@@ -9052,18 +9073,22 @@ Views.markOrdered = function(){
   render();
 };
 Views.setReorderQty = function(itemId,val){
-  const r = Store.data.reorderList.find(x=>x.itemId===itemId); if(r){ r.qty = Number(val)||1; Store.save(); }
+  const r = Store.data.reorderList.find(x=>reorderKey(x)===String(itemId)); if(r){ r.qty = Number(val)||1; Store.save(); }
 };
-Views.setReorderSpec = function(itemId,key,val){ const r=Store.data.reorderList.find(x=>x.itemId===itemId); if(r){ r[key]=(val||'').trim(); Store.save(); } };
+Views.setReorderSpec = function(itemId,key,val){ const r=Store.data.reorderList.find(x=>reorderKey(x)===String(itemId)); if(r){ r[key]=(val||'').trim(); Store.save(); } };
 Views.removeReorder = function(itemId){
-  Store.data.reorderList = Store.data.reorderList.filter(r=>r.itemId!==itemId);
+  Store.data.reorderList = Store.data.reorderList.filter(r=>reorderKey(r)!==String(itemId));
   Store.save(); render();
+};
+Views.setReorderPdfColumn = function(column,enabled){
+  Store.data.reorderMeta.pdfColumns = {...(Store.data.reorderMeta.pdfColumns||{}),[column]:!!enabled};
+  Store.save();
 };
 Views._reorderModalMode = 'existing';
 Views.addAnyToReorder = function(mode = 'existing'){
   Views._reorderModalMode = mode;
-  const isNew = (mode === 'new');
-  const items = sortedItems();
+  const isCustom = (mode === 'custom');
+  const items = sortedItems().slice().sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''),undefined,{numeric:true,sensitivity:'base'}));
 
   const html = `
     <div class="modal" style="max-width:480px;">
@@ -9073,11 +9098,11 @@ Views.addAnyToReorder = function(mode = 'existing'){
       </div>
       <div class="modal-body">
         <div style="display:flex;gap:6px;margin-bottom:14px;">
-          <button class="btn ${!isNew?'primary':''}" style="flex:1;" onclick="Views.addAnyToReorder('existing')">Choose Existing Item</button>
-          <button class="btn ${isNew?'primary':''}" style="flex:1;" onclick="Views.addAnyToReorder('new')">+ Add New Device Model</button>
+          <button class="btn ${!isCustom?'primary':''}" style="flex:1;" onclick="Views.addAnyToReorder('existing')">Choose Existing Item</button>
+          <button class="btn ${isCustom?'primary':''}" style="flex:1;" onclick="Views.addAnyToReorder('custom')">+ Add Custom Order Line</button>
         </div>
 
-        ${!isNew ? `
+        ${!isCustom ? `
           <div class="field">
             <label>Select Item</label>
             <select id="ro_item" onchange="Views.updateReorderSoldHint()">
@@ -9087,23 +9112,11 @@ Views.addAnyToReorder = function(mode = 'existing'){
           <div class="helpbox" id="ro_sold_hint" style="margin-top:-4px;"></div>
         ` : `
           <div class="field">
-            <label>Device Name / Model</label>
-            <input id="ro_new_name" placeholder="e.g. iPhone 15 Pro" autofocus>
-          </div>
-          <div class="field-grid">
-            <div class="field">
-              <label>Category</label>
-              <select id="ro_new_cat">
-                ${Store.data.categories.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}
-              </select>
-            </div>
-            <div class="field">
-              <label>Memory / Storage</label>
-              <input id="ro_new_mem" placeholder="e.g. 128GB">
-            </div>
+            <label>Item or order group</label>
+            <input id="ro_custom_name" placeholder="e.g. Samsung S Series" autofocus>
           </div>
           <div class="helpbox" style="margin-top:-4px;">
-            This will create a new product line in your system (with 0 current stock) and add it straight to your supplier reorder list.
+            This creates a supplier order line only. It does not create or change an inventory item.
           </div>
         `}
 
@@ -9119,7 +9132,7 @@ Views.addAnyToReorder = function(mode = 'existing'){
       </div>
     </div>`;
   Modal.open(html);
-  if(!isNew) Views.updateReorderSoldHint();
+  if(!isCustom) Views.updateReorderSoldHint();
 };
 Views.updateReorderSoldHint = function(){
   const it = itemById(val('ro_item'));
@@ -9129,36 +9142,25 @@ Views.updateReorderSoldHint = function(){
   el.textContent = `Currently in stock: ${totalQty(it)} · Sold in selected period: ${soldInPeriod(it, since)}`;
 };
 Views.confirmAddReorder = function(){
-  const isNew = (Views._reorderModalMode === 'new');
+  const isCustom = (Views._reorderModalMode === 'custom');
   const qty = Number(val('ro_qty')) || 1;
+  const memory = val('ro_memory').trim();
+  const colors = val('ro_colors').trim();
 
-  if(isNew){
-    const name = val('ro_new_name').trim();
-    if(!name){ Toast.show('Please enter a device model name.', 'err'); return; }
-    const cat = val('ro_new_cat');
-    let mem = val('ro_new_mem').trim();
-    if(mem){
-      mem = mem.replace(/\s+/g, '').replace(/gb/gi, 'GB');
-      if(/^\d+$/.test(mem)) mem = mem + 'GB';
-    }
-
-    const canonKey = (name + '|' + cat + '|' + mem).toLowerCase();
-    let it = Store.data.items.find(x => ((x.name + '|' + x.category + '|' + (x.memory||'')).toLowerCase() === canonKey));
-    if(!it){
-      it = {
-        id: uid('item'), name, category: cat, memory: mem, condition: 'Used', batteryPct: null, imei: '', colors: [],
-        costPrice: 0, wholesalePrice: 0, shopPrices: {}, locations: {}, units: [], createdAt: todayISO()
-      };
-      Store.data.shops.forEach(s => { it.locations[s.id] = 0; it.shopPrices[s.id] = 0; });
-      Store.data.items.push(it);
-    }
-    const existing = Store.data.reorderList.find(r => r.itemId === it.id);
-    if(existing) existing.qty = qty; else Store.data.reorderList.push({ itemId: it.id, qty, memory: val('ro_memory').trim()||it.memory||'', colors: val('ro_colors').trim()||it.colors?.join(', ')||'' });
+  if(isCustom){
+    const name = val('ro_custom_name').trim();
+    if(!name){ Toast.show('Please enter an item or order group.', 'err'); return; }
+    Store.data.reorderList.push({id:uid('reorder'), name, qty, memory, colors, custom:true});
   } else {
     const itemId = val('ro_item');
     if(!itemId) return;
     const existing = Store.data.reorderList.find(r => r.itemId === itemId);
-    if(existing) existing.qty = qty; else { const it=itemById(itemId); Store.data.reorderList.push({ itemId, qty, memory: val('ro_memory').trim()||it?.memory||'', colors: val('ro_colors').trim()||it?.colors?.join(', ')||'' }); }
+    const it=itemById(itemId);
+    if(existing){
+      existing.qty = qty;
+      existing.memory = memory||it?.memory||'';
+      existing.colors = colors||it?.colors?.join(', ')||'';
+    } else Store.data.reorderList.push({ itemId, qty, memory: memory||it?.memory||'', colors: colors||it?.colors?.join(', ')||'' });
   }
 
   Store.save(); Modal.close(); Toast.show('Added to reorder list.', 'ok'); render();
@@ -9166,22 +9168,36 @@ Views.confirmAddReorder = function(){
 Views.exportReorderCsv = function(){
   const since = reorderPeriodStart();
   const rows = [['Item','Category','Memory / Size','Colours / Notes','Currently in stock','Sold in period','Qty to order','Cost price']];
-  Store.data.reorderList.forEach(r=>{
-    const it = itemById(r.itemId); if(!it) return;
-    rows.push([it.name, catName(it.category), r.memory||it.memory, r.colors||it.colors?.join(', ')||'', totalQty(it), soldInPeriod(it, since), r.qty, it.costPrice]);
+  reorderRows(since).forEach(r=>{
+    rows.push([r.name, r.category, r.memory, r.colors, r.item?r.stock:'', r.item?r.sold:'', r.qty, r.item?.costPrice??'']);
   });
   csvDownload('supplier_reorder_list.csv', rows);
   Toast.show('Reorder list exported — ready to send to your supplier.','ok');
 };
 Views.printReorderOrder = function(){
   const since=reorderPeriodStart(), date=new Date().toLocaleDateString('en-IE');
-  const rows=Store.data.reorderList.map(r=>({...r,item:itemById(r.itemId)})).filter(r=>r.item);
-  const w=window.open('','_blank'); if(!w){ Toast.show('Allow pop-ups to create the purchase order PDF.','err'); return; }
-  w.document.write(`<!doctype html><html><head><title>I Digital Fun Purchase Order</title><style>body{font-family:Arial,sans-serif;color:#172033;margin:38px}header{display:flex;justify-content:space-between;border-bottom:3px solid #1D6F8C;padding-bottom:18px;margin-bottom:26px}h1{margin:0;color:#154F63;font-size:28px}small{color:#64748b}table{width:100%;border-collapse:collapse;margin-top:18px}th{background:#154F63;color:#fff;text-align:left;padding:10px;font-size:12px}td{border-bottom:1px solid #dbe2ea;padding:10px;font-size:13px}.qty{text-align:center;font-weight:bold}.foot{margin-top:40px;border-top:1px solid #dbe2ea;padding-top:14px;font-size:12px;color:#64748b}@media print{body{margin:18px}}
-</style></head><body class="access-pending">
-<div id="accessScreen" role="status" aria-live="polite">
-  <div class="access-card"><div class="loading-logo" aria-hidden="true"><svg class="stockline-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="screen" x="5" y="3.5" width="17" height="25" rx="4"/><path class="line" d="M10 8.5h7M10 12h7M13 24h2"/><path class="box" d="M18.5 13.5 27 17.5v8l-8.5 4-8.5-4v-8z"/><path class="line" d="m18.5 13.5 8.5 4-8.5 4-8.5-4M18.5 21.5v8"/></svg></div><h1>StockLine</h1><p id="accessMessage">Opening your secure inventory…</p><div id="accessActions"></div></div>
-</div><header><div><h1>I Digital Fun</h1><div>Purchase Order</div></div><div style="text-align:right"><b>Order date:</b> ${date}<br><small>For supplier fulfilment</small></div></header><table><thead><tr><th>Model</th><th>Category</th><th>Memory / Size</th><th>Colours / Notes</th><th class="qty">Qty to order</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.item.name)}</b></td><td>${esc(catName(r.item.category))}</td><td>${esc(r.memory||r.item.memory||'—')}</td><td>${esc(r.colors||r.item.colors?.join(', ')||'—')}</td><td class="qty">${r.qty}</td></tr>`).join('')}</tbody></table><div class="foot">I Digital Fun · Generated from StockLine · Sales period: ${esc({since_last:'Since last order','7':'Last 7 days','30':'Last 30 days','90':'Last 90 days'}[Views._reorderPeriod]||'Custom')}</div><script>window.onload=()=>window.print()<\/script></body></html>`); w.document.close();
+  const rows=reorderRows(since), pdfColumns=reorderPdfColumns();
+  const periodLabel={since_last:'Since last order','7':'Last 7 days','30':'Last 30 days','90':'Last 90 days'}[Views._reorderPeriod]||'Selected period';
+  const columns=[
+    {label:'Item',className:'model',value:r=>r.name},
+    {label:'Memory / Size',value:r=>r.memory||'-'},
+    {label:'Colours / Notes',value:r=>r.colors||'-'}
+  ];
+  if(pdfColumns.category) columns.push({label:'Category',value:r=>r.category||'-'});
+  if(pdfColumns.stock) columns.push({label:'Current stock',className:'qty',value:r=>r.item?r.stock:'-'});
+  if(pdfColumns.sold) columns.push({label:`Sold (${periodLabel})`,className:'qty',value:r=>r.item?r.sold:'-'});
+  columns.push({label:'Qty to order',className:'qty order-qty',value:r=>r.qty});
+  const totalOrderQty=rows.reduce((total,row)=>total+(Number(row.qty)||0),0);
+  const w=window.open('','_blank','width=1400,height=920');
+  if(!w){ Toast.show('Allow pop-ups to create the purchase order PDF.','err'); return; }
+  const head=columns.map(column=>`<th class="${column.className||''}">${esc(column.label)}</th>`).join('');
+  const body=rows.length?rows.map(row=>`<tr>${columns.map(column=>`<td class="${column.className||''}">${esc(column.value(row))}</td>`).join('')}</tr>`).join(''):`<tr><td colspan="${columns.length}" class="empty">No order lines have been added.</td></tr>`;
+  w.document.open();
+  w.document.write(`<!doctype html><html lang="en"><head><meta charset="utf-8"><title>I Digital Fun purchase order</title><style>
+    @page{size:A4 landscape;margin:12mm 11mm 14mm;}*{box-sizing:border-box;}body{margin:0;font-family:"Segoe UI",Arial,sans-serif;color:#172033;background:#fff;font-size:11px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}.header{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;background:#0f766e;color:#fff;border-radius:10px;padding:16px 19px;margin-bottom:13px;}.brand{font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;opacity:.88;}.title{font-size:25px;font-weight:800;line-height:1.1;margin:4px 0 3px;}.subtitle{font-size:11px;opacity:.9;}.meta{text-align:right;font-size:10px;line-height:1.55;white-space:nowrap;}.summary{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:0 0 13px;}.metric{border:1px solid #d4e4e8;border-radius:8px;background:#f6fbfb;padding:9px 11px;}.metric strong{display:block;color:#0f4c5c;font-size:19px;line-height:1;margin-bottom:3px;}.metric span{color:#526273;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}table{width:100%;border-collapse:separate;border-spacing:0;}thead{display:table-header-group;}th{background:#e4f1f3;color:#164d58;text-align:left;padding:8px 7px;font-size:9px;text-transform:uppercase;letter-spacing:.05em;border-top:1px solid #bad8dd;border-bottom:1px solid #bad8dd;white-space:nowrap;}th:first-child{border-left:1px solid #bad8dd;border-radius:6px 0 0 0;}th:last-child{border-right:1px solid #bad8dd;border-radius:0 6px 0 0;}td{padding:8px 7px;border-bottom:1px solid #e1e9ed;vertical-align:middle;}tbody tr:nth-child(even){background:#f8fafb;}tbody tr{break-inside:avoid;}.model{font-weight:750;color:#102b3a;min-width:190px;}.qty{text-align:center;font-variant-numeric:tabular-nums;}.order-qty{font-weight:800;color:#0f4c5c;background:#eef8f8;}.empty{text-align:center;color:#64748b;padding:24px;}.footer{display:flex;justify-content:space-between;gap:16px;margin-top:11px;padding-top:8px;border-top:1px solid #dbe5e9;color:#64748b;font-size:8px;}.screen-note{margin:0 0 12px;padding:8px 10px;border:1px solid #bad8dd;border-radius:6px;background:#f0f8f8;color:#164d58;font-size:11px;}@media print{.screen-note{display:none;}.header{break-inside:avoid;}}
+  </style></head><body><p class="screen-note">In the print dialog, choose <b>Save as PDF</b> to download this supplier order.</p><header class="header"><div><div class="brand">StockLine</div><div class="title">Purchase Order</div><div class="subtitle">Supplier order from I Digital Fun</div></div><div class="meta"><b>Order date</b><br>${esc(date)}<br>${rows.length} line${rows.length===1?'':'s'}</div></header><section class="summary"><div class="metric"><strong>${rows.length}</strong><span>Order lines</span></div><div class="metric"><strong>${totalOrderQty}</strong><span>Total units to order</span></div></section><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table><footer class="footer"><span>Prepared for supplier fulfilment.</span><span>Generated from StockLine</span></footer><script>window.onload=()=>window.print()<\/script></body></html>`);
+  w.document.close();
+  Toast.show('Print window opened. Choose “Save as PDF” to download it.','ok');
 };
 
 /* ---- SHOPS ---- */
