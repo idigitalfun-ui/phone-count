@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import '../stock-records.js';
+const {split,join,diff,equal}=globalThis.StockRecords;
+const sample={items:[{id:'p',name:'Samsung',locations:{warehouse:1},units:[{id:'u',imei:'123',location:'warehouse',verified:false,costPrice:125}]}],movements:[],shops:[{id:'warehouse'},{id:'shop'}],categories:[{id:'c'}],meta:{lastSaved:'x'},extra:[1,2]};
+test('round trip preserves complete inventory',()=>assert.ok(equal(join(split(sample)),sample)));
+test('verification writes exactly one device record',()=>{const next=structuredClone(sample);next.items[0].units[0].verified=true;assert.deepEqual(diff(split(sample),split(next)).map(x=>x.id),['device_u']);});
+test('transfer changes device, product and movement records, not unrelated data',()=>{const next=structuredClone(sample);next.items[0].units[0].location='shop';next.items[0].locations={warehouse:0,shop:1};next.movements.push({id:'m',type:'transfer-in'});assert.deepEqual(diff(split(sample),split(next)).map(x=>x.id).sort(),['device_u','index_main','movement_m','product_p']);});
+test('duplicate IDs rejected',()=>{const next=structuredClone(sample);next.items[0].units.push(next.items[0].units[0]);assert.throws(()=>split(next),/Duplicate/);});
+test('missing records rejected',()=>{const r=split(sample);r.delete('device_u');assert.throws(()=>join(r),/Missing/);});
