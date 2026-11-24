@@ -1,4 +1,4 @@
-const CACHE_NAME = 'idfl-stockline-shell-v6';
+const CACHE_NAME = 'idfl-stockline-shell-v7';
 const APP_SHELL = ['./', './index.html', './favicon.svg', './manifest.webmanifest'];
 
 self.addEventListener('install', event => {

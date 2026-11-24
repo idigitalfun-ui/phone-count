@@ -197,3 +197,13 @@ test('stock in memory selects an existing capacity or creates an isolated new va
  const variant=ctx.Views.stockInResolveVariant(item,'512gb');
  assert.equal(variant.memory,'512GB');assert.equal(variant.units.length,0);assert.equal(variant.locations.warehouse,0);assert.equal(item.units.length,1);assert.equal(item.memory,'4GB/128GB');assert.equal(ctx.Store.data.items.length,2);
 });
+
+
+test('stock receiving draft preserves selected model and all entered fields across redraws',()=>{
+ const fields={si_item:{value:'samsung'},si_memory:{value:'4GB/128GB'},si_imei:{value:'350142325237655'},si_date:{value:'2026-11-13'},si_cost:{value:'125'},si_loc:{value:'thurles'},si_color:{value:'Black'}};
+ const ctx=vm.createContext({Views:{stockInMemoryOptions(){fields.si_memory.value='64GB';}},document:{getElementById:id=>fields[id]}});
+ const start=html.indexOf('Views.captureStockInDraft ='),end=html.indexOf('Views.stockInMemoryList =',start);
+ vm.runInContext(html.slice(start,end),ctx);const draft=ctx.Views.captureStockInDraft();
+ for(const field of Object.values(fields))field.value='';fields.si_item.value='iphone8';
+ ctx.Views.restoreStockInDraft(draft);assert.equal(fields.si_item.value,'samsung');assert.equal(fields.si_memory.value,'4GB/128GB');assert.equal(fields.si_imei.value,'350142325237655');assert.equal(fields.si_cost.value,'125');assert.equal(fields.si_date.value,'2026-11-13');assert.equal(fields.si_loc.value,'thurles');
+});

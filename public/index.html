@@ -2617,6 +2617,8 @@ function render(){
     const c = document.getElementById('content');
     if(!c) return;
 
+    // Preserve the complete stock-receiving draft across cloud redraws.
+    const stockDraft = Router.current==='stockin' ? Views.captureStockInDraft() : null;
     // PRESERVE FOCUSED INPUT & CARET POSITION
     let focusInfo = null;
     const active = document.activeElement;
@@ -2642,6 +2644,7 @@ function render(){
     };
     c.innerHTML = '<details class="tab-help no-print"><summary>ⓘ How to use this tab</summary><p>'+esc(TAB_HELP[Router.current]||sub)+'</p></details>'+(fns[Router.current]||(()=>'<p>Not found</p>'))();
     if(Views.after && Views.after[Router.current]) Views.after[Router.current]();
+    if(stockDraft) Views.restoreStockInDraft(stockDraft);
 
     // RESTORE FOCUSED INPUT & CARET POSITION
     if(focusInfo){
@@ -7607,6 +7610,27 @@ Samsung A36 6GB/128GB	10"></textarea>
     </div>
   `;
 };
+Views.captureStockInDraft = function(){
+  if(!document.getElementById('si_item'))return null;
+  const draft={};
+  for(const id of ['si_item','si_memory','si_loc','si_date','si_supplier','si_invoice','si_imei','si_color','si_cond','si_cost','si_sell','si_qty','si_note','si_bulk_loc','si_bulk']){
+    const field=document.getElementById(id);if(field)draft[id]=field.value;
+  }
+  return draft;
+};
+Views.restoreStockInDraft = function(draft){
+  if(!draft)return;
+  const item=document.getElementById('si_item');
+  if(item&&Object.prototype.hasOwnProperty.call(draft,'si_item')){
+    item.value=draft.si_item;
+    if(item.value!==draft.si_item){item.selectedIndex=-1;}
+    Views.stockInMemoryOptions();
+  }
+  for(const [id,value] of Object.entries(draft)){
+    if(id==='si_item')continue;
+    const field=document.getElementById(id);if(field)field.value=value;
+  }
+};
 Views.stockInMemoryList = function(item){
   const key=x=>String(x||'').trim().toLowerCase().replace(/\s+/g,' ');
   const capacities=[...(Store.data.items||[]).filter(x=>item&&key(x.name)===key(item.name)&&x.category===item.category).map(x=>x.memory), '32GB','64GB','128GB','256GB','512GB','1TB','2TB','4GB/64GB','4GB/128GB','6GB/128GB','8GB/128GB','8GB/256GB','12GB/256GB'];
@@ -7672,6 +7696,8 @@ Views.doStockIn = function(){
     Stock.stockIn(itemId, qty, date, note, loc, supplier, invoice);
     Toast.show(`Stock received into ${shopName(loc)}.`,'ok');
   }
+  // Clear the consumed IMEI only after successful receipt; keep batch details.
+  const imeiInput=document.getElementById('si_imei');if(imeiInput)imeiInput.value='';
   render();
 };
 
