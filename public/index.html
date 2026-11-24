@@ -2589,6 +2589,15 @@ function renderSidebar(){
 }
 
 function render(){
+  // A cloud refresh must not replace the input/caret mid-keystroke.
+  const editingPrice = document.activeElement;
+  if(editingPrice?.tagName === 'INPUT' && /Views\.(?:invSet(?:CostPrice|SalePrice)|svSet(?:UnitCost|UnitPrice|CostPrice|Price))\(/.test(editingPrice.getAttribute('onchange')||'')){
+    if(!editingPrice.dataset.renderOnBlur){
+      editingPrice.dataset.renderOnBlur='1';
+      editingPrice.addEventListener('blur',()=>setTimeout(render,0),{once:true});
+    }
+    return;
+  }
   try{
     renderSidebar();
     renderTopbar();
@@ -4699,16 +4708,16 @@ Views.saveInlineImei = function(itemId, unitId, rawVal){
 
 // Inline price setters from Inventory
 Views.invSetCostPrice = function(itemId, unitId, v, persist = true){
+  if(!persist || String(v).trim()==='') return;
   const p = Number(v);
-  if(isNaN(p)||p<0) return;
+  if(!Number.isFinite(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
-  const oldCost = it.costPrice;
-  it.costPrice = p;
   const u = (it.units||[]).find(x=>x.id===unitId);
-  if(u) u.costPrice = p;
-  (it.units||[]).forEach(x=>{ if(x.costPrice == null || x.costPrice <= 1) x.costPrice = p; });
+  if(!u) return;
+  const oldCost = u.costPrice;
+  if(oldCost === p) return;
+  u.costPrice = p;
   if(persist){
-    Store.save();
     Store.logShopChange({
       type: 'price_edit',
       shopId: u?.location || 'warehouse',
@@ -4719,24 +4728,33 @@ Views.invSetCostPrice = function(itemId, unitId, v, persist = true){
       oldValue: oldCost,
       newValue: p
     });
+    Store.save();
     Toast.show(`Cost price for ${it.name} saved (€${p.toFixed(2)}).`,'ok');
   }
 };
 
 Views.invSetSalePrice = function(itemId, unitId, locId, v, persist = true){
+  if(!persist || String(v).trim()==='') return;
   const p = Number(v);
-  if(isNaN(p)||p<0) return;
+  if(!Number.isFinite(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
-  if(!it.shopPrices) it.shopPrices = {};
-  const oldPrice = it.shopPrices[locId];
-  it.shopPrices[locId] = p;
-  if(locId === 'shop_maynooth') it.shopPrices['maynooth'] = p;
-  if(locId === 'maynooth') it.shopPrices['shop_maynooth'] = p;
   const u = (it.units||[]).find(x=>x.id===unitId);
-  if(u) u.sellPrice = p;
-  (it.units||[]).filter(x=>x.location===locId || (locId==='shop_maynooth'&&x.location==='maynooth') || (locId==='maynooth'&&x.location==='shop_maynooth')).forEach(x=>{ x.sellPrice = p; });
+  if(!u) return;
+  const oldPrice = u.sellPrice;
+  const normal = value=>String(value||'').trim().toLowerCase().replace(/\s+/g,'');
+  const date = String(u.purchaseDate || u.dateAdded || '').slice(0,10);
+  // Only the initial assignment fills unpriced devices in the purchase batch.
+  // A later edit is an individual override, never a shop-wide price change.
+  if(!u.salePriceAssigned && !(Number(oldPrice)>0) && date){
+    (Store.data.items||[]).filter(item=>normal(item.name)===normal(it.name) && normal(item.memory)===normal(it.memory)).forEach(item=>{
+      (item.units||[]).filter(unit=>!unit.salePriceAssigned && !(Number(unit.sellPrice)>0) && String(unit.purchaseDate||unit.dateAdded||'').slice(0,10)===date).forEach(unit=>{
+        unit.sellPrice=p; unit.salePriceAssigned=true;
+      });
+    });
+  }
+  u.sellPrice=p;
+  u.salePriceAssigned=true;
   if(persist){
-    Store.save();
     Store.logShopChange({
       type: 'price_edit',
       shopId: locId,
@@ -4747,6 +4765,7 @@ Views.invSetSalePrice = function(itemId, unitId, locId, v, persist = true){
       oldValue: oldPrice,
       newValue: p
     });
+    Store.save();
     Toast.show(`Sale price for ${it.name} saved (€${p.toFixed(2)} at ${shopName(locId)}).`,'ok');
   }
 };
@@ -8664,12 +8683,14 @@ Views._svMode = 'totals';
 Views._svExpanded = {};
 Views.toggleSvExpand = function(itemId){ Views._svExpanded[itemId] = !Views._svExpanded[itemId]; render(); };
 Views.svSetCostPrice = function(itemId, v, shouldRender = true){
+  if(!shouldRender || String(v).trim()==='' || !Number.isFinite(Number(v))) return;
   const p = Number(v); if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
   it.costPrice = p; (it.units||[]).forEach(u=>{ u.costPrice = p; }); Store.save();
   if(shouldRender){ Toast.show('Cost price updated.','ok'); render(); }
 };
 Views.svSetPrice = function(itemId, shopId, v, shouldRender = true){
+  if(!shouldRender || String(v).trim()==='' || !Number.isFinite(Number(v))) return;
   const p = Number(v); if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
   if(!it.shopPrices) it.shopPrices = {};
@@ -8679,18 +8700,12 @@ Views.svSetPrice = function(itemId, shopId, v, shouldRender = true){
   if(shouldRender){ Toast.show('Sale price updated.','ok'); render(); }
 };
 Views.svSetUnitCost = function(itemId, unitId, v, shouldRender = true){
-  const p = Number(v); if(isNaN(p)||p<0) return;
-  const it = itemById(itemId); if(!it) return;
-  const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
-  unit.costPrice = p; Store.save();
-  if(shouldRender){ Toast.show('Unit cost updated.','ok'); render(); }
+  Views.invSetCostPrice(itemId,unitId,v,shouldRender);
 };
 Views.svSetUnitPrice = function(itemId, unitId, v, shouldRender = true){
-  const p = Number(v); if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
   const unit = (it.units||[]).find(u=>u.id===unitId); if(!unit) return;
-  unit.sellPrice = p; Store.save();
-  if(shouldRender){ Toast.show('Unit price updated.','ok'); render(); }
+  Views.invSetSalePrice(itemId,unitId,unit.location,v,shouldRender);
 };
 Views.svSetQty = function(itemId, shopId, v, shouldRender = true){
   const q = Number(v); if(isNaN(q)||q<0) return;
@@ -9614,4 +9629,5 @@ FirebaseStore.user().then(()=>FirebaseStore.syncNow(false)).catch(()=>AccessScre
 <script src="inventory-csv.js"></script>
 </body>
 </html>
+
 
