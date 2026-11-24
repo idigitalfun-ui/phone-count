@@ -13,7 +13,7 @@ function create(fb, generation){
  const clean=data=>{const next=clone(data);if(next.meta)delete next.meta.lastSaved;return next;};
  const map=data=>codec.split(clean(data));
  const decode=snapshot=>new Map(snapshot.docs.filter(d=>!d.data().deleted).map(d=>[d.id,JSON.parse(d.data().payload)]));
- let baseline=null;
+ let baseline=null, localBaseline=null, loadedRevision=null;
  return {
   async load(){
    const before=await fb.getDoc(marker);
@@ -21,14 +21,16 @@ function create(fb, generation){
    const records=decode(await fb.getDocs(collection));
    const after=await fb.getDoc(marker);
    if(!after.exists()||after.data().revision!==before.data().revision)throw Error('Inventory changed during load; retry');
-   const data=codec.join(records);baseline=records;return {data,revision:after.data().revision};
+   const data=codec.join(records);baseline=records;localBaseline=records;loadedRevision=after.data().revision;return {data,revision:after.data().revision};
   },
   async save(data,user){
    if(!baseline)throw Error('Load record inventory before saving');
-   const next=map(data), changes=codec.diff(baseline,next);
+   const next=map(data), localChanges=codec.diff(localBaseline,next);
+   const changes=localChanges.map(c=>({...c,before:baseline.get(c.id)||null}));
+   const merged=new Map(baseline);for(const c of changes){if(c.after===null)merged.delete(c.id);else merged.set(c.id,c.after); }
    if(!changes.length)return {changed:0};
    if(changes.length>190)throw Error('Too many affected records for one safe transaction; split the operation');
-   const previous=codec.join(baseline), proposed=codec.join(next);
+   const previous=codec.join(baseline), proposed=codec.join(merged);
    if(previous.items.length&&!proposed.items.length)throw Error('Empty inventory blocked');
    if(previous.items.length>=10&&proposed.items.length<previous.items.length/2)throw Error('Large inventory deletion blocked');
    if(proposed.movements.length<previous.movements.length)throw Error('Movement history cannot shrink');
@@ -37,6 +39,7 @@ function create(fb, generation){
    await fb.runTransaction(fb.db,async tx=>{
     const m=await tx.get(marker);
     if(!m.exists()||m.data().state!=='active')throw Error('Record generation not active');
+    if(m.data().revision!==loadedRevision)throw Error('Cloud changed; export local changes before resolving conflict.');
     const snapshots=await Promise.all(changes.map(c=>tx.get(ref(c.id))));
     for(let i=0;i<changes.length;i++){
      const c=changes[i],s=snapshots[i],actual=s.exists()&&!s.data().deleted?JSON.parse(s.data().payload):null;
@@ -52,11 +55,12 @@ function create(fb, generation){
     }
     tx.update(marker,{revision,updatedAt:fb.serverTimestamp(),updatedBy:uid});
    });
-   baseline=next;
+   baseline=merged;localBaseline=next;loadedRevision=revision;
    return {changed:changes.length,revision};
   },
   subscribe(callback,error){return fb.onSnapshot(marker,s=>{if(s.exists()&&!s.metadata?.hasPendingWrites)callback(s.data().revision);},error);},
-  dirty(data){return !baseline||codec.diff(baseline,map(data)).length>0;}
+  acceptLocalBaseline(data){localBaseline=map(data);},
+  dirty(data){return !localBaseline||codec.diff(localBaseline,map(data)).length>0;}
  };
 }
 root.StockRecordCloud={create};

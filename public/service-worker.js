@@ -1,5 +1,5 @@
-const CACHE_NAME = 'idfl-stockline-shell-v7';
-const APP_SHELL = ['./', './index.html', './favicon.svg', './manifest.webmanifest'];
+const CACHE_NAME = 'idfl-stockline-shell-v8-preview';
+const APP_SHELL = ['./', './index.html', './favicon.svg', './manifest.webmanifest', './stock-records.js', './stock-record-cloud.js'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));

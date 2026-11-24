@@ -334,6 +334,8 @@ body.access-pending #app{visibility:hidden;pointer-events:none;}
 }
 
 </style>
+<script src="stock-records.js"></script>
+<script src="stock-record-cloud.js"></script>
 </head>
 <body class="access-pending">
 <div id="accessScreen" role="status" aria-live="polite">
@@ -1401,6 +1403,9 @@ const SupabaseStore = {
 
 /* ---------- Firebase Cloud Sync ---------- */
 const FirebaseStore = {
+  _recordCloud: null,
+  _recordPendingRevision: 0,
+  _recordNeedsReload: false,
   _fb: null,
   _timer: null,
   _syncing: false,
@@ -1424,6 +1429,9 @@ const FirebaseStore = {
           clearTimeout(this._timer);
           this._revision = null;
           this._loadedUid = null;
+          this._recordCloud = null;
+          this._recordPendingRevision = 0;
+          this._recordNeedsReload = false;
           this._unsubscribe?.(); this._unsubscribe = null;
           this._accessUnsubscribe?.(); this._accessUnsubscribe = null;
           AccessScreen.show('Sign in to open your private inventory.', true);
@@ -1489,49 +1497,50 @@ const FirebaseStore = {
   },
 
   async syncNow(manual=false){
-    let ownsSync=false;
+    if(this._syncing)return false;
+    this._syncing=true;
     try{
-      const user = await this.user();
-      if(!user){ AccessScreen.show('Sign in to open your private inventory.',true); if(manual)this.openSignIn(); return; }
-      if(this._syncing) return;
-      this._syncing = true; ownsSync=true;
-      const fb = await this.ready();
-      if(!await this.canUseWorkspace(fb, user)) throw new Error('This access link is expired, revoked, or not authorised. Ask the administrator for a new link.');
-      const ref = this.workspaceRef(fb);
-      const snapshot = await fb.getDoc(ref);
-      if(fb.auth.currentUser?.uid!==user.uid)return;
-      if(snapshot.exists()){
-        this.adoptRemote(snapshot.data(), manual);
-        this._loadedUid = user.uid;
-        this.startListener(ref);
-        AccessScreen.hide();
-      } else {
-        if(!await this.isAdmin(user)) throw new Error('The shared workspace has not been created by the administrator yet.');
-        throw new Error('Cloud inventory is missing. Automatic creation is disabled to protect recovery.');
+      const user=await this.user();
+      if(!user){AccessScreen.show('Sign in to open your private inventory.',true);if(manual)this.openSignIn();return false;}
+      const fb=await this.ready();
+      if(!await this.canUseWorkspace(fb,user))throw Error('Access expired or revoked.');
+      if(this._recordCloud && this._loadedUid===user.uid && this._recordCloud.dirty(Store.data)){
+        throw Error('Local changes not saved. Export them before loading newer inventory.');
       }
+      const adapter=window.StockRecordCloud.create(fb,'main-v2');
+      const loaded=await adapter.load();
+      if(fb.auth.currentUser?.uid!==user.uid)return false;
+      this._recordCloud=adapter;
+      this.adoptRemote({payload:JSON.stringify(loaded.data),revision:loaded.revision},manual);
+      // Migration-normalized defaults must not create unrelated writes.
+      adapter.acceptLocalBaseline(Store.data);
+      this._loadedUid=user.uid;
+      this._recordNeedsReload=false;
+      this._lastSaveError=null;
+      this._unsubscribe?.();this._unsubscribe=null;
+      this.startListener();
+      AccessScreen.hide();
+      return true;
     }catch(error){
-      AccessScreen.show('Inventory could not be opened. Check your connection or sign in again.',true);
-      if(manual) Toast.show('Firebase sync error: ' + error.message, 'err');
-      console.error('Firebase sync error:', error);
-    }finally{
-      if(ownsSync)this._syncing = false;
-      updateSaveIndicator();
-    }
+      this._lastSaveError=error.message;
+      if(!this._recordCloud)AccessScreen.show('Record database is not ready. Use the existing production application.',true);
+      if(manual)Toast.show(error.message,'err');
+      return false;
+    }finally{this._syncing=false;updateSaveIndicator();}
   },
 
-  startListener(ref){
-    if(this._unsubscribe) return;
-    this._unsubscribe = this._fb.onSnapshot(ref, snapshot => {
-      if(!snapshot.exists() || snapshot.metadata?.hasPendingWrites || this._syncing || this._loadedUid !== this._fb.auth.currentUser?.uid) return;
-      const remote = snapshot.data();
-      const revision = Number(remote.revision) || 0;
-      if(this._revision !== null && revision > this._revision){
-        Store.snapshotToBackups('Before receiving newer Firebase data');
-        this.adoptRemote(remote, false);
+  startListener(){
+    if(this._unsubscribe)return;
+    this._unsubscribe=this._recordCloud.subscribe(revision=>{
+      if(revision<=this._revision)return;
+      this._recordPendingRevision=Math.max(this._recordPendingRevision,revision);
+      if(this._syncing)return;
+      if(this._recordCloud.dirty(Store.data)){
+        this._lastSaveError='Newer cloud data exists; save or export local edits before refresh.';
+        updateSaveIndicator();return;
       }
-      if(this._revision===null || revision>=this._revision)this._revision = revision;
-      updateSaveIndicator();
-    }, error => { this._loadedUid=null;this._revision=null;AccessScreen.show('Inventory connection ended. Sign in or check your connection.',true);console.error('Firebase listener error:',error); });
+      this.syncNow(false);
+    },error=>{this._loadedUid=null;this._lastSaveError=error.message;AccessScreen.show('Inventory connection ended.',true);updateSaveIndicator();});
     this.user().then(async user => {
       const fb = await this.ready();
       if(!user || await this.isAdmin(user) || this._accessUnsubscribe) return;
@@ -1546,86 +1555,26 @@ const FirebaseStore = {
     }).catch(error => console.error('Firebase access listener error:', error));
   },
 
-  async saveRemote(manual=false, knownUser=null, creating=false){
-    if(this._syncing){
-      clearTimeout(this._timer);
-      this._timer=setTimeout(()=>this.saveRemote(manual),500);
-      return false;
-    }
+  async saveRemote(manual=false, knownUser=null){
+    if(this._syncing){clearTimeout(this._timer);this._timer=setTimeout(()=>this.saveRemote(manual),500);return false;}
     this._syncing=true;
-    let conflict=false;
     try{
-    const user = knownUser || await this.user();
-    if(!user) return;
-    if(this._revision === null || this._loadedUid !== user.uid){
-      this._lastSaveError = 'Load Firebase inventory before saving.';
-      updateSaveIndicator();
-      if(manual) Toast.show(this._lastSaveError,'err');
-      return;
-    }
-    this.validateInventory(Store.data);
-    const payload = JSON.stringify(Store.data);
-    const expectedRevision=this._revision;
-    if(payload.length > 900000){
-      Toast.show('This backup is too large for Firebase. Export it before continuing.','err');
-      return;
-    }
-    const fb = await this.ready();
-    if(!await this.canUseWorkspace(fb, user)){
-      if(manual) Toast.show('Your Firebase access has ended.','err');
-      return;
-    }
-    const ref = this.workspaceRef(fb);
-      let savedRevision = expectedRevision;
-      await fb.runTransaction(fb.db, async tx => {
-        const current = await tx.get(ref);
-        if(!current.exists()) throw new Error('Cloud inventory is missing. Automatic creation is disabled.');
-        const remote = current.data();
-        const remoteRevision = Number(remote.revision) || 0;
-        if(remoteRevision !== expectedRevision){
-          throw new Error('Cloud data changed on another device. Your local copy was backed up and the newer cloud version was kept.');
-        }
-        const previous = this.validateInventory(JSON.parse(remote.payload));
-        const next = JSON.parse(payload);
-        if(previous.items.length && !next.items.length)
-          throw new Error('Blocked: saving this would erase all inventory.');
-        if(previous.movements.length && !next.movements.length)
-          throw new Error('Blocked: saving this would erase all movement history.');
-        if(previous.items.length >= 10 && next.items.length < previous.items.length / 2)
-          throw new Error('Blocked: this save would remove more than half the inventory. Review the import first.');
-        if(previous.movements.length && next.movements.length < previous.movements.length)
-          throw new Error('Blocked: movement history cannot be shortened by an automatic save.');
-        const historyRef = fb.doc(fb.db, 'phone_count_workspaces', 'main', 'versions', String(remoteRevision));
-        const history = await tx.get(historyRef);
-        if(!history.exists()) tx.set(historyRef, remote);
-        else if(history.data().payload !== remote.payload)
-          throw new Error('Recovery history conflict. Cloud data was not changed.');
-        savedRevision = remoteRevision + 1;
-        tx.update(ref, {
-          payload,
-          revision: savedRevision,
-          updatedAt: fb.serverTimestamp(),
-          updatedBy: user.uid
-        });
-      });
-      this._revision = savedRevision;
-      this._lastSaveError = null;
-      if(manual) Toast.show('Saved securely to Firebase.','ok');
+      const user=knownUser||await this.user(),fb=await this.ready();
+      if(!user||this._loadedUid!==user.uid||!this._recordCloud)throw Error('Load record inventory before saving.');
+      if(!await this.canUseWorkspace(fb,user))throw Error('Access expired or revoked.');
+      this.validateInventory(Store.data);
+      const result=await this._recordCloud.save(Store.data,user);
+      if(result.revision!==undefined)this._revision=result.revision;
+      this._lastSaveError=null;
+      if(manual)Toast.show('Saved '+result.changed+' changed record(s).','ok');
       return true;
     }catch(error){
-      if(/Cloud data changed/.test(error.message || '')){
-        Store.snapshotToBackups('Unsaved change before Firebase conflict');
-        clearTimeout(this._timer);
-        conflict=true;
-      }
-      Toast.show('Firebase save error: ' + error.message, 'err');
-      this._lastSaveError = error.message;
-      console.error('Firebase save error:', error);
+      this._lastSaveError=error.message;
+      Toast.show('Firebase save blocked: '+error.message,'err');
       return false;
     }finally{
-      this._syncing = false;
-      if(conflict) await this.syncNow(false);
-      updateSaveIndicator();
+      this._syncing=false;updateSaveIndicator();
+      if(this._recordPendingRevision>this._revision && this._recordCloud && !this._recordCloud.dirty(Store.data))this.syncNow(false);
     }
   },
 
@@ -2567,7 +2516,7 @@ function renderSidebar(){
   if(portalShopId){
     const sName = shopName(portalShopId);
     nav.innerHTML = `
-      <div class="brand">${STOCKLINE_MARK}StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.39.0</span></div>
+      <div class="brand">${STOCKLINE_MARK}StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.40.0-preview</span></div>
       <div style="padding:14px 12px;background:rgba(255,255,255,0.06);margin:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);">
         <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.6);font-weight:700;">STORE PORTAL</div>
         <div style="font-size:15px;font-weight:800;color:#fff;margin-top:2px;">📍 ${esc(sName)}</div>
@@ -2579,7 +2528,7 @@ function renderSidebar(){
     `;
     return;
   }
-  let html = `<div class="brand">${STOCKLINE_MARK}StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.39.0</span></div>`;
+  let html = `<div class="brand">${STOCKLINE_MARK}StockLine <span style="font-size:10px;opacity:.5;border:1px solid rgba(255,255,255,.2);padding:1px 5px;border-radius:3px;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-weight:normal;">v2.40.0-preview</span></div>`;
   NAV.forEach(g=>{
     html += `<div class="navgroup"><div class="navlabel">${g.group}</div>`;
     g.items.forEach(it=>{
