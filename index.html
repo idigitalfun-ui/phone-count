@@ -1522,14 +1522,14 @@ const FirebaseStore = {
   startListener(ref){
     if(this._unsubscribe) return;
     this._unsubscribe = this._fb.onSnapshot(ref, snapshot => {
-      if(!snapshot.exists() || this._syncing || this._loadedUid !== this._fb.auth.currentUser?.uid) return;
+      if(!snapshot.exists() || snapshot.metadata?.hasPendingWrites || this._syncing || this._loadedUid !== this._fb.auth.currentUser?.uid) return;
       const remote = snapshot.data();
       const revision = Number(remote.revision) || 0;
       if(this._revision !== null && revision > this._revision){
         Store.snapshotToBackups('Before receiving newer Firebase data');
         this.adoptRemote(remote, false);
       }
-      this._revision = revision;
+      if(this._revision===null || revision>=this._revision)this._revision = revision;
       updateSaveIndicator();
     }, error => { this._loadedUid=null;this._revision=null;AccessScreen.show('Inventory connection ended. Sign in or check your connection.',true);console.error('Firebase listener error:',error); });
     this.user().then(async user => {
@@ -1547,6 +1547,14 @@ const FirebaseStore = {
   },
 
   async saveRemote(manual=false, knownUser=null, creating=false){
+    if(this._syncing){
+      clearTimeout(this._timer);
+      this._timer=setTimeout(()=>this.saveRemote(manual),500);
+      return false;
+    }
+    this._syncing=true;
+    let conflict=false;
+    try{
     const user = knownUser || await this.user();
     if(!user) return;
     if(this._revision === null || this._loadedUid !== user.uid){
@@ -1555,13 +1563,9 @@ const FirebaseStore = {
       if(manual) Toast.show(this._lastSaveError,'err');
       return;
     }
-    if(this._syncing){
-      clearTimeout(this._timer);
-      this._timer = setTimeout(()=>this.saveRemote(manual), 500);
-      return;
-    }
     this.validateInventory(Store.data);
     const payload = JSON.stringify(Store.data);
+    const expectedRevision=this._revision;
     if(payload.length > 900000){
       Toast.show('This backup is too large for Firebase. Export it before continuing.','err');
       return;
@@ -1572,15 +1576,13 @@ const FirebaseStore = {
       return;
     }
     const ref = this.workspaceRef(fb);
-    try{
-      this._syncing = true;
-      let savedRevision = this._revision;
+      let savedRevision = expectedRevision;
       await fb.runTransaction(fb.db, async tx => {
         const current = await tx.get(ref);
         if(!current.exists()) throw new Error('Cloud inventory is missing. Automatic creation is disabled.');
         const remote = current.data();
         const remoteRevision = Number(remote.revision) || 0;
-        if(this._revision !== null && remoteRevision !== this._revision){
+        if(remoteRevision !== expectedRevision){
           throw new Error('Cloud data changed on another device. Your local copy was backed up and the newer cloud version was kept.');
         }
         const previous = this.validateInventory(JSON.parse(remote.payload));
@@ -1609,17 +1611,20 @@ const FirebaseStore = {
       this._revision = savedRevision;
       this._lastSaveError = null;
       if(manual) Toast.show('Saved securely to Firebase.','ok');
+      return true;
     }catch(error){
       if(/Cloud data changed/.test(error.message || '')){
         Store.snapshotToBackups('Unsaved change before Firebase conflict');
-        this._syncing = false;
-        await this.syncNow(false);
+        clearTimeout(this._timer);
+        conflict=true;
       }
       Toast.show('Firebase save error: ' + error.message, 'err');
       this._lastSaveError = error.message;
       console.error('Firebase save error:', error);
+      return false;
     }finally{
       this._syncing = false;
+      if(conflict) await this.syncNow(false);
       updateSaveIndicator();
     }
   },
@@ -9617,7 +9622,7 @@ window.FirebasePhoneReady.then(fb => fb.onAuthStateChanged(fb.auth, user => {
 }));
 FirebaseStore.user().then(()=>FirebaseStore.syncNow(false)).catch(()=>AccessScreen.show('Could not connect. Check your internet connection and reload.',true));
 </script>
-<script src="inventory-csv.js"></script>
+<script src="inventory-csv.js?v=5"></script>
 </body>
 </html>
 

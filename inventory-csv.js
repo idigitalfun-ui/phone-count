@@ -174,7 +174,7 @@
       const movement=(suffix,values)=>({id:'csv-'+safeId(key)+'-'+suffix,...base,...values});
       if(row.type==='transfer'){
         item.locations[from]-=1;item.locations[to]=(item.locations[to]||0)+1;
-        unit.location=to;unit.transferredAt=row.date;unit.sentToShopDate=to==='warehouse'?null:row.date;
+        unit.location=to;if(unit.salePriceMode==='shop'&&item.shopPrices?.[to]!=null)unit.sellPrice=item.shopPrices[to];unit.transferredAt=row.date;unit.sentToShopDate=to==='warehouse'?null:row.date;
         data.movements.push(movement('out',{type:'transfer-out',transferId:'csv-'+safeId(key),location:from,toLocation:to}));
         data.movements.push(movement('in',{type:'transfer-in',transferId:'csv-'+safeId(key),location:to,fromLocation:from}));
       }else if(row.type==='store-sale'){
@@ -197,6 +197,10 @@
   if(typeof document==='undefined')return;
   const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   let preview=null;
+  async function waitForCloud(){
+    for(let n=0;FirebaseStore._syncing && n<120;n++) await new Promise(resolve=>setTimeout(resolve,250));
+    if(FirebaseStore._syncing)throw new Error('Cloud connection still busy. Refresh Firebase and retry the selected CSV.');
+  }
   api.open=function(){
     Modal.open('<div class="modal"><div class="modal-head"><h3>Import transfers and sales</h3><button class="btn" onclick="Modal.close()">Close</button></div><div class="modal-body"><p>Choose your transfer CSV or sales CSV with an IMEI for each phone. You will see a preview before anything changes.</p><input aria-label="Transfer or sales CSV files" type="file" accept=".csv" multiple onchange="InventoryCsv.previewFiles(this.files)"><p style="margin-top:14px;"><b>Or paste CSV data</b> when you have copied a transfer list from Excel.</p><textarea id="inventoryCsvPaste" aria-label="Paste transfer CSV" rows="7" style="width:100%;font-family:var(--mono);font-size:12px;" placeholder="date,type,imei,from,to,reference"></textarea><button class="btn" style="margin-top:8px;" onclick="InventoryCsv.previewText(document.getElementById(\'inventoryCsvPaste\').value)">Preview pasted CSV</button><p>CSV columns: date, type, imei, from, to, sale_price, cost_price, reference. Use one phone per row. For a phone received and sold directly in a shop, use store-sale with its model and memory.</p><button class="btn" onclick="InventoryCsv.template()">Download CSV template</button><div id="inventoryCsvPreview" aria-live="polite"></div></div><div class="modal-foot"><button class="btn" onclick="Modal.close()">Cancel</button><button id="inventoryCsvApply" class="btn primary" disabled onclick="InventoryCsv.apply()">Apply valid rows</button></div></div>');
   };
@@ -210,7 +214,8 @@
     preview=null;button.disabled=true;
     try{
       if(FirebaseStore._revision===null||!FirebaseStore._loadedUid)throw new Error('Load Firebase inventory before importing.');
-      if(FirebaseStore._syncing)throw new Error('Wait for the current cloud save to finish.');
+      if(FirebaseStore._syncing){target.textContent='Waiting for Firebase before preparing preview…';await waitForCloud();}
+      if(FirebaseStore._revision===null||!FirebaseStore._loadedUid)throw new Error('Load Firebase inventory before importing.');
       const baseline=JSON.stringify(Store.data),revision=FirebaseStore._revision;const rows=[];
       for(const file of files){
         if(file.size>5*1024*1024)throw new Error('CSV is larger than 5 MB.');
@@ -231,7 +236,8 @@
     preview=null;button.disabled=true;
     try{
       if(FirebaseStore._revision===null||!FirebaseStore._loadedUid)throw new Error('Load Firebase inventory before importing.');
-      if(FirebaseStore._syncing)throw new Error('Wait for the current cloud save to finish.');
+      if(FirebaseStore._syncing){target.textContent='Waiting for Firebase before preparing preview…';await waitForCloud();}
+      if(FirebaseStore._revision===null||!FirebaseStore._loadedUid)throw new Error('Load Firebase inventory before importing.');
       const rows=decode(text).map(row=>({...row,filename:'Pasted CSV'}));
       if(rows.length>5000)throw new Error('Use at most 5,000 rows per import.');
       const baseline=JSON.stringify(Store.data),revision=FirebaseStore._revision,planned=plan(Store.data,rows);
@@ -251,8 +257,8 @@
     button.disabled=true;
     Store.snapshotToBackups('Before CSV transfer/sales import');
     Store.data=preview.planned.data;Store.save();clearTimeout(FirebaseStore._timer);
-    await FirebaseStore.saveRemote(true);
-    if(FirebaseStore._revision===preview.revision+1&&!FirebaseStore._lastSaveError){
+    const saved=await FirebaseStore.saveRemote(true);
+    if(saved===true&&!FirebaseStore._lastSaveError){
       Toast.show(preview.planned.changed+' CSV rows saved to Firebase.','ok');preview=null;Modal.close();render();
     }else{
       target.textContent='Cloud save did not complete. Your local recovery copy is kept. Refresh Firebase before trying again.';
