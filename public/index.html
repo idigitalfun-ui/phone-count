@@ -829,12 +829,9 @@ const Store = {
         }
       });
 
-      // Synchronize unit cost prices into the parent item
-      const validUnitCosts = (it.units||[]).map(u=>u.costPrice).filter(c=>c!=null && c>1);
-      if(validUnitCosts.length > 0){
-        it.costPrice = validUnitCosts[0];
-      } else if(it.costPrice == null || it.costPrice < 0){
-        it.costPrice = 0;
+      // Keep an explicitly entered model default; never replace it on reload.
+      if(it.costPrice == null || it.costPrice < 0){
+        it.costPrice=(it.units||[]).find(u=>Number(u.costPrice)>0)?.costPrice ?? 0;
       }
 
       // Sync down to any unit with missing prices
@@ -3384,6 +3381,8 @@ const Stock = {
     const transferId = uid('tr');
     it.locations[fromLoc] = Math.max(0,(it.locations[fromLoc]||0)-1);
     unit.location = toLoc;
+    const destinationPrice=it.shopPrices?.[toLoc];
+    if(unit.salePriceMode==='shop' && destinationPrice!=null && Number.isFinite(Number(destinationPrice)) && Number(destinationPrice)>=0) unit.sellPrice=Number(destinationPrice);
     const destination = Store.data.shops.find(s=>s.id===toLoc);
     unit.transferredAt = date||todayISO();
     unit.sentToShopDate = destination && !destination.isWarehouse ? (date||todayISO()) : null;
@@ -4252,7 +4251,7 @@ Views.inventory = function(){
             <input type="number" step="0.01" value="${cost||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;font-weight:600;" title="Cost Price" oninput="Views.invSetCostPrice('${it.id}','${u.id}',this.value,false)" onchange="Views.invSetCostPrice('${it.id}','${u.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
           </td>
           <td>
-            <input type="number" step="0.01" value="${sale||0}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12.5px;color:var(--teal-dark);font-weight:700;" title="Sale Price" oninput="Views.invSetSalePrice('${it.id}','${u.id}','${u.location}',this.value,false)" onchange="Views.invSetSalePrice('${it.id}','${u.id}','${u.location}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
+            <input type="number" step="0.01" value="${sale||0}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12.5px;color:var(--teal-dark);font-weight:700;" title="First price fills unpriced same-day phones in this shop; later edits affect only this IMEI" oninput="Views.invSetSalePrice('${it.id}','${u.id}','${u.location}',this.value,false)" onchange="Views.invSetSalePrice('${it.id}','${u.id}','${u.location}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
           </td>
           <td>1</td>
           <td><b style="color:var(--teal-dark);">${esc(shopName(u.location))}</b></td>
@@ -4709,65 +4708,44 @@ Views.saveInlineImei = function(itemId, unitId, rawVal){
 // Inline price setters from Inventory
 Views.invSetCostPrice = function(itemId, unitId, v, persist = true){
   if(!persist || String(v).trim()==='') return;
-  const p = Number(v);
-  if(!Number.isFinite(p)||p<0) return;
-  const it = itemById(itemId); if(!it) return;
-  const u = (it.units||[]).find(x=>x.id===unitId);
-  if(!u) return;
-  const oldCost = u.costPrice;
-  if(oldCost === p) return;
-  u.costPrice = p;
-  if(persist){
-    Store.logShopChange({
-      type: 'price_edit',
-      shopId: u?.location || 'warehouse',
-      itemId: it.id,
-      unitId: unitId,
-      itemName: it.name,
-      details: `Updated cost price to €${p.toFixed(2)}`,
-      oldValue: oldCost,
-      newValue: p
-    });
-    Store.save();
-    Toast.show(`Cost price for ${it.name} saved (€${p.toFixed(2)}).`,'ok');
+  const p=Number(v); if(!Number.isFinite(p)||p<0) return;
+  const it=itemById(itemId), u=(it?.units||[]).find(x=>x.id===unitId); if(!u) return;
+  const normal=x=>String(x||'').trim().toLowerCase().replace(/\s+/g,'');
+  const dateOf=x=>String(x.purchaseDate||x.dateAdded||x.addedAt||'').slice(0,10);
+  const date=dateOf(u), initial=!u.costPriceAssigned && !(Number(u.costPrice)>0);
+  let count=0;
+  for(const item of Store.data.items||[]){
+    if(normal(item.name)!==normal(it.name)||normal(item.memory)!==normal(it.memory)) continue;
+    for(const unit of item.units||[]){
+      if(unit!==u && !(initial && /^\d{4}-\d{2}-\d{2}$/.test(date) && dateOf(unit)===date && !unit.costPriceAssigned && !(Number(unit.costPrice)>0))) continue;
+      const old=unit.costPrice;
+      if(old===p && unit.costPriceAssigned) continue;
+      unit.costPrice=p; unit.costPriceAssigned=true; count++;
+      Store.logShopChange({type:'price_edit',shopId:unit.location||'warehouse',itemId:item.id,unitId:unit.id,itemName:item.name,details:'Updated cost price to €'+p.toFixed(2),oldValue:old,newValue:p});
+    }
   }
+  if(count){Store.save();Toast.show('Cost price saved for '+count+' device(s).','ok');}
 };
 
 Views.invSetSalePrice = function(itemId, unitId, locId, v, persist = true){
   if(!persist || String(v).trim()==='') return;
-  const p = Number(v);
-  if(!Number.isFinite(p)||p<0) return;
-  const it = itemById(itemId); if(!it) return;
-  const u = (it.units||[]).find(x=>x.id===unitId);
-  if(!u) return;
-  const oldPrice = u.sellPrice;
-  const normal = value=>String(value||'').trim().toLowerCase().replace(/\s+/g,'');
-  const date = String(u.purchaseDate || u.dateAdded || '').slice(0,10);
-  // Only the initial assignment fills unpriced devices in the purchase batch.
-  // A later edit is an individual override, never a shop-wide price change.
-  if(!u.salePriceAssigned && !(Number(oldPrice)>0) && date){
-    (Store.data.items||[]).filter(item=>normal(item.name)===normal(it.name) && normal(item.memory)===normal(it.memory)).forEach(item=>{
-      (item.units||[]).filter(unit=>!unit.salePriceAssigned && !(Number(unit.sellPrice)>0) && String(unit.purchaseDate||unit.dateAdded||'').slice(0,10)===date).forEach(unit=>{
-        unit.sellPrice=p; unit.salePriceAssigned=true;
-      });
-    });
+  const p=Number(v); if(!Number.isFinite(p)||p<0) return;
+  const it=itemById(itemId), u=(it?.units||[]).find(x=>x.id===unitId); if(!u||u.location!==locId) return;
+  const normal=x=>String(x||'').trim().toLowerCase().replace(/\s+/g,'');
+  const dateOf=x=>String(x.purchaseDate||x.dateAdded||x.addedAt||'').slice(0,10);
+  const date=dateOf(u), initial=!u.salePriceAssigned && !(Number(u.sellPrice)>0);
+  let count=0;
+  for(const item of Store.data.items||[]){
+    if(normal(item.name)!==normal(it.name)||normal(item.memory)!==normal(it.memory)) continue;
+    for(const unit of item.units||[]){
+      if(unit!==u && !(initial && unit.location===locId && /^\d{4}-\d{2}-\d{2}$/.test(date) && dateOf(unit)===date && !unit.salePriceAssigned && !(Number(unit.sellPrice)>0))) continue;
+      const old=unit.sellPrice;
+      unit.sellPrice=p; unit.salePriceAssigned=true;
+      unit.salePriceMode=initial?'shop':'individual'; count++;
+      Store.logShopChange({type:'price_edit',shopId:locId,itemId:item.id,unitId:unit.id,itemName:item.name,details:'Updated sale price to €'+p.toFixed(2),oldValue:old,newValue:p});
+    }
   }
-  u.sellPrice=p;
-  u.salePriceAssigned=true;
-  if(persist){
-    Store.logShopChange({
-      type: 'price_edit',
-      shopId: locId,
-      itemId: it.id,
-      unitId: unitId,
-      itemName: it.name,
-      details: `Updated sale price to €${p.toFixed(2)} at ${shopName(locId)}`,
-      oldValue: oldPrice,
-      newValue: p
-    });
-    Store.save();
-    Toast.show(`Sale price for ${it.name} saved (€${p.toFixed(2)} at ${shopName(locId)}).`,'ok');
-  }
+  if(count){Store.save();Toast.show('Sale price saved for '+count+' device(s).','ok');}
 };
 
 Views.invSetUntrackedCost = function(itemId, v, persist = true){
@@ -4800,6 +4778,17 @@ Views.invSetUntrackedSale = function(itemId, locId, v, persist = true){
   if(!it.shopPrices) it.shopPrices = {};
   const oldPrice = it.shopPrices[locId];
   it.shopPrices[locId] = p;
+  const normal=x=>String(x||'').trim().toLowerCase().replace(/\s+/g,'');
+  for(const item of Store.data.items||[]){
+    if(normal(item.name)!==normal(it.name)||normal(item.memory)!==normal(it.memory)) continue;
+    if(!item.shopPrices) item.shopPrices={};
+    item.shopPrices[locId]=p;
+    for(const unit of item.units||[]){
+      if(unit.location!==locId || !(unit.salePriceMode==='shop'||(!unit.salePriceAssigned && !(Number(unit.sellPrice)>0)))) continue;
+      const old=unit.sellPrice; unit.sellPrice=p; unit.salePriceAssigned=true; unit.salePriceMode='shop';
+      Store.logShopChange({type:'price_edit',shopId:locId,itemId:item.id,unitId:unit.id,itemName:item.name,details:'Updated shop sale price',oldValue:old,newValue:p});
+    }
+  }
   if(persist){
     Store.logShopChange({
       type: 'price_edit',
@@ -6950,6 +6939,8 @@ Views.saveEditedUnit = function(itemId, unitId){
   unit.batteryPct = newBatt;
   unit.verified = newVerified;
   unit.verifiedAt = newVerified ? (unit.verifiedAt || todayISO()) : null;
+  if(unit.costPrice!==newCost) unit.costPriceAssigned=true;
+  if(unit.sellPrice!==newSale){ unit.salePriceAssigned=true; unit.salePriceMode='individual'; }
   unit.costPrice = newCost;
   unit.sellPrice = newSale;
   unit.purchaseDate = newPurchasedDate;
@@ -8750,7 +8741,7 @@ Views.stockview = function(){
         <input type="number" step="0.01" value="${rowCost}" style="width:85px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;font-size:12.5px;font-weight:600;" title="Default cost only; expand to edit individual devices" oninput="Views.svSetCostPrice('${it.id}',this.value,false)" onchange="Views.svSetCostPrice('${it.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
       </td>
       <td>
-        <input type="number" step="0.01" value="${salePrice}" style="width:85px;padding:4px 6px;border:1px solid var(--teal);border-radius:6px;font-size:12.5px;font-weight:700;color:var(--teal-dark);" title="Default sale price only; expand to edit individual devices" oninput="Views.svSetPrice('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value,false)" onchange="Views.svSetPrice('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
+        <input type="number" step="0.01" value="${salePrice}" style="width:85px;padding:4px 6px;border:1px solid var(--teal);border-radius:6px;font-size:12.5px;font-weight:700;color:var(--teal-dark);" title="Shop sale price; individual overrides are preserved" oninput="Views.svSetPrice('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value,false)" onchange="Views.svSetPrice('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
       </td>
       <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
       <td><button class="btn sm ghost" onclick="Views.toggleSvExpand('${it.id}')">${expanded?'▴ Collapse':'▾ Expand'}</button></td>

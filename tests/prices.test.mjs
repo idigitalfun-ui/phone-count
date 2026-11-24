@@ -28,14 +28,14 @@ test('blank, negative and infinite entries do not replace cost with zero',()=>{
  const s=setup();for(const value of ['',' ','-1','Infinity','NaN'])s.views.invSetCostPrice('a','one',value,true);
  assert.equal(s.saves(),0);assert.equal(s.items[0].units[0].costPrice,115);
 });
-test('initial sale price fills only matching unpriced model-memory-date units across stores',()=>{
+test('initial sale price fills only matching unpriced model-memory-date units in the same shop',()=>{
  const s=setup();s.views.invSetSalePrice('a','one','warehouse','2',false);assert.equal(s.saves(),0);
  s.views.invSetSalePrice('a','one','warehouse','200',true);
- assert.deepEqual(s.items[0].units.map(x=>x.sellPrice),[200,200,0,300]);
+ assert.deepEqual(s.items[0].units.map(x=>x.sellPrice),[200,0,0,300]);
  assert.equal(s.items[1].units[0].sellPrice,200);assert.equal(s.items[2].units[0].sellPrice,0);
  assert.equal(s.items[0].shopPrices.warehouse,250);
  s.views.invSetSalePrice('a','one','warehouse','210',true);
- assert.deepEqual(s.items[0].units.map(x=>x.sellPrice),[210,200,0,300]);
+ assert.deepEqual(s.items[0].units.map(x=>x.sellPrice),[210,0,0,300]);
 });
 test('unknown dates do not create a shared batch and explicit zero remains an override',()=>{
  const s=setup();delete s.items[0].units[0].purchaseDate;
@@ -68,4 +68,21 @@ test('quantity edits cannot create fractional stock or remove tracked devices',(
  ctx.Views.svSetQty('a','invalid','2',true);ctx.Views.svSetQty('a','warehouse','3',false);
  assert.equal(saves,0);assert.equal(item.locations.warehouse,2);
  ctx.Views.svSetQty('a','warehouse','3',true);assert.equal(item.locations.warehouse,3);assert.equal(saves,1);
+});
+
+test('initial batch cost fills only unpriced matching purchase dates across shops',()=>{
+ const s=setup();s.items[0].units[0].costPrice=0;s.items[0].units[1].costPrice=0;
+ s.views.invSetCostPrice('a','one','180',true);
+ assert.equal(s.items[0].units[1].costPrice,180);assert.equal(s.items[1].units[0].costPrice,180);
+ assert.equal(s.items[0].units[2].costPrice,120);assert.equal(s.items[0].units[3].costPrice,120);
+ s.views.invSetCostPrice('a','one','190',true);assert.equal(s.items[0].units[1].costPrice,180);
+});
+test('shop default updates shop-linked phones but preserves individual and legacy prices',()=>{
+ const s=setup();s.views.invSetSalePrice('a','one','warehouse','200',true);
+ s.views.invSetSalePrice('a','one','warehouse','210',true);
+ const items=s.items;const ctx=vm.createContext({Views:{},Store:{data:{items},save(){},logShopChange(){}},itemById:id=>items.find(x=>x.id===id),Toast:{show(){}},shopName:x=>x});
+ const start=html.indexOf('Views.invSetUntrackedSale ='),end=html.indexOf('Views.saveInlineUntrackedImei =',start);
+ vm.runInContext(html.slice(start,end),ctx);ctx.Views.invSetUntrackedSale('a','warehouse','250',true);
+ assert.equal(items[0].units[0].sellPrice,210);assert.equal(items[0].units[1].sellPrice,0);
+ assert.equal(items[0].units[3].sellPrice,300);assert.equal(items[1].units[0].sellPrice,250);
 });
