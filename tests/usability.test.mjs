@@ -184,3 +184,16 @@ test('transfer, sale and undo preserve one IMEI and reject undoing later activit
  assert.equal(item.units.find(u=>u.id==='u1').location,'warehouse');
 });
 
+
+
+test('stock in memory selects an existing capacity or creates an isolated new variant',()=>{
+ const item={id:'a',name:'Samsung A16',category:'samsung',memory:'4GB/128GB',units:[{id:'old'}],locations:{warehouse:1},costPrice:125};
+ const other={id:'b',name:'Samsung A16',category:'samsung',memory:'256GB',units:[]};
+ const ctx=vm.createContext({Views:{},Store:{data:{items:[item,other],shops:[{id:'warehouse'}]}},Toast:{show(){}},uid:()=> 'new',todayISO:()=> '2026-11-24'});
+ const start=html.indexOf('Views.stockInResolveVariant ='),end=html.indexOf('Views.doStockIn =',start);
+ vm.runInContext(html.slice(start,end),ctx);
+ assert.equal(ctx.Views.stockInResolveVariant(item,'4gb / 128gb'),item);
+ assert.equal(ctx.Views.stockInResolveVariant(item,'256GB'),other);
+ const variant=ctx.Views.stockInResolveVariant(item,'512gb');
+ assert.equal(variant.memory,'512GB');assert.equal(variant.units.length,0);assert.equal(variant.locations.warehouse,0);assert.equal(item.units.length,1);assert.equal(item.memory,'4GB/128GB');assert.equal(ctx.Store.data.items.length,2);
+});

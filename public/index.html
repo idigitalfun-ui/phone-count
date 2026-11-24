@@ -7551,7 +7551,10 @@ Views.stockin = function(){
       <div class="col" style="flex:1;min-width:340px;">
         <div class="card card-pad">
           <h3 style="margin-top:0;">Receive a device</h3>
-          <div class="field"><label>Item</label><select id="si_item">${sortedItems().map(it=>`<option value="${it.id}">${esc(it.name)}</option>`).join('')}</select></div>
+          <div class="field-grid">
+            <div class="field"><label>Item</label><select id="si_item" onchange="Views.stockInMemoryOptions()">${sortedItems().map(it=>`<option value="${esc(it.id)}">${esc(it.name)}${it.memory?' — '+esc(it.memory):''}</option>`).join('')}</select></div>
+            <div class="field"><label for="si_memory">Memory / Storage</label><input id="si_memory" list="si_memory_options" value="${esc(sortedItems()[0]?.memory||'')}" placeholder="Select or enter e.g. 4GB/128GB"><datalist id="si_memory_options">${Views.stockInMemoryList(sortedItems()[0])}</datalist><small>Choose an existing capacity or type a new one. Existing devices are not changed.</small></div>
+          </div>
           <div class="field-grid">
             <div class="field"><label>Goes into</label><select id="si_loc">${activeShops().map(s=>`<option value="${s.id}" ${s.isWarehouse?'selected':''}>${esc(s.name)}${s.isWarehouse?' (warehouse)':''}</option>`).join('')}</select></div>
             <div class="field"><label>Date</label><input id="si_date" type="date" value="${todayISO()}"></div>
@@ -7604,14 +7607,53 @@ Samsung A36 6GB/128GB	10"></textarea>
     </div>
   `;
 };
+Views.stockInMemoryList = function(item){
+  const key=x=>String(x||'').trim().toLowerCase().replace(/\s+/g,' ');
+  const capacities=[...(Store.data.items||[]).filter(x=>item&&key(x.name)===key(item.name)&&x.category===item.category).map(x=>x.memory), '32GB','64GB','128GB','256GB','512GB','1TB','2TB','4GB/64GB','4GB/128GB','6GB/128GB','8GB/128GB','8GB/256GB','12GB/256GB'];
+  return [...new Set(capacities.filter(Boolean))].map(x=>`<option value="${esc(x)}"></option>`).join('');
+};
+Views.stockInMemoryOptions = function(){
+  const item=itemById(val('si_item'));
+  const field=document.getElementById('si_memory'),options=document.getElementById('si_memory_options');
+  if(field)field.value=item?.memory||'';
+  if(options)options.innerHTML=Views.stockInMemoryList(item);
+};
+Views.stockInResolveVariant = function(item,memory){
+  const key=x=>String(x||'').trim().toLowerCase().replace(/\s+/g,'');
+  const clean=String(memory||'').trim().replace(/\s+/g,'').replace(/gb|tb/gi,x=>x.toUpperCase());
+  if(key(clean)===key(item.memory))return item;
+  const matches=Store.data.items.filter(x=>key(x.name)===key(item.name)&&x.category===item.category&&key(x.memory)===key(clean));
+  if(matches.length===1)return matches[0];
+  if(matches.length>1){Toast.show('Multiple catalogue entries match this capacity. Select the exact item.','err');return null;}
+  if(!clean){Toast.show('Enter a memory capacity for the new variant.','err');return null;}
+  const variant={id:uid('item'),name:item.name,category:item.category,memory:clean,condition:item.condition||'New',colors:[],costPrice:0,shopPrices:{},locations:{},units:[],createdAt:todayISO()};
+  for(const shop of Store.data.shops||[])variant.locations[shop.id]=0;
+  return variant;
+};
 Views.doStockIn = function(){
-  const itemId = val('si_item');
+  let itemId = val('si_item');
   const loc = val('si_loc');
   const date = val('si_date')||todayISO();
   const supplier = val('si_supplier').trim();
   const invoice = val('si_invoice').trim();
   const note = val('si_note').trim();
   const imei = val('si_imei').trim();
+  const selected=itemById(itemId);
+  if(!selected||!activeShops().some(s=>s.id===loc)){Toast.show('Select a valid item and shop.','err');return;}
+  if(imei&&findUnitByImei(imei)){Toast.show('That IMEI is already in the system.','err');return;}
+  if(!imei&&(!Number.isSafeInteger(Number(val('si_qty')))||Number(val('si_qty'))<1)){Toast.show('Enter a positive whole quantity.','err');return;}
+  for(const field of ['si_cost','si_sell']){
+    const value=val(field).trim();
+    if(value!==''&&(!Number.isFinite(Number(value))||Number(value)<0)){Toast.show('Enter a valid non-negative price.','err');return;}
+  }
+  const variant=Views.stockInResolveVariant(selected,val('si_memory'));
+  if(!variant)return;
+  if(!Store.data.items.includes(variant)){
+    variant.costPrice=val('si_cost')===''?0:Number(val('si_cost'));
+    if(val('si_sell')!=='')variant.shopPrices[loc]=Number(val('si_sell'));
+    Store.data.items.push(variant);
+  }
+  itemId=variant.id;
 
   if(supplier && Array.isArray(Store.data.suppliers) && !Store.data.suppliers.includes(supplier)){
     Store.data.suppliers.push(supplier);
@@ -7622,7 +7664,8 @@ Views.doStockIn = function(){
       imei, color: val('si_color'), condition: val('si_cond'),
       costPrice: val('si_cost')?Number(val('si_cost')):null, sellPrice: val('si_sell')?Number(val('si_sell')):null
     }, date, note, true, supplier, invoice);
-    if(unit) Toast.show(`Device added to ${shopName(loc)}.`,'ok');
+    if(!unit)return;
+    Toast.show(`Device added to ${shopName(loc)}.`,'ok');
   } else {
     const qty = Number(val('si_qty'))||0;
     if(qty<=0){ Toast.show('Enter a quantity greater than 0.','err'); return; }
