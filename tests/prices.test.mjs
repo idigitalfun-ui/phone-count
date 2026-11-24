@@ -44,3 +44,28 @@ test('unknown dates do not create a shared batch and explicit zero remains an ov
  assert.equal(s.items[0].units[1].sellPrice,0);
 });
 
+
+test('default price edits do not change tracked device prices and ignore incomplete typing',()=>{
+ const items=[{id:'a',name:'Phone',costPrice:100,shopPrices:{warehouse:200},units:[{id:'u',location:'warehouse',costPrice:110,sellPrice:220,salePriceAssigned:true}]}];
+ let saves=0;const ctx=vm.createContext({Views:{},Store:{data:{items},save(){saves++;},logShopChange(){}},itemById:id=>items.find(x=>x.id===id),Toast:{show(){}},shopName:x=>x,render(){}});
+ const start=html.indexOf('Views.invSetCostPrice ='),end=html.indexOf('Views.saveInlineUntrackedImei =',start);
+ vm.runInContext(html.slice(start,end),ctx);
+ const svStart=html.indexOf('Views.svSetCostPrice ='),svEnd=html.indexOf('Views.stockview =',svStart);
+ vm.runInContext(html.slice(svStart,svEnd),ctx);
+ for(const v of ['', '1','11','110']){ctx.Views.invSetUntrackedCost('a',v,false);ctx.Views.invSetUntrackedSale('a','warehouse',v,false);}
+ for(const v of ['', ' ', 'Infinity','-1']){ctx.Views.invSetUntrackedCost('a',v,true);ctx.Views.invSetUntrackedSale('a','warehouse',v,true);}
+ assert.equal(saves,0);assert.equal(items[0].costPrice,100);
+ ctx.Views.svSetCostPrice('a','11',true);ctx.Views.svSetPrice('a','warehouse','250',true);
+ assert.equal(items[0].costPrice,11);assert.equal(items[0].shopPrices.warehouse,250);
+ assert.equal(items[0].units[0].costPrice,110);assert.equal(items[0].units[0].sellPrice,220);assert.equal(saves,2);
+});
+test('quantity edits cannot create fractional stock or remove tracked devices',()=>{
+ const item={id:'a',locations:{warehouse:2},units:[{location:'warehouse'}]};
+ let saves=0;const ctx=vm.createContext({Views:{},Store:{save(){saves++;}},itemById:()=>item,activeShops:()=>[{id:'warehouse'}],unitsAt:(it,loc)=>it.units.filter(u=>u.location===loc),Toast:{show(){}},render(){}});
+ const start=html.indexOf('Views.svSetQty ='),end=html.indexOf('Views.stockview =',start);
+ vm.runInContext(html.slice(start,end),ctx);
+ for(const v of ['', '0','1.5','Infinity','-1'])ctx.Views.svSetQty('a','warehouse',v,true);
+ ctx.Views.svSetQty('a','invalid','2',true);ctx.Views.svSetQty('a','warehouse','3',false);
+ assert.equal(saves,0);assert.equal(item.locations.warehouse,2);
+ ctx.Views.svSetQty('a','warehouse','3',true);assert.equal(item.locations.warehouse,3);assert.equal(saves,1);
+});

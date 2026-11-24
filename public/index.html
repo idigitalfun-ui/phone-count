@@ -2591,7 +2591,7 @@ function renderSidebar(){
 function render(){
   // A cloud refresh must not replace the input/caret mid-keystroke.
   const editingPrice = document.activeElement;
-  if(editingPrice?.tagName === 'INPUT' && /Views\.(?:invSet(?:CostPrice|SalePrice)|svSet(?:UnitCost|UnitPrice|CostPrice|Price))\(/.test(editingPrice.getAttribute('onchange')||'')){
+  if(editingPrice?.tagName === 'INPUT' && /Views\.(?:invSet(?:CostPrice|SalePrice|UntrackedCost|UntrackedSale)|svSet(?:UnitCost|UnitPrice|CostPrice|Price))\(/.test(editingPrice.getAttribute('onchange')||'')){
     if(!editingPrice.dataset.renderOnBlur){
       editingPrice.dataset.renderOnBlur='1';
       editingPrice.addEventListener('blur',()=>setTimeout(render,0),{once:true});
@@ -4771,14 +4771,13 @@ Views.invSetSalePrice = function(itemId, unitId, locId, v, persist = true){
 };
 
 Views.invSetUntrackedCost = function(itemId, v, persist = true){
+  if(!persist || String(v).trim()==='') return;
   const p = Number(v);
-  if(isNaN(p)||p<0) return;
+  if(!Number.isFinite(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
   const oldCost = it.costPrice;
   it.costPrice = p;
-  (it.units||[]).forEach(u => { u.costPrice = p; });
   if(persist){
-    Store.save();
     Store.logShopChange({
       type: 'price_edit',
       shopId: 'warehouse',
@@ -4788,20 +4787,20 @@ Views.invSetUntrackedCost = function(itemId, v, persist = true){
       oldValue: oldCost,
       newValue: p
     });
+    Store.save();
     Toast.show(`Cost price for ${it.name} saved (€${p.toFixed(2)}).`,'ok');
   }
 };
 
 Views.invSetUntrackedSale = function(itemId, locId, v, persist = true){
+  if(!persist || String(v).trim()==='') return;
   const p = Number(v);
-  if(isNaN(p)||p<0) return;
+  if(!Number.isFinite(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
   if(!it.shopPrices) it.shopPrices = {};
   const oldPrice = it.shopPrices[locId];
   it.shopPrices[locId] = p;
-  (it.units||[]).filter(u=>u.location===locId).forEach(u => { u.sellPrice = p; });
   if(persist){
-    Store.save();
     Store.logShopChange({
       type: 'price_edit',
       shopId: locId,
@@ -4811,6 +4810,7 @@ Views.invSetUntrackedSale = function(itemId, locId, v, persist = true){
       oldValue: oldPrice,
       newValue: p
     });
+    Store.save();
     Toast.show(`Sale price for ${it.name} saved (€${p.toFixed(2)} at ${shopName(locId)}).`,'ok');
   }
 };
@@ -4819,6 +4819,7 @@ Views.saveInlineUntrackedImei = function(itemId, shopId, rawVal){
   const imei = (rawVal||'').replace(/[\s\-']/g,'').trim();
   if(!imei) return;
   const it = itemById(itemId); if(!it) return;
+  if(!activeShops().some(s=>s.id===shopId) || untrackedQtyAt(it,shopId)<1){ Toast.show('No untracked stock available to assign.','err'); return; }
   const existing = findUnitByImei(imei);
   if(existing){ Toast.show(`IMEI ${imei} is already assigned to ${existing.item.name}.`,'err'); return; }
   if(!Array.isArray(it.units)) it.units = [];
@@ -4844,8 +4845,8 @@ Views.saveInlineUntrackedImei = function(itemId, shopId, rawVal){
 };
 
 Views.invSetUntrackedQty = function(itemId, locId, v){
-  const q = parseInt(v);
-  if(isNaN(q) || q < 0){ Toast.show('Enter a valid quantity (0 or greater).','err'); return; }
+  const q = Number(v);
+  if(String(v).trim()==='' || !Number.isSafeInteger(q) || q < 0 || !activeShops().some(s=>s.id===locId)){ Toast.show('Enter a valid whole quantity (0 or greater) for an active shop.','err'); return; }
   const it = itemById(itemId); if(!it) return;
   if(!it.locations) it.locations = {};
   const trackedAtLoc = unitsAt(it, locId).length;
@@ -8686,17 +8687,14 @@ Views.svSetCostPrice = function(itemId, v, shouldRender = true){
   if(!shouldRender || String(v).trim()==='' || !Number.isFinite(Number(v))) return;
   const p = Number(v); if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
-  it.costPrice = p; (it.units||[]).forEach(u=>{ u.costPrice = p; }); Store.save();
+  Views.invSetUntrackedCost(itemId,v,true);
   if(shouldRender){ Toast.show('Cost price updated.','ok'); render(); }
 };
 Views.svSetPrice = function(itemId, shopId, v, shouldRender = true){
   if(!shouldRender || String(v).trim()==='' || !Number.isFinite(Number(v))) return;
   const p = Number(v); if(isNaN(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
-  if(!it.shopPrices) it.shopPrices = {};
-  it.shopPrices[shopId] = p;
-  (it.units||[]).filter(u=>u.location===shopId).forEach(u=>{ u.sellPrice = p; });
-  Store.save();
+  Views.invSetUntrackedSale(itemId,shopId,v,true);
   if(shouldRender){ Toast.show('Sale price updated.','ok'); render(); }
 };
 Views.svSetUnitCost = function(itemId, unitId, v, shouldRender = true){
@@ -8708,8 +8706,10 @@ Views.svSetUnitPrice = function(itemId, unitId, v, shouldRender = true){
   Views.invSetSalePrice(itemId,unitId,unit.location,v,shouldRender);
 };
 Views.svSetQty = function(itemId, shopId, v, shouldRender = true){
-  const q = Number(v); if(isNaN(q)||q<0) return;
+  if(!shouldRender || String(v).trim()==='') return;
+  const q = Number(v); if(!Number.isSafeInteger(q)||q<0) return;
   const it = itemById(itemId); if(!it) return;
+  if(!activeShops().some(s=>s.id===shopId) || q<unitsAt(it,shopId).length){ Toast.show('Quantity cannot be below tracked stock.','err'); return; }
   if(!it.locations) it.locations = {};
   it.locations[shopId] = q; Store.save();
   if(shouldRender){ Toast.show('Quantity updated.','ok'); render(); }
@@ -8732,7 +8732,7 @@ Views.stockview = function(){
     const relUnits = locId==='all' ? (it.units||[]) : unitsAt(it, locId);
     const colorsToShow = displayStockColors([it],locId);
 
-    const rowCost = (relUnits.find(u=>u.costPrice!=null && u.costPrice>1)?.costPrice) || (it.units?.find(u=>u.costPrice!=null && u.costPrice>1)?.costPrice) || it.costPrice || 0;
+    const rowCost = it.costPrice ?? 0;
 
     let mainRow = `<tr>
       <td>
@@ -8747,10 +8747,10 @@ Views.stockview = function(){
       </td>
       <td><b style="font-size:14px;color:var(--teal-dark);">${qty}</b></td>
       <td>
-        <input type="number" step="0.01" value="${rowCost}" style="width:85px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;font-size:12.5px;font-weight:600;" title="Cost Price" oninput="Views.svSetCostPrice('${it.id}',this.value,false)" onchange="Views.svSetCostPrice('${it.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
+        <input type="number" step="0.01" value="${rowCost}" style="width:85px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;font-size:12.5px;font-weight:600;" title="Default cost only; expand to edit individual devices" oninput="Views.svSetCostPrice('${it.id}',this.value,false)" onchange="Views.svSetCostPrice('${it.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
       </td>
       <td>
-        <input type="number" step="0.01" value="${salePrice}" style="width:85px;padding:4px 6px;border:1px solid var(--teal);border-radius:6px;font-size:12.5px;font-weight:700;color:var(--teal-dark);" title="Sale Price" oninput="Views.svSetPrice('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value,false)" onchange="Views.svSetPrice('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
+        <input type="number" step="0.01" value="${salePrice}" style="width:85px;padding:4px 6px;border:1px solid var(--teal);border-radius:6px;font-size:12.5px;font-weight:700;color:var(--teal-dark);" title="Default sale price only; expand to edit individual devices" oninput="Views.svSetPrice('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value,false)" onchange="Views.svSetPrice('${it.id}','${locId==='all'?activeShops()[0]?.id||'warehouse':locId}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
       </td>
       <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
       <td><button class="btn sm ghost" onclick="Views.toggleSvExpand('${it.id}')">${expanded?'▴ Collapse':'▾ Expand'}</button></td>
@@ -8759,7 +8759,7 @@ Views.stockview = function(){
     if(!expanded) return mainRow;
 
     // Expanded: per-store stock & sale prices + individual IMEI prices
-    let subRows = `<tr style="background:#F0F4F8;"><td colspan="8" style="padding:6px 14px;"><small style="color:var(--teal-dark);font-weight:700;">▸ Per-store stock & sale prices (editable):</small></td></tr>`;
+    let subRows = `<tr style="background:#F0F4F8;"><td colspan="8" style="padding:6px 14px;"><small style="color:var(--teal-dark);font-weight:700;">▸ Per-store stock &amp; default sale prices (individual device prices are preserved):</small></td></tr>`;
     activeShops().forEach(s=>{
       const shopStock = (it.locations && it.locations[s.id]) || 0;
       subRows += `<tr style="background:#F6F8FA;">
