@@ -4240,10 +4240,10 @@ Views.inventory = function(){
           </td>
           ${Views._showBattery!==false ? `<td><span class="mono" style="font-weight:700;color:${hasBattery?'#6D28D9':'var(--muted)'};">${hasBattery ? `${u.batteryPct}%` : '—'}</span></td>` : ''}
           <td>
-            <input type="number" step="0.01" value="${cost||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;font-weight:600;" title="Cost Price" oninput="Views.invSetCostPrice('${it.id}','${u.id}',this.value,false)" onchange="Views.invSetCostPrice('${it.id}','${u.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
+            <input type="number" step="0.01" value="${cost||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;font-weight:600;" title="Cost Price" onchange="Views.invSetCostPrice('${it.id}','${u.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
           </td>
           <td>
-            <input type="number" step="0.01" value="${sale||0}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12.5px;color:var(--teal-dark);font-weight:700;" title="Sale Price" oninput="Views.invSetSalePrice('${it.id}','${u.id}','${u.location}',this.value,false)" onchange="Views.invSetSalePrice('${it.id}','${u.id}','${u.location}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
+            <input type="number" step="0.01" value="${sale||0}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12.5px;color:var(--teal-dark);font-weight:700;" title="Sale Price" onchange="Views.invSetSalePrice('${it.id}','${u.id}','${u.location}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
           </td>
           <td>1</td>
           <td><b style="color:var(--teal-dark);">${esc(shopName(u.location))}</b></td>
@@ -4304,7 +4304,7 @@ Views.inventory = function(){
             <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
             ${Views._showBattery!==false ? `<td><span style="color:var(--muted);font-size:11px;">—</span></td>` : ''}
             <td>
-              <input type="number" step="0.01" value="${it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;font-weight:600;" title="Cost Price" oninput="Views.invSetUntrackedCost('${it.id}',this.value,false)" onchange="Views.invSetUntrackedCost('${it.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
+              <input type="number" step="0.01" value="${it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;font-weight:600;" title="Cost Price" onchange="Views.invSetUntrackedCost('${it.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
             </td>
             <td>
               <input type="number" step="0.01" value="${(it.shopPrices&&it.shopPrices[filterShop])||it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12.5px;color:var(--teal-dark);font-weight:700;" title="Sale Price" oninput="Views.invSetUntrackedSale('${it.id}','${filterShop}',this.value,false)" onchange="Views.invSetUntrackedSale('${it.id}','${filterShop}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
@@ -4357,7 +4357,7 @@ Views.inventory = function(){
               <td>${it.condition==='New'?'<span class="pill green">New</span>':'<span class="pill gray">Used</span>'}</td>
               ${Views._showBattery!==false ? `<td><span style="color:var(--muted);font-size:11px;">—</span></td>` : ''}
               <td>
-                <input type="number" step="0.01" value="${it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;font-weight:600;" title="Cost Price" oninput="Views.invSetUntrackedCost('${it.id}',this.value,false)" onchange="Views.invSetUntrackedCost('${it.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
+                <input type="number" step="0.01" value="${it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;font-size:12.5px;font-weight:600;" title="Cost Price" onchange="Views.invSetUntrackedCost('${it.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
               </td>
               <td>
                 <input type="number" step="0.01" value="${(it.shopPrices&&it.shopPrices[s.id])||it.costPrice||0}" style="width:80px;padding:4px 6px;border:1px solid var(--teal);border-radius:5px;font-size:12.5px;color:var(--teal-dark);font-weight:700;" title="Sale Price" oninput="Views.invSetUntrackedSale('${it.id}','${s.id}',this.value,false)" onchange="Views.invSetUntrackedSale('${it.id}','${s.id}',this.value,true)" onkeydown="if(event.key==='Enter'){this.blur();}">
@@ -4725,16 +4725,14 @@ Views.invSetCostPrice = function(itemId, unitId, v, persist = true){
 
 Views.invSetSalePrice = function(itemId, unitId, locId, v, persist = true){
   const p = Number(v);
-  if(isNaN(p)||p<0) return;
+  if(!Number.isFinite(p)||p<0) return;
   const it = itemById(itemId); if(!it) return;
-  if(!it.shopPrices) it.shopPrices = {};
-  const oldPrice = it.shopPrices[locId];
-  it.shopPrices[locId] = p;
-  if(locId === 'shop_maynooth') it.shopPrices['maynooth'] = p;
-  if(locId === 'maynooth') it.shopPrices['shop_maynooth'] = p;
   const u = (it.units||[]).find(x=>x.id===unitId);
-  if(u) u.sellPrice = p;
-  (it.units||[]).filter(x=>x.location===locId || (locId==='shop_maynooth'&&x.location==='maynooth') || (locId==='maynooth'&&x.location==='shop_maynooth')).forEach(x=>{ x.sellPrice = p; });
+  if(!u) return;
+  // A tracked phone has its own sale price. Do not change the model/shop default
+  // or any other phone that happens to share the same model and location.
+  const oldPrice = u.sellPrice;
+  u.sellPrice = p;
   if(persist){
     Store.save();
     Store.logShopChange({
@@ -4743,11 +4741,11 @@ Views.invSetSalePrice = function(itemId, unitId, locId, v, persist = true){
       itemId: it.id,
       unitId: unitId,
       itemName: it.name,
-      details: `Updated sale price to €${p.toFixed(2)} at ${shopName(locId)}`,
+      details: `Updated sale price to €${p.toFixed(2)} for IMEI ${u.imei||u.id} at ${shopName(locId)}`,
       oldValue: oldPrice,
       newValue: p
     });
-    Toast.show(`Sale price for ${it.name} saved (€${p.toFixed(2)} at ${shopName(locId)}).`,'ok');
+    Toast.show(`Sale price for this ${it.name} saved (€${p.toFixed(2)}).`,'ok');
   }
 };
 
@@ -6273,7 +6271,7 @@ Views.shopPortal = function(shopId){
       const battInput = `<input type="number" min="0" max="100" value="${u.batteryPct!=null?u.batteryPct:''}" placeholder="—" onchange="Views.savePortalBattery('${it.id}','${u.id}',this.value)" style="width:48px;text-align:center;padding:3px 4px;font-size:11.5px;border:1px solid #CBD5E1;border-radius:4px;">`;
 
       const costCol = cfg.allowCostPrice 
-        ? `<td style="text-align:right;"><input id="cp_inp_${u.id}" type="number" step="0.01" min="0" value="${u.costPrice!=null?u.costPrice:it.costPrice}" oninput="Views.invSetCostPrice('${it.id}','${u.id}',this.value,false)" onchange="Views.invSetCostPrice('${it.id}','${u.id}',this.value,true)" onkeydown="if(event.key==='Enter')this.blur()" style="width:75px;text-align:right;padding:4px 6px;border:1px solid #CBD5E1;border-radius:4px;font-size:12px;"></td>` 
+        ? `<td style="text-align:right;"><input id="cp_inp_${u.id}" type="number" step="0.01" min="0" value="${u.costPrice!=null?u.costPrice:it.costPrice}" onchange="Views.invSetCostPrice('${it.id}','${u.id}',this.value,true)" onkeydown="if(event.key==='Enter')this.blur()" style="width:75px;text-align:right;padding:4px 6px;border:1px solid #CBD5E1;border-radius:4px;font-size:12px;"></td>` 
         : '';
       const isMaynoothShop = shopId === 'shop_maynooth' || shopId === 'maynooth';
       const salePriceVal = (u.sellPrice != null) ? u.sellPrice : ((it.shopPrices && it.shopPrices[shopId] != null) ? it.shopPrices[shopId] : (isMaynoothShop ? 0 : (it.costPrice || 0)));
@@ -6338,7 +6336,7 @@ Views.shopPortal = function(shopId){
         const isMaynoothShop = shopId === 'shop_maynooth' || shopId === 'maynooth';
         const untrackedSaleVal = (it.shopPrices && it.shopPrices[shopId] != null) ? it.shopPrices[shopId] : (isMaynoothShop ? 0 : (it.costPrice || 0));
         const costCol = cfg.allowCostPrice 
-          ? `<td style="text-align:right;"><input type="number" step="0.01" min="0" value="${it.costPrice||0}" oninput="Views.invSetUntrackedCost('${it.id}',this.value,false)" onchange="Views.invSetUntrackedCost('${it.id}',this.value,true)" onkeydown="if(event.key==='Enter')this.blur()" style="width:75px;text-align:right;padding:4px 6px;border:1px solid #CBD5E1;border-radius:4px;font-size:12px;"></td>` 
+          ? `<td style="text-align:right;"><input type="number" step="0.01" min="0" value="${it.costPrice||0}" onchange="Views.invSetUntrackedCost('${it.id}',this.value,true)" onkeydown="if(event.key==='Enter')this.blur()" style="width:75px;text-align:right;padding:4px 6px;border:1px solid #CBD5E1;border-radius:4px;font-size:12px;"></td>` 
           : '';
         const saleCol = cfg.allowSalePrice !== false 
           ? `<td style="text-align:right;">
@@ -7235,7 +7233,7 @@ Views.openItemModal = function(itemId, shopId){
       </div>
       <div class="field">
         <label>Sale Price (€)</label>
-        <input id="f_saleprice" type="number" step="0.01" value="${defaultSalePrice}" placeholder="e.g. 150.00">
+        <input id="f_saleprice" type="number" step="0.01" value="${defaultSalePrice}" oninput="this.dataset.userEdited='1'" placeholder="e.g. 150.00">
       </div>
       ${locSelectHtml}
     </div>
@@ -7243,7 +7241,7 @@ Views.openItemModal = function(itemId, shopId){
     <div class="field-grid" style="grid-template-columns:1fr 1.2fr;">
       <div class="field">
         <label>Sale Price (€)</label>
-        <input id="f_saleprice" type="number" step="0.01" value="${defaultSalePrice}" placeholder="e.g. 150.00">
+        <input id="f_saleprice" type="number" step="0.01" value="${defaultSalePrice}" oninput="this.dataset.userEdited='1'" placeholder="e.g. 150.00">
         <input id="f_cost" type="hidden" value="${it?it.costPrice:0}">
       </div>
       ${locSelectHtml}
@@ -7258,10 +7256,10 @@ Views.openItemModal = function(itemId, shopId){
           <input type="checkbox" id="f_generic" ${isGeneric?'checked':''} onchange="Views.toggleGenericProductFields()">
           🏷️ Generic Product / Watch without IMEI (e.g. Hoco Y25, Y27, Joyroom, X16, Accessories)
         </label>
-        <div class="field"><label>Device / Product Name</label><input id="f_name" value="${it?esc(it.name):''}" placeholder="e.g. Hoco Y25, Joyroom Smart Watch, iPhone 13"></div>
+        <div class="field"><label>Device / Product Name</label><input id="f_name" value="${it?esc(it.name):''}" onblur="Views.autofillMatchingSalePrice()" placeholder="e.g. Hoco Y25, Joyroom Smart Watch, iPhone 13"></div>
         <div class="field-grid">
           <div class="field"><label>Category</label><select id="f_cat" onchange="Views.onCategoryChangeInModal()">${Store.data.categories.map(c=>`<option value="${c.id}" ${it&&it.category===c.id?'selected':''}>${esc(c.name)}</option>`).join('')}</select></div>
-          <div class="field"><label>Memory / Spec</label><input id="f_mem" value="${it?esc(it.memory||''):''}" placeholder="e.g. 128GB (or leave blank)"></div>
+          <div class="field"><label>Memory / Spec</label><input id="f_mem" value="${it?esc(it.memory||''):''}" onblur="Views.autofillMatchingSalePrice()" placeholder="e.g. 128GB (or leave blank)"></div>
           <div class="field"><label>Condition</label><select id="f_cond"><option ${it&&it.condition==='New'?'selected':''}>New</option><option ${it&&it.condition==='Used'?'selected':''}>Used</option></select></div>
           <div class="field"><label>Battery %</label><input id="f_batt" type="number" min="0" max="100" value="${it&&it.batteryPct!=null?it.batteryPct:''}" placeholder="e.g. 100"></div>
         </div>
@@ -7302,6 +7300,22 @@ Views.openItemModal = function(itemId, shopId){
     </div>`;
   window._currentEditItemId = it ? it.id : null;
   Modal.open(html);
+};
+
+Views.autofillMatchingSalePrice = function(){
+  const name = (val('f_name')||'').trim().toLowerCase().replace(/\s+/g,' ');
+  const memory = (val('f_mem')||'').trim().toLowerCase().replace(/\s+/g,'');
+  const saleInput = document.getElementById('f_saleprice');
+  if(!name || !memory || !saleInput || saleInput.dataset.userEdited === '1') return;
+  const loc = val('f_openloc') || 'warehouse';
+  const match = (Store.data.items||[]).find(it =>
+    String(it.name||'').trim().toLowerCase().replace(/\s+/g,' ') === name &&
+    String(it.memory||'').trim().toLowerCase().replace(/\s+/g,'') === memory
+  );
+  if(!match) return;
+  const unit = (match.units||[]).find(u=>u.location===loc && Number.isFinite(Number(u.sellPrice)) && Number(u.sellPrice)>0);
+  const price = unit ? Number(unit.sellPrice) : Number(match.shopPrices?.[loc]);
+  if(Number.isFinite(price) && price>0) saleInput.value = price;
 };
 
 Views.saveItem = function(itemId){
