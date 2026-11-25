@@ -2,6 +2,7 @@ import { createSign, createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile, readdir, unlink } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readRecordBackup } from './record-backup.mjs';
 
 export function parseServiceAccount(value) {
   let account;
@@ -96,11 +97,16 @@ async function run() {
   if (!tokenResponse.ok) throw new Error('Google token request failed: ' + tokenResponse.status);
   const token = await tokenResponse.json();
   if (!token.access_token) throw new Error('Google returned no access token.');
-  const response = await fetch('https://firestore.googleapis.com/v1/projects/phone-count/databases/(default)/documents/phone_count_workspaces/main', {
-    headers: { authorization: 'Bearer ' + token.access_token }
-  });
-  if (!response.ok) throw new Error('Firebase backup read failed: ' + response.status);
-  await saveSnapshot(await response.json(), process.argv[2] || 'backup-state', { report: message => console.log(message) });
+  const base='https://firestore.googleapis.com/v1/projects/phone-count/databases/(default)/documents';
+  const get=async url=>{
+    const response=await fetch(url,{headers:{authorization:'Bearer '+token.access_token}});
+    if(!response.ok)throw Error('Firebase backup read failed: '+response.status);
+    return response.json();
+  };
+  const document=process.env.INVENTORY_STORAGE==='records'
+    ?await readRecordBackup(get,base)
+    :await get(base+'/phone_count_workspaces/main');
+  await saveSnapshot(document, process.argv[2] || 'backup-state', { report: message => console.log(message) });
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

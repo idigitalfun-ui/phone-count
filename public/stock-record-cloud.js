@@ -3,7 +3,7 @@
 (function(root){
 'use strict';
 const clone=x=>JSON.parse(JSON.stringify(x));
-function create(fb, generation){
+function create(fb, generation, options={}){
  if(!/^[A-Za-z0-9_-]+$/.test(generation))throw Error('Invalid generation');
  const prefix=['phone_count_generations',generation];
  const ref=id=>fb.doc(fb.db,...prefix,'records',id);
@@ -14,32 +14,63 @@ function create(fb, generation){
  const map=data=>codec.split(clean(data));
  const decode=snapshot=>new Map(snapshot.docs.filter(d=>!d.data().deleted).map(d=>[d.id,JSON.parse(d.data().payload)]));
  let baseline=null, localBaseline=null, loadedRevision=null;
- return {
-  async load(){
+ const storage=options.storage, pendingKey=options.pendingKey;
+ const pending=()=>storage&&pendingKey?JSON.parse(storage.getItem(pendingKey)||'null'):null;
+ const remember=changes=>{if(storage&&pendingKey){if(changes.length)storage.setItem(pendingKey,JSON.stringify(changes));else storage.removeItem(pendingKey);}};
+ const overlay=(records,changes)=>{
+  const merged=new Map(records);
+  for(const c of changes){
+   const actual=records.get(c.id)||null;
+   if(!codec.equal(actual,c.before)&&!codec.equal(actual,c.after))throw Error('Record conflict: '+c.id+'; local recovery retained');
+   if(c.after===null)merged.delete(c.id);else merged.set(c.id,c.after);
+  }
+  codec.join(merged);return merged;
+ };
+ const read=async()=>{
+  for(let attempt=0;attempt<3;attempt++){
    const before=await fb.getDoc(marker);
    if(!before.exists()||before.data().state!=='active')throw Error('Record generation not active');
    const records=decode(await fb.getDocs(collection));
    const after=await fb.getDoc(marker);
-   if(!after.exists()||after.data().revision!==before.data().revision)throw Error('Inventory changed during load; retry');
-   const data=codec.join(records);baseline=records;localBaseline=records;loadedRevision=after.data().revision;return {data,revision:after.data().revision};
+   if(after.exists()&&after.data().state==='active'&&after.data().revision===before.data().revision)return {records,revision:after.data().revision};
+  }
+  throw Error('Inventory changed during load; retry');
+ };
+ return {
+  async load(){
+   const {records,revision}=await read(),changes=pending()||[];
+   const restored=overlay(records,changes);
+   baseline=records;localBaseline=records;loadedRevision=revision;
+   return {data:codec.join(restored),baselineData:codec.join(records),revision,pending:changes.length>0};
   },
+  stage(data){if(!baseline)return;const next=map(data);remember(codec.diff(localBaseline,next).map(c=>({...c,before:baseline.get(c.id)||null})));},
   async save(data,user){
    if(!baseline)throw Error('Load record inventory before saving');
    const next=map(data), localChanges=codec.diff(localBaseline,next);
-   const changes=localChanges.map(c=>({...c,before:baseline.get(c.id)||null}));
-   const merged=new Map(baseline);for(const c of changes){if(c.after===null)merged.delete(c.id);else merged.set(c.id,c.after); }
-   if(!changes.length)return {changed:0};
-   if(changes.length>190)throw Error('Too many affected records for one safe transaction; split the operation');
-   const previous=codec.join(baseline), proposed=codec.join(merged);
+   let changes=localChanges.map(c=>({...c,before:baseline.get(c.id)||null}));
+   if(!changes.length){remember([]);return {changed:0};}
+   remember(changes);
+   const journal=clone(changes), oldRevision=loadedRevision;
+   const markerSnapshot=await fb.getDoc(marker);
+   if(!markerSnapshot.exists()||markerSnapshot.data().state!=='active')throw Error('Record generation not active');
+   const remote=markerSnapshot.data().revision===loadedRevision?{records:baseline,revision:loadedRevision}:await read();
+   const merged=overlay(remote.records,changes);
+   changes=codec.diff(remote.records,merged);
+   const priceOnly=changes.every(c=>c.before&&c.after&&(c.after.kind==='setting'&&c.after.id==='meta'||c.after.kind==='device'&&c.before.value.itemId===c.after.value.itemId&&c.before.value.unit.location===c.after.value.unit.location&&c.before.value.unit.imei===c.after.value.unit.imei));
+   if(changes.length>8&&!priceOnly)throw Error('This operation affects too many records; use smaller batches. CSV imports save one row at a time.');
+   const previous=codec.join(remote.records), proposed=codec.join(merged);
    if(previous.items.length&&!proposed.items.length)throw Error('Empty inventory blocked');
    if(previous.items.length>=10&&proposed.items.length<previous.items.length/2)throw Error('Large inventory deletion blocked');
    if(proposed.movements.length<previous.movements.length)throw Error('Movement history cannot shrink');
    const uid=user.uid;
-   let revision;
+   let revision=remote.revision;
+   const allChanges=changes;
+   for(let offset=0;offset<allChanges.length;offset+=8){
+   const changes=allChanges.slice(offset,offset+8), expectedRevision=revision;
    await fb.runTransaction(fb.db,async tx=>{
     const m=await tx.get(marker);
     if(!m.exists()||m.data().state!=='active')throw Error('Record generation not active');
-    if(m.data().revision!==loadedRevision)throw Error('Cloud changed; export local changes before resolving conflict.');
+    if(m.data().revision!==expectedRevision)throw Error('Cloud changed during save; retry. Local edits are retained.');
     const snapshots=await Promise.all(changes.map(c=>tx.get(ref(c.id))));
     for(let i=0;i<changes.length;i++){
      const c=changes[i],s=snapshots[i],actual=s.exists()&&!s.data().deleted?JSON.parse(s.data().payload):null;
@@ -55,8 +86,11 @@ function create(fb, generation){
     }
     tx.update(marker,{revision,updatedAt:fb.serverTimestamp(),updatedBy:uid});
    });
+   }
    baseline=merged;localBaseline=next;loadedRevision=revision;
-   return {changed:changes.length,revision};
+   // A newer edit may have been staged while this request was in flight.
+   if(codec.equal(pending(),journal))remember([]);
+   return {changed:changes.length,revision,remoteChanged:remote.revision!==oldRevision};
   },
   subscribe(callback,error){return fb.onSnapshot(marker,s=>{if(s.exists()&&!s.metadata?.hasPendingWrites)callback(s.data().revision);},error);},
   acceptLocalBaseline(data){localBaseline=map(data);},

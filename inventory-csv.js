@@ -136,6 +136,9 @@
       if(row.type==='return'&&!from){result.message='Return needs the shop receiving the phone';continue;}
       if(row.type==='stock-in'&&!to){result.message='Stock-in needs a destination shop';continue;}
       if(found&&row.type==='stock-in'){result.status='skip';result.message='IMEI already exists';continue;}
+      if(!found&&['stock-in','store-sale'].includes(row.type)&&movements.some(m=>serial(m.unitData?.imei)===row.imei)){
+        result.message='IMEI has existing history; use a return or review its latest movement before receiving it again';continue;
+      }
       if(found&&row.type==='return'){result.message='Phone is already in stock; return would duplicate it';continue;}
       if(found&&found.unit.transferredAt&&found.unit.transferredAt>row.date){result.message='Phone has a newer transfer; review this older row';continue;}
       if((row.type==='transfer'||row.type==='sale')&&!found){result.message='IMEI not in stock';continue;}
@@ -167,9 +170,10 @@
         found={item:candidates[0],unit:{id:'csv-unit-'+row.imei,imei:row.imei,color:row.color||'',condition:row.condition||candidates[0].condition,
           location:from,costPrice:row.cost??0,costPriceUnknown:row.cost==null,sellPrice:row.sale,dateAdded:row.date,purchaseDate:null,purchaseDateUnknown:true,batteryPct:row.battery}};
       }
-      const {item,unit}=found,prior=clone(unit);
+      const {item,unit}=found;
       if(row.cost!=null)unit.costPrice=row.cost;
       if(row.battery!=null)unit.batteryPct=row.battery;
+      const prior=clone(unit);
       const base={itemId:item.id,itemName:item.name,categoryId:item.category,qty:1,date:row.date,reference:row.reference||'',csvImportKey:key,note:'CSV import line '+row.line+(row.reference?' · '+row.reference:'')+(row.description?' · '+row.description:''),unitData:prior};
       const movement=(suffix,values)=>({id:'csv-'+safeId(key)+'-'+suffix,...base,...values});
       if(row.type==='transfer'){
@@ -256,6 +260,20 @@
     }
     button.disabled=true;
     Store.snapshotToBackups('Before CSV transfer/sales import');
+    if(FirebaseStore._recordCloud){
+      const rows=preview.planned.results.filter(r=>r.status==='ready').sort((a,b)=>a.date.localeCompare(b.date)||a.order-b.order);
+      let committed=0;
+      for(const row of rows){
+        await waitForCloud();
+        const step=plan(Store.data,[row]);
+        if(!step.changed){target.textContent=committed+' rows saved. Stopped: '+step.results[0].message;preview=null;return;}
+        Store.data=step.data;Store.save();clearTimeout(FirebaseStore._timer);
+        const saved=await FirebaseStore.saveRemote(false);
+        if(saved!==true){target.textContent=committed+' rows confirmed saved. Import paused: '+(FirebaseStore._lastSaveError||'Cloud busy')+'. Pending edits are retained; resolve them before previewing again.';preview=null;return;}
+        committed++;target.textContent=committed+' of '+rows.length+' rows saved.';
+      }
+      Toast.show(committed+' CSV rows saved to Firebase.','ok');preview=null;Modal.close();render();return;
+    }
     Store.data=preview.planned.data;Store.save();clearTimeout(FirebaseStore._timer);
     const saved=await FirebaseStore.saveRemote(true);
     if(saved===true&&!FirebaseStore._lastSaveError){

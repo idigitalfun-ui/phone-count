@@ -23,6 +23,7 @@ jobs:
           git worktree add backup-state origin/inventory-backups
       - name: Save changed inventory once per UTC night and keep three backups
         env:
+          INVENTORY_STORAGE: records
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: node scripts/nightly-backup.mjs backup-state/backups/phone-count
       - name: Commit recovery snapshot

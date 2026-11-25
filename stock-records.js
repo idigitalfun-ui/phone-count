@@ -6,7 +6,7 @@ const stable=x=>Array.isArray(x)?x.map(stable):x&&typeof x==='object'?Object.fro
 const equal=(a,b)=>JSON.stringify(stable(a))===JSON.stringify(stable(b));
 const key=(kind,id)=>kind+'_'+encodeURIComponent(String(id));
 function split(input){
- const data=clone(input), records=new Map();
+ const data=clone(input), records=new Map(), imeis=new Set();
  const put=(kind,id,value)=>{const k=key(kind,id);if(records.has(k))throw Error('Duplicate record '+k);records.set(k,{kind,id:String(id),value});};
  for(const field of ['items','movements','shops','categories'])if(!Array.isArray(data[field]))throw Error('Missing '+field);
  const order={items:[],movements:[],shops:[],categories:[]};
@@ -14,7 +14,13 @@ function split(input){
   if(!item.id)throw Error('Missing item ID');
   const {units,...product}=item;
   order.items.push(item.id);put('product',item.id,{...product,unitOrder:(units||[]).map(u=>u.id),hadUnits:Object.hasOwn(item,'units')});
-  for(const u of units||[]){if(!u.id)throw Error('Missing unit ID');put('device',u.id,{itemId:item.id,unit:u});}
+  for(const u of units||[]){
+   if(!u.id)throw Error('Missing unit ID');
+   const imei=String(u.imei||'').trim().toUpperCase();
+   if(imei&&imeis.has(imei))throw Error('Duplicate IMEI '+imei);
+   if(imei)imeis.add(imei);
+   put('device',u.id,{itemId:item.id,unit:u});
+  }
  }
  for(const [field,kind] of [['movements','movement'],['shops','shop'],['categories','category']]){
   for(const row of data[field]){if(!row.id)throw Error('Missing '+kind+' ID');order[field].push(row.id);put(kind,row.id,row);}

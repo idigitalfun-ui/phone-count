@@ -6,6 +6,17 @@ const {decode,plan,parseCsv}=globalThis.InventoryCsv;
 const importerSource=readFileSync(new URL('../public/inventory-csv.js',import.meta.url),'utf8');
 const stock=()=>({shops:[{id:'warehouse',name:'Warehouse'},{id:'shop_maynooth',name:'Maynooth'},{id:'shop_tullamore',name:'Tullamore'}],categories:[],items:[{id:'phone',name:'iPhone 15',memory:'128GB',category:'phones',locations:{warehouse:1,shop_maynooth:0,shop_tullamore:0},units:[{id:'u1',imei:'351522600826588',location:'warehouse',costPrice:410,sellPrice:485}]}],movements:[],meta:{}});
 const header='date,type,imei,from,to,sale_price,cost_price,reference\n';
+test('stock-in cannot resurrect a sold IMEI',()=>{
+  const data=stock(); const unit=data.items[0].units.pop(); data.items[0].locations.warehouse=0;
+  data.movements.push({id:'sold',type:'sold',date:'2026-09-29',qty:1,unitData:unit});
+  const rows=decode('date,type,imei,to,model,memory,cost_price\n2026-09-30,stock-in,'+unit.imei+',warehouse,iPhone 15,128GB,410');
+  const result=plan(data,rows);assert.equal(result.changed,0);assert.match(result.results[0].message,/existing history/);
+});
+test('transfer history retains supplied cost and battery corrections',()=>{
+  const rows=decode(header.replace('reference\n','reference,battery\n')+'30/09/2026,transfer,351522600826588,warehouse,Maynooth,,420,T1,93');
+  const result=plan(stock(),rows);assert.equal(result.changed,1);
+  for(const m of result.data.movements){assert.equal(m.unitData.costPrice,420);assert.equal(m.unitData.batteryPct,93);}
+});
 test('CSV preserves quoted commas, multiline cells and leading-zero serials',()=>{
   assert.deepEqual(parseCsv('a,b\n"x,y","two\nlines"'),[['a','b'],['x,y','two\nlines']]);
   assert.equal(decode(header+'30/09/2026,transfer,001522600826588,warehouse,Maynooth,,,T1')[0].imei,'001522600826588');

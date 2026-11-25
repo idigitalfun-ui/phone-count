@@ -6,6 +6,7 @@ import { mkdtemp, readFile, readdir, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { parseInventory, saveSnapshot, parseServiceAccount } from '../scripts/nightly-backup.mjs';
+import '../stock-record-cloud.js';
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 test('backup credential validation rejects wrong accounts and never prints malformed secret text', () => {
@@ -16,9 +17,9 @@ test('backup credential validation rejects wrong accounts and never prints malfo
   }
 });
 function inventory(count = 20, moves = 5) {
-  return { shops: [], categories: [], items: Array.from({ length: count }, (_, id) => ({ id })), movements: Array.from({ length: moves }, (_, id) => ({ id })) };
+  return { shops: [], categories: [], items: Array.from({ length: count }, (_, id) => ({ id:'p'+id })), movements: Array.from({ length: moves }, (_, id) => ({ id:'m'+id })) };
 }
-function setup({ revision = 10, loaded = true, remote = inventory(), next = inventory(), history = null } = {}) {
+async function setup({ revision = 10, loaded = true, remote = inventory(), next = inventory(), history = null } = {}) {
   const writes = [], messages = [];
   const previous = { payload: JSON.stringify(remote), revision: 10 };
   const user = { uid: 'admin', getIdTokenResult: async () => ({ claims: { email: 'idigitalfun@gmail.com', email_verified: true } }) };
@@ -35,51 +36,61 @@ function setup({ revision = 10, loaded = true, remote = inventory(), next = inve
   subject._loadedUid = loaded ? user.uid : null;
   subject.user = async () => user;
   subject.canUseWorkspace = async () => true;
-  subject.ready = async () => ({
+  const marker='phone_count_generations/test';
+  const documents=new Map([[marker,{state:'active',revision:10}],...[...StockRecords.split(remote)].map(([id,r])=>[marker+'/records/'+id,{payload:JSON.stringify(r),deleted:false}])]);
+  const snapshot=ref=>({id:ref.split('/').at(-1),exists:()=>documents.has(ref),data:()=>documents.get(ref)});
+  const fb={
     db: {}, doc: (_db,...parts) => parts.join('/'),
+    collection:(_db,...parts)=>parts.join('/'),
+    getDoc:async ref=>snapshot(ref),
+    getDocs:async ref=>({docs:[...documents.keys()].filter(k=>k.startsWith(ref+'/')).map(snapshot)}),
     serverTimestamp: () => 'server',
-    runTransaction: async (_db, callback) => callback({
-      get: async ref => ref.includes('/versions/') ? { exists: () => !!history, data: () => history } : { exists: () => true, data: () => previous },
-      set: (ref, value) => writes.push({ type:'set', ref, value }),
-      update: (ref, value) => writes.push({ type:'update', ref, value })
-    })
-  });
+    runTransaction: async (_db, callback) => {
+      const pending=[];
+      await callback({get:async ref=>snapshot(ref),set:(ref,value)=>pending.push({type:'set',ref,value}),update:(ref,value)=>pending.push({type:'update',ref,value})});
+      writes.push(...pending);
+    }
+  };
+  subject.ready=async()=>fb;
+  subject._recordCloud=StockRecordCloud.create(fb,'test');await subject._recordCloud.load();
+  if(history)documents.set(marker+'/records/product_p0',{payload:JSON.stringify({kind:'product',id:'p0',value:{id:'p0',name:'concurrent change',unitOrder:[],hadUnits:false}})});
   return { subject, writes, previous, user, messages };
 }
 
 test('cannot save before cloud revision is loaded, or for another account', async () => {
   for (const options of [{ revision:null }, { loaded:false }]) {
-    const { subject, writes } = setup(options);
+    const { subject, writes } = await setup(options);
     await subject.saveRemote();
     assert.equal(writes.length,0);
-    assert.match(subject._lastSaveError,/Load Firebase/);
+    assert.match(subject._lastSaveError,/Load record/);
   }
 });
 test('rejects empty and bulk-loss inventory and shortened history', async () => {
   for (const next of [inventory(0),inventory(4),inventory(20,0),inventory(20,4)]) {
-    const {subject,writes}=setup({next});
+    const {subject,writes}=await setup({next});
     await subject.saveRemote();
     assert.equal(writes.length,0);
-    assert.match(subject._lastSaveError,/Blocked/);
+    assert.match(subject._lastSaveError,/blocked|shrink|too many/);
   }
 });
-test('normal save preserves exact previous document before updating', async () => {
-  const {subject,writes,previous}=setup({next:inventory(21,6)});
+test('normal save preserves prior changed record in immutable audit', async () => {
+  const {subject,writes}=await setup({next:inventory(21,6)});
   await subject.saveRemote();
-  assert.equal(writes.length,2);
-  assert.equal(writes[0].ref,'phone_count_workspaces/main/versions/10');
-  assert.deepEqual(writes[0].value,previous);
-  assert.equal(writes[1].value.revision,11);
+  assert.equal(writes.filter(w=>w.ref.includes('/records/')).length,3);
+  const audit=writes.find(w=>w.ref.endsWith('/audit/11_index_main'));
+  assert.deepEqual(JSON.parse(audit.value.previous),StockRecords.split(inventory()).get('index_main'));
+  assert.equal(writes.at(-1).value.revision,11);
 });
-test('stale revisions and conflicting recovery copies cannot write', async () => {
-  for (const options of [{revision:9},{history:{payload:'wrong'}}]) {
-    const {subject,writes}=setup(options);
+test('conflicting record changes cannot write', async () => {
+  const next=inventory();next.items[0].name='my edit';
+  for (const options of [{next,history:{payload:'wrong'}}]) {
+    const {subject,writes}=await setup(options);
     await subject.saveRemote();
     assert.equal(writes.length,0);
   }
 });
 test('approved password account is pinned by UID without email verification', async () => {
-  const {subject,user}=setup();
+  const {subject,user}=await setup();
   assert.equal(await subject.isAdmin(user),true);
   user.getIdTokenResult=async()=>({claims:{email:'unknown@example.com',email_verified:true}});
   assert.equal(await subject.isAdmin(user),false);

@@ -6,3 +6,7 @@ phone_count_data*.json
 
 # Cloudflare CLI account cache
 .wrangler/
+node_modules/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log

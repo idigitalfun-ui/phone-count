@@ -12,3 +12,8 @@ for(const match of html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)){
 }
 if(html!==readFileSync(new URL('../index.html',import.meta.url),'utf8'))throw Error('Root and deployed app differ');
 console.log('Both app copies match; '+count+' inline scripts parse');
+for(const name of ['stock-records.js','stock-record-cloud.js','inventory-csv.js']){
+ const source=readFileSync(new URL('../'+name,import.meta.url),'utf8');
+ if(source!==readFileSync(new URL('../public/'+name,import.meta.url),'utf8'))throw Error('Deployed copy differs: '+name);
+ new vm.Script(source);
+}
